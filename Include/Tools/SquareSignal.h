@@ -1,0 +1,27 @@
+#ifndef SquareSignalH
+#define SquareSignalH
+
+#include <Global.h>
+
+// toggles periodically between high and low
+
+class SquareSignal
+{
+public:
+   inline SquareSignal(const uint8_t& halfLength, const bool& startHigh = false);
+
+public:
+   inline bool value() const;
+   inline bool valueAndNext();
+   inline void reset();
+
+private:
+   const uint8_t halfLength;
+   const bool startHigh;
+   uint8_t counter;
+   bool state;
+};
+
+#include <SquareSignal.hpp>
+
+#endif // SquareSignalH

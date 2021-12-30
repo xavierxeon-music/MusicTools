@@ -1,0 +1,30 @@
+#ifndef StandardTableH
+#define StandardTableH
+
+#include <string>
+
+#include <Sound/FunctionTable.h>
+
+struct Standard
+{
+   struct Waveform
+   {
+      enum Shape
+      {
+         Sine,
+         Saw,
+         Square,
+         SlopeUp,
+         SlopeDown
+         // TODO noise
+      };
+   };
+
+   inline static std::string getName(const Waveform::Shape& shape);
+   inline static const CircularTable* getTable(const Waveform::Shape& shape);
+   static constexpr uint64_t tableSize = 4096; // TODO try smaller size
+};
+
+#include <StandardTable.hpp>
+
+#endif // StandardTableH
