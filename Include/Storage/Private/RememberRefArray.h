@@ -3,7 +3,7 @@
 
 #include "RememberBase.h"
 
-#include <Global.h>
+#include <MusicTools.h>
 
 #include "RememberRef.h"
 

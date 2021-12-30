@@ -1,7 +1,7 @@
 #ifndef RememberInterfaceH
 #define RememberInterfaceH
 
-#include <Global.h>
+#include <MusicTools.h>
 
 #include "RememberRawData.h"
 

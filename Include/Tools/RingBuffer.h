@@ -1,7 +1,7 @@
 #ifndef RingBufferH
 #define RingBufferH
 
-#include <Global.h>
+#include <MusicTools.h>
 
 template <uint8_t bufferSize>
 class RingBuffer

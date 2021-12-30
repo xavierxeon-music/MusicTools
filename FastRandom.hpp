@@ -3,7 +3,7 @@
 
 #include <Tools/FastRandom.h>
 
-#include <Global.h>
+#include <MusicTools.h>
 
 FastRandom::FastRandom(const uint64_t& seed)
    : current(seed)

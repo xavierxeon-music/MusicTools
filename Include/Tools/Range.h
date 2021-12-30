@@ -1,7 +1,7 @@
 #ifndef RangeH
 #define RangeH
 
-#include <Global.h>
+#include <MusicTools.h>
 
 struct Range
 {

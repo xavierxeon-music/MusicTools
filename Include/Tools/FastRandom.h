@@ -3,6 +3,8 @@
 
 #include <limits>
 
+#include <MusicTools.h>
+
 // do not use system implementation,
 // so that we can have several generators with independent seeds
 

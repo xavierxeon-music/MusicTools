@@ -5,7 +5,7 @@
 
 #include <initializer_list>
 
-#include <Global.h>
+#include <MusicTools.h>
 
 #include "RememberValue.h"
 

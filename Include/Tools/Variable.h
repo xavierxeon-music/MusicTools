@@ -1,7 +1,7 @@
 #ifndef VariableH
 #define VariableH
 
-#include <Global.h>
+#include <MusicTools.h>
 
 namespace Variable
 {

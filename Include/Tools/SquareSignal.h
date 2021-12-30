@@ -1,7 +1,7 @@
 #ifndef SquareSignalH
 #define SquareSignalH
 
-#include <Global.h>
+#include <MusicTools.h>
 
 // toggles periodically between high and low
 

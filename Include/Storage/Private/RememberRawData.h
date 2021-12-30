@@ -1,7 +1,7 @@
 #ifndef RememberRawDataH
 #define RememberRawDataH
 
-#include <Global.h>
+#include <MusicTools.h>
 
 namespace Remember
 {
