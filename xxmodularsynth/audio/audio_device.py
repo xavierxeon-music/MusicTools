@@ -44,7 +44,7 @@ class AudioDevice:
         self.blockSize = None
 
         for index, device in enumerate(query_devices()):
-            if device['name'] != deviceName:
+            if not device['name'].startswith(deviceName):  # names may differ accross OS's
                 continue
 
             self._deviceIndex = index
