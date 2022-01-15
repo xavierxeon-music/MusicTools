@@ -94,14 +94,12 @@ class AudioDevice:
         print('start audio loop')
 
         if None == self.blockSize:
-            blockSize = int(self.sampleRate / 1000.0)
-        else:
-            blockSize = self.blockSize
+            self.blockSize = int(self.sampleRate / 1000.0)
 
         if not callbackFunction:
             callbackFunction = self._callback
         try:
-            with Stream(samplerate=self.sampleRate, blocksize=blockSize, device=self._deviceIndex, channels=(self._noOfInputs, self._noOfOutputs), callback=callbackFunction):
+            with Stream(samplerate=self.sampleRate, blocksize=self.blockSize, device=self._deviceIndex, channels=(self._noOfInputs, self._noOfOutputs), callback=callbackFunction):
                 print('#' * 80)
                 print('press Return to quit')
                 print('#' * 80)
