@@ -39,6 +39,8 @@ class AudioDevice:
 
         self._inputChannels = dict()
         self._outputChannels = dict()
+        self._loopPreFunctions = list()
+        self._loopPostFunctions = list()
 
         self.sampleRate = None
         self.blockSize = None
@@ -109,7 +111,18 @@ class AudioDevice:
         except Exception as e:
             print(type(e).__name__ + ': ' + str(e))
 
+    def onLoopPreEvent(self, loopEventFunction):
+
+        self._loopPreFunctions.append(loopEventFunction)
+
+    def onLoopPostEvent(self, loopEventFunction):
+
+        self._loopPostFunctions.append(loopEventFunction)
+
     def _callback(self, indata, outdata, frames, time, status):
+
+        for loopEventFunction in self._loopPreFunctions:
+            loopEventFunction()
 
         noOfInputChannels = indata.shape[1]
         for index in range(noOfInputChannels):
@@ -126,3 +139,6 @@ class AudioDevice:
 
             data = outdata[:, index]
             self._outputChannels[index].process(data, frames)
+
+        for loopEventFunction in self._loopPostFunctions:
+            loopEventFunction()
