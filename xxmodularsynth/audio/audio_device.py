@@ -121,8 +121,10 @@ class AudioDevice:
 
     def _callback(self, indata, outdata, frames, time, status):
 
+        audioRate = self.sampleRate / self.blockSize
+
         for loopEventFunction in self._loopPreFunctions:
-            loopEventFunction()
+            loopEventFunction(audioRate)
 
         noOfInputChannels = indata.shape[1]
         for index in range(noOfInputChannels):
@@ -141,4 +143,4 @@ class AudioDevice:
             self._outputChannels[index].process(data, frames)
 
         for loopEventFunction in self._loopPostFunctions:
-            loopEventFunction()
+            loopEventFunction(audioRate)
