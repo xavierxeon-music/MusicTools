@@ -12,8 +12,8 @@ class AudioDevice:
 
     def audioLoop(self, indata, outdata, frames, audioRate):
 
-        self.processInputs(indata, frames)
-        self.processOutputs(outdata, frames)
+        self.processInputFunctions(indata, frames)
+        self.processOutputFunctions(outdata, frames)
     """
 
     class InputChannel:
@@ -63,10 +63,10 @@ class AudioDevice:
 
     def audioLoop(self, indata, outdata, frames, audioRate):
 
-        self.processInputs(indata, frames)
-        self.processOutputs(outdata, frames)
+        self.processInputFunctions(indata, frames)
+        self.processOutputFunctions(outdata, frames)
 
-    def processInputs(self, indata, frames):
+    def processInputFunctions(self, indata, frames):
 
         noOfInputChannels = indata.shape[1]
         for index in range(noOfInputChannels):
@@ -74,9 +74,10 @@ class AudioDevice:
                 continue
 
             data = indata[:, index]
-            self._inputCallbacks[index](data, frames)
+            inputFunction = self._inputCallbacks[index]
+            inputFunction(data, frames)
 
-    def processOutputs(self, outdata, frames):
+    def processOutputFunctions(self, outdata, frames):
 
         noOfOutputChannels = outdata.shape[1]
         for index in range(noOfOutputChannels):
@@ -84,7 +85,8 @@ class AudioDevice:
                 continue
 
             data = outdata[:, index]
-            self._outputCallbacks[index](data, frames)
+            outputFunction = self._outputCallbacks[index]
+            outputFunction(data, frames)
 
     def start(self):
 
