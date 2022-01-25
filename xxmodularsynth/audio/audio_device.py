@@ -8,7 +8,7 @@ from sounddevice import Stream, query_devices
 class AudioDevice:
 
     """
-    override 
+    must override 
     def audioLoop(self, audioRate)
 
     input and output channels will be handeled automatically
@@ -61,7 +61,7 @@ class AudioDevice:
 
     def audioLoop(self, audioRate):
 
-        pass
+        raise NotImplementedError
 
     def processInputFunctions(self, indata, frames):
 

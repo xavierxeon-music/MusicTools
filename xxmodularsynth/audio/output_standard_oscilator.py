@@ -17,6 +17,10 @@ class OutputStandardOscilator(AudioDevice.OutputChannel, TableOscilator):
 
         self.frequency = 0.0
 
+    def mute(self):
+
+        self.frequency = 0.0
+
     def setPitchFromCV(self, voltage):
 
         note = Note.fromVoltage(voltage)
