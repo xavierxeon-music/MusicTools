@@ -9,11 +9,9 @@ class AudioDevice:
 
     """
     override 
+    def audioLoop(self, audioRate)
 
-    def audioLoop(self, indata, outdata, frames, audioRate):
-
-        self.processInputFunctions(indata, frames)
-        self.processOutputFunctions(outdata, frames)
+    input and output channels will be handeled automatically
     """
 
     class InputChannel:
@@ -61,10 +59,9 @@ class AudioDevice:
 
         self._outputCallbacks[index] = outputCallback
 
-    def audioLoop(self, indata, outdata, frames, audioRate):
+    def audioLoop(self, audioRate):
 
-        self.processInputFunctions(indata, frames)
-        self.processOutputFunctions(outdata, frames)
+        pass
 
     def processInputFunctions(self, indata, frames):
 
@@ -108,8 +105,12 @@ class AudioDevice:
 
     def _callback(self, indata, outdata, frames, time, status):
 
+        self.processInputFunctions(indata, frames)
+
         audioRate = self.sampleRate / self.blockSize
-        self.audioLoop(indata, outdata, frames, audioRate)
+        self.audioLoop(audioRate)
+
+        self.processOutputFunctions(outdata, frames)
 
     def _setup(self, deviceName, noOfInputs, noOfOutputs):
 
