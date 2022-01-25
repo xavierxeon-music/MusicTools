@@ -1,35 +1,40 @@
 #!/usr/bin/env python3
 
+import sys
+
 from sounddevice import Stream, query_devices
 
 
 class AudioDevice:
 
+    """
+    override 
+
+    def audioLoop(self, indata, outdata, frames, audioRate):
+
+        self.processInputs(indata, frames)
+        self.processOutputs(outdata, frames)
+    """
+
     class InputChannel:
 
-        def __init__(self, callbackFunction=None):
+        def __init__(self, index, device):
 
-            self._callbackFunction = callbackFunction
+            device.addInput(index, self.process)
 
         def process(self, indata, frames):
 
-            if not self._callbackFunction:
-                raise NotImplementedError
-
-            self._callbackFunction(indata, frames)
+            raise NotImplementedError
 
     class OutputChannel:
 
-        def __init__(self, callbackFunction=None):
+        def __init__(self, index, device):
 
-            self._callbackFunction = callbackFunction
+            device.addOutput(index, self.process)
 
         def process(self, outdata, frames):
 
-            if not self._callbackFunction:
-                raise NotImplementedError
-
-            self._callbackFunction(outdata, frames)
+            raise NotImplementedError
 
     def __init__(self, deviceName, noOfInputs=None, noOfOutputs=None):
 
@@ -37,13 +42,77 @@ class AudioDevice:
         self._noOfInputs = noOfInputs
         self._noOfOutputs = noOfOutputs
 
-        self._inputChannels = dict()
-        self._outputChannels = dict()
-        self._loopPreFunctions = list()
-        self._loopPostFunctions = list()
-
         self.sampleRate = None
         self.blockSize = None
+
+        self._setup(deviceName, noOfInputs, noOfOutputs)
+
+    def addInput(self, index, inputCallback):
+
+        if index < 0 or index >= self._noOfInputs:
+            return
+
+        self._inputCallbacks[index] = inputCallback
+
+    def addOutput(self, index, outputCallback):
+
+        if index < 0 or index >= self._noOfOutputs:
+            return
+
+        self._outputCallbacks[index] = outputCallback
+
+    def audioLoop(self, indata, outdata, frames, audioRate):
+
+        self.processInputs(indata, frames)
+        self.processOutputs(outdata, frames)
+
+    def processInputs(self, indata, frames):
+
+        noOfInputChannels = indata.shape[1]
+        for index in range(noOfInputChannels):
+            if not index in self._inputCallbacks:
+                continue
+
+            data = indata[:, index]
+            self._inputCallbacks[index](data, frames)
+
+    def processOutputs(self, outdata, frames):
+
+        noOfOutputChannels = outdata.shape[1]
+        for index in range(noOfOutputChannels):
+            if not index in self._outputCallbacks:
+                continue
+
+            data = outdata[:, index]
+            self._outputCallbacks[index](data, frames)
+
+    def start(self):
+
+        print('start audio loop')
+
+        if None == self.blockSize:
+            self.blockSize = int(self.sampleRate / 1000.0)
+
+        try:
+            with Stream(samplerate=self.sampleRate, blocksize=self.blockSize, device=self._deviceIndex, channels=(self._noOfInputs, self._noOfOutputs), callback=self._callback):
+                print('#' * 80)
+                print('press Return to quit')
+                print('#' * 80)
+                input()
+        except KeyboardInterrupt:
+            print('\nInterrupted by user')
+        except Exception as e:
+            print(type(e).__name__ + ': ' + str(e))
+
+    def _callback(self, indata, outdata, frames, time, status):
+
+        audioRate = self.sampleRate / self.blockSize
+        self.audioLoop(indata, outdata, frames, audioRate)
+
+    def _setup(self, deviceName, noOfInputs, noOfOutputs):
+
+        self._inputCallbacks = dict()
+        self._outputCallbacks = dict()
 
         for index, device in enumerate(query_devices()):
             if not device['name'].startswith(deviceName):  # names may differ accross OS's
@@ -67,80 +136,7 @@ class AudioDevice:
             break
 
         if None == self._deviceIndex:
-            raise ValueError(f'device {deviceName} not found')
+            print(f'device {deviceName} not found')
+            sys.exit()
 
         print(f'device {deviceName} has index {self._deviceIndex}: {self._noOfInputs} inputs, {self._noOfOutputs} outputs')
-
-    def addInput(self, index, inputChannel):
-
-        if not isinstance(inputChannel, AudioDevice.InputChannel):
-            raise TypeError('inputChannel must be of type InputChannel')
-
-        if index < 0 or index >= self._noOfInputs:
-            return
-
-        self._inputChannels[index] = inputChannel
-
-    def addOutput(self, index, outputChannel):
-
-        if not isinstance(outputChannel, AudioDevice.OutputChannel):
-            raise TypeError('outputChannel must be of type OutputChannel')
-
-        if index < 0 or index >= self._noOfOutputs:
-            return
-
-        self._outputChannels[index] = outputChannel
-
-    def audioLoop(self, callbackFunction=None):
-
-        print('start audio loop')
-
-        if None == self.blockSize:
-            self.blockSize = int(self.sampleRate / 1000.0)
-
-        if not callbackFunction:
-            callbackFunction = self._callback
-        try:
-            with Stream(samplerate=self.sampleRate, blocksize=self.blockSize, device=self._deviceIndex, channels=(self._noOfInputs, self._noOfOutputs), callback=callbackFunction):
-                print('#' * 80)
-                print('press Return to quit')
-                print('#' * 80)
-                input()
-        except KeyboardInterrupt:
-            print('\nInterrupted by user')
-        except Exception as e:
-            print(type(e).__name__ + ': ' + str(e))
-
-    def onLoopPreEvent(self, loopEventFunction):
-
-        self._loopPreFunctions.append(loopEventFunction)
-
-    def onLoopPostEvent(self, loopEventFunction):
-
-        self._loopPostFunctions.append(loopEventFunction)
-
-    def _callback(self, indata, outdata, frames, time, status):
-
-        audioRate = self.sampleRate / self.blockSize
-
-        for loopEventFunction in self._loopPreFunctions:
-            loopEventFunction(audioRate)
-
-        noOfInputChannels = indata.shape[1]
-        for index in range(noOfInputChannels):
-            if not index in self._inputChannels:
-                continue
-
-            data = indata[:, index]
-            self._inputChannels[index].process(data, frames)
-
-        noOfOutputChannels = outdata.shape[1]
-        for index in range(noOfOutputChannels):
-            if not index in self._outputChannels:
-                continue
-
-            data = outdata[:, index]
-            self._outputChannels[index].process(data, frames)
-
-        for loopEventFunction in self._loopPostFunctions:
-            loopEventFunction(audioRate)
