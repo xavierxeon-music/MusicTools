@@ -7,11 +7,11 @@ class ES8(AudioDevice):
 
     defaultSampleRate = 0
 
-    def __init__(self, extendedInputs = False, extendedOutputs = False):
+    def __init__(self, extendedInputs=False, extendedOutputs=False):
 
         noOfInputs = 12 if extendedInputs else 4
         noOfOutputs = 16 if extendedOutputs else 8
         AudioDevice.__init__(self, 'ES-8', noOfInputs, noOfOutputs)
 
+        self.sampleRate = 48000.0
         ES8.defaultSampleRate = self.sampleRate
-
