@@ -3,6 +3,7 @@ INCLUDEPATH += \
    $$PWD/Include
 
 HEADERS += \
+    $$PWD/BoolField.hpp \
     $$PWD/Include/Abstract/AbstractEffect.h \
     $$PWD/Include/Abstract/AbstractOscilator.h \
     $$PWD/Include/Maths.h \
@@ -24,6 +25,7 @@ HEADERS += \
     $$PWD/Include/Storage/Private/RememberValue.h \
     $$PWD/Include/Storage/Private/RememberValueArray.h \
     $$PWD/Include/Storage/Remember.h \
+    $$PWD/Include/Tools/BoolField.h \
     $$PWD/Include/Tools/Convert.h \
     $$PWD/Include/Tools/Counter.h \
     $$PWD/Include/Tools/FastRandom.h \
