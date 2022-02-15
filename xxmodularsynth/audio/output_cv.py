@@ -3,6 +3,11 @@
 from xxmodularsynth.audio import AudioDevice
 
 
+"""
+value voltages from -10V to +10V
+"""
+
+
 class OutputCV(AudioDevice.OutputChannel):
 
     def __init__(self, index, device):
