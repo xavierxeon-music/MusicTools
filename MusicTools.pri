@@ -6,6 +6,7 @@ HEADERS += \
     $$PWD/BoolField.hpp \
     $$PWD/Include/Abstract/AbstractEffect.h \
     $$PWD/Include/Abstract/AbstractOscilator.h \
+    $$PWD/Include/Blocks/Trapezoid.h \
     $$PWD/Include/Maths.h \
     $$PWD/Include/MusicTools.h \
     $$PWD/Include/Music/Note.h \
@@ -33,7 +34,8 @@ HEADERS += \
     $$PWD/Include/Tools/Range.h \
     $$PWD/Include/Tools/RingBuffer.h \
     $$PWD/Include/Tools/SquareSignal.h \
-    $$PWD/Include/Tools/Variable.h 
+    $$PWD/Include/Tools/Variable.h  \
+    $$PWD/Trapezoid.hpp
     
 HEADERS += \    
    $$PWD/CircularTable.hpp \
