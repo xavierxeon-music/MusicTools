@@ -28,7 +28,7 @@ public:
    inline Trapezoid();
 
 public:
-   inline static std::string stageName();
+   inline static std::string stageName(const Stage& stage);
 
    inline void init();
    inline void clockTick();
@@ -55,9 +55,9 @@ private: // things to remeber
    using StepSize_ = Remember::Value<Tempo::Division>;
 
 private:
-   uint32_t getStageDuration() const;
-   void advanceToNextStage();
-   void setIndexCounterLength();
+   inline uint32_t getStageDuration() const;
+   inline void advanceToNextStage();
+   inline void setIndexCounterLength();
 
 private:
    StageValues_ stages;
