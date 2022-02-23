@@ -4,7 +4,6 @@
 #include <Blocks/Trapezoid.h>
 
 #include <map>
-#include <QDebug>
 
 #include <Tools/Variable.h>
 
