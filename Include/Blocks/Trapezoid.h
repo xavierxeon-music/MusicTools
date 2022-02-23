@@ -1,7 +1,7 @@
 #ifndef TrapezoidH
 #define TrapezoidH
 
-#include <Storage/Remember.h>
+#include <Remember.h>
 
 #include <Music/Tempo.h>
 #include <Tools/Counter.h>

@@ -109,7 +109,7 @@ void Trapezoid::changeLength(const Stage& stage, bool longer)
 
    indexCounter.setMaxValue(refValue);
 
-   Abstract::Settings::invalidateSettings();
+   Remember::Root::setUnsynced();
 }
 
 float Trapezoid::getCurrentStagePercentage() const
@@ -139,7 +139,7 @@ void Trapezoid::changeStepSize(bool longer)
 
    var.change(longer);
 
-   Abstract::Settings::invalidateSettings();
+   Remember::Root::setUnsynced();
    stepCounter.setMaxValue(static_cast<uint8_t>(stepSize.constValue()));
 }
 
