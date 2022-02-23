@@ -4,19 +4,19 @@
 #include <Blocks/Trapezoid.h>
 
 #include <map>
+#include <QDebug>
 
-#include <Abstract/AbstractSettings.h>
 #include <Tools/Variable.h>
 
 Trapezoid::Trapezoid()
    : Remember::Container()
    , stages(this, {0, 0, 0, 0, 0})
-   , bounds(this, {0.0, 1.0})
+   , bounds(this, {0, 127})
    , stepSize(this, Tempo::Division::Bar)
    , stage(Stage::Wait)
-   , stepCounter(0)
-   , indexCounter(0)
-   , firstTick(false)
+   , stepSizeCounter(0)
+   , stageLengthCounter(0)
+   , firstTickDone(false)
 {
 }
 
@@ -36,7 +36,7 @@ std::string Trapezoid::stageName(const Stage& stage)
 
 void Trapezoid::init()
 {
-   stepCounter.setMaxValue(static_cast<uint8_t>(stepSize.constValue()));
+   stepSizeCounter.setMaxValue(static_cast<uint8_t>(stepSize.constValue()));
 
    if (isValid())
    {
@@ -44,7 +44,7 @@ void Trapezoid::init()
       if (0 == duration)
          advanceToNextStage();
    }
-   setIndexCounterLength();
+   setStageLengthCounterMaxValue();
 }
 
 void Trapezoid::clockTick()
@@ -52,28 +52,28 @@ void Trapezoid::clockTick()
    if (!isValid())
       return;
 
-   if (firstTick) // ignore the first clock tick
+   if (!firstTickDone) // ignore the first clock tick
    {
-      firstTick = false;
+      firstTickDone = true;
       return;
    }
 
-   if (stepCounter.nextAndIsMaxValue())
+   if (stepSizeCounter.nextAndIsMaxValue())
    {
-      if (indexCounter.nextAndIsMaxValue())
+      if (stageLengthCounter.nextAndIsMaxValue())
       {
          advanceToNextStage();
-         setIndexCounterLength();
+         setStageLengthCounterMaxValue();
       }
    }
 }
 
 void Trapezoid::clockReset()
 {
-   stepCounter.reset();
-   indexCounter.reset();
+   stepSizeCounter.reset();
+   stageLengthCounter.reset();
 
-   firstTick = true;
+   firstTickDone = false;
    stage = Stage::Wait;
 
    if (isValid())
@@ -82,7 +82,7 @@ void Trapezoid::clockReset()
       if (0 == duration)
          advanceToNextStage();
    }
-   setIndexCounterLength();
+   setStageLengthCounterMaxValue();
 }
 
 const Trapezoid::Stage& Trapezoid::getCurrentStage() const
@@ -90,13 +90,51 @@ const Trapezoid::Stage& Trapezoid::getCurrentStage() const
    return stage;
 }
 
-const uint8_t& Trapezoid::getLength(const Stage& stage) const
+float Trapezoid::getCurrentStagePercentage(const float& precentToNextTick) const
+{
+   if (!isValid())
+      return 0.0;
+
+   const float tickContribution = static_cast<float>(precentToNextTick + stepSizeCounter.getCurrentValue()) / static_cast<float>(stepSizeCounter.getMaxValue());
+   const float stepContribution = static_cast<float>(stageLengthCounter.getCurrentValue());
+   const float duration = static_cast<float>(getStageDuration());
+
+   const float percentage = (tickContribution + stepContribution) / duration;
+   return percentage;
+}
+
+float Trapezoid::getCurrentValue(const float& precentToNextTick) const
+{
+   const float min = getBound(Bound::Min);
+   const float max = getBound(Bound::Max);
+
+   const float percent = getCurrentStagePercentage(precentToNextTick);
+
+   const float diff = (max - min) * percent;
+
+   if (Stage::High == stage)
+      return max;
+   else if (Stage::Rise == stage)
+   {
+      const float value = min + diff;
+      return value;
+   }
+   else if (Stage::Fall == stage)
+   {
+      const float value = max - diff;
+      return value;
+   }
+
+   return min;
+}
+
+const uint8_t& Trapezoid::getStageLength(const Stage& stage) const
 {
    const uint8_t index = static_cast<uint8_t>(stage);
    return stages[index].constValue();
 }
 
-void Trapezoid::changeLength(const Stage& stage, bool longer)
+void Trapezoid::changeStageLength(const Stage& stage, bool longer)
 {
    const uint8_t index = static_cast<uint8_t>(stage);
    uint8_t& refValue = stages[index].refValue();
@@ -104,25 +142,12 @@ void Trapezoid::changeLength(const Stage& stage, bool longer)
    Variable::Integer<uint8_t> var(refValue, 0, 255, true);
    var.change(longer);
 
-   if (indexCounter.getCurrentValue() >= refValue)
-      indexCounter.reset();
+   if (stageLengthCounter.getCurrentValue() >= refValue)
+      stageLengthCounter.reset();
 
-   indexCounter.setMaxValue(refValue);
+   stageLengthCounter.setMaxValue(refValue);
 
    Remember::Root::setUnsynced();
-}
-
-float Trapezoid::getCurrentStagePercentage() const
-{
-   if (!isValid())
-      return 0.0;
-
-   const float currentIndex = static_cast<float>(indexCounter.getCurrentValue());
-   const float currentStep = static_cast<float>(stepCounter.getCurrentValue()) / static_cast<float>(stepCounter.getMaxValue());
-   const float duration = static_cast<float>(getStageDuration());
-
-   const float percentage = (currentStep + currentIndex) / duration;
-   return percentage;
 }
 
 const Tempo::Division& Trapezoid::getStepSize() const
@@ -140,7 +165,30 @@ void Trapezoid::changeStepSize(bool longer)
    var.change(longer);
 
    Remember::Root::setUnsynced();
-   stepCounter.setMaxValue(static_cast<uint8_t>(stepSize.constValue()));
+   stepSizeCounter.setMaxValue(static_cast<uint8_t>(stepSize.constValue()));
+}
+
+float Trapezoid::getBound(const Bound& bound) const
+{
+   const uint8_t index = (Bound::Min == bound) ? 0 : 1;
+   const float value = static_cast<float>(bounds[index].constValue()) / 127.0;
+   return value;
+}
+
+void Trapezoid::changeBound(const Bound& bound, bool more)
+{
+   if (Bound::Min == bound)
+   {
+      Variable::Integer<uint8_t> var(bounds[0].refValue(), 0, bounds[1].constValue(), false);
+      if (var.change(more))
+         Remember::Root::setUnsynced();
+   }
+   else
+   {
+      Variable::Integer<uint8_t> var(bounds[1].refValue(), bounds[0].constValue(), 127, false);
+      if (var.change(more))
+         Remember::Root::setUnsynced();
+   }
 }
 
 bool Trapezoid::isValid() const
@@ -185,12 +233,12 @@ void Trapezoid::advanceToNextStage()
    while (0 == duration);
 }
 
-void Trapezoid::setIndexCounterLength()
+void Trapezoid::setStageLengthCounterMaxValue()
 {
    const uint8_t index = static_cast<uint8_t>(stage);
    const uint8_t value = stages[index].constValue();
 
-   indexCounter.setMaxValue(value);
+   stageLengthCounter.setMaxValue(value);
 }
 
 #endif // TrapezoidHPP

@@ -35,11 +35,11 @@ public:
    inline void clockReset();
 
    inline const Stage& getCurrentStage() const;
-   inline const uint8_t& getLength(const Stage& stage) const;
-   inline void changeLength(const Stage& stage, bool longer);
+   inline float getCurrentStagePercentage(const float& precentToNextTick = 0.0) const;
+   inline float getCurrentValue(const float& precentToNextTick = 0.0) const;
 
-   inline float getCurrentStagePercentage() const;
-   inline float getCurrentValues() const;
+   inline const uint8_t& getStageLength(const Stage& stage) const;
+   inline void changeStageLength(const Stage& stage, bool longer);
 
    inline const Tempo::Division& getStepSize() const;
    inline void changeStepSize(bool longer);
@@ -51,13 +51,13 @@ public:
 
 private: // things to remeber
    using StageValues_ = Remember::ValueArray<uint8_t, 5>;
-   using BoundValues_ = Remember::ValueArray<float, 2>;
+   using BoundValues_ = Remember::ValueArray<uint8_t, 2>;
    using StepSize_ = Remember::Value<Tempo::Division>;
 
 private:
    inline uint32_t getStageDuration() const;
    inline void advanceToNextStage();
-   inline void setIndexCounterLength();
+   inline void setStageLengthCounterMaxValue();
 
 private:
    StageValues_ stages;
@@ -65,9 +65,9 @@ private:
    StepSize_ stepSize;
 
    Stage stage;
-   Counter stepCounter;
-   Counter indexCounter;
-   bool firstTick;
+   Counter stepSizeCounter;
+   Counter stageLengthCounter;
+   bool firstTickDone;
 };
 
 #include "Trapezoid.hpp"

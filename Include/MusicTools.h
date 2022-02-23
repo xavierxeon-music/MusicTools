@@ -3,8 +3,6 @@
 
 
 #include <cinttypes>
-
-
 #include <string>
 #include <vector>
 
