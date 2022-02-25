@@ -6,20 +6,25 @@ void init_Trapezoid(pybind11::module_& module)
 {
    pybind11::class_<Trapezoid> tempo(module, "Trapezoid");
    tempo.def(pybind11::init<>());
+
    tempo.def_static("stageName", &Trapezoid::stageName);
-   tempo.def("init", &Tempo::init);
-   tempo.def("clockTick", &Tempo::clockTick);
-   tempo.def("clockReset", &Tempo::clockReset);
-   tempo.def("getCurrentStage", &Tempo::getCurrentStage);
-   tempo.def("getLength", &Tempo::getLength);
-   tempo.def("changeLength", &Tempo::changeLength);
-   tempo.def("getCurrentStagePercentage", &Tempo::clockTick);
-   tempo.def("getCurrentValues", &Tempo::clockReset);
-   tempo.def("getStepSize", &Tempo::clockTick);
-   tempo.def("changeStepSize", &Tempo::clockReset);
-   tempo.def("getBound", &Tempo::clockTick);
-   tempo.def("changeBound", &Tempo::clockReset);
-   tempo.def("isValid", &Tempo::clockTick);
+
+   tempo.def("init", &Trapezoid::init);
+   tempo.def("clockTick", &Trapezoid::clockTick);
+   tempo.def("clockReset", &Trapezoid::clockReset);
+
+   tempo.def("getCurrentStage", &Trapezoid::getCurrentStage);
+   tempo.def("getCurrentStagePercentage", &Trapezoid::getCurrentStagePercentage);
+   tempo.def("getCurrentValue", &Trapezoid::getCurrentValue);
+
+   tempo.def("getStageLength", &Trapezoid::getStageLength);
+   tempo.def("changeStageLength", &Trapezoid::changeStageLength);
+
+   tempo.def("getStepSize", &Trapezoid::getStepSize);
+   tempo.def("changeStepSize", &Trapezoid::changeStepSize);
+   tempo.def("getBound", &Trapezoid::getBound);
+   tempo.def("changeBound", &Trapezoid::changeBound);
+   tempo.def("isValid", &Trapezoid::isValid);
 
    pybind11::enum_<Trapezoid::Stage> division(tempo, "Stage");
    division.value("Wait", Trapezoid::Stage::Wait);
@@ -30,7 +35,7 @@ void init_Trapezoid(pybind11::module_& module)
    division.export_values();
 
    pybind11::enum_<Trapezoid::Bound> runState(tempo, "Bound");
-   runState.value("Min", Tempo::Bound::Min);
-   runState.value("Max", Tempo::Bound::Max);
+   runState.value("Min", Trapezoid::Bound::Min);
+   runState.value("Max", Trapezoid::Bound::Max);
    runState.export_values();
 }

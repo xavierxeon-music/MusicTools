@@ -145,7 +145,6 @@ void Trapezoid::changeStageLength(const Stage& stage, bool longer)
       stageLengthCounter.reset();
 
    stageLengthCounter.setMaxValue(refValue);
-
    Remember::Root::setUnsynced();
 }
 
