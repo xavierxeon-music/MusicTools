@@ -3,6 +3,7 @@ INCLUDEPATH += \
    $$PWD/Include
 
 HEADERS += \
+    $$PWD/Base64.hpp \
     $$PWD/BoolField.hpp \
     $$PWD/Include/Abstract/AbstractEffect.h \
     $$PWD/Include/Abstract/AbstractOscilator.h \
@@ -17,6 +18,7 @@ HEADERS += \
     $$PWD/Include/Sound/GateOscilator.h \
     $$PWD/Include/Sound/StandardTable.h \
     $$PWD/Include/Sound/TableOscilator.h \
+    $$PWD/Include/Tools/Base64.h \
     $$PWD/Include/Tools/BoolField.h \
     $$PWD/Include/Tools/Convert.h \
     $$PWD/Include/Tools/Counter.h \

@@ -1,8 +1,7 @@
 #ifndef Base64H
 #define Base64H
 
-#include <cinttypes>
-#include <vector>
+#include <MusicTools.h>
 
 // see https://en.wikipedia.org/wiki/Base64
 
