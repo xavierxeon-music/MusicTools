@@ -63,12 +63,12 @@ static constexpr uint8_t decodingTable[] =
  };
 // clang-format on
 
-std::vector<uint8_t> SevenBit::encode(const std::vector<uint8_t>& input)
+Bytes SevenBit::encode(const Bytes& input)
 {
    const size_t inputLength = input.size();
    const size_t outputLength = 4 * ((inputLength + 2) / 3);
 
-   std::vector<uint8_t> output;
+   Bytes output;
    output.resize(outputLength);
 
    size_t j = 0;
@@ -88,8 +88,8 @@ std::vector<uint8_t> SevenBit::encode(const std::vector<uint8_t>& input)
    while (i < inputLength - 2) // process 4 byte blocks
    {
       addToOutput((input[i] >> 2) & 0x3F);
-      addToOutput(((input[i] & 0x3) << 4) | ((int)(input[i + 1] & 0xF0) >> 4));
-      addToOutput(((input[i + 1] & 0xF) << 2) | ((int)(input[i + 2] & 0xC0) >> 6));
+      addToOutput(((input[i] & 0x3) << 4) | ((input[i + 1] & 0xF0) >> 4));
+      addToOutput(((input[i + 1] & 0xF) << 2) | ((input[i + 2] & 0xC0) >> 6));
       addToOutput(input[i + 2] & 0x3F);
 
       i += 3;
@@ -106,7 +106,7 @@ std::vector<uint8_t> SevenBit::encode(const std::vector<uint8_t>& input)
       }
       else
       {
-         addToOutput(((input[i] & 0x3) << 4) | ((int)(input[i + 1] & 0xF0) >> 4));
+         addToOutput(((input[i] & 0x3) << 4) | ((input[i + 1] & 0xF0) >> 4));
          addToOutput(((input[i + 1] & 0xF) << 2));
       }
       addPadding();
@@ -115,11 +115,11 @@ std::vector<uint8_t> SevenBit::encode(const std::vector<uint8_t>& input)
    return output;
 }
 
-std::vector<uint8_t> SevenBit::decode(const std::vector<uint8_t>& input)
+Bytes SevenBit::decode(const Bytes& input)
 {
    size_t inputLength = input.size();
    if (inputLength % 4 != 0)
-      return std::vector<uint8_t>();
+      return Bytes();
 
    size_t outputLength = inputLength / 4 * 3;
 
@@ -129,7 +129,7 @@ std::vector<uint8_t> SevenBit::decode(const std::vector<uint8_t>& input)
    if (input[inputLength - 2] == '=')
       outputLength--;
 
-   std::vector<uint8_t> output;
+   Bytes output;
    output.resize(outputLength);
 
    size_t i = 0;
@@ -145,7 +145,7 @@ std::vector<uint8_t> SevenBit::decode(const std::vector<uint8_t>& input)
          }
          else
          {
-            const uint8_t index = static_cast<int>(input[i]);
+            const uint8_t index = input[i];
             i++;
             return decodingTable[index];
          }
