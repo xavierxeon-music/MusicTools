@@ -1,17 +1,17 @@
-#ifndef Base64H
-#define Base64H
+#ifndef SevenBitH
+#define SevenBitH
 
 #include <MusicTools.h>
 
-// see https://en.wikipedia.org/wiki/Base64
+// see https://en.wikipedia.org/wiki/SevenBit
 
-class Base64
+class SevenBit
 {
 public:
    inline static std::vector<uint8_t> encode(const std::vector<uint8_t>& input);
    inline static std::vector<uint8_t> decode(const std::vector<uint8_t>& input);
 };
 
-#include "Base64.hpp"
+#include "SevenBit.hpp"
 
-#endif // Base64H
+#endif // SevenBitH

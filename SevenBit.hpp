@@ -1,7 +1,7 @@
-#ifndef Base64HPP
-#define Base64HPP
+#ifndef SevenBitHPP
+#define SevenBitHPP
 
-#include <Tools/Base64.h>
+#include <Tools/SevenBit.h>
 
 // modified from https://gist.github.com/tomykaira/f0fd86b6c73063283afe550bc5d77594
 
@@ -63,7 +63,7 @@ static constexpr uint8_t decodingTable[] =
  };
 // clang-format on
 
-std::vector<uint8_t> Base64::encode(const std::vector<uint8_t>& input)
+std::vector<uint8_t> SevenBit::encode(const std::vector<uint8_t>& input)
 {
    const size_t inputLength = input.size();
    const size_t outputLength = 4 * ((inputLength + 2) / 3);
@@ -115,7 +115,7 @@ std::vector<uint8_t> Base64::encode(const std::vector<uint8_t>& input)
    return output;
 }
 
-std::vector<uint8_t> Base64::decode(const std::vector<uint8_t>& input)
+std::vector<uint8_t> SevenBit::decode(const std::vector<uint8_t>& input)
 {
    size_t inputLength = input.size();
    if (inputLength % 4 != 0)
@@ -175,4 +175,4 @@ std::vector<uint8_t> Base64::decode(const std::vector<uint8_t>& input)
    return output;
 }
 
-#endif // Base64HPP
+#endif // SevenBitHPP
