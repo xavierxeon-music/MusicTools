@@ -8,6 +8,7 @@ HEADERS += \
     $$PWD/Include/Abstract/AbstractOscilator.h \
     $$PWD/Include/Blocks/Trapezoid.h \
     $$PWD/Include/Maths.h \
+    $$PWD/Include/Midi/MidiCommon.h \
     $$PWD/Include/MusicTools.h \
     $$PWD/Include/Music/Note.h \
     $$PWD/Include/Music/Tempo.h \
@@ -27,6 +28,7 @@ HEADERS += \
     $$PWD/Include/Tools/SevenBit.h \
     $$PWD/Include/Tools/SquareSignal.h \
     $$PWD/Include/Tools/Variable.h  \
+    $$PWD/MidiCommon.hpp \
     $$PWD/SevenBit.hpp \
     $$PWD/Trapezoid.hpp
     
