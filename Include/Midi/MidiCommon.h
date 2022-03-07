@@ -8,6 +8,9 @@ namespace Midi
    using Channel = uint8_t;
    using Velocity = uint8_t;
 
+   // see https://ccrma.stanford.edu/~gary/controllers/midi.html
+   const static float msPerByte = 31250.0 / (8.0 * 1000.0); //31250 bits per second
+
    struct Event
    {
       enum Type : uint8_t
@@ -34,7 +37,7 @@ namespace Midi
          Balance = 0x08,
          // START undefined in standard
          RememberBlock = 0x14,
-         RememberEnd = 0x15,
+         RememberApply = 0x15,
          RememberRequest = 0x16,
          Undefined04 = 0x17,
          Undefined05 = 0x18,

@@ -3,15 +3,14 @@ INCLUDEPATH += \
    $$PWD/Include
 
 HEADERS += \
-    $$PWD/BoolField.hpp \
     $$PWD/Include/Abstract/AbstractEffect.h \
     $$PWD/Include/Abstract/AbstractOscilator.h \
     $$PWD/Include/Blocks/Trapezoid.h \
     $$PWD/Include/Maths.h \
     $$PWD/Include/Midi/MidiCommon.h \
-    $$PWD/Include/MusicTools.h \
     $$PWD/Include/Music/Note.h \
     $$PWD/Include/Music/Tempo.h \
+    $$PWD/Include/MusicTools.h \
     $$PWD/Include/MusicTools.h \
     $$PWD/Include/Sound/CircularTable.h \
     $$PWD/Include/Sound/FunctionTable.h \
@@ -28,24 +27,27 @@ HEADERS += \
     $$PWD/Include/Tools/SevenBit.h \
     $$PWD/Include/Tools/SquareSignal.h \
     $$PWD/Include/Tools/Variable.h  \
-    $$PWD/MidiCommon.hpp \
-    $$PWD/SevenBit.hpp \
-    $$PWD/Trapezoid.hpp
+
     
 HEADERS += \    
+   $$PWD/BoolField.hpp \
    $$PWD/CircularTable.hpp \
    $$PWD/Convert.hpp \
    $$PWD/Counter.hpp \
    $$PWD/FastRandom.hpp \
    $$PWD/GateOscilator.hpp \
    $$PWD/Glide.hpp \
+   $$PWD/MidiCommon.hpp \
+   $$PWD/MusicTools.hpp \
    $$PWD/Range.hpp \
    $$PWD/RingBuffer.hpp \
+   $$PWD/SevenBit.hpp \
    $$PWD/SquareSignal.hpp \
    $$PWD/StandardTable.hpp \
    $$PWD/TableOscilator.hpp \
    $$PWD/Tempo.hpp \
-   $$PWD/Variable.hpp
+   $$PWD/Trapezoid.hpp \
+   $$PWD/Variable.hpp \
 
 SOURCES += \
    $$PWD/AbstractEffect.cpp \
