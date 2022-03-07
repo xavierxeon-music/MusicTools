@@ -3,6 +3,16 @@
 
 #include <MusicTools.h>
 
+#ifndef NON_DAISY_DEVICE
+
+void print(const Bytes& data, bool withAscii)
+{
+   (void)data;
+   (void)withAscii;
+}
+
+#else
+
 #include <bitset>
 #include <iostream>
 
@@ -22,5 +32,6 @@ void print(const Bytes& data, bool withAscii)
    }
    std::cout << data.size() << std::endl;
 }
+#endif
 
 #endif // MusicToolsHPP
