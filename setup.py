@@ -14,7 +14,7 @@ except ModuleNotFoundError:
 from setuptools import setup, find_packages
 
 package_depends = ['pybind11', 'sounddevice']
-if platform.system() == 'Darwin':
+if platform.system() == 'Darwin' or platform.system() == 'Linux':
     package_depends.append('python-rtmidi')
     package_depends.append('mido')
 
