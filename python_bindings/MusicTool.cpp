@@ -34,5 +34,5 @@ PYBIND11_MODULE(_xxmodularsynth, module)
    // Tools
    init_FastRandom(module);
    init_Range(module);
-   init_SevenBit(module)
+   init_SevenBit(module);
 }
