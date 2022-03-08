@@ -7,7 +7,7 @@ namespace Remember
 {
    struct Root
    {
-      static void setUnsynced() {}
+      inline static void setUnsynced();
    };
 
    struct Container
@@ -18,33 +18,13 @@ namespace Remember
    class Value
    {
    public:
-      Value(Container* parent, const DataType& initialValue)
-         : content(initialValue)
-      {
-         (void)parent;
-      }
+      inline Value(Container* parent, const DataType& initialValue);
 
    public:
-      Value& operator=(const DataType& other)
-      {
-         content = other;
-         return *this;
-      }
-
-      operator DataType() const
-      {
-         return content;
-      }
-
-      DataType& refValue()
-      {
-         return content;
-      }
-
-      const DataType& constValue() const
-      {
-         return content;
-      }
+      inline Value& operator=(const DataType& other);
+      inline operator DataType() const;
+      inline DataType& refValue();
+      const DataType& constValue() const;
 
    private:
       // clang-format off
@@ -52,7 +32,7 @@ namespace Remember
       // clang-format on
 
    private:
-      Value();
+      inline Value();
 
    private:
       DataType content;
@@ -62,40 +42,19 @@ namespace Remember
    class ValueArray
    {
    public:
-      ValueArray(Container* parent)
-         : members()
-      {
-         (void)parent;
-      }
-
-      ValueArray(Container* parent, std::initializer_list<DataType> initialValues)
-         : ValueArray<DataType, ArraySize>(parent)
-      {
-         uint16_t index = 0;
-         for (const DataType& value : initialValues)
-         {
-            members[index].refValue() = value;
-            index++;
-            if (index == ArraySize)
-               break;
-         }
-      }
+      inline ValueArray(Container* parent);
+      inline ValueArray(Container* parent, std::initializer_list<DataType> initialValues);
 
    public:
-      Value<DataType>& operator[](const uint16_t index)
-      {
-         return members[index];
-      }
-
-      const Value<DataType>& operator[](const uint16_t index) const
-      {
-         return members[index];
-      }
+      Value<DataType>& operator[](const uint16_t index);
+      inline const Value<DataType>& operator[](const uint16_t index) const;
 
    private:
       Value<DataType> members[ArraySize];
    };
 
 } // namespace Remember
+
+#include "Remember.hpp"
 
 #endif // RememberH
