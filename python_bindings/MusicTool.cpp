@@ -13,8 +13,9 @@ void init_TableOscilator(pybind11::module_& module);
 void init_StandardTable(pybind11::module_& module);
 
 // Tools
-void init_Range(pybind11::module_& module);
 void init_FastRandom(pybind11::module_& module);
+void init_Range(pybind11::module_& module);
+void init_SevenBit(pybind11::module_& module);
 
 PYBIND11_MODULE(_xxmodularsynth, module)
 {
@@ -31,6 +32,7 @@ PYBIND11_MODULE(_xxmodularsynth, module)
    init_StandardTable(module);
 
    // Tools
-   init_Range(module);
    init_FastRandom(module);
+   init_Range(module);
+   init_SevenBit(module)
 }
