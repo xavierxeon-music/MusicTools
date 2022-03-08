@@ -3,6 +3,12 @@
 
 #include <MusicTools.h>
 
+Bytes& operator<<(Bytes& data, const uint8_t& byte)
+{
+   data.push_back(byte);
+   return data;
+}
+
 #ifndef NON_DAISY_DEVICE
 
 void print(const Bytes& data, bool withAscii)
