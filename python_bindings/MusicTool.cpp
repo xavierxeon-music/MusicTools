@@ -3,6 +3,9 @@
 // Blocks
 void init_Trapezoid(pybind11::module_& module);
 
+// Midi
+void init_MidiCommon(pybind11::module_& module);
+
 // Music
 void init_Note(pybind11::module_& module);
 void init_Tempo(pybind11::module_& module);
@@ -21,6 +24,9 @@ PYBIND11_MODULE(_xxmodularsynth, module)
 {
    //Blocks
    init_Trapezoid(module);
+
+   // midi
+   init_MidiCommon(module);
 
    // Music
    init_Note(module);

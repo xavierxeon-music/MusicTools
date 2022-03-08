@@ -1,7 +1,7 @@
 #!usr/bin/env python3
 
 from rtmidi import MidiIn
-from rtmidi.midiconstants import NOTE_ON, NOTE_OFF, SYSTEM_EXCLUSIVE
+from rtmidi.midiconstants import NOTE_ON, NOTE_OFF, CONTROLLER_CHANGE, SYSTEM_EXCLUSIVE
 
 
 class MidiInput:
@@ -31,6 +31,7 @@ class MidiInput:
 
         self._noteOnCallbackList = list()
         self._noteOffCallbackList = list()
+        self._controllerMessageCallbackList = list()
 
     def __del__(self):
 
@@ -45,6 +46,10 @@ class MidiInput:
     def onNoteOff(self, callback):
 
         self._noteOffCallbackList.append(callback)
+
+    def onControllerMessage(self, callback):
+
+        self._controllerMessageCallbackList.append(callback)
 
     @staticmethod
     def available():
@@ -64,7 +69,12 @@ class MidiInput:
             for callback in self._noteOnCallbackList:
                 callback(channel, pitch, velocity)
         elif midiEvent == NOTE_OFF:
-            status, pitch = message
+            status, pitch, _ = message
             channel = (status & 0x0F) + 1
             for callback in self._noteOffCallbackList:
                 callback(channel, pitch)
+        elif midiEvent == CONTROLLER_CHANGE:
+            status, controller, value = message
+            channel = (status & 0x0F) + 1
+            for callback in self._controllerMessageCallbackList:
+                callback(channel, controller, value)

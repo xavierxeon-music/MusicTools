@@ -1,7 +1,7 @@
 #ifndef MidiCommonH
 #define MidiCommonH
 
-#include <Global.h>
+#include <MusicTools.h>
 
 namespace Midi
 {
@@ -15,7 +15,7 @@ namespace Midi
    {
       enum Type : uint8_t
       {
-         Unkown = 0x00,
+         Unknown = 0x00,
          NoteOff = 0x80,
          NoteOn = 0x90,
          ControlChange = 0xB0,

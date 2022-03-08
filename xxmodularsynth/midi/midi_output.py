@@ -43,7 +43,7 @@ class MidiOutput:
         data = [NOTE_OFF | (channel - 1), pitch, 0]
         self.midiout.send_message(data)
 
-    def controllerChange(self, channel, value, controller=MODULATION):
+    def controllerChange(self, channel, controller, value):
 
         data = [CONTROLLER_CHANGE | (channel - 1), controller, value]
         self.midiout.send_message(data)
