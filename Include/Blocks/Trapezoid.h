@@ -41,7 +41,7 @@ public:
    inline const uint8_t& getStageLength(const Stage& stage) const;
    inline void changeStageLength(const Stage& stage, bool longer);
 
-   inline const Tempo::Division& getStepSize() const;
+   inline Tempo::Division getStepSize() const;
    inline void changeStepSize(bool longer);
 
    inline float getBound(const Bound& bound) const;

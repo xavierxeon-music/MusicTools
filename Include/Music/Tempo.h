@@ -8,7 +8,7 @@
 class Tempo
 {
 public:
-   enum class Division
+   enum Division
    {
       Sixteenth = 1,
       Eigth = 2,
@@ -16,7 +16,7 @@ public:
       Bar = 16
    };
 
-   enum class RunState
+   enum RunState
    {
       Reset,
       Off,
