@@ -118,7 +118,7 @@ Bytes SevenBit::encode(const Bytes& input)
 Bytes SevenBit::decode(const Bytes& input)
 {
    size_t inputLength = input.size();
-   if (inputLength % 4 != 0)
+   if (0 == inputLength || inputLength % 4 != 0)
       return Bytes();
 
    size_t outputLength = inputLength / 4 * 3;
