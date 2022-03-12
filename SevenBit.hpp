@@ -66,6 +66,9 @@ static constexpr uint8_t decodingTable[] =
 Bytes SevenBit::encode(const Bytes& input)
 {
    const size_t inputLength = input.size();
+   if (0 == inputLength)
+      return Bytes();
+
    const size_t outputLength = 4 * ((inputLength + 2) / 3);
 
    Bytes output;
