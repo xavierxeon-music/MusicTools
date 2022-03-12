@@ -3,8 +3,10 @@ INCLUDEPATH += \
    $$PWD/Include
 
 HEADERS += \
+   $$PWD/Graph.hpp \
     $$PWD/Include/Abstract/AbstractEffect.h \
     $$PWD/Include/Abstract/AbstractOscilator.h \
+   $$PWD/Include/Blocks/Graph.h \
     $$PWD/Include/Blocks/Trapezoid.h \
     $$PWD/Include/Maths.h \
     $$PWD/Include/Midi/MidiCommon.h \
