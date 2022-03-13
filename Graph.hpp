@@ -7,22 +7,33 @@
 
 // points
 
-Graph::Point::Point()
-   : height(this, 0)
-   , length(this, 0)
+Graph::Stage::Stage(const uint8_t& startHeight, const uint8_t& length)
+   : startHeight(this, startHeight)
+   , length(this, length)
 {
 }
 
-Graph::Point::~Point()
+Graph::Stage::~Stage()
 {
+}
+
+uint8_t Graph::Stage::getStartHeight() const
+{
+   return startHeight;
+}
+
+uint8_t Graph::Stage::getLength() const
+{
+   return length;
 }
 
 // graph
 
 Graph::Graph()
    : stepSize(this, Tempo::Division::Bar)
-   , pointList(this)
-   , currentPointIndex(0)
+   , length(this, 0)
+   , stages(this)
+   , currentStageIndex(0)
    , stepSizeCounter(0)
    , stageLengthCounter(0)
    , firstTickDone(false)
@@ -65,7 +76,7 @@ void Graph::clockReset()
    stageLengthCounter.reset();
 
    firstTickDone = false;
-   currentPointIndex = 0;
+   currentStageIndex = 0;
 
    if (isValid())
    {
@@ -93,7 +104,13 @@ void Graph::changeStepSize(bool longer)
 
 bool Graph::isValid() const
 {
-   return (0 != pointList.size());
+   if (0 == stages.size())
+      return false;
+
+   if (0 == length)
+      return false;
+
+   return true;
 }
 
 #endif // GraphHPP

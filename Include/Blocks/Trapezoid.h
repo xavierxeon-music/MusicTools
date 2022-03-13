@@ -39,12 +39,15 @@ public:
    inline float getCurrentValue(const float& precentToNextTick = 0.0) const;
 
    inline const uint8_t& getStageLength(const Stage& stage) const;
+   inline void setStageLength(const Stage& stage, const uint8_t& newLength);
    inline void changeStageLength(const Stage& stage, bool longer);
 
    inline Tempo::Division getStepSize() const;
+   inline void setStepSize(const Tempo::Division& newStepSize);
    inline void changeStepSize(bool longer);
 
    inline float getBound(const Bound& bound) const;
+   inline void setBound(const Bound& bound, const float& newValue);
    inline void changeBound(const Bound& bound, bool more);
 
    inline bool isValid() const;

@@ -133,6 +133,20 @@ const uint8_t& Trapezoid::getStageLength(const Stage& stage) const
    return stages[index];
 }
 
+void Trapezoid::setStageLength(const Stage& stage, const uint8_t& newLength)
+{
+   const uint8_t index = static_cast<uint8_t>(stage);
+   uint8_t& refValue = stages[index];
+
+   refValue = newLength;
+
+   if (stageLengthCounter.getCurrentValue() >= refValue)
+      stageLengthCounter.reset();
+
+   stageLengthCounter.setMaxValue(refValue);
+   Remember::Root::setUnsynced();
+}
+
 void Trapezoid::changeStageLength(const Stage& stage, bool longer)
 {
    const uint8_t index = static_cast<uint8_t>(stage);
@@ -153,6 +167,14 @@ Tempo::Division Trapezoid::getStepSize() const
    return stepSize;
 }
 
+void Trapezoid::setStepSize(const Tempo::Division& newStepSize)
+{
+   stepSize = newStepSize;
+
+   Remember::Root::setUnsynced();
+   stepSizeCounter.setMaxValue(static_cast<uint8_t>(stepSize));
+}
+
 void Trapezoid::changeStepSize(bool longer)
 {
    using StepSizeOrder = std::vector<Tempo::Division>;
@@ -171,6 +193,29 @@ float Trapezoid::getBound(const Bound& bound) const
    const uint8_t index = (Bound::Min == bound) ? 0 : 1;
    const float value = static_cast<float>(bounds[index]) / 127.0;
    return value;
+}
+
+void Trapezoid::setBound(const Bound& bound, const float& newValue)
+{
+   const uint8_t value = static_cast<uint8_t>(newValue * 127.0);
+   uint8_t& minValue = bounds[0];
+   uint8_t& maxValue = bounds[1];
+
+   if (Bound::Min == bound)
+   {
+      if (newValue > maxValue)
+         return;
+
+      minValue = value;
+   }
+   else
+   {
+      if (newValue < minValue)
+         return;
+
+      maxValue = value;
+   }
+   Remember::Root::setUnsynced();
 }
 
 void Trapezoid::changeBound(const Bound& bound, bool more)
