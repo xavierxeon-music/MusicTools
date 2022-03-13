@@ -13,8 +13,10 @@ public:
    {
    public:
       inline Point();
+      inline virtual ~Point();
 
    private:
+      friend class Graph;
       using Height_ = Remember::Value<uint8_t>;
       using Length_ = Remember::Value<uint8_t>;
 
