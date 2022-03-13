@@ -42,16 +42,16 @@ public:
    inline void changeStepSize(bool longer);
 
    inline uint8_t getLength() const;
-   // autoDiscard = true: stage exceeding new length will be removed
+   // autoDiscard = true: stages exceeding new length will be removed
    // autoDiscard = false: if stages exceed new length, then length will not be changed
    inline void setLength(const uint8_t newLength, bool autoDiscard = false);
-   inline void reimLength(); // set length to fit stages
+   inline void trimLength(); // set length to fit stages
 
    inline uint8_t stageCount() const;
    inline Stage& getStage(const uint8_t& index);
-   // expandLength = true: adjust length to fit stages
+   // expandLength = true: adjust graph length to fit stages
    // expandLength = false: if new length exeeds current length, then do not add stage
-   inline void addStage(const uint8_t& startHeight, const uint8_t& length, const uint8_t& atIndex, bool expandLength = true);
+   inline void addStage(const uint8_t& startHeight, const uint8_t& stageLength, const uint8_t& atIndex, bool expandLength = true);
    inline void removeStage(const uint8_t& index);
 
    inline uint8_t getCurrentStageIndex() const;
