@@ -8,7 +8,7 @@
 class FunctionTable : public CircularTable
 {
 public:
-   using AngleFunction = std::function<float(const float&)>; // value per angle
+   using AngleFunction = std::function<float(const float& valuesPerAngle)>;
 
 public:
    inline FunctionTable(uint64_t resolution, const float maxAngle = 2.0f * Maths::pi);
