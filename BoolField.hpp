@@ -3,42 +3,57 @@
 
 #include <Tools/BoolField.h>
 
-template <typename StorageType>
-BoolField<StorageType>::BoolField()
-   : data{0} // wiil alose set bits!
+template <typename IntegerType>
+BoolField<IntegerType>::BoolField()
+   : data{0}
 {
+   static_assert(std::is_integral<IntegerType>::value, "type must be an integer");
 }
 
-template <typename StorageType>
-BoolField<StorageType>::BoolField(const StorageType& value)
+template <typename IntegerType>
+BoolField<IntegerType>::BoolField(const IntegerType& value)
    : BoolField()
 {
    *this = value;
 }
 
-template <typename StorageType>
-BoolField<StorageType>& BoolField<StorageType>::operator=(const StorageType& value)
+template <typename IntegerType>
+BoolField<IntegerType>& BoolField<IntegerType>::operator=(const IntegerType& value)
 {
    data = value;
    return *this;
 }
 
-template <typename StorageType>
-bool& BoolField<StorageType>::operator[](const uint8_t& index)
-{
-   return bits[index];
-}
-
-template <typename StorageType>
-const bool& BoolField<StorageType>::operator[](const uint8_t& index) const
-{
-   return bits[index];
-}
-
-template <typename StorageType>
-BoolField<StorageType>::operator StorageType() const
+template <typename IntegerType>
+BoolField<IntegerType>::operator IntegerType() const
 {
    return data;
+}
+
+template <typename IntegerType>
+size_t BoolField<IntegerType>::size() const
+{
+   return 8 * sizeof(IntegerType);
+}
+
+template <typename IntegerType>
+bool BoolField<IntegerType>::get(const uint8_t& index) const
+{
+   const IntegerType mask = 0x01 << index;
+   const IntegerType test = mask & data;
+
+   const bool active = (test == mask);
+   return active;
+}
+
+template <typename IntegerType>
+void BoolField<IntegerType>::set(const uint8_t& index, const bool value)
+{
+   const IntegerType mask = 0x01 << index;
+   if (value)
+      data = mask | data;
+   else
+      data = ~mask & data;
 }
 
 #endif // BoolFieldHPP

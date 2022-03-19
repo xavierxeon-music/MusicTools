@@ -3,25 +3,23 @@
 
 #include <Global.h>
 
-template <typename StorageType>
+template <typename IntegerType>
 class BoolField
 {
 public:
    BoolField();
-   BoolField(const StorageType& value);
+   BoolField(const IntegerType& value);
 
 public:
-   BoolField& operator=(const StorageType& value);
-   bool& operator[](const uint8_t& index);
-   const bool& operator[](const uint8_t& index) const;
-   operator StorageType() const;
+   BoolField& operator=(const IntegerType& value);
+   operator IntegerType() const;
+
+   size_t size() const; // the number of bits
+   bool get(const uint8_t& index) const;
+   void set(const uint8_t& index, const bool value);
 
 private:
-   union
-   {
-      StorageType data;
-      bool bits[sizeof(StorageType)];
-   };
+   IntegerType data;
 };
 
 #include <BoolField.hpp>
