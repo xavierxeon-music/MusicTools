@@ -41,7 +41,7 @@ size_t BoolField<IntegerType>::size() const
 template <typename IntegerType>
 bool BoolField<IntegerType>::get(const uint8_t& index) const
 {
-   const IntegerType mask = getMask();
+   const IntegerType mask = getMask(index);
    const IntegerType test = mask & data;
 
    const bool active = (test == mask);
@@ -51,7 +51,7 @@ bool BoolField<IntegerType>::get(const uint8_t& index) const
 template <typename IntegerType>
 void BoolField<IntegerType>::set(const uint8_t& index, const bool value)
 {
-   const IntegerType mask = getMask();
+   const IntegerType mask = getMask(index);
    if (value)
       data = mask | data;
    else
