@@ -19,6 +19,9 @@ public:
    void set(const uint8_t& index, const bool value);
 
 private:
+   IntegerType getMask(const uint8_t& index) const;
+
+private:
    IntegerType data;
 };
 

@@ -3,6 +3,8 @@
 
 #include <Tools/BoolField.h>
 
+#include <Tools/Range.h>
+
 template <typename IntegerType>
 BoolField<IntegerType>::BoolField()
    : data{0}
@@ -39,7 +41,7 @@ size_t BoolField<IntegerType>::size() const
 template <typename IntegerType>
 bool BoolField<IntegerType>::get(const uint8_t& index) const
 {
-   const IntegerType mask = 0x01 << index;
+   const IntegerType mask = getMask();
    const IntegerType test = mask & data;
 
    const bool active = (test == mask);
@@ -49,11 +51,18 @@ bool BoolField<IntegerType>::get(const uint8_t& index) const
 template <typename IntegerType>
 void BoolField<IntegerType>::set(const uint8_t& index, const bool value)
 {
-   const IntegerType mask = 0x01 << index;
+   const IntegerType mask = getMask();
    if (value)
       data = mask | data;
    else
       data = ~mask & data;
+}
+
+template <typename IntegerType>
+IntegerType BoolField<IntegerType>::getMask(const uint8_t& index) const
+{
+   const IntegerType mask = 0x01 << Range::clamp<uint8_t>(index, 0, size());
+   return mask;
 }
 
 #endif // BoolFieldHPP
