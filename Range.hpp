@@ -56,6 +56,41 @@ Range::Mapper::Mapper(const float& minInput, const float& maxInput, const float&
    , minOutput(minOutput)
    , maxOutput(maxOutput)
 {
+   updateScale();
+}
+
+void Range::Mapper::setMinInput(const float& value)
+{
+   if (value < maxInput)
+   {
+      minInput = value;
+      updateScale();
+   }
+}
+
+void Range::Mapper::setMaxInput(const float& value)
+{
+   if (value > minInput)
+   {
+      maxInput = value;
+      updateScale();
+   }
+}
+
+void Range::Mapper::setMinOutput(const float& value)
+{
+   minOutput = value;
+   updateScale();
+}
+
+void Range::Mapper::setMaxOutput(const float& value)
+{
+   maxOutput = value;
+   updateScale();
+}
+
+void Range::Mapper::updateScale()
+{
    const float diffOutput = maxOutput - minOutput;
    const float diffInput = maxInput - minInput;
 

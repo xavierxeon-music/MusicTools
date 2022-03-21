@@ -30,11 +30,19 @@ struct Range
    public:
       inline float operator()(const float& input) const;
 
+      inline void setMinInput(const float& value);
+      inline void setMaxInput(const float& value);
+      inline void setMinOutput(const float& value);
+      inline void setMaxOutput(const float& value);
+
    private:
-      const float minInput;
-      const float maxInput;
-      const float minOutput;
-      const float maxOutput;
+      inline void updateScale();
+
+   private:
+      float minInput;
+      float maxInput;
+      float minOutput;
+      float maxOutput;
       float scale;
    };
 
