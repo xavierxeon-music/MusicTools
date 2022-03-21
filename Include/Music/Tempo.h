@@ -41,7 +41,7 @@ public:
 
 private:
    Counter straightBarCount; // 1 bar of 4/4
-   RingBuffer<16> bpm;
+   RingBuffer<uint8_t, 16> bpm;
    float msSinceLastTick;
    float msPerTick;
    float tickPercentage;
