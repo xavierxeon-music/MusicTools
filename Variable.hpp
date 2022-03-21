@@ -14,10 +14,11 @@ Variable::Integer<IntegerType, diffValue>::Integer(IntegerType& variable, const 
    , maxValue(maxValue)
    , wrap(wrap)
 {
+   static_assert(std::is_integral<IntegerType>::value, "type must be an integer");
    static_assert(diffValue >= 1, "DiffValue must be positive");
 
    assert(minValue < maxValue);
-   assert(diffValue < maxValue - minValue);
+   assert(diffValue <= maxValue - minValue);
 }
 
 template <typename IntegerType, IntegerType diffValue>
