@@ -3,6 +3,129 @@
 
 #include <Blocks/CvSwitch.h>
 
+CvSwitch::CvSwitch(const Size& size, const VoltageOffsetMap& offsetMap)
+   : size(size)
+   , offsetMap(offsetMap)
+{
+}
+
+uint8_t CvSwitch::getMaxIndex() const
+{
+   return static_cast<uint8_t>(size);
+}
+
+float CvSwitch::map(const uint8_t index, bool applyOffset) const
+{
+   if (index >= getMaxIndex())
+      return 0.0;
+
+   float value = voltageList(size).at(index);
+   if (applyOffset)
+   {
+      VoltageOffsetMap::const_iterator it = offsetMap.find(index);
+      if (it != offsetMap.end())
+         value += it->second;
+   }
+   return value;
+}
+
+const CvSwitch::VoltageList& CvSwitch::voltageList(const Size& size) const
+{
+   using VoltageMap = std::map<Size, VoltageList>;
+
+   static VoltageMap voltageMap;
+   if (voltageMap.empty())
+   {
+      voltageMap[Size::Invalid] = VoltageList();
+
+      for (const Size& size : {Size::Two, Size::Four, Size::Eight, Size::Sixteen})
+      {
+         const uint maxIndex = static_cast<uint8_t>(size);
+         const float diff = 1.0 / maxIndex;
+         const float offset = 0.5 * diff;
+
+         VoltageList voltageList;
+         for (uint8_t index = 0; index < maxIndex; index++)
+         {
+            const float value = offset + (index * diff);
+            voltageList.push_back(value);
+         }
+         voltageMap[size] = voltageList;
+      }
+   }
+
+   return voltageMap[size];
+}
+
+// standard offsets
+
+const std::string CvSwitch::StandardDevices::name(const Device& device)
+{
+   std::string name = "Unknown";
+   switch (device)
+   {
+      case Device::MimeticDigitalis4:
+         name = "Mimetic Digitalis 4";
+         break;
+      case Device::MimeticDigitalis16:
+         name = "Mimetic Digitalis 16";
+         break;
+      case Device::ViceVirga2:
+         name = "Vice Virga 2";
+         break;
+      case Device::ViceVirga4:
+         name = "Vice Virga 4";
+         break;
+      case Device::ViceVirga8:
+         name = "Vice Virga 8";
+         break;
+      case Device::TotalRecall:
+         name = "Total Recall";
+         break;
+      default:
+         break;
+   }
+
+   return name;
+}
+
+CvSwitch::Size CvSwitch::StandardDevices::size(const Device& device)
+{
+   Size size = Size::Invalid;
+   switch (device)
+   {
+      case Device::MimeticDigitalis4:
+      case Device::ViceVirga4:
+         size = 4;
+         break;
+      case Device::MimeticDigitalis16:
+         size = 16;
+         break;
+      case Device::ViceVirga2:
+         size = 2;
+      case Device::ViceVirga8:
+         maxIndex = 8;
+         offsetVoltageList = VoltageList(8, 0.0);
+         break;
+      case Device::TotalRecall:
+         maxIndex = 8;
+         offsetVoltageList = VoltageList(8, 0.0);
+         offsetVoltageList[4] = -0.0100;
+         offsetVoltageList[5] = -0.0235;
+         offsetVoltageList[6] = -0.0350;
+         break;
+      default:
+         break;
+   }
+
+   return size;
+}
+
+CvSwitch::VoltageOffsetMap CvSwitch::StandardDevices::offsetMap(const Device& device)
+{
+}
+
+/*
 static const CvSwitch::VoltageMap defaultVoltageMap = CvSwitch::compileVoltageMap();
 
 CvSwitch::CvSwitch(const Device& device)
@@ -46,47 +169,7 @@ CvSwitch::CvSwitch(const Device& device)
    }
 }
 
-const std::string CvSwitch::deviceName(const Device& device)
-{
-   std::string name = "Unknown";
-   switch (device)
-   {
-      case Device::MimeticDigitalis4:
-         name = "Mimetic Digitalis 4";
-         break;
-      case Device::MimeticDigitalis16:
-         name = "Mimetic Digitalis 16";
-         break;
-      case Device::ViceVirga2:
-         name = "Vice Virga 2";
-         break;
-      case Device::ViceVirga4:
-         name = "Vice Virga 4";
-         break;
-      case Device::ViceVirga8:
-         name = "Vice Virga 8";
-         break;
-      case Device::TotalRecall:
-         name = "Total Recall";
-         break;
-      default:
-         break;
-   }
-
-   return name;
-}
-
-const CvSwitch::Device& CvSwitch::getDevice() const
-{
-   return device;
-}
-
-const uint8_t& CvSwitch::getMaxIndex() const
-{
-   return maxIndex;
-}
-
-float CvSwitch::map(const uint8_t index) const
+float CvSwitch::map(const uint8_t index, bool applyOffset) const
 {
    if (index >= maxIndex)
       return 0.0;
@@ -115,5 +198,6 @@ CvSwitch::VoltageMap CvSwitch::compileVoltageMap()
 
    return voltageMap;
 }
+*/
 
 #endif // CvSwitchHPP

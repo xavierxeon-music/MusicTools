@@ -8,9 +8,38 @@
 class CvSwitch
 {
 public:
+   enum class Size
+   {
+      None = 1,
+      Two = 2,
+      Four = 4,
+      Eight = 8,
+      Sixteen = 16
+   };
    using VoltageList = std::vector<float>;
-   using VoltageMap = std::map<uint8_t, VoltageList>;
 
+   using Step = uint8_t;
+   using VoltageOffsetMap = std::map<Step, float>;
+
+   struct StandardDevices;
+
+public:
+   inline CvSwitch(const Size& size, const VoltageOffsetMap& offestMap = VoltageOffsetMap());
+
+public:
+   inline uint8_t getMaxIndex() const;
+   inline float map(const uint8_t index, bool applyOffset = true) const;
+
+private:
+   inline const VoltageList& voltageList(const Size& size);
+
+private:
+   Size size;
+   VoltageOffsetMap offestMap;
+};
+
+struct CvSwitch::StandardDevices
+{
    enum class Device
    {
       MimeticDigitalis4,
@@ -21,21 +50,9 @@ public:
       TotalRecall
    };
 
-public:
-   inline CvSwitch(const Device& device);
-
-public:
-   inline static const std::string deviceName(const Device& device);
-   inline const Device& getDevice() const;
-   inline const uint8_t& getMaxIndex() const;
-   inline float map(const uint8_t index) const;
-
-   inline static VoltageMap compileVoltageMap();
-
-private:
-   uint8_t maxIndex;
-   VoltageList offsetVoltageList;
-   Device device;
+   inline static const std::string name(const Device& device);
+   inline static Size size(const Device& device);
+   inline static VoltageOffsetMap offsetMap(const Device& device);
 };
 
 #include "CvSwitch.hpp"
