@@ -5,6 +5,7 @@
 
 #include <MusicTools.h>
 
+// things that have steps that can also be set by CV
 class CvSwitch
 {
 public:
