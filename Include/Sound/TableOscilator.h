@@ -23,13 +23,14 @@ public:
    inline const float& getPhase() const;
 
    inline void setFrequency(const float& newFrequency);
+   inline void setCycleDuration(const float& cylceDuration);
    inline const float& getFrequency() const;
 
    inline void setAmplitude(const float& newAmplitude);
    inline const float& getAmplitude() const;
 
    inline float createSound() override;
-   inline static float frequencyFromCV(float cv);
+   inline static float frequencyFromCV(float voltage);
 
 private:
    inline void compileDeltaPhase();
@@ -43,6 +44,8 @@ private:
    float deltaPhase;
 };
 
+#ifndef TableOscilatorHPP
 #include <TableOscilator.hpp>
+#endif
 
 #endif // TableOscilatorH

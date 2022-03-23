@@ -65,6 +65,11 @@ void TableOscilator::setFrequency(const float& newFrequency)
    compileDeltaPhase();
 }
 
+void TableOscilator::setCycleDuration(const float& cylceDuration)
+{
+   setFrequency(1.0 / cylceDuration);
+}
+
 const float& TableOscilator::getFrequency() const
 {
    return frequency;
@@ -95,15 +100,15 @@ float TableOscilator::createSound()
    return value * amplitude;
 }
 
-float TableOscilator::frequencyFromCV(float cv)
+float TableOscilator::frequencyFromCV(float voltage)
 {
    static const float baseFreq[6] = {65.40639132514963f, 130.81278265029925f, 261.6255653005985f, 523.251130601197f, 1046.502261202394f, 2093.004522404789f};
 
-   if (0.0f > cv || 5.0f < cv)
+   if (0.0f > voltage || 5.0f < voltage)
       return 0.0f;
 
-   const uint8_t octave = static_cast<uint8_t>(cv);
-   const float rest = cv - octave;
+   const uint8_t octave = static_cast<uint8_t>(voltage);
+   const float rest = voltage - octave;
    const float frequency = baseFreq[octave] * pow(2, rest);
 
    return frequency;

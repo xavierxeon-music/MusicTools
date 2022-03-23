@@ -35,7 +35,7 @@ public:
    inline double getPercentage(const Division& division) const;
    inline uint8_t getBeatsPerMinute() const;
    // to control tempo
-   inline void advance(const float audioCallackRate); // to be called from audio loop
+   inline virtual void advance(const float audioCallackRate); // to be called from audio loop
    inline void clockTick();
    inline void clockReset();
 
