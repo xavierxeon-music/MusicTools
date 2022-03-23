@@ -127,13 +127,13 @@ CvSwitch::VoltageOffsetMap CvSwitch::StandardDevices::offsetMap(const TargetDevi
    switch (device)
    {
       case TargetDevice::MimeticDigitalis16:
-         offestMap[14] = 0.0140;
-         offestMap[15] = 0.0140;
+         offestMap[14] = 0.03;
+         offestMap[15] = 0.07;
          break;
       case TargetDevice::TotalRecall:
-         offestMap[4] = -0.0100;
-         offestMap[5] = -0.0235;
-         offestMap[6] = -0.0350;
+         offestMap[4] = -0.04;
+         offestMap[5] = -0.08;
+         offestMap[6] = -0.14;
          break;
       case TargetDevice::MimeticDigitalis4:
       case TargetDevice::ViceVirga2:
