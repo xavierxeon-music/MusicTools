@@ -41,7 +41,7 @@ const CvSwitch::VoltageList& CvSwitch::voltageList(const ChannelCount& channelCo
       for (const ChannelCount& cCount : {ChannelCount::Two, ChannelCount::Four, ChannelCount::Eight, ChannelCount::Sixteen})
       {
          const uint maxIndex = static_cast<uint8_t>(cCount);
-         const float diff = 1.0 / maxIndex;
+         const float diff = 5.0 / maxIndex;
          const float offset = 0.5 * diff;
 
          VoltageList voltageList;

@@ -6,6 +6,8 @@
 #include <MusicTools.h>
 
 // things that have steps that can also be set by CV
+// voltages range from 0.0V to 5.0V
+
 class CvSwitch
 {
 public:
@@ -58,6 +60,8 @@ struct CvSwitch::StandardDevices
    inline static VoltageOffsetMap offsetMap(const TargetDevice& device);
 };
 
+#ifndef CvSwitchHPP
 #include "CvSwitch.hpp"
+#endif
 
 #endif // CvSwitchH
