@@ -48,6 +48,8 @@ namespace Variable
 
 } // namespace Variable
 
-#include <Variable.hpp>
+#ifndef VariableHPP
+#include "../../Variable.hpp"
+#endif // NOT VariableHPP
 
-#endif // VariableH
+#endif // NOT VariableH

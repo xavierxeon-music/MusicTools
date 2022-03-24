@@ -1,5 +1,4 @@
 INCLUDEPATH += \
-   $$PWD \
    $$PWD/Include
 
 HEADERS += \
@@ -41,7 +40,6 @@ HEADERS += \
    $$PWD/GateOscilator.hpp \
    $$PWD/Glide.hpp \
    $$PWD/Graph.hpp \
-   $$PWD/MidiCommon.hpp \
    $$PWD/MusicTools.hpp \
    $$PWD/Range.hpp \
    $$PWD/RingBuffer.hpp \

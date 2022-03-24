@@ -50,6 +50,8 @@ struct Range
    static const DataType& clamp(const DataType& value, const DataType& min, const DataType& max);
 };
 
-#include <Range.hpp>
+#ifndef RangeHPP
+#include "../../Range.hpp"
+#endif // RangeHPP
 
 #endif // RangeH

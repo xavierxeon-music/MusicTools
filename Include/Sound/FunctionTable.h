@@ -27,6 +27,8 @@ protected:
    float* table;
 };
 
-#include <FunctionTable.hpp>
+#ifndef FunctionTableHPP
+#include "../../FunctionTable.hpp"
+#endif // NOT FunctionTableHPP
 
-#endif //  FunctionTableH
+#endif // NOT FunctionTableH

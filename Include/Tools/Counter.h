@@ -21,6 +21,8 @@ private:
    uint64_t currentValue;
 };
 
-#include <Counter.hpp>
+#ifndef CounterHPP
+#include "../../Counter.hpp"
+#endif // CounterHPP
 
 #endif // CounterH

@@ -45,7 +45,7 @@ private:
 };
 
 #ifndef TableOscilatorHPP
-#include <TableOscilator.hpp>
+#include "../../TableOscilator.hpp"
 #endif
 
 #endif // TableOscilatorH

@@ -67,6 +67,4 @@ namespace Midi
 
 } // namespace Midi
 
-#include "MidiCommon.hpp"
-
 #endif // MidiCommonH

@@ -76,6 +76,8 @@ private:
    bool firstTickDone;
 };
 
-#include "Graph.hpp"
+#ifndef GraphHPP
+#include "../../Graph.hpp"
+#endif // NOT GraphHPP
 
-#endif // GraphH
+#endif // NOT GraphH

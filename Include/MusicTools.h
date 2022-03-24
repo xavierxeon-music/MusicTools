@@ -11,6 +11,8 @@ inline Bytes& operator<<(Bytes& data, const uint8_t& byte);
 
 inline void print(const Bytes& data, bool withAscii = false);
 
-#include "MusicTools.hpp"
+#ifndef MusicToolsHPP
+#include "../MusicTools.hpp"
+#endif // NOT MusicToolsHPP
 
-#endif // MusicToolsH
+#endif // NOT MusicToolsH

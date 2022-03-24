@@ -13,6 +13,8 @@ struct Convert
    inline static std::string text(const float& value, const uint8_t& decimalPlaces = 2);
 };
 
-#include <Convert.hpp>
+#ifndef ConvertHPP
+#include "../../Convert.hpp"
+#endif // ConvertHPP
 
 #endif // ConvertH

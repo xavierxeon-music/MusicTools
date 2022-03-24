@@ -25,6 +25,8 @@ struct Standard
    static constexpr uint64_t tableSize = 4096; // TODO try smaller size
 };
 
-#include <StandardTable.hpp>
+#ifndef StandardTableHPP
+#include "../../StandardTable.hpp"
+#endif // NOT StandardTableHPP
 
 #endif // StandardTableH

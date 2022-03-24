@@ -49,6 +49,8 @@ private:
    RunState runState;
 };
 
-#include <Tempo.hpp>
+#ifndef TempoHPP
+#include "../../Tempo.hpp"
+#endif // NOT Tempo.hpp
 
-#endif // TempoH
+#endif // NOT TempoH

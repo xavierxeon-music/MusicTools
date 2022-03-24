@@ -22,6 +22,8 @@ protected:
    const float maxAngle;
 };
 
-#include <CircularTable.hpp>
+#ifndef CircularTableHPP
+#include "../../CircularTable.hpp"
+#endif // NOT CircularTableHPP
 
-#endif // CircularTableH
+#endif // NOT CircularTableH

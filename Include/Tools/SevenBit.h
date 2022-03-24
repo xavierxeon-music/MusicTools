@@ -12,6 +12,8 @@ public:
    inline static Bytes decode(const Bytes& input);
 };
 
-#include "SevenBit.hpp"
+#ifndef SevenBitHPP
+#include "../../SevenBit.hpp"
+#endif // NOT SevenBitHPP
 
-#endif // SevenBitH
+#endif // NOT SevenBitH
