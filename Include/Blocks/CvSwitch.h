@@ -61,7 +61,7 @@ struct CvSwitch::StandardDevices
 };
 
 #ifndef CvSwitchHPP
-#include "CvSwitch.hpp"
+#include "../../CvSwitch.hpp"
 #endif
 
 #endif // CvSwitchH

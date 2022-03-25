@@ -29,6 +29,8 @@ private:
    static const uint64_t max = std::numeric_limits<uint32_t>::max();
 };
 
-#include <FastRandom.hpp>
+#ifndef FastRandomHPP
+#include "../../FastRandom.hpp"
+#endif // NOT FastRandomHPP
 
-#endif // FastRandomH
+#endif // NOT FastRandomH

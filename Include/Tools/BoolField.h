@@ -8,10 +8,10 @@ class BoolField
 {
 public:
    BoolField();
-   BoolField(const IntegerType& value);
+   BoolField(IntegerType value); // no const ref to make it work with remember value
 
 public:
-   BoolField& operator=(const IntegerType& value);
+   BoolField& operator=(IntegerType value);
    operator IntegerType() const;
 
    size_t size() const; // the number of bits
@@ -25,6 +25,11 @@ private:
    IntegerType data;
 };
 
-#include <BoolField.hpp>
+using BoolField8 = BoolField<uint8_t>;
+using BoolField16 = BoolField<uint16_t>;
+
+#ifndef BoolFieldHPP
+#include "../../BoolField.hpp"
+#endif // NOT BoolFieldHPP
 
 #endif // BoolFieldH

@@ -13,14 +13,14 @@ BoolField<IntegerType>::BoolField()
 }
 
 template <typename IntegerType>
-BoolField<IntegerType>::BoolField(const IntegerType& value)
+BoolField<IntegerType>::BoolField(IntegerType value)
    : BoolField()
 {
    *this = value;
 }
 
 template <typename IntegerType>
-BoolField<IntegerType>& BoolField<IntegerType>::operator=(const IntegerType& value)
+BoolField<IntegerType>& BoolField<IntegerType>::operator=(IntegerType value)
 {
    data = value;
    return *this;

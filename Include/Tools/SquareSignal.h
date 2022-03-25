@@ -22,6 +22,8 @@ private:
    bool state;
 };
 
-#include <SquareSignal.hpp>
+#ifndef SquareSignalHPP
+#include "../../SquareSignal.hpp"
+#endif // SquareSignalHPP
 
 #endif // SquareSignalH
