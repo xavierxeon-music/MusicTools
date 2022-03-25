@@ -162,6 +162,11 @@ Graph::Stage& Graph::getStage(const uint8_t& index)
    return stages[index];
 }
 
+const Graph::Stage& Graph::getStage(const uint8_t& index) const
+{
+   return stages[index];
+}
+
 void Graph::addStage(const uint8_t& startHeight, const uint8_t& stageLength, const uint8_t& atIndex, bool expandLength)
 {
    if (255 == stages.size())

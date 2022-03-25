@@ -49,6 +49,7 @@ public:
 
    inline uint8_t stageCount() const;
    inline Stage& getStage(const uint8_t& index);
+   inline const Stage& getStage(const uint8_t& index) const;
    // expandLength = true: adjust graph length to fit stages
    // expandLength = false: if new length exeeds current length, then do not add stage
    inline void addStage(const uint8_t& startHeight, const uint8_t& stageLength, const uint8_t& atIndex, bool expandLength = true);
