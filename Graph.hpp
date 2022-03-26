@@ -134,7 +134,7 @@ void Graph::setLength(const uint8_t newLength, bool autoDiscard)
    }
    else
    {
-      if (cutoffIndex >= stages.size())
+      if (cutoffIndex > stages.size())
          return;
 
       length = newLength;
