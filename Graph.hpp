@@ -5,32 +5,40 @@
 
 #include <Tools/Variable.h>
 
-// points
+// stage
 
 Graph::Stage::Stage(const uint8_t& startHeight, const uint8_t& length)
-   : startHeight(this, startHeight)
+   : Remember::Container()
+   , startHeight(this, startHeight)
    , length(this, length)
+{
+}
+
+Graph::Stage::Stage(const Stage& other)
+   : Remember::Container()
+   , startHeight(this, other.startHeight)
+   , length(this, other.length)
 {
 }
 
 Graph::Stage::~Stage()
 {
+   // NEED virtual destructor, else compiler warning!
 }
 
-uint8_t Graph::Stage::getStartHeight() const
+Graph::Stage& Graph::Stage::operator=(const Stage& other)
 {
-   return startHeight;
-}
+   startHeight = other.startHeight;
+   length = other.length;
 
-uint8_t Graph::Stage::getLength() const
-{
-   return length;
+   return *this;
 }
 
 // graph
 
 Graph::Graph()
-   : stepSize(this, Tempo::Division::Bar)
+   : Remember::Container()
+   , stepSize(this, Tempo::Division::Bar)
    , length(this, 0)
    , stages(this)
    , currentStageIndex(0)
@@ -120,7 +128,7 @@ void Graph::setLength(const uint8_t newLength, bool autoDiscard)
    uint32_t testLength = 0;
    for (uint8_t index = 0; index < stages.size(); index++)
    {
-      testLength += stages[index].getLength();
+      testLength += stages[index].length;
       if (testLength >= newLength)
          break;
       cutoffIndex = index;
@@ -146,7 +154,7 @@ void Graph::trimLength()
 {
    uint32_t newLength = 0;
    for (uint8_t index = 0; index < stages.size(); index++)
-      newLength += stages[index].getLength();
+      newLength += stages[index].length;
 
    length = newLength;
    Remember::Root::setUnsynced();
@@ -157,26 +165,16 @@ uint8_t Graph::stageCount() const
    return stages.size();
 }
 
-Graph::Stage& Graph::getStage(const uint8_t& index)
-{
-   return stages[index];
-}
-
-const Graph::Stage& Graph::getStage(const uint8_t& index) const
-{
-   return stages[index];
-}
-
-void Graph::addStage(const uint8_t& startHeight, const uint8_t& stageLength, const uint8_t& atIndex, bool expandLength)
+bool Graph::addStage(const uint8_t& startHeight, const uint8_t& stageLength, const uint8_t& atIndex, bool expandLength)
 {
    if (255 == stages.size())
-      return;
+      return false;
 
    Stage stage(startHeight, stageLength);
 
    uint32_t newLength = stageLength;
    for (uint8_t index = 0; index < stages.size(); index++)
-      newLength += stages[index].getLength();
+      newLength += stages[index].length;
 
    if (expandLength)
    {
@@ -189,16 +187,53 @@ void Graph::addStage(const uint8_t& startHeight, const uint8_t& stageLength, con
    else
    {
       if (newLength > length)
-         return;
+         return false;
       stages.insert(stage, atIndex);
    }
    Remember::Root::setUnsynced();
+   return true;
 }
 
 void Graph::removeStage(const uint8_t& index)
 {
    stages.remove(index);
    Remember::Root::setUnsynced();
+}
+
+uint8_t Graph::getStageStartHeight(const uint8_t& index)
+{
+   return stages[index].startHeight;
+}
+
+void Graph::setStageStartHeight(const uint8_t& index, const uint8_t& startHeight)
+{
+   stages[index].startHeight = startHeight;
+   Remember::Root::setUnsynced();
+}
+
+uint8_t Graph::getStageLength(const uint8_t& index)
+{
+   return stages[index].length;
+}
+
+bool Graph::setStageLength(const uint8_t& index, const uint8_t& stageLength, bool expandLength)
+{
+   uint32_t newLength = stageLength;
+   for (uint8_t stageIndex = 0; stageIndex < stages.size(); stageIndex++)
+   {
+      if (index == stageIndex)
+         continue;
+      newLength += stages[stageIndex].length;
+   }
+
+   if (!expandLength && newLength > length)
+      return false;
+
+   stages[index].length = stageLength;
+   length = newLength;
+   Remember::Root::setUnsynced();
+
+   return true;
 }
 
 uint8_t Graph::getCurrentStageIndex() const
