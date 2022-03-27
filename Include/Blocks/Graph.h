@@ -6,6 +6,15 @@
 #include <Music/Tempo.h>
 #include <Tools/Counter.h>
 
+// a stage liinearly changes its value during its length from its start height to the start height of the next stage
+// the length of the last stage is ignored.
+//  * instead the remaining length in the graph is used.
+//  * the end value is the start height of the first stage
+// if anythong but the height of a stage is edited the graph will be reset
+// if the graph is not looping the value will always be zero after the last stage
+
+// CALL clockReset AFTER LOAD!
+
 class Graph : public Remember::Container
 {
 public:
@@ -20,9 +29,14 @@ public:
    inline Graph();
 
 public:
-   inline void init();
    inline void clockTick();
    inline void clockReset();
+
+   inline uint8_t getCurrentStageIndex() const;
+   inline float getCurrentStagePercentage(const float& precentToNextTick = 0.0) const;
+   inline float getCurrentValue(const float& precentToNextTick = 0.0) const;
+
+   inline bool isValid() const;
 
    inline Tempo::Division getStepSize() const;
    inline void setStepSize(const Tempo::Division& newStepSize);
@@ -47,14 +61,9 @@ public:
    // expandLength = false: if new length exeeds current length, then do not add stage
    inline LengthStatus setStageLength(const uint8_t& index, const uint8_t& stageLength, bool expandLength = true);
 
-   inline uint8_t getCurrentStageIndex() const;
-   inline float getCurrentStagePercentage(const float& precentToNextTick = 0.0) const;
-   inline float getCurrentValue(const float& precentToNextTick = 0.0) const;
-
    inline bool isLooping() const;
    inline void setLooping(bool on);
 
-   inline bool isValid() const;
 
 private:
    class Stage : public Remember::Container
@@ -76,6 +85,10 @@ private:
       StageLength_ stageLength;
    };
 
+private:
+   inline uint32_t compileStageLength(const uint8_t& index) const;
+
+private:
    using StepSize_ = Remember::Value<Tempo::Division>;
    using Length_ = Remember::Value<uint32_t>;
    using StageList_ = Remember::RefList<Stage>;
@@ -83,12 +96,14 @@ private:
 
 private:
    StepSize_ stepSize;
-   Length_ length;
+   Length_ graphLength;
    StageList_ stages;
    Loop_ loop;
+   bool pastLoop;
 
    uint64_t currentStageIndex;
    Counter stepSizeCounter;
+   uint32_t stepsTaken;
    Counter stageLengthCounter;
    bool firstTickDone;
 };

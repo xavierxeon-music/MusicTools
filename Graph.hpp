@@ -16,9 +16,10 @@ Graph::Stage::Stage(const uint8_t& startHeight, const uint8_t& stageLength)
 
 Graph::Stage::Stage(const Stage& other)
    : Remember::Container()
-   , startHeight(this, other.startHeight)
-   , stageLength(this, other.stageLength)
+   , startHeight(this, 0)
+   , stageLength(this, 0)
 {
+   *this = other;
 }
 
 Graph::Stage::~Stage()
@@ -39,29 +40,21 @@ Graph::Stage& Graph::Stage::operator=(const Stage& other)
 Graph::Graph()
    : Remember::Container()
    , stepSize(this, Tempo::Division::Bar)
-   , length(this, 0)
+   , graphLength(this, 0)
    , stages(this)
    , loop(this, true)
+   , pastLoop(false)
    , currentStageIndex(0)
    , stepSizeCounter(0)
+   , stepsTaken(0)
    , stageLengthCounter(0)
    , firstTickDone(false)
 {
 }
 
-void Graph::init()
-{
-   stepSizeCounter.setMaxValue(static_cast<Tempo::Division>(stepSize));
-
-   if (isValid())
-   {
-      // TODO points??
-   }
-}
-
 void Graph::clockTick()
 {
-   if (!isValid())
+   if (!isValid() || pastLoop)
       return;
 
    if (!firstTickDone) // ignore the first clock tick
@@ -74,9 +67,31 @@ void Graph::clockTick()
    {
       if (stageLengthCounter.nextAndIsMaxValue())
       {
-         // TODO points??
+         uint32_t duration = 0;
+         do
+         {
+            stepsTaken += stages[currentStageIndex].stageLength;
+            currentStageIndex++;
+            if (currentStageIndex == stages.size()) // end of graph
+            {
+               if (!loop)
+               {
+                  pastLoop = true;
+                  return;
+               }
+               // TODO not loop
+               stepsTaken = 0;
+               currentStageIndex = 0;
+            }
+
+            duration = compileStageLength(currentStageIndex);
+         }
+         while (0 == duration);
+         stageLengthCounter.setMaxValue(compileStageLength(currentStageIndex));
       }
    }
+
+   //qDebug() << __FUNCTION__ << stepSizeCounter.getCurrentValue() << stageLengthCounter.getCurrentValue();
 }
 
 void Graph::clockReset()
@@ -84,13 +99,58 @@ void Graph::clockReset()
    stepSizeCounter.reset();
    stageLengthCounter.reset();
 
+   stepSizeCounter.setMaxValue(static_cast<Tempo::Division>(stepSize));
+   stageLengthCounter.setMaxValue(compileStageLength(0));
+
    firstTickDone = false;
    currentStageIndex = 0;
+   stepsTaken = 0;
+   pastLoop = false;
+}
 
-   if (isValid())
-   {
-      // TODO points??
-   }
+uint8_t Graph::getCurrentStageIndex() const
+{
+   return currentStageIndex;
+}
+
+float Graph::getCurrentStagePercentage(const float& precentToNextTick) const
+{
+   if (!isValid())
+      return 0.0;
+
+   const float tickContribution = static_cast<float>(precentToNextTick + stepSizeCounter.getCurrentValue()) / static_cast<float>(stepSizeCounter.getMaxValue());
+   const float stepContribution = static_cast<float>(stageLengthCounter.getCurrentValue());
+   const float duration = static_cast<float>(compileStageLength(currentStageIndex));
+
+   const float percentage = (tickContribution + stepContribution) / duration;
+   return percentage;
+}
+
+float Graph::getCurrentValue(const float& precentToNextTick) const
+{
+   if (!isValid() || pastLoop)
+      return 0.0;
+
+   const float startValue = stages[currentStageIndex].startHeight;
+   const bool isLastStage = (currentStageIndex + 1 >= stages.size());
+   const float endValue = isLastStage ? stages[0].startHeight : stages[currentStageIndex + 1].startHeight;
+
+   const float percentage = getCurrentStagePercentage(precentToNextTick);
+   const float diffValue = percentage * (endValue - startValue);
+
+   const float value = startValue + diffValue;
+   return value;
+}
+
+bool Graph::isValid() const
+{
+   if (0 == stages.size())
+      return false;
+
+   if (0 == graphLength)
+      return false;
+
+   return true;
 }
 
 Tempo::Division Graph::getStepSize() const
@@ -115,12 +175,12 @@ void Graph::changeStepSize(bool longer)
    var.change(longer);
 
    Remember::Root::setUnsynced();
-   stepSizeCounter.setMaxValue(static_cast<uint8_t>(stepSize));
+   clockReset();
 }
 
 uint32_t Graph::getLength() const
 {
-   return length;
+   return graphLength;
 }
 
 Graph::LengthStatus Graph::setLength(const uint32_t newLength, bool autoDiscard)
@@ -135,10 +195,10 @@ Graph::LengthStatus Graph::setLength(const uint32_t newLength, bool autoDiscard)
       cutoffIndex = index;
    }
 
-   LengthStatus result = (length == newLength) ? LengthStatus::Kept : LengthStatus::Changed;
+   LengthStatus result = (graphLength == newLength) ? LengthStatus::Kept : LengthStatus::Changed;
    if (autoDiscard)
    {
-      length = newLength;
+      graphLength = newLength;
       while (cutoffIndex < stages.size())
       {
          stages.remove(cutoffIndex);
@@ -149,10 +209,11 @@ Graph::LengthStatus Graph::setLength(const uint32_t newLength, bool autoDiscard)
       if (cutoffIndex > stages.size())
          return LengthStatus::Error;
 
-      length = newLength;
+      graphLength = newLength;
    }
 
    Remember::Root::setUnsynced();
+   clockReset();
    return result;
 }
 
@@ -162,8 +223,10 @@ void Graph::trimLength()
    for (uint8_t index = 0; index < stages.size(); index++)
       newLength += stages[index].stageLength;
 
-   length = newLength;
+   graphLength = newLength;
+
    Remember::Root::setUnsynced();
+   clockReset();
 }
 
 uint8_t Graph::stageCount() const
@@ -180,6 +243,7 @@ Graph::LengthStatus Graph::addStage(const uint8_t& afterIndex)
    stages.insert(stage, afterIndex + 1);
 
    Remember::Root::setUnsynced();
+   clockReset();
    return LengthStatus::Kept;
 }
 
@@ -194,12 +258,14 @@ void Graph::moveStage(const uint8_t& fromIndex, const uint8_t& toIndex)
    stages.insert(stageCopy, toIndex);
 
    Remember::Root::setUnsynced();
+   clockReset();
 }
 
 void Graph::removeStage(const uint8_t& index)
 {
    stages.remove(index);
    Remember::Root::setUnsynced();
+   clockReset();
 }
 
 uint8_t Graph::getStageStartHeight(const uint8_t& index)
@@ -228,31 +294,15 @@ Graph::LengthStatus Graph::setStageLength(const uint8_t& index, const uint8_t& s
       newLength += stages[stageIndex].stageLength;
    }
 
-   if (!expandLength && newLength > length)
+   if (!expandLength && newLength > graphLength)
       return LengthStatus::Error;
 
    stages[index].stageLength = stageLength;
-   length = newLength;
+   graphLength = newLength;
 
    Remember::Root::setUnsynced();
+   clockReset();
    return LengthStatus::Changed;
-}
-
-uint8_t Graph::getCurrentStageIndex() const
-{
-   return currentStageIndex;
-}
-
-float Graph::getCurrentStagePercentage(const float& precentToNextTick) const
-{
-   (void)precentToNextTick;
-   return 0.0;
-}
-
-float Graph::getCurrentValue(const float& precentToNextTick) const
-{
-   (void)precentToNextTick;
-   return 0.0;
 }
 
 bool Graph::isLooping() const
@@ -264,17 +314,24 @@ void Graph::setLooping(bool on)
 {
    loop = on;
    Remember::Root::setUnsynced();
+   clockReset();
 }
 
-bool Graph::isValid() const
+uint32_t Graph::compileStageLength(const uint8_t& index) const
 {
-   if (0 == stages.size())
-      return false;
+   if (0 == graphLength || 0 == stages.size())
+      return 0;
 
-   if (0 == length)
-      return false;
-
-   return true;
+   const bool isLastStage = (index + 1 >= stages.size());
+   if (!isLastStage)
+   {
+      return stages[index].stageLength;
+   }
+   else
+   {
+      const uint32_t remainingSteps = graphLength - stepsTaken;
+      return remainingSteps;
+   }
 }
 
 #endif // GraphHPP
