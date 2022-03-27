@@ -35,15 +35,16 @@ public:
    inline void trimLength(); // set length to fit stages
 
    inline uint8_t stageCount() const;
-   // expandLength = true: adjust graph length to fit stages
-   // expandLength = false: if new length exeeds current length, then do not add stage
-   inline LengthStatus addStage(const uint8_t& atIndex, const uint8_t& startHeight, const uint8_t& stageLength, bool expandLength = true);
+   inline LengthStatus addStage(const uint8_t& afterIndex);
+   inline void moveStage(const uint8_t& fromIndex, const uint8_t& toIndex);
    inline void removeStage(const uint8_t& index);
 
    inline uint8_t getStageStartHeight(const uint8_t& index);
    inline void setStageStartHeight(const uint8_t& index, const uint8_t& startHeight);
 
    inline uint8_t getStageLength(const uint8_t& index);
+   // expandLength = true: adjust graph length to fit stages
+   // expandLength = false: if new length exeeds current length, then do not add stage
    inline LengthStatus setStageLength(const uint8_t& index, const uint8_t& stageLength, bool expandLength = true);
 
    inline uint8_t getCurrentStageIndex() const;

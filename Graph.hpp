@@ -171,35 +171,29 @@ uint8_t Graph::stageCount() const
    return stages.size();
 }
 
-Graph::LengthStatus Graph::addStage(const uint8_t& startHeight, const uint8_t& stageLength, const uint8_t& atIndex, bool expandLength)
+Graph::LengthStatus Graph::addStage(const uint8_t& afterIndex)
 {
    if (255 == stages.size())
       return LengthStatus::Error;
 
-   Stage stage(startHeight, stageLength);
-
-   uint32_t newLength = stageLength;
-   for (uint8_t index = 0; index < stages.size(); index++)
-      newLength += stages[index].stageLength;
-
-   LengthStatus result = (length == newLength) ? LengthStatus::Kept : LengthStatus::Changed;
-   if (expandLength)
-   {
-      stages.insert(stage, atIndex);
-      if (newLength > length)
-      {
-         length = newLength;
-      }
-   }
-   else
-   {
-      if (newLength > length)
-         return LengthStatus::Error;
-      stages.insert(stage, atIndex);
-   }
+   Stage stage;
+   stages.insert(stage, afterIndex + 1);
 
    Remember::Root::setUnsynced();
-   return result;
+   return LengthStatus::Kept;
+}
+
+void Graph::moveStage(const uint8_t& fromIndex, const uint8_t& toIndex)
+{
+   if (fromIndex == toIndex)
+      return;
+
+   Stage stageCopy = stages[fromIndex];
+
+   stages.remove(fromIndex);
+   stages.insert(stageCopy, toIndex);
+
+   Remember::Root::setUnsynced();
 }
 
 void Graph::removeStage(const uint8_t& index)
