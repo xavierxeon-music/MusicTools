@@ -294,11 +294,14 @@ Graph::LengthStatus Graph::setStageLength(const uint8_t& index, const uint8_t& s
       newLength += stages[stageIndex].stageLength;
    }
 
-   if (!expandLength && newLength > graphLength)
-      return LengthStatus::Error;
-
+   if (newLength > graphLength)
+   {
+      if (expandLength)
+         graphLength = newLength;
+      else
+         return LengthStatus::Error;
+   }
    stages[index].stageLength = stageLength;
-   graphLength = newLength;
 
    Remember::Root::setUnsynced();
    clockReset();
