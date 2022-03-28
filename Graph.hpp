@@ -185,15 +185,17 @@ uint32_t Graph::getLength() const
 
 Graph::LengthStatus Graph::setLength(const uint32_t newLength, bool autoDiscard)
 {
-   uint8_t cutoffIndex = 0;
+   uint8_t keepUntilIndex = 0;
    uint32_t testLength = 0;
    for (uint8_t index = 0; index < stages.size(); index++)
    {
       testLength += stages[index].stageLength;
       if (testLength >= newLength)
          break;
-      cutoffIndex = index;
+      keepUntilIndex = index;
    }
+
+   const uint8_t cutoffIndex = keepUntilIndex + 1;
 
    LengthStatus result = (graphLength == newLength) ? LengthStatus::Kept : LengthStatus::Changed;
    if (autoDiscard)
