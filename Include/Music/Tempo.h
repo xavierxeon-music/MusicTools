@@ -5,6 +5,7 @@
 #include <Tools/Counter.h>
 #include <Tools/RingBuffer.h>
 
+// expects 4PPQ, i.e. a clock tick every 16th step
 class Tempo
 {
 public:
