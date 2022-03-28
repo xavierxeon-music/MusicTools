@@ -49,7 +49,7 @@ public:
    inline void trimLength(); // set length to fit stages
 
    inline uint8_t stageCount() const;
-   inline LengthStatus addStage(const uint8_t& afterIndex);
+   inline LengthStatus addStage(const uint8_t& afterIndex, const uint32_t& numberOfStages = 1);
    inline void moveStage(const uint8_t& fromIndex, const uint8_t& toIndex);
    inline void removeStage(const uint8_t& index);
 
@@ -60,6 +60,7 @@ public:
    // expandLength = true: adjust graph length to fit stages
    // expandLength = false: if new length exeeds current length, then do not add stage
    inline LengthStatus setStageLength(const uint8_t& index, const uint8_t& stageLength, bool expandLength = true);
+   inline LengthStatus setStageStartHeigthAndLength(const uint8_t& index, const uint8_t& startHeight, const uint8_t& stageLength, bool expandLength = true);
 
    inline bool isLooping() const;
    inline void setLooping(bool on);
