@@ -1,5 +1,5 @@
-#ifndef GraphH
-#define GraphH
+#ifndef PolyRampH
+#define PolyRampH
 
 #include <Remember.h>
 
@@ -8,14 +8,14 @@
 
 // a stage liinearly changes its value during its length from its start height to the start height of the next stage
 // the length of the last stage is ignored.
-//  * instead the remaining length in the graph is used.
+//  * instead the remaining length in the PolyRamp is used.
 //  * the end value is the start height of the first stage
-// if anythong but the height of a stage is edited the graph will be reset
-// if the graph is not looping the value will always be zero after the last stage
+// if anything other than the height of a stage is edited the PolyRamp will be reset
+// if the PolyRamp is not looping the value will always be zero after the last stage
 
 // CALL clockReset AFTER LOAD!
 
-class Graph : public Remember::Container
+class PolyRamp : public Remember::Container
 {
 public:
    enum class LengthStatus
@@ -26,7 +26,7 @@ public:
    };
 
 public:
-   inline Graph();
+   inline PolyRamp();
 
 public:
    inline void clockTick();
@@ -57,14 +57,13 @@ public:
    inline void setStageStartHeight(const uint8_t& index, const uint8_t& startHeight);
 
    inline uint8_t getStageLength(const uint8_t& index);
-   // expandLength = true: adjust graph length to fit stages
+   // expandLength = true: adjust PolyRamp length to fit stages
    // expandLength = false: if new length exeeds current length, then do not add stage
    inline LengthStatus setStageLength(const uint8_t& index, const uint8_t& stageLength, bool expandLength = true);
    inline LengthStatus setStageStartHeigthAndLength(const uint8_t& index, const uint8_t& startHeight, const uint8_t& stageLength, bool expandLength = true);
 
    inline bool isLooping() const;
    inline void setLooping(bool on);
-
 
 private:
    class Stage : public Remember::Container
@@ -77,7 +76,7 @@ private:
       inline Stage& operator=(const Stage& other);
 
    private:
-      friend class Graph;
+      friend class PolyRamp;
       using StartHeight_ = Remember::Value<uint8_t>;
       using StageLength_ = Remember::Value<uint8_t>;
 
@@ -97,7 +96,7 @@ private:
 
 private:
    StepSize_ stepSize;
-   Length_ graphLength;
+   Length_ PolyRampLength;
    StageList_ stages;
    Loop_ loop;
    bool pastLoop;
@@ -109,8 +108,8 @@ private:
    bool firstTickDone;
 };
 
-#ifndef GraphHPP
-#include "../../Graph.hpp"
-#endif // NOT GraphHPP
+#ifndef PolyRampHPP
+#include "../../PolyRamp.hpp"
+#endif // NOT PolyRampHPP
 
-#endif // NOT GraphH
+#endif // NOT PolyRampH

@@ -7,14 +7,14 @@
 
 // stage
 
-Graph::Stage::Stage(const uint8_t& startHeight, const uint8_t& stageLength)
+Graph::PolyRamp::PolyRamp(const uint8_t& startHeight, const uint8_t& stageLength)
    : Remember::Container()
    , startHeight(this, startHeight)
    , stageLength(this, stageLength)
 {
 }
 
-Graph::Stage::Stage(const Stage& other)
+Graph::PolyRamp::PolyRamp(const PolyRamp& other)
    : Remember::Container()
    , startHeight(this, 0)
    , stageLength(this, 0)
@@ -22,12 +22,12 @@ Graph::Stage::Stage(const Stage& other)
    *this = other;
 }
 
-Graph::Stage::~Stage()
+Graph::PolyRamp::~PolyRamp()
 {
    // NEED virtual destructor, else compiler warning!
 }
 
-Graph::Stage& Graph::Stage::operator=(const Stage& other)
+Graph::PolyRamp& Graph::PolyRamp::operator=(const PolyRamp& other)
 {
    startHeight = other.startHeight;
    stageLength = other.stageLength;
@@ -44,7 +44,7 @@ Graph::Graph()
    , stages(this)
    , loop(this, true)
    , pastLoop(false)
-   , currentStageIndex(0)
+   , currentPolyRampIndex(0)
    , stepSizeCounter(0)
    , stepsTaken(0)
    , stageLengthCounter(0)
@@ -70,9 +70,9 @@ void Graph::clockTick()
          uint32_t duration = 0;
          do
          {
-            stepsTaken += stages[currentStageIndex].stageLength;
-            currentStageIndex++;
-            if (currentStageIndex == stages.size()) // end of graph
+            stepsTaken += stages[currentPolyRampIndex].stageLength;
+            currentPolyRampIndex++;
+            if (currentPolyRampIndex == stages.size()) // end of graph
             {
                if (!loop)
                {
@@ -81,13 +81,13 @@ void Graph::clockTick()
                }
                // TODO not loop
                stepsTaken = 0;
-               currentStageIndex = 0;
+               currentPolyRampIndex = 0;
             }
 
-            duration = compileStageLength(currentStageIndex);
+            duration = compilePolyRampLength(currentPolyRampIndex);
          }
          while (0 == duration);
-         stageLengthCounter.setMaxValue(compileStageLength(currentStageIndex));
+         stageLengthCounter.setMaxValue(compilePolyRampLength(currentPolyRampIndex));
       }
    }
 
@@ -100,15 +100,15 @@ void Graph::clockReset()
    stageLengthCounter.reset();
 
    stepSizeCounter.setMaxValue(static_cast<Tempo::Division>(stepSize));
-   currentStageIndex = 0;
+   currentPolyRampIndex = 0;
 
    if (isValid())
    {
-      uint32_t duration = compileStageLength(currentStageIndex);
+      uint32_t duration = compilePolyRampLength(currentPolyRampIndex);
       while (0 == duration)
       {
-         currentStageIndex++;
-         duration = compileStageLength(currentStageIndex);
+         currentPolyRampIndex++;
+         duration = compilePolyRampLength(currentPolyRampIndex);
       }
       stageLengthCounter.setMaxValue(duration);
    }
@@ -122,19 +122,19 @@ void Graph::clockReset()
    pastLoop = false;
 }
 
-uint8_t Graph::getCurrentStageIndex() const
+uint8_t Graph::getCurrentPolyRampIndex() const
 {
-   return currentStageIndex;
+   return currentPolyRampIndex;
 }
 
-float Graph::getCurrentStagePercentage(const float& precentToNextTick) const
+float Graph::getCurrentPolyRampPercentage(const float& precentToNextTick) const
 {
    if (!isValid())
       return 0.0;
 
    const float tickContribution = static_cast<float>(precentToNextTick + stepSizeCounter.getCurrentValue()) / static_cast<float>(stepSizeCounter.getMaxValue());
    const float stepContribution = static_cast<float>(stageLengthCounter.getCurrentValue());
-   const float duration = static_cast<float>(compileStageLength(currentStageIndex));
+   const float duration = static_cast<float>(compilePolyRampLength(currentPolyRampIndex));
    if (0.0 == duration)
       return 0.0;
 
@@ -147,11 +147,11 @@ float Graph::getCurrentValue(const float& precentToNextTick) const
    if (!isValid() || pastLoop)
       return 0.0;
 
-   const float startValue = stages[currentStageIndex].startHeight;
-   const bool isLastStage = (currentStageIndex + 1 >= stages.size());
-   const float endValue = isLastStage ? stages[0].startHeight : stages[currentStageIndex + 1].startHeight;
+   const float startValue = stages[currentPolyRampIndex].startHeight;
+   const bool isLastPolyRamp = (currentPolyRampIndex + 1 >= stages.size());
+   const float endValue = isLastPolyRamp ? stages[0].startHeight : stages[currentPolyRampIndex + 1].startHeight;
 
-   const float percentage = getCurrentStagePercentage(precentToNextTick);
+   const float percentage = getCurrentPolyRampPercentage(precentToNextTick);
    const float diffValue = percentage * (endValue - startValue);
 
    const float value = startValue + diffValue;
@@ -252,17 +252,17 @@ uint8_t Graph::stageCount() const
    return stages.size();
 }
 
-Graph::LengthStatus Graph::addStage(const uint8_t& afterIndex, const uint32_t& numberOfStages)
+Graph::LengthStatus Graph::addPolyRamp(const uint8_t& afterIndex, const uint32_t& numberOfPolyRamps)
 {
-   if (0 == numberOfStages)
+   if (0 == numberOfPolyRamps)
       return LengthStatus::Error;
 
    if (255 == stages.size())
       return LengthStatus::Error;
 
-   for (uint32_t counter = 0; counter < numberOfStages; counter++)
+   for (uint32_t counter = 0; counter < numberOfPolyRamps; counter++)
    {
-      Stage stage;
+      PolyRamp stage;
       stages.insert(stage, afterIndex + 1);
 
       if (255 == stages.size())
@@ -274,12 +274,12 @@ Graph::LengthStatus Graph::addStage(const uint8_t& afterIndex, const uint32_t& n
    return LengthStatus::Kept;
 }
 
-void Graph::moveStage(const uint8_t& fromIndex, const uint8_t& toIndex)
+void Graph::movePolyRamp(const uint8_t& fromIndex, const uint8_t& toIndex)
 {
    if (fromIndex == toIndex)
       return;
 
-   Stage stageCopy = stages[fromIndex];
+   PolyRamp stageCopy = stages[fromIndex];
 
    stages.remove(fromIndex);
    stages.insert(stageCopy, toIndex);
@@ -288,30 +288,30 @@ void Graph::moveStage(const uint8_t& fromIndex, const uint8_t& toIndex)
    clockReset();
 }
 
-void Graph::removeStage(const uint8_t& index)
+void Graph::removePolyRamp(const uint8_t& index)
 {
    stages.remove(index);
    Remember::Root::setUnsynced();
    clockReset();
 }
 
-uint8_t Graph::getStageStartHeight(const uint8_t& index)
+uint8_t Graph::getPolyRampStartHeight(const uint8_t& index)
 {
    return stages[index].startHeight;
 }
 
-void Graph::setStageStartHeight(const uint8_t& index, const uint8_t& startHeight)
+void Graph::setPolyRampStartHeight(const uint8_t& index, const uint8_t& startHeight)
 {
    stages[index].startHeight = startHeight;
    Remember::Root::setUnsynced();
 }
 
-uint8_t Graph::getStageLength(const uint8_t& index)
+uint8_t Graph::getPolyRampLength(const uint8_t& index)
 {
    return stages[index].stageLength;
 }
 
-Graph::LengthStatus Graph::setStageLength(const uint8_t& index, const uint8_t& stageLength, bool expandLength)
+Graph::LengthStatus Graph::setPolyRampLength(const uint8_t& index, const uint8_t& stageLength, bool expandLength)
 {
    uint32_t newLength = stageLength;
    for (uint8_t stageIndex = 0; stageIndex < stages.size(); stageIndex++)
@@ -335,11 +335,11 @@ Graph::LengthStatus Graph::setStageLength(const uint8_t& index, const uint8_t& s
    return LengthStatus::Changed;
 }
 
-Graph::LengthStatus Graph::setStageStartHeigthAndLength(const uint8_t& index, const uint8_t& startHeight, const uint8_t& stageLength, bool expandLength)
+Graph::LengthStatus Graph::setPolyRampStartHeigthAndLength(const uint8_t& index, const uint8_t& startHeight, const uint8_t& stageLength, bool expandLength)
 {
-   const Graph::LengthStatus result = setStageLength(index, stageLength, expandLength);
+   const Graph::LengthStatus result = setPolyRampLength(index, stageLength, expandLength);
    if (LengthStatus::Error != result)
-      setStageStartHeight(index, startHeight);
+      setPolyRampStartHeight(index, startHeight);
 
    return result;
 }
@@ -356,13 +356,13 @@ void Graph::setLooping(bool on)
    clockReset();
 }
 
-uint32_t Graph::compileStageLength(const uint8_t& index) const
+uint32_t Graph::compilePolyRampLength(const uint8_t& index) const
 {
    if (0 == graphLength || 0 == stages.size())
       return 0;
 
-   const bool isLastStage = (index + 1 >= stages.size());
-   if (!isLastStage)
+   const bool isLastPolyRamp = (index + 1 >= stages.size());
+   if (!isLastPolyRamp)
    {
       return stages[index].stageLength;
    }

@@ -5,7 +5,7 @@ HEADERS += \
     $$PWD/Include/Abstract/AbstractEffect.h \
     $$PWD/Include/Abstract/AbstractOscilator.h \
     $$PWD/Include/Blocks/CvSwitch.h \
-    $$PWD/Include/Blocks/Graph.h \
+    $$PWD/Include/Blocks/PolyRamp.h \
     $$PWD/Include/Blocks/Trapezoid.h \
     $$PWD/Include/Maths.h \
     $$PWD/Include/Midi/MidiCommon.h \
@@ -39,8 +39,8 @@ HEADERS += \
    $$PWD/FastRandom.hpp \
    $$PWD/GateOscilator.hpp \
    $$PWD/Glide.hpp \
-   $$PWD/Graph.hpp \
    $$PWD/MusicTools.hpp \
+   $$PWD/PolyRamp.hpp \
    $$PWD/Range.hpp \
    $$PWD/RingBuffer.hpp \
    $$PWD/SevenBit.hpp \
