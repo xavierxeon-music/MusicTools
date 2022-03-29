@@ -96,7 +96,7 @@ private:
 
 private:
    StepSize_ stepSize;
-   Length_ PolyRampLength;
+   Length_ polyRampLength;
    StageList_ stages;
    Loop_ loop;
    bool pastLoop;
