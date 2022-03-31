@@ -9,6 +9,8 @@ HEADERS += \
     $$PWD/Include/Blocks/Trapezoid.h \
     $$PWD/Include/Maths.h \
     $$PWD/Include/Midi/MidiCommon.h \
+    $$PWD/Include/Midi/MidiDeviceFlameCC.h \
+    $$PWD/Include/Midi/MidiInterface.h \
     $$PWD/Include/Music/Note.h \
     $$PWD/Include/Music/Tempo.h \
     $$PWD/Include/MusicTools.h \
@@ -39,6 +41,8 @@ HEADERS += \
    $$PWD/FastRandom.hpp \
    $$PWD/GateOscilator.hpp \
    $$PWD/Glide.hpp \
+   $$PWD/MidiDeviceFlameCC.hpp \
+   $$PWD/MidiInterface.hpp \
    $$PWD/MusicTools.hpp \
    $$PWD/PolyRamp.hpp \
    $$PWD/Range.hpp \
