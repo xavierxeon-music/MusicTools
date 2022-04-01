@@ -38,10 +38,13 @@ namespace Midi
       template <typename ClassType>
       void onReceiveControllChange(ClassType* instance, void (ClassType::*functionPointer)(const Midi::Channel&, const Midi::ControllerMessage&, const uint8_t&));
 
+      inline void addPassThroughInterface(Interface* passthrough);
+
    protected:
       std::vector<NoteOnFunction> noteOnFunctionList;
       std::vector<NoteOffFunction> noteOffFunctionList;
       std::vector<ControllChangeFunction> controllChangeFunctionList;
+      std::vector<Interface*> passthroughList;
    };
 } // namespace Midi
 

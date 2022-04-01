@@ -7,6 +7,7 @@ Midi::Interface::Interface()
    : noteOnFunctionList()
    , noteOffFunctionList()
    , controllChangeFunctionList()
+   , passthroughList()
 {
 }
 
@@ -77,4 +78,10 @@ void Midi::Interface::onReceiveControllChange(ClassType* instance, void (ClassTy
    ControllChangeFunction controllChangeFunction = std::bind(functionPointer, instance, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
    controllChangeFunctionList.push_back(controllChangeFunction);
 }
+
+void Midi::Interface::addPassThroughInterface(Interface* passthrough)
+{
+   passthroughList.push_back(passthrough);
+}
+
 #endif // NOT MidiInterfaceHPP
