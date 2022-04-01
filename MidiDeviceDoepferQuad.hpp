@@ -34,9 +34,9 @@ void Midi::Device::DoepferQuad::Strip::setCV(uint8_t output, float voltage)
 
    if (0 == output)
       note = Note::fromVoltage(voltage);
-   else if (1 == value)
+   else if (1 == output)
       velocity = iValue;
-   else if (2 == value)
+   else if (2 == output)
       controllerValue = iValue;
 
    midiInterface->sendNoteOn(midiChannel, note, velocity);
