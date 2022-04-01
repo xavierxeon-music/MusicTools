@@ -9,6 +9,7 @@ HEADERS += \
     $$PWD/Include/Blocks/Trapezoid.h \
     $$PWD/Include/Maths.h \
     $$PWD/Include/Midi/MidiCommon.h \
+   $$PWD/Include/Midi/MidiDeviceDoepferQuad.h \
     $$PWD/Include/Midi/MidiDeviceFlameCC.h \
     $$PWD/Include/Midi/MidiInterface.h \
     $$PWD/Include/Music/Note.h \
@@ -30,6 +31,7 @@ HEADERS += \
     $$PWD/Include/Tools/SevenBit.h \
     $$PWD/Include/Tools/SquareSignal.h \
     $$PWD/Include/Tools/Variable.h  \
+   $$PWD/MidiDeviceDoepferQuad.hpp
 
     
 HEADERS += \    

@@ -29,7 +29,7 @@ namespace Midi
 
       public:
          inline void sendSysEx();                        // midi port 0-15
-         inline void setCV(uint8_t output, float value); // output 0-15, value between 0.0 and 1.0
+         inline void setCV(uint8_t output, float voltage); // output 0-15, voltage between 0.0V and 5.0V
 
       private:
          Midi::Interface* midiInterface;

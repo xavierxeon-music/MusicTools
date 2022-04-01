@@ -2,6 +2,7 @@
 #define MidiDeviceFlameCCHPP
 
 #include <Midi/MidiDeviceFlameCC.h>
+
 #include <Tools/Range.h>
 
 Midi::Device::FlameCC::FlameCC(Interface* midiInterface, const Channel& midiChannel)
@@ -35,12 +36,13 @@ void Midi::Device::FlameCC::sendSysEx()
    midiInterface->sendBuffer(buffer);
 }
 
-void Midi::Device::FlameCC::setCV(uint8_t output, float value)
+void Midi::Device::FlameCC::setCV(uint8_t output, float voltage)
 {
    const Note note = Note::fromMidi(41 + output);
 
    const uint8_t message = ControllerMessage::User01 + Range::clamp<uint8_t>(output, 0, 15);
-   const uint8_t iValue = Range::clamp<uint8_t>(value * 127, 0, 127);
+   const float value = voltage * 0.2 * 127.0;
+   const uint8_t iValue = Range::clamp<uint8_t>(value, 0, 127);
 
    midiInterface->sendNoteOn(midiChannel, note, 127);
    midiInterface->sendControllerChange(midiChannel, static_cast<ControllerMessage>(message), iValue);
