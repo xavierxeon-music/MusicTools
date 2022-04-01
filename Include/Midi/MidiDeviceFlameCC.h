@@ -23,31 +23,13 @@ namespace Midi
       class FlameCC
       {
       public:
-         class NoteGatePair
-         {
-         public:
-            inline void noteOn(const Note& note);
-            inline void noteOff(const Note& note);
-
-         private:
-            friend class FlameCC;
-
-         private:
-            inline NoteGatePair(FlameCC* parent, uint8_t pitchOutput, uint8_t gateOutput);
-
-         private:
-            FlameCC* parent;
-            uint8_t pitchOutput;
-            uint8_t gateOutput;
-         };
 
       public:
-         inline FlameCC(Midi::Interface* midiInterface, const Channel& channel = 3);
+         inline FlameCC(Midi::Interface* midiInterface, const Channel& channel = 7);
 
       public:
          inline void sendSysEx();                        // midi port 0-15
          inline void setCV(uint8_t output, float value); // output 0-15, value between 0.0 and 1.0
-         inline NoteGatePair* createPair(uint8_t pitchOutput, uint8_t gateOutput);
 
       private:
          Midi::Interface* midiInterface;

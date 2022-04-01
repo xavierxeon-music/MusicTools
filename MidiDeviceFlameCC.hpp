@@ -4,29 +4,6 @@
 #include <Midi/MidiDeviceFlameCC.h>
 #include <Tools/Range.h>
 
-// port pair
-
-void Midi::Device::FlameCC::NoteGatePair::noteOn(const Note& note)
-{
-   parent->setCV(pitchOutput, note.voltage / 5.0);
-   parent->setCV(gateOutput, 1.0);
-}
-
-void Midi::Device::FlameCC::NoteGatePair::noteOff(const Note& note)
-{
-   parent->setCV(pitchOutput, note.voltage / 5.0);
-   parent->setCV(gateOutput, 0.0);
-}
-
-Midi::Device::FlameCC::NoteGatePair::NoteGatePair(FlameCC* parent, uint8_t pitchOutput, uint8_t gateOutput)
-   : parent(parent)
-   , pitchOutput(pitchOutput)
-   , gateOutput(gateOutput)
-{
-}
-
-// Device
-
 Midi::Device::FlameCC::FlameCC(Interface* midiInterface, const Channel& midiChannel)
    : midiInterface(midiInterface)
    , midiChannel(midiChannel)
@@ -67,11 +44,6 @@ void Midi::Device::FlameCC::setCV(uint8_t output, float value)
 
    midiInterface->sendNoteOn(midiChannel, note, 127);
    midiInterface->sendControllerChange(midiChannel, static_cast<ControllerMessage>(message), iValue);
-}
-
-Midi::Device::FlameCC::NoteGatePair* Midi::Device::FlameCC::createPair(uint8_t pitchOutput, uint8_t gateOutput)
-{
-   return new NoteGatePair(this, pitchOutput, gateOutput);
 }
 
 #endif // MidiDeviceFlameCCHPP
