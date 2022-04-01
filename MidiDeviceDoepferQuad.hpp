@@ -33,6 +33,7 @@ void Midi::Device::DoepferQuad::Strip::setCV(uint8_t output, float voltage)
    const uint8_t iValue = Range::clamp<uint8_t>(value, 0, 127);
 
    midiInterface->sendNoteOff(midiChannel, note);
+   qDebug() << "note off" << midiChannel << note.midiValue;
 
    if (0 == output)
       note = Note::fromVoltage(voltage);
@@ -41,11 +42,11 @@ void Midi::Device::DoepferQuad::Strip::setCV(uint8_t output, float voltage)
    else if (2 == output)
       controllerValue = iValue;
 
-   qDebug() << __FUNCTION__ << output << voltage << iValue;
-   qDebug() << note.midiValue << velocity << controllerValue;
-
    midiInterface->sendNoteOn(midiChannel, note, velocity);
+   qDebug() << "note on" << midiChannel << note.midiValue << velocity;
+
    midiInterface->sendControllerChange(midiChannel, controllerMessage, controllerValue);
+   qDebug() << "controller change" << midiChannel << controllerMessage << value;
 }
 
 // device
