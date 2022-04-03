@@ -4,6 +4,8 @@
 #include <Midi/MidiInterface.h>
 #include <Music/Note.h>
 
+#include <Tools/Range.h>
+
 namespace Midi
 {
    namespace Device
@@ -13,35 +15,39 @@ namespace Midi
       class DoepferQuad
       {
       public:
-         // a strip has 3 cv, corresponding to pitch, cv2 and cv3
+         // a strip has 3 cv outputs, corresponding to pitch, cv2 and cv3
+         // when cv2 (velocity) is set to 0, then cv1 (pitch) will also be zero!
+         // uses default channels 0-3
          class Strip
          {
          public:
             inline Strip();
 
          public:
-            inline void setCV(uint8_t output, float voltage); // output 0-2, voltage between 0.0V and 5.0V
+            inline void setCV12(float voltage1, float voltage2 = 5.0); // voltages between 0.0V and 5.0V
+            inline void setCV3(float voltage3);                        // voltages between 0.0V and 5.0V
          private:
-            inline Strip(Midi::Interface* midiInterface, const Channel& midiChannel, const Midi::ControllerMessage& controllerMessage);
+            inline Strip(Midi::Interface* midiInterface, const Channel& midiChannel, const Midi::ControllerMessage& controllerMessage, const uint8_t refNote);
 
          private:
             friend class DoepferQuad;
 
          private:
-            Midi::Interface* midiInterface;
+            Interface* midiInterface;
             Channel midiChannel;
-            Midi::ControllerMessage controllerMessage;
-            Note note;
-            Midi::Velocity velocity;
-            uint8_t controllerValue;
+            ControllerMessage controllerMessage;
+            int8_t noteDiff;
+            Note prevNote;
+
+            inline static const Range::Mapper mapper = Range::Mapper(0.0, 5.0, 0.0, 127.0);
          };
 
       public:
          inline DoepferQuad(Midi::Interface* midiInterface);
 
       public:
-         // for user01 set cv3 to 102, cv2 is kept at velocity
-         inline Strip create(const Channel& midiChannel, const Midi::ControllerMessage& controllerMessage = Midi::ControllerMessage::User01);
+         // for each strip set cv3 config to controllerMessage (default is 102). cv2 is kept at velocity
+         inline Strip create(const Channel& midiChannel, const Midi::ControllerMessage& controllerMessage = Midi::ControllerMessage::User01, const uint8_t refNote = 24);
 
       private:
          Midi::Interface* midiInterface;

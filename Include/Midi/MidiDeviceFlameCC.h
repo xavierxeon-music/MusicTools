@@ -25,7 +25,7 @@ namespace Midi
       public:
 
       public:
-         inline FlameCC(Midi::Interface* midiInterface, const Channel& channel = 7);
+         inline FlameCC(Midi::Interface* midiInterface, const Channel& channel = 12);
 
       public:
          inline void sendSysEx();                        // midi port 0-15
