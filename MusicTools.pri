@@ -2,39 +2,41 @@ INCLUDEPATH += \
    $$PWD/Include
 
 HEADERS += \
-    $$PWD/Include/Abstract/AbstractEffect.h \
-    $$PWD/Include/Abstract/AbstractOscilator.h \
-    $$PWD/Include/Blocks/CvSwitch.h \
-    $$PWD/Include/Blocks/PolyRamp.h \
-    $$PWD/Include/Blocks/Trapezoid.h \
-    $$PWD/Include/Maths.h \
-    $$PWD/Include/Midi/MidiCommon.h \
+   $$PWD/Include/Abstract/AbstractEffect.h \
+   $$PWD/Include/Abstract/AbstractOscilator.h \
+   $$PWD/Include/Blocks/CvSwitch.h \
+   $$PWD/Include/Blocks/PolyRamp.h \
+   $$PWD/Include/Blocks/Trapezoid.h \
+   $$PWD/Include/Maths.h \
+   $$PWD/Include/Midi/MidiCommon.h \
+   $$PWD/Include/Midi/MidiDeviceFlameCC.h \
+   $$PWD/Include/Midi/MidiInterfaceInput.h \
+   $$PWD/Include/Midi/MidiInterfaceOutput.h \
+   $$PWD/Include/Music/Note.h \
+   $$PWD/Include/Music/Tempo.h \
+   $$PWD/Include/MusicTools.h \
+   $$PWD/Include/MusicTools.h \
+   $$PWD/Include/Sound/CircularTable.h \
+   $$PWD/Include/Sound/FunctionTable.h \
+   $$PWD/Include/Sound/GateOscilator.h \
+   $$PWD/Include/Sound/StandardTable.h \
+   $$PWD/Include/Sound/TableOscilator.h \
+   $$PWD/Include/Tools/BoolField.h \
+   $$PWD/Include/Tools/Convert.h \
+   $$PWD/Include/Tools/Counter.h \
+   $$PWD/Include/Tools/FastRandom.h \
+   $$PWD/Include/Tools/Glide.h \
+   $$PWD/Include/Tools/Range.h \
+   $$PWD/Include/Tools/RingBuffer.h \
+   $$PWD/Include/Tools/SevenBit.h \
+   $$PWD/Include/Tools/SquareSignal.h \
+   $$PWD/Include/Tools/Variable.h  \
    $$PWD/Include/Midi/MidiDeviceDoepferQuad.h \
-    $$PWD/Include/Midi/MidiDeviceFlameCC.h \
-    $$PWD/Include/Midi/MidiInterface.h \
-    $$PWD/Include/Music/Note.h \
-    $$PWD/Include/Music/Tempo.h \
-    $$PWD/Include/MusicTools.h \
-    $$PWD/Include/MusicTools.h \
-    $$PWD/Include/Sound/CircularTable.h \
-    $$PWD/Include/Sound/FunctionTable.h \
-    $$PWD/Include/Sound/GateOscilator.h \
-    $$PWD/Include/Sound/StandardTable.h \
-    $$PWD/Include/Sound/TableOscilator.h \
-    $$PWD/Include/Tools/BoolField.h \
-    $$PWD/Include/Tools/Convert.h \
-    $$PWD/Include/Tools/Counter.h \
-    $$PWD/Include/Tools/FastRandom.h \
-    $$PWD/Include/Tools/Glide.h \
-    $$PWD/Include/Tools/Range.h \
-    $$PWD/Include/Tools/RingBuffer.h \
-    $$PWD/Include/Tools/SevenBit.h \
-    $$PWD/Include/Tools/SquareSignal.h \
-    $$PWD/Include/Tools/Variable.h  \
-   $$PWD/MidiDeviceDoepferQuad.hpp
 
     
 HEADERS += \    
+   $$PWD/MidiInterfaceInput.hpp \
+   $$PWD/MidiInterfaceOutput.hpp \
    $$PWD/BoolField.hpp \
    $$PWD/CircularTable.hpp \
    $$PWD/Convert.hpp \
@@ -43,8 +45,8 @@ HEADERS += \
    $$PWD/FastRandom.hpp \
    $$PWD/GateOscilator.hpp \
    $$PWD/Glide.hpp \
+   $$PWD/MidiDeviceDoepferQuad.hpp \
    $$PWD/MidiDeviceFlameCC.hpp \
-   $$PWD/MidiInterface.hpp \
    $$PWD/MusicTools.hpp \
    $$PWD/PolyRamp.hpp \
    $$PWD/Range.hpp \
@@ -61,4 +63,4 @@ SOURCES += \
    $$PWD/AbstractEffect.cpp \
    $$PWD/AbstractOscilator.cpp \
    $$PWD/Maths.cpp \
-   $$PWD/Note.cpp
+   $$PWD/Note.cpp \
