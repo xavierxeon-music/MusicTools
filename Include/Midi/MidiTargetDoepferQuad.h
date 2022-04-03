@@ -1,5 +1,5 @@
-#ifndef MidiDeviceDoepferQuadH
-#define MidiDeviceDoepferQuadH
+#ifndef MidiTargetDoepferQuadH
+#define MidiTargetDoepferQuadH
 
 #include <Midi/MidiInterfaceOutput.h>
 #include <Music/Note.h>
@@ -8,7 +8,7 @@
 
 namespace Midi
 {
-   namespace Device
+   namespace Target
    {
 
       // set to quad mono mode
@@ -27,13 +27,13 @@ namespace Midi
             inline void setCV12(float voltage1, float voltage2 = 5.0); // voltages between 0.0V and 5.0V
             inline void setCV3(float voltage3);                        // voltages between 0.0V and 5.0V
          private:
-            inline Strip(Midi::Interface::Output* midiOutput, const Channel& midiChannel, const Midi::ControllerMessage& controllerMessage, const uint8_t refNote);
+            inline Strip(Interface::Output* midiOutput, const Channel& midiChannel, const ControllerMessage& controllerMessage, const uint8_t refNote);
 
          private:
             friend class DoepferQuad;
 
          private:
-            Midi::Interface::Output* midiOutput;
+            Interface::Output* midiOutput;
             Channel midiChannel;
             ControllerMessage controllerMessage;
             int8_t noteDiff;
@@ -43,20 +43,20 @@ namespace Midi
          };
 
       public:
-         inline DoepferQuad(Midi::Interface::Output* midiOutput);
+         inline DoepferQuad(Interface::Output* midiOutput);
 
       public:
          // for each strip set cv3 config to controllerMessage (default is 102). cv2 is kept at velocity
-         inline Strip create(const Channel& midiChannel, const Midi::ControllerMessage& controllerMessage = Midi::ControllerMessage::User01, const uint8_t refNote = 24);
+         inline Strip create(const Channel& midiChannel, const ControllerMessage& controllerMessage = ControllerMessage::User01, const uint8_t refNote = 24);
 
       private:
-         Midi::Interface::Output* midiOutput;
+         Interface::Output* midiOutput;
       };
-   } // namespace Device
+   } // namespace Target
 } // namespace Midi
 
-#ifndef MidiDeviceDoepferQuadHPP
-#include "../MidiDeviceDoepferQuad.hpp"
-#endif // NOT MidiDeviceDoepferQuadHPP
+#ifndef MidiTargetDoepferQuadHPP
+#include "../MidiTargetDoepferQuad.hpp"
+#endif // NOT MidiTargetDoepferQuadHPP
 
-#endif // NOT MidiDeviceDoepferQuadH
+#endif // NOT MidiTargetDoepferQuadH

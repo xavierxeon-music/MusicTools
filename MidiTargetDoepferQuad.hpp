@@ -1,19 +1,19 @@
-#ifndef MidiDeviceDoepferQuadHPP
-#define MidiDeviceDoepferQuadHPP
+#ifndef MidiTargetDoepferQuadHPP
+#define MidiTargetDoepferQuadHPP
 
-#include <Midi/MidiDeviceDoepferQuad.h>
+#include <Midi/MidiTargetDoepferQuad.h>
 
 // strip
 
-Midi::Device::DoepferQuad::Strip::Strip()
+Midi::Target::DoepferQuad::Strip::Strip()
    : midiOutput(nullptr)
    , midiChannel(0)
-   , controllerMessage(Midi::ControllerMessage::AllNotesOff)
+   , controllerMessage(ControllerMessage::AllNotesOff)
    , prevNote()
 {
 }
 
-Midi::Device::DoepferQuad::Strip::Strip(Midi::Interface::Output* midiOutput, const Channel& midiChannel, const Midi::ControllerMessage& controllerMessage, const uint8_t refNote)
+Midi::Target::DoepferQuad::Strip::Strip(Interface::Output* midiOutput, const Channel& midiChannel, const ControllerMessage& controllerMessage, const uint8_t refNote)
    : midiOutput(midiOutput)
    , midiChannel(midiChannel)
    , controllerMessage(controllerMessage)
@@ -23,7 +23,7 @@ Midi::Device::DoepferQuad::Strip::Strip(Midi::Interface::Output* midiOutput, con
    noteDiff = Note::availableNotes[1].midiValue - refNote;
 }
 
-void Midi::Device::DoepferQuad::Strip::setCV12(float voltage1, float voltage2)
+void Midi::Target::DoepferQuad::Strip::setCV12(float voltage1, float voltage2)
 {
    Note note = Note::fromVoltage(voltage1);
    note.midiValue = note.midiValue - noteDiff;
@@ -36,24 +36,24 @@ void Midi::Device::DoepferQuad::Strip::setCV12(float voltage1, float voltage2)
    prevNote = note;
 }
 
-void Midi::Device::DoepferQuad::Strip::setCV3(float voltage3)
+void Midi::Target::DoepferQuad::Strip::setCV3(float voltage3)
 {
    const uint8_t controllerValue = static_cast<uint8_t>(mapper(voltage3));
 
    midiOutput->sendControllerChange(midiChannel, controllerMessage, controllerValue);
 }
 
-// device
+// Target
 
-Midi::Device::DoepferQuad::DoepferQuad(Midi::Interface::Output* midiOutput)
+Midi::Target::DoepferQuad::DoepferQuad(Midi::Interface::Output* midiOutput)
    : midiOutput(midiOutput)
 {
 }
 
-Midi::Device::DoepferQuad::Strip Midi::Device::DoepferQuad::create(const Channel& midiChannel, const Midi::ControllerMessage& controllerMessage, const uint8_t refNote)
+Midi::Target::DoepferQuad::Strip Midi::Target::DoepferQuad::create(const Channel& midiChannel, const ControllerMessage& controllerMessage, const uint8_t refNote)
 {
    midiOutput->sendControllerChange(midiChannel, Midi::ControllerMessage::AllNotesOff, 0);
    return Strip(midiOutput, midiChannel, controllerMessage, refNote);
 }
 
-#endif // NOT MidiDeviceDoepferQuadHPP
+#endif // NOT MidiTargetDoepferQuadHPP

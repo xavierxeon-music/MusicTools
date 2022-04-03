@@ -9,9 +9,10 @@ HEADERS += \
    $$PWD/Include/Blocks/Trapezoid.h \
    $$PWD/Include/Maths.h \
    $$PWD/Include/Midi/MidiCommon.h \
-   $$PWD/Include/Midi/MidiDeviceFlameCC.h \
    $$PWD/Include/Midi/MidiInterfaceInput.h \
    $$PWD/Include/Midi/MidiInterfaceOutput.h \
+   $$PWD/Include/Midi/MidiTargetDoepferQuad.h \
+   $$PWD/Include/Midi/MidiTargetFlameCC.h \
    $$PWD/Include/Music/Note.h \
    $$PWD/Include/Music/Tempo.h \
    $$PWD/Include/MusicTools.h \
@@ -31,12 +32,9 @@ HEADERS += \
    $$PWD/Include/Tools/SevenBit.h \
    $$PWD/Include/Tools/SquareSignal.h \
    $$PWD/Include/Tools/Variable.h  \
-   $$PWD/Include/Midi/MidiDeviceDoepferQuad.h \
 
     
-HEADERS += \    
-   $$PWD/MidiInterfaceInput.hpp \
-   $$PWD/MidiInterfaceOutput.hpp \
+HEADERS += \     \
    $$PWD/BoolField.hpp \
    $$PWD/CircularTable.hpp \
    $$PWD/Convert.hpp \
@@ -45,8 +43,10 @@ HEADERS += \
    $$PWD/FastRandom.hpp \
    $$PWD/GateOscilator.hpp \
    $$PWD/Glide.hpp \
-   $$PWD/MidiDeviceDoepferQuad.hpp \
-   $$PWD/MidiDeviceFlameCC.hpp \
+   $$PWD/MidiInterfaceInput.hpp \
+   $$PWD/MidiInterfaceOutput.hpp \
+   $$PWD/MidiTargetDoepferQuad.hpp \
+   $$PWD/MidiTargetFlameCC.hpp \
    $$PWD/MusicTools.hpp \
    $$PWD/PolyRamp.hpp \
    $$PWD/Range.hpp \
