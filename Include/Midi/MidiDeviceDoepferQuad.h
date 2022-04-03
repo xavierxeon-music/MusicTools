@@ -1,7 +1,7 @@
 #ifndef MidiDeviceDoepferQuadH
 #define MidiDeviceDoepferQuadH
 
-#include <Midi/MidiInterface.h>
+#include <Midi/MidiInterfaceOutput.h>
 #include <Music/Note.h>
 
 #include <Tools/Range.h>
@@ -27,13 +27,13 @@ namespace Midi
             inline void setCV12(float voltage1, float voltage2 = 5.0); // voltages between 0.0V and 5.0V
             inline void setCV3(float voltage3);                        // voltages between 0.0V and 5.0V
          private:
-            inline Strip(Midi::Interface* midiInterface, const Channel& midiChannel, const Midi::ControllerMessage& controllerMessage, const uint8_t refNote);
+            inline Strip(Midi::Interface::Output* midiOutput, const Channel& midiChannel, const Midi::ControllerMessage& controllerMessage, const uint8_t refNote);
 
          private:
             friend class DoepferQuad;
 
          private:
-            Interface* midiInterface;
+            Midi::Interface::Output* midiOutput;
             Channel midiChannel;
             ControllerMessage controllerMessage;
             int8_t noteDiff;
@@ -43,14 +43,14 @@ namespace Midi
          };
 
       public:
-         inline DoepferQuad(Midi::Interface* midiInterface);
+         inline DoepferQuad(Midi::Interface::Output* midiOutput);
 
       public:
          // for each strip set cv3 config to controllerMessage (default is 102). cv2 is kept at velocity
          inline Strip create(const Channel& midiChannel, const Midi::ControllerMessage& controllerMessage = Midi::ControllerMessage::User01, const uint8_t refNote = 24);
 
       private:
-         Midi::Interface* midiInterface;
+         Midi::Interface::Output* midiOutput;
       };
    } // namespace Device
 } // namespace Midi
