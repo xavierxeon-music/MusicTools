@@ -13,8 +13,11 @@ HEADERS += \
    $$PWD/Include/Midi/MidiInterfaceOutput.h \
    $$PWD/Include/Midi/MidiTargetDoepferQuad.h \
    $$PWD/Include/Midi/MidiTargetFlameCC.h \
+   $$PWD/Include/Midi/MidiToolGate.h \
+   $$PWD/Include/Midi/MidiToolTempo.h \
    $$PWD/Include/Music/Note.h \
    $$PWD/Include/Music/Tempo.h \
+   $$PWD/Include/Music/TriggerdTempo.h \
    $$PWD/Include/MusicTools.h \
    $$PWD/Include/MusicTools.h \
    $$PWD/Include/Sound/CircularTable.h \
@@ -47,6 +50,8 @@ HEADERS += \     \
    $$PWD/MidiInterfaceOutput.hpp \
    $$PWD/MidiTargetDoepferQuad.hpp \
    $$PWD/MidiTargetFlameCC.hpp \
+   $$PWD/MidiToolGate.hpp \
+   $$PWD/MidiToolTempo.hpp \
    $$PWD/MusicTools.hpp \
    $$PWD/PolyRamp.hpp \
    $$PWD/Range.hpp \
@@ -57,6 +62,7 @@ HEADERS += \     \
    $$PWD/TableOscilator.hpp \
    $$PWD/Tempo.hpp \
    $$PWD/Trapezoid.hpp \
+   $$PWD/TriggerdTempo.hpp \
    $$PWD/Variable.hpp \
 
 SOURCES += \

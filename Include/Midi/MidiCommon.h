@@ -7,18 +7,52 @@ namespace Midi
 {
    using Channel = uint8_t;
    using Velocity = uint8_t;
+   using SongPosition = quint16;
 
    // see https://ccrma.stanford.edu/~gary/controllers/midi.html
    const static float msPerByte = 31250.0 / (8.0 * 1000.0); //31250 bits per second
 
    enum Event : uint8_t
    {
-      Unknown = 0x00,
+      Unkown = 0x00,
       NoteOff = 0x80,
       NoteOn = 0x90,
+      PolyKeyPressure = 0xA0,
       ControlChange = 0xB0,
-      SysExStart = 0xF0,
-      SysExEnd = 0xF7
+      ProgrammChange = 0xC0,
+      ChannelPressure = 0xD0,
+      PitchBend = 0xE0,
+      System = 0xF0,
+      TimeCode = 0xF1,
+      SongPositionPointer = 0xF2,
+      SysExEnd = 0xF7,
+      Clock = 0xF8,
+      Start = 0xFA,
+      Continue = 0xFB,
+      Stop = 0xFC,
+      ActiveSensinig = 0xFE,
+      Reset = 0xFF,
+      Meta = 0xFF // for midi files
+   };
+
+   enum MetaEvent : uint8_t // for midi files
+   {
+      MetaUnkown = 0x00,
+      Text = 0x01,
+      Copyright = 0x02,
+      TrackName = 0x03,
+      InstrumentName = 0x04,
+      Lyric = 0x05,
+      Marker = 0x06,
+      CuePoint = 0x07,
+      ChannelPrefix = 0x20,
+      MidiPort = 0x21,
+      EndOfTrack = 0x2f,
+      LiveTag = 0x48,
+      Tempo = 0x51,
+      SMPTEOffset = 0x54,
+      TimeSignature = 0x58,
+      KeySignature = 0x59
    };
 
    enum ControllerMessage : uint8_t
@@ -30,6 +64,10 @@ namespace Midi
       PortamentoTime = 0x05,
       ChannelVolume = 0x07,
       Balance = 0x08,
+      Pan = 0x0A,
+      ExpressionController = 0x0B,
+      EffectControl1 = 0x0C,
+      EffectControl2 = 0x0D,
       // START undefined in standard
       RememberBlock = 0x14,
       RememberApply = 0x15,
@@ -43,6 +81,13 @@ namespace Midi
       Undefined10 = 0x1D,
       Undefined11 = 0x1E,
       Undefined12 = 0x1F,
+      // END undefined in standard
+      DamperPedal = 0x40,
+      Portamento = 0x41,
+      Sostenuto = 0x42,
+      SoftPedal = 0x42,
+      LegatoSwitch = 0x44,
+      // START undefined in standard
       User01 = 0x66,
       User02 = 0x67,
       User03 = 0x68,
@@ -62,7 +107,16 @@ namespace Midi
       User17 = 0x76,
       User18 = 0x77,
       // END undefined in standard
+      AllSoundsOff = 0x78,
+      ResetAllControlers = 0x79,
       AllNotesOff = 0x78
+   };
+
+   enum class Playback : uint8_t
+   {
+      Start,
+      Continue,
+      Stop
    };
 
 } // namespace Midi
