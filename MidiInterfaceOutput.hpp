@@ -9,6 +9,17 @@ Midi::Interface::Output::Output()
 
 Midi::Interface::Output::~Output()
 {
+   // do nothing
+}
+
+void Midi::Interface::Output::open()
+{
+   // do nothing
+}
+
+void Midi::Interface::Output::close()
+{
+   // do nothing
 }
 
 void Midi::Interface::Output::sendNoteOn(const Channel& channel, const Note& note, const Velocity& velocity)

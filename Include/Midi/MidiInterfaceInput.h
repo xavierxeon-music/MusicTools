@@ -25,6 +25,9 @@ namespace Midi
          inline virtual ~Input();
 
       public:
+         inline virtual void open();
+         inline virtual void close();
+
          template <typename ClassType>
          void onReceiveNoteOn(ClassType* instance, void (ClassType::*functionPointer)(const Midi::Channel&, const Note&, const Midi::Velocity&));
 
@@ -35,6 +38,9 @@ namespace Midi
          void onReceiveControllChange(ClassType* instance, void (ClassType::*functionPointer)(const Midi::Channel&, const Midi::ControllerMessage&, const uint8_t&));
 
          inline void addPassThroughInterface(Interface::Output* passthrough);
+
+      protected:
+         inline void dataFromInput(const Bytes& message);
 
       protected:
          std::vector<NoteOnFunction> noteOnFunctionList;
