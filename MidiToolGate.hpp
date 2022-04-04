@@ -1,3 +1,6 @@
+#ifndef MidiToolGateHPP
+#define MidiToolGateHPP
+
 #include <Midi/MidiToolGate.h>
 
 Midi::Tool::Gate::Gate(Interface::Input* input, const Channel& channel, const Note& note)
@@ -5,8 +8,8 @@ Midi::Tool::Gate::Gate(Interface::Input* input, const Channel& channel, const No
    , myNote(note)
    , on(false)
 {
-   input->onReceiveNoteOn(this, &Gate::noteOn);
-   input->onReceiveNoteOff(this, &Gate::noteOff);
+   input->onNoteOn(this, &Gate::noteOn);
+   input->onNoteOff(this, &Gate::noteOff);
 }
 
 bool Midi::Tool::Gate::isOn() const
@@ -35,3 +38,5 @@ void Midi::Tool::Gate::noteOff(const Midi::Channel& channel, const Note& note)
 
    on = false;
 }
+
+#endif // NOT MidiToolGateHPP

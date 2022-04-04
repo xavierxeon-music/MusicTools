@@ -11,14 +11,14 @@ namespace Midi
       class Gate
       {
       public:
-         Gate(Interface::Input* input, const Channel& channel, const Note& note);
+         inline Gate(Interface::Input* input, const Channel& channel, const Note& note);
 
       public:
-         bool isOn() const;
+         inline bool isOn() const;
 
       private:
-         void noteOn(const Midi::Channel& channel, const Note& note, const Midi::Velocity& velocity);
-         void noteOff(const Midi::Channel& channel, const Note& note);
+         inline void noteOn(const Midi::Channel& channel, const Note& note, const Midi::Velocity& velocity);
+         inline void noteOff(const Midi::Channel& channel, const Note& note);
 
       private:
          const Channel myChannel;
@@ -28,5 +28,9 @@ namespace Midi
       };
    } // namespace Tool
 } // namespace Midi
+
+#ifndef MidiToolGateHPP
+#include "../../MidiToolGate.hpp"
+#endif // NOT MidiToolGateHPP
 
 #endif // NOT MidiToolGateH

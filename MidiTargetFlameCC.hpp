@@ -34,7 +34,7 @@ void Midi::Target::FlameCC::sendSysEx()
 {
    Bytes buffer(38);
 
-   buffer[0] = static_cast<uint8_t>(Midi::Event::SysExStart); // Exclusive Status
+   buffer[0] = static_cast<uint8_t>(Midi::Event::System); // Exclusive Status
    buffer[1] = 0x7D; // Header Flame module
    buffer[2] = 0x0B; // Flame module “μ16MCC”
    buffer[3] = 0x01; // version 1
@@ -50,7 +50,7 @@ void Midi::Target::FlameCC::sendSysEx()
       buffer[21 + output] = message;
    }
 
-   buffer[37] = static_cast<uint8_t>(Midi::Event::SysExStart); // End of Exclusive
+   buffer[37] = static_cast<uint8_t>(Midi::Event::SysExEnd); // End of Exclusive
 
    midiOutput->sendBuffer(buffer);
 }
