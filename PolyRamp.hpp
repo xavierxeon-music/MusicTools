@@ -361,7 +361,7 @@ uint32_t PolyRamp::compileStageLength(const uint8_t& index) const
    if (0 == polyRampLength || 0 == stages.size())
       return 0;
 
-   const bool isLastPolyRamp = (index + 1 >= stages.size());
+   const bool isLastPolyRamp = (static_cast<uint64_t>(index + 1) >= stages.size());
    if (!isLastPolyRamp)
    {
       return stages[index].stageLength;
