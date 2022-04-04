@@ -48,7 +48,7 @@ namespace Midi
          inline void addPassThroughInterface(Interface::Output* passthrough);
 
       protected:
-         inline void dataFromInput(const Bytes& message);
+         inline virtual void dataFromInput(const Bytes& message);
 
       protected:
          std::vector<NoteOnFunction> noteOnFunctionList;
