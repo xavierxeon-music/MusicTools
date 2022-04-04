@@ -23,7 +23,7 @@ namespace Midi
          inline void sendNoteOff(const Midi::Channel& channel, const Note& note);
          inline void sendControllerChange(const Midi::Channel& channel, const Midi::ControllerMessage& controllerMessage, const uint8_t& value);
 
-         virtual void sendBuffer(const Bytes& buffer) = 0;
+         virtual void sendBuffer(const Bytes& message) = 0;
       };
    } // namespace Interface
 } // namespace Midi
