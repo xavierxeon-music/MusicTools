@@ -1,21 +1,35 @@
 #ifndef MidiToolTempoH
 #define MidiToolTempoH
 
+#include <Tools/Counter.h>
+#include <Tools/RingBuffer.h>
+
+#include <Music/Tempo.h>
+namespace Base
+{
+   using Tempo = ::Tempo;
+}
+
 #include <Midi/MidiInterfaceInput.h>
 
 namespace Midi
 {
    namespace Tool
    {
-      class Tempo
+      class Tempo : public Base::Tempo
       {
       public:
          inline Tempo(Interface::Input* input);
 
+      public:
+         inline bool isTick() const; // 4ppQ tick, e.e 16th notes
+         inline bool isReset() const;
+
       private:
-         inline void noteOn(const Channel& channel, const Note& note, const Velocity& velocity);
-         inline void clockTick();
-         inline void clockStatus(const Playback& status);
+         using Base::Tempo::clockReset; // make private
+         using Base::Tempo::clockTick;  // make private
+         inline void midiClockTick();
+         inline void midiClockStatus(const Playback& status);
 
       private:
          uint8_t tickCounter;
