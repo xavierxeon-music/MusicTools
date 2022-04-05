@@ -25,6 +25,8 @@ private:
    SquareSignal square;
 };
 
-#include <GateOscilator.hpp>
+#ifndef GateOscilatorHPP
+#include "../../GateOscilator.hpp"
+#endif // NOT GateOscilatorHPP
 
-#endif // GateOscilator
+#endif // NOT GateOscilator

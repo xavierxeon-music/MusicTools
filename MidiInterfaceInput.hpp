@@ -106,15 +106,11 @@ void Midi::Interface::Input::dataFromInput(const Bytes& message)
 
       if (Midi::Event::SongPositionPointer == event)
       {
-         // This message consists of 3 bytes;
-         // a status byte (decimal 242, hex 0xF2), followed by two 7-bit data bytes (least significant byte first)
-         // forming a 14-bit value which specifies the number of "MIDI beats" (1 MIDI beat = a 16th note = 6 clock pulses)
+         uint16_t front = static_cast<uint16_t>(message.at(1));
+         uint16_t back = static_cast<uint16_t>(message.at(2));
 
-         quint16 sixteenFront = static_cast<quint16>(message.at(1));
-         quint16 sixteenBack = static_cast<quint16>(message.at(2));
-
-         const quint16 songPosition = 1 + sixteenFront + (128 * sixteenBack);
-         qDebug() << "song pos" << songPosition;
+         const uint16_t songPosition = 1 + front + (128 * back);
+         (void)songPosition;
       }
       else if (Midi::Event::Clock == event)
       {

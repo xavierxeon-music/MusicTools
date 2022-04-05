@@ -7,7 +7,7 @@ namespace Midi
 {
    using Channel = uint8_t;
    using Velocity = uint8_t;
-   using SongPosition = quint16;
+   using SongPosition = uint16_t;
 
    // see https://ccrma.stanford.edu/~gary/controllers/midi.html
    const static float msPerByte = 31250.0 / (8.0 * 1000.0); //31250 bits per second

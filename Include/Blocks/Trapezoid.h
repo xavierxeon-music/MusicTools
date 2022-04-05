@@ -73,6 +73,8 @@ private:
    bool firstTickDone;
 };
 
-#include "Trapezoid.hpp"
+#ifndef TrapezoidHPP
+#include "../../Trapezoid.hpp"
+#endif // NOT TrapezoidHPP
 
-#endif // TrapezoidH
+#endif // NOT TrapezoidH
