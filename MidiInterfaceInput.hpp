@@ -74,7 +74,7 @@ void Midi::Interface::Input::dataFromInput(const Bytes& message)
    if (!isSystemEvent)
    {
       const Event event = static_cast<Event>(message[0] & 0xF0);
-      const Channel channel = message[0] & 0x0F;
+      const Channel channel = 1 + (message[0] & 0x0F);
 
       if (Event::NoteOn == event)
       {

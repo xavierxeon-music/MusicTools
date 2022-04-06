@@ -5,7 +5,7 @@
 
 namespace Midi
 {
-   using Channel = uint8_t;
+   using Channel = uint8_t; // channels from 1 to 16
    using Velocity = uint8_t;
    using SongPosition = uint16_t;
 
@@ -117,6 +117,29 @@ namespace Midi
       Start,
       Continue,
       Stop
+   };
+
+   struct Device
+   {
+      enum : uint8_t
+      {
+         DopeferQuad1 = 1,
+         DopeferQuad2 = 2,
+         DopeferQuad3 = 3,
+         DopeferQuad4 = 4,
+         KeyStep1 = 5,
+         KeyStep2 = 6,
+         KeyStep3 = 7,
+         KeyStep4 = 8,
+         Daisy = 9,
+         BlackTrigger = 10,
+         Raspi = 11,
+         MacBook = 12,
+         FlameCC = 13,
+         Unused = 14,
+         BitBox = 15,
+         BitBoxMicro = 16
+      };
    };
 
 } // namespace Midi

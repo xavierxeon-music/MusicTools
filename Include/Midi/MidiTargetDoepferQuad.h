@@ -17,7 +17,7 @@ namespace Midi
       public:
          // a strip has 3 cv outputs, corresponding to pitch, cv2 and cv3
          // when cv2 (velocity) is set to 0, then cv1 (pitch) will also be zero!
-         // uses default channels 0-3
+         // uses default channels 1-4
          class Strip
          {
          public:

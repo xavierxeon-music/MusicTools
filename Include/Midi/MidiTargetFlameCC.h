@@ -27,7 +27,7 @@ namespace Midi
       public:
 
       public:
-         inline FlameCC(Interface::Output* midiOutput, const Channel& channel = 12);
+         inline FlameCC(Interface::Output* midiOutput, const Channel& channel = Device::FlameCC);
 
       public:
          inline void init();
