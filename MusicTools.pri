@@ -23,6 +23,7 @@ HEADERS += \
    $$PWD/Include/Sound/FunctionTable.h \
    $$PWD/Include/Sound/GateOscilator.h \
    $$PWD/Include/Sound/StandardTable.h \
+   $$PWD/Include/Sound/StateVariableFilter.h \
    $$PWD/Include/Sound/TableOscilator.h \
    $$PWD/Include/Tools/BoolField.h \
    $$PWD/Include/Tools/Convert.h \
@@ -34,6 +35,7 @@ HEADERS += \
    $$PWD/Include/Tools/SevenBit.h \
    $$PWD/Include/Tools/SquareSignal.h \
    $$PWD/Include/Tools/Variable.h  \
+   $$PWD/StateVariableFilter.hpp
 
     
 HEADERS += \     \

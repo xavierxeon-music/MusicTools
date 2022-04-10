@@ -130,4 +130,22 @@ const DataType& Range::clamp(const DataType& value, const DataType& min, const D
    return value;
 }
 
+template <typename DataType>
+const DataType& Range::min(const DataType& value1, const DataType& value2)
+{
+   if (value1 < value2)
+      return value1;
+
+   return value2;
+}
+
+template <typename DataType>
+const DataType& Range::max(const DataType& value1, const DataType& value2)
+{
+   if (value1 < value2)
+      return value2;
+
+   return value1;
+}
+
 #endif // RangeHPP

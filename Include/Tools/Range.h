@@ -48,10 +48,16 @@ struct Range
 
    template <typename DataType>
    static const DataType& clamp(const DataType& value, const DataType& min, const DataType& max);
+
+   template <typename DataType>
+   static const DataType& min(const DataType& value1, const DataType& value2);
+
+   template <typename DataType>
+   static const DataType& max(const DataType& value1, const DataType& value2);
 };
 
 #ifndef RangeHPP
 #include "../../Range.hpp"
-#endif // RangeHPP
+#endif // NOT RangeHPP
 
-#endif // RangeH
+#endif // NOT RangeH
