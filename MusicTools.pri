@@ -7,6 +7,9 @@ HEADERS += \
    $$PWD/Include/Blocks/CvSwitch.h \
    $$PWD/Include/Blocks/PolyRamp.h \
    $$PWD/Include/Blocks/Trapezoid.h \
+   $$PWD/Include/Effect/Compressor.h \
+   $$PWD/Include/Effect/Resonator.h \
+   $$PWD/Include/Effect/StateVariableFilter.h \
    $$PWD/Include/Maths.h \
    $$PWD/Include/Midi/MidiCommon.h \
    $$PWD/Include/Midi/MidiInterfaceInput.h \
@@ -23,7 +26,6 @@ HEADERS += \
    $$PWD/Include/Sound/FunctionTable.h \
    $$PWD/Include/Sound/GateOscilator.h \
    $$PWD/Include/Sound/StandardTable.h \
-   $$PWD/Include/Sound/StateVariableFilter.h \
    $$PWD/Include/Sound/TableOscilator.h \
    $$PWD/Include/Tools/BoolField.h \
    $$PWD/Include/Tools/Convert.h \
@@ -34,13 +36,13 @@ HEADERS += \
    $$PWD/Include/Tools/RingBuffer.h \
    $$PWD/Include/Tools/SevenBit.h \
    $$PWD/Include/Tools/SquareSignal.h \
-   $$PWD/Include/Tools/Variable.h  \
-   $$PWD/StateVariableFilter.hpp
+   $$PWD/Include/Tools/Variable.h \
 
     
 HEADERS += \     \
    $$PWD/BoolField.hpp \
    $$PWD/CircularTable.hpp \
+   $$PWD/Compressor.hpp \
    $$PWD/Convert.hpp \
    $$PWD/Counter.hpp \
    $$PWD/CvSwitch.hpp \
@@ -56,14 +58,16 @@ HEADERS += \     \
    $$PWD/MusicTools.hpp \
    $$PWD/PolyRamp.hpp \
    $$PWD/Range.hpp \
+   $$PWD/Resonator.hpp \
    $$PWD/RingBuffer.hpp \
    $$PWD/SevenBit.hpp \
    $$PWD/SquareSignal.hpp \
    $$PWD/StandardTable.hpp \
+   $$PWD/StateVariableFilter.hpp \
    $$PWD/TableOscilator.hpp \
    $$PWD/Tempo.hpp \
    $$PWD/Trapezoid.hpp \
-   $$PWD/Variable.hpp \
+   $$PWD/Variable.hpp   \
 
 SOURCES += \
    $$PWD/AbstractEffect.cpp \
