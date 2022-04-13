@@ -45,9 +45,9 @@ PolyRamp::PolyRamp()
    , loop(this, true)
    , pastLoop(false)
    , currentStageIndex(0)
-   , stepSizeCounter(0)
+   , stepSizeCounter(1)
    , stepsTaken(0)
-   , stageLengthCounter(0)
+   , stageLengthCounter(1)
    , firstTickDone(false)
 {
 }
