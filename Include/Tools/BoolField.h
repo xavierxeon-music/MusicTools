@@ -1,7 +1,7 @@
 #ifndef BoolFieldH
 #define BoolFieldH
 
-#include <Global.h>
+#include <MusicTools.h>
 
 template <typename IntegerType>
 class BoolField
