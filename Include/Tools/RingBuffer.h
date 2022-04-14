@@ -3,7 +3,7 @@
 
 #include <MusicTools.h>
 
-template <typename DataType, uint8_t bufferSize>
+template <typename DataType, uint16_t bufferSize>
 class RingBuffer
 {
 public:
@@ -14,13 +14,13 @@ public:
    operator DataType() const;              // average
 
 public:
-   void add(DataType value);
+   DataType add(DataType value); // returns value overwritten
    void clear();
    DataType average() const;
 
 private:
    DataType values[bufferSize];
-   uint8_t currentIndex;
+   uint16_t currentIndex;
    bool filled;
 };
 

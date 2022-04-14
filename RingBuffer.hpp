@@ -3,7 +3,7 @@
 
 #include <Tools/RingBuffer.h>
 
-template <typename DataType, uint8_t bufferSize>
+template <typename DataType, uint16_t bufferSize>
 RingBuffer<DataType, bufferSize>::RingBuffer()
    : values()
    , currentIndex(0)
@@ -12,22 +12,23 @@ RingBuffer<DataType, bufferSize>::RingBuffer()
    static_assert(std::is_arithmetic<DataType>::value, "type must be an numeric type");
 }
 
-template <typename DataType, uint8_t bufferSize>
+template <typename DataType, uint16_t bufferSize>
 RingBuffer<DataType, bufferSize>& RingBuffer<DataType, bufferSize>::operator+=(DataType value)
 {
    add(value);
    return *this;
 }
 
-template <typename DataType, uint8_t bufferSize>
+template <typename DataType, uint16_t bufferSize>
 RingBuffer<DataType, bufferSize>::operator DataType() const
 {
    return average();
 }
 
-template <typename DataType, uint8_t bufferSize>
-void RingBuffer<DataType, bufferSize>::add(DataType value)
+template <typename DataType, uint16_t bufferSize>
+DataType RingBuffer<DataType, bufferSize>::add(DataType value)
 {
+   const DataType oldValue = values[currentIndex];
    values[currentIndex] = value;
    currentIndex++;
 
@@ -37,16 +38,18 @@ void RingBuffer<DataType, bufferSize>::add(DataType value)
       if (!filled)
          filled = true;
    }
+
+   return oldValue;
 }
 
-template <typename DataType, uint8_t bufferSize>
+template <typename DataType, uint16_t bufferSize>
 void RingBuffer<DataType, bufferSize>::clear()
 {
    currentIndex = 0;
    filled = false;
 }
 
-template <typename DataType, uint8_t bufferSize>
+template <typename DataType, uint16_t bufferSize>
 DataType RingBuffer<DataType, bufferSize>::average() const
 {
    if (!filled && 0 == currentIndex)
