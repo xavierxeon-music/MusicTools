@@ -1,7 +1,7 @@
 #ifndef StateVariableFilterHPP
 #define StateVariableFilterHPP
 
-#include <Sound/StateVariableFilter.h>
+#include <Effect/StateVariableFilter.h>
 
 #include <Maths.h>
 #include <Tools/Range.h>
