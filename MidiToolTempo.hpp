@@ -5,7 +5,8 @@
 
 Midi::Tool::Tempo::Tempo(Interface::Input* input)
    : Base::Tempo()
-   , tickCounter(0)
+   , tickCounter(6)
+   , isClockTick(false)
 {
    input->onClockTick(this, &Tempo::midiClockTick);
    input->onClockStatus(this, &Tempo::midiClockStatus);
@@ -13,7 +14,7 @@ Midi::Tool::Tempo::Tempo(Interface::Input* input)
 
 bool Midi::Tool::Tempo::isTick() const
 {
-   return (0 == tickCounter);
+   return isClockTick;
 }
 
 bool Midi::Tool::Tempo::isReset() const
@@ -28,12 +29,13 @@ void Midi::Tool::Tempo::midiClockTick()
    else if (RunState::FirstTick == runState)
       runState = RunState::Running;
 
-   tickCounter++;
-   if (6 == tickCounter)
+   if (0 == tickCounter.valueAndNext())
    {
+      isClockTick = true;
       clockTick();
-      tickCounter = 0;
    }
+   else
+      isClockTick = false;
 }
 
 void Midi::Tool::Tempo::midiClockStatus(const Playback& status)
@@ -41,7 +43,7 @@ void Midi::Tool::Tempo::midiClockStatus(const Playback& status)
    if (Playback::Start == status)
    {
       clockReset();
-      tickCounter = 0;
+      tickCounter.reset();
       runState = RunState::Reset;
    }
 }

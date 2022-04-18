@@ -104,7 +104,7 @@ void Midi::Interface::Input::dataFromInput(const Bytes& message)
    {
       const Event event = static_cast<Event>(message[0]);
 
-      if (Midi::Event::SongPositionPointer == event)
+      if (Event::SongPositionPointer == event)
       {
          uint16_t front = static_cast<uint16_t>(message.at(1));
          uint16_t back = static_cast<uint16_t>(message.at(2));
@@ -112,22 +112,22 @@ void Midi::Interface::Input::dataFromInput(const Bytes& message)
          const uint16_t songPosition = 1 + front + (128 * back);
          (void)songPosition;
       }
-      else if (Midi::Event::Clock == event)
+      else if (Event::Clock == event)
       {
          for (const ClockTickFunction& clockTickFunction : clockTickFunctionList)
             clockTickFunction();
       }
-      else if (Midi::Event::Start == event)
+      else if (Event::Start == event)
       {
          for (const ClockStatusFunction& clockStatusFunction : clockStatusFunctionList)
             clockStatusFunction(Playback::Start);
       }
-      else if (Midi::Event::Continue == event)
+      else if (Event::Continue == event)
       {
          for (const ClockStatusFunction& clockStatusFunction : clockStatusFunctionList)
             clockStatusFunction(Playback::Continue);
       }
-      else if (Midi::Event::Stop == event)
+      else if (Event::Stop == event)
       {
          for (const ClockStatusFunction& clockStatusFunction : clockStatusFunctionList)
             clockStatusFunction(Playback::Stop);

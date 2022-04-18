@@ -40,7 +40,7 @@ private:
 private:
    float sampleRate;
    FilterMode mode;
-   float frequency;
+   float sampleFrequency;
    float resonance;
    float drive;
 

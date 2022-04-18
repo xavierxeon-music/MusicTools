@@ -11,6 +11,7 @@ namespace Base
 }
 
 #include <Midi/MidiInterfaceInput.h>
+#include <Tools/Counter.h>
 
 namespace Midi
 {
@@ -32,7 +33,8 @@ namespace Midi
          inline void midiClockStatus(const Playback& status);
 
       private:
-         uint8_t tickCounter;
+         Counter tickCounter;
+         bool isClockTick;
       };
    } // namespace Tool
 } // namespace Midi
