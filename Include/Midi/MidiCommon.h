@@ -133,12 +133,12 @@ namespace Midi
          KeyStep4 = 8,
          Daisy = 9,
          BlackTrigger = 10,
-         Raspi = 11,
-         MacBook = 12,
-         FlameCC = 13,
-         Unused = 14,
-         BitBox = 15,
-         BitBoxMicro = 16
+         VCVRack = 11,
+         FlameCC = 12,
+         BitBox = 13,
+         BitBoxMicro = 14,
+         UnusedA = 15,
+         UnusedB = 16
       };
    };
 
