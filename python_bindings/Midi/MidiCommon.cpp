@@ -16,7 +16,6 @@ void init_MidiCommon(pybind11::module_& module)
    eventType.value("Start", Midi::Event::Start);
    eventType.value("Continue", Midi::Event::Continue);
    eventType.value("Stop", Midi::Event::Stop);
-
    eventType.export_values();
 
    pybind11::enum_<Midi::ControllerMessage> controllMessageType(module, "MidiControllerMessage");
