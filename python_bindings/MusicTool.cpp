@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 
 // Blocks
+void init_PolyRamp(pybind11::module_& module);
 void init_Trapezoid(pybind11::module_& module);
 
 // Midi
@@ -23,6 +24,7 @@ void init_SevenBit(pybind11::module_& module);
 PYBIND11_MODULE(_xxmodularsynth, module)
 {
    //Blocks
+   init_PolyRamp(module);
    init_Trapezoid(module);
 
    // midi

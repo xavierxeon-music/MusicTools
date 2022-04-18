@@ -4,18 +4,22 @@
 
 void init_MidiCommon(pybind11::module_& module)
 {
-   pybind11::class_<Midi::Event> event(module, "MidiEvent");
-   pybind11::enum_<Midi::Event::Type> eventType(event, "Type");
-   //eventType.value("Unknown", Midi::Event::Unknown);
+   pybind11::enum_<Midi::Event> eventType(module, "MidiEvent");
+   eventType.value("Unknown", Midi::Event::Unknown);
    eventType.value("NoteOff", Midi::Event::NoteOff);
    eventType.value("NoteOn", Midi::Event::NoteOn);
    eventType.value("ControlChange", Midi::Event::ControlChange);
-   eventType.value("Unknown", Midi::Event::Unknown);
-   eventType.value("SysExStart", Midi::Event::SysExEnd);
+   eventType.value("System", Midi::Event::System);
+   eventType.value("TimeCode", Midi::Event::TimeCode);
+   eventType.value("SongPositionPointer", Midi::Event::SongPositionPointer);
+   eventType.value("Clock", Midi::Event::Clock);
+   eventType.value("Start", Midi::Event::Start);
+   eventType.value("Continue", Midi::Event::Continue);
+   eventType.value("Stop", Midi::Event::Stop);
+
    eventType.export_values();
 
-   pybind11::class_<Midi::ControllerMessage> controllMessage(module, "MidiControllerMessage");
-   pybind11::enum_<Midi::ControllerMessage::Type> controllMessageType(controllMessage, "Type");
+   pybind11::enum_<Midi::ControllerMessage> controllMessageType(module, "MidiControllerMessage");
    controllMessageType.value("BankSelect", Midi::ControllerMessage::BankSelect);
    controllMessageType.value("ModWheel", Midi::ControllerMessage::ModWheel);
    controllMessageType.value("BreathController", Midi::ControllerMessage::BreathController);

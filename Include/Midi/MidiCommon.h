@@ -14,7 +14,7 @@ namespace Midi
 
    enum Event : uint8_t
    {
-      Unkown = 0x00,
+      Unknown = 0x00,
       NoteOff = 0x80,
       NoteOn = 0x90,
       PolyKeyPressure = 0xA0,

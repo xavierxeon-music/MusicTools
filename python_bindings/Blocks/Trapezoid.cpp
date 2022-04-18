@@ -4,29 +4,29 @@
 
 void init_Trapezoid(pybind11::module_& module)
 {
-   pybind11::class_<Trapezoid> tempo(module, "Trapezoid");
-   tempo.def(pybind11::init<>());
+   pybind11::class_<Trapezoid> trapezoid(module, "Trapezoid");
+   trapezoid.def(pybind11::init<>());
 
-   tempo.def_static("stageName", &Trapezoid::stageName);
+   trapezoid.def_static("stageName", &Trapezoid::stageName);
 
-   tempo.def("init", &Trapezoid::init);
-   tempo.def("clockTick", &Trapezoid::clockTick);
-   tempo.def("clockReset", &Trapezoid::clockReset);
+   trapezoid.def("init", &Trapezoid::init);
+   trapezoid.def("clockTick", &Trapezoid::clockTick);
+   trapezoid.def("clockReset", &Trapezoid::clockReset);
 
-   tempo.def("getCurrentStage", &Trapezoid::getCurrentStage);
-   tempo.def("getCurrentStagePercentage", &Trapezoid::getCurrentStagePercentage);
-   tempo.def("getCurrentValue", &Trapezoid::getCurrentValue);
+   trapezoid.def("getCurrentStage", &Trapezoid::getCurrentStage);
+   trapezoid.def("getCurrentStagePercentage", &Trapezoid::getCurrentStagePercentage);
+   trapezoid.def("getCurrentValue", &Trapezoid::getCurrentValue);
 
-   tempo.def("getStageLength", &Trapezoid::getStageLength);
-   tempo.def("changeStageLength", &Trapezoid::changeStageLength);
+   trapezoid.def("getStageLength", &Trapezoid::getStageLength);
+   trapezoid.def("changeStageLength", &Trapezoid::changeStageLength);
 
-   tempo.def("getStepSize", &Trapezoid::getStepSize);
-   tempo.def("changeStepSize", &Trapezoid::changeStepSize);
-   tempo.def("getBound", &Trapezoid::getBound);
-   tempo.def("changeBound", &Trapezoid::changeBound);
-   tempo.def("isValid", &Trapezoid::isValid);
+   trapezoid.def("getStepSize", &Trapezoid::getStepSize);
+   trapezoid.def("changeStepSize", &Trapezoid::changeStepSize);
+   trapezoid.def("getBound", &Trapezoid::getBound);
+   trapezoid.def("changeBound", &Trapezoid::changeBound);
+   trapezoid.def("isValid", &Trapezoid::isValid);
 
-   pybind11::enum_<Trapezoid::Stage> division(tempo, "Stage");
+   pybind11::enum_<Trapezoid::Stage> division(trapezoid, "Stage");
    division.value("Wait", Trapezoid::Stage::Wait);
    division.value("Rise", Trapezoid::Stage::Rise);
    division.value("High", Trapezoid::Stage::High);
@@ -34,7 +34,7 @@ void init_Trapezoid(pybind11::module_& module)
    division.value("Low", Trapezoid::Stage::Low);
    division.export_values();
 
-   pybind11::enum_<Trapezoid::Bound> runState(tempo, "Bound");
+   pybind11::enum_<Trapezoid::Bound> runState(trapezoid, "Bound");
    runState.value("Min", Trapezoid::Bound::Min);
    runState.value("Max", Trapezoid::Bound::Max);
    runState.export_values();

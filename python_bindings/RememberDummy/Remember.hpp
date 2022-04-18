@@ -14,7 +14,6 @@ template <typename DataType>
 Remember::Value<DataType>::Value(Container* parent, const DataType& initialValue)
    : content(initialValue)
 {
-   (void)parent;
 }
 
 template <typename DataType>
@@ -31,30 +30,21 @@ Remember::Value<DataType>::operator DataType() const
 }
 
 template <typename DataType>
-DataType& Remember::Value<DataType>::refValue()
-{
-   return content;
-}
-
-template <typename DataType>
-const DataType& Remember::Value<DataType>::constValue() const
+Remember::Value<DataType>::operator DataType&()
 {
    return content;
 }
 
 template <typename DataType>
 Remember::Value<DataType>::Value()
-   : content(DataType(0))
+   : Value<DataType>(nullptr, 0)
 {
 }
 
-// value array
-
 template <typename DataType, uint16_t ArraySize>
 Remember::ValueArray<DataType, ArraySize>::ValueArray(Container* parent)
-   : members()
+   : Remember::Array<DataType, ArraySize>()
 {
-   (void)parent;
 }
 
 template <typename DataType, uint16_t ArraySize>
@@ -64,23 +54,75 @@ Remember::ValueArray<DataType, ArraySize>::ValueArray(Container* parent, std::in
    uint16_t index = 0;
    for (const DataType& value : initialValues)
    {
-      members[index].refValue() = value;
+      members[index] = value;
       index++;
       if (index == ArraySize)
          break;
    }
 }
 
-template <typename DataType, uint16_t ArraySize>
-Remember::Value<DataType>& Remember::ValueArray<DataType, ArraySize>::operator[](const uint16_t index)
+template <typename DataType>
+Remember::ValueList<DataType>::ValueList(Container* parent)
+   : Remember::List<DataType>()
 {
-   return members[index];
 }
 
-template <typename DataType, uint16_t ArraySize>
-const Remember::Value<DataType>& Remember::ValueArray<DataType, ArraySize>::operator[](const uint16_t index) const
+template <typename DataType>
+Remember::ValueList<DataType>::ValueList(Container* parent, std::initializer_list<DataType> initialValues)
+   : ValueList<DataType>(parent)
 {
-   return members[index];
+   for (const DataType& value : initialValues)
+      members.push_back(value);
+}
+
+// ref
+
+template <typename ContainerType>
+Remember::Ref<ContainerType>::Ref(Container* parent)
+   : container()
+{
+}
+
+template <typename ContainerType>
+Remember::Ref<ContainerType>& Remember::Ref<ContainerType>::operator=(const ContainerType& other)
+{
+   container = other;
+   return *this;
+}
+
+template <typename ContainerType>
+Remember::Ref<ContainerType>::operator ContainerType*()
+{
+   return &container;
+}
+
+template <typename ContainerType>
+ContainerType* Remember::Ref<ContainerType>::operator->()
+{
+   return &container;
+}
+
+template <typename ContainerType>
+const ContainerType* Remember::Ref<ContainerType>::operator->() const
+{
+   return &container;
+}
+template <typename ContainerType>
+Remember::Ref<ContainerType>::Ref()
+   : Ref<ContainerType>(nullptr)
+{
+}
+
+template <typename ContainerType, uint16_t ArraySize>
+Remember::RefArray<ContainerType, ArraySize>::RefArray(Container* parent)
+   : Remember::Array<ContainerType, ArraySize>()
+{
+}
+
+template <typename ContainerType>
+Remember::RefList<ContainerType>::RefList(Container* parent)
+   : Remember::List<ContainerType>()
+{
 }
 
 #endif // RememberHPP

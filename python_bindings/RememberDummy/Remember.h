@@ -1,8 +1,10 @@
 #ifndef RememberH
 #define RememberH
 
-// this is a dummy implementation
+#include "RememberArray.h"
+#include "RememberList.h"
 
+// this is a dummy implementation
 namespace Remember
 {
    struct Root
@@ -14,6 +16,8 @@ namespace Remember
    {
    };
 
+   // value
+
    template <typename DataType>
    class Value
    {
@@ -21,15 +25,9 @@ namespace Remember
       inline Value(Container* parent, const DataType& initialValue);
 
    public:
-      inline Value& operator=(const DataType& other);
-      inline operator DataType() const;
-      inline DataType& refValue();
-      const DataType& constValue() const;
-
-   private:
-      // clang-format off
-      template <typename DataType2, uint16_t ArraySize> friend class ValueArray;
-      // clang-format on
+      Value& operator=(const DataType& other);
+      operator DataType() const;
+      operator DataType&();
 
    private:
       inline Value();
@@ -39,22 +37,72 @@ namespace Remember
    };
 
    template <typename DataType, uint16_t ArraySize>
-   class ValueArray
+   class ValueArray : public Array<DataType, ArraySize>
    {
    public:
       inline ValueArray(Container* parent);
       inline ValueArray(Container* parent, std::initializer_list<DataType> initialValues);
 
+   private:
+      using Remember::Array<DataType, ArraySize>::members;
+   };
+
+   template <typename DataType>
+   class ValueList : public List<DataType>
+   {
    public:
-      Value<DataType>& operator[](const uint16_t index);
-      inline const Value<DataType>& operator[](const uint16_t index) const;
+      inline ValueList(Container* parent);
+      inline ValueList(Container* parent, std::initializer_list<DataType> initialValues);
 
    private:
-      Value<DataType> members[ArraySize];
+      using Remember::List<DataType>::members;
+   };
+
+   // ref
+
+   template <typename ContainerType>
+   class Ref
+   {
+   public:
+      Ref(Container* parent);
+
+   public:
+      Ref& operator=(const ContainerType& other);
+      operator ContainerType*();
+      ContainerType* operator->();
+      const ContainerType* operator->() const;
+
+   private:
+      Ref();
+
+   private:
+      ContainerType container;
+   };
+
+   template <typename ContainerType, uint16_t ArraySize>
+   class RefArray : public Array<ContainerType, ArraySize>
+   {
+   public:
+      RefArray(Container* parent);
+
+   private:
+      using Remember::Array<ContainerType, ArraySize>::members;
+   };
+
+   template <typename ContainerType>
+   class RefList : public List<ContainerType>
+   {
+   public:
+      inline RefList(Container* parent);
+
+   private:
+      using Remember::List<ContainerType>::members;
    };
 
 } // namespace Remember
 
+#ifndef RememberHPP
 #include "Remember.hpp"
+#endif // NOT RememberHPP
 
-#endif // RememberH
+#endif // NOT RememberH
