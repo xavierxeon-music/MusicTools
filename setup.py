@@ -23,7 +23,7 @@ if platform.system() == 'Darwin':
     extra_compile_args.append('-stdlib=libc++')
     extra_compile_args.append('-mmacosx-version-min=10.14')
 
-include_dirs = [pybind11.get_include(), os.getcwd(), os.getcwd() + '/Include', os.getcwd() + '/python_bindings/RememberDummy']
+include_dirs = [pybind11.get_include(), os.getcwd(), os.getcwd() + '/Include', os.getcwd() + '/RememberDummy']
 
 
 def compileCppSources():
