@@ -52,6 +52,16 @@ PolyRamp::PolyRamp()
 {
 }
 
+void PolyRamp::clear()
+{
+   stepSize = Tempo::Division::Bar;
+   polyRampLength = 0;
+   stages.clear();
+   loop = true;
+
+   clockReset();
+}
+
 void PolyRamp::clockTick()
 {
    if (!isValid() || pastLoop)

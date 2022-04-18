@@ -29,6 +29,8 @@ public:
    inline PolyRamp();
 
 public:
+   inline void clear();
+
    inline void clockTick();
    inline void clockReset();
 
