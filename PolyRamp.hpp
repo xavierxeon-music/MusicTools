@@ -305,7 +305,7 @@ void PolyRamp::removeStage(const uint8_t& index)
    clockReset();
 }
 
-uint8_t PolyRamp::getStageStartHeight(const uint8_t& index)
+uint8_t PolyRamp::getStageStartHeight(const uint8_t& index) const
 {
    return stages[index].startHeight;
 }
@@ -316,7 +316,7 @@ void PolyRamp::setStageStartHeight(const uint8_t& index, const uint8_t& startHei
    Remember::Root::setUnsynced();
 }
 
-uint8_t PolyRamp::getStageLength(const uint8_t& index)
+uint8_t PolyRamp::getStageLength(const uint8_t& index) const
 {
    return stages[index].stageLength;
 }

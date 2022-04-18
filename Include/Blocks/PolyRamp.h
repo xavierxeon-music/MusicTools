@@ -55,10 +55,10 @@ public:
    inline void moveStage(const uint8_t& fromIndex, const uint8_t& toIndex);
    inline void removeStage(const uint8_t& index);
 
-   inline uint8_t getStageStartHeight(const uint8_t& index);
+   inline uint8_t getStageStartHeight(const uint8_t& index) const;
    inline void setStageStartHeight(const uint8_t& index, const uint8_t& startHeight);
 
-   inline uint8_t getStageLength(const uint8_t& index);
+   inline uint8_t getStageLength(const uint8_t& index) const;
    // expandLength = true: adjust PolyRamp length to fit stages
    // expandLength = false: if new length exeeds current length, then do not add stage
    inline LengthStatus setStageLength(const uint8_t& index, const uint8_t& stageLength, bool expandLength = true);
