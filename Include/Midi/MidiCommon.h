@@ -121,8 +121,9 @@ namespace Midi
 
    struct Device
    {
-      enum : uint8_t
+      enum Channel : uint8_t
       {
+         Splitter = 0,
          DopeferQuad1 = 1,
          DopeferQuad2 = 2,
          DopeferQuad3 = 3,
