@@ -257,7 +257,7 @@ void PolyRamp::trimLength()
    clockReset();
 }
 
-uint8_t PolyRamp::stageCount() const
+uint8_t PolyRamp::getStageCount() const
 {
    return stages.size();
 }

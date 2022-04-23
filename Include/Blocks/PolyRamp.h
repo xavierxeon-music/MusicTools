@@ -50,7 +50,7 @@ public:
    inline LengthStatus setLength(const uint32_t newLength, bool autoDiscard = false);
    inline void trimLength(); // set length to fit stages
 
-   inline uint8_t stageCount() const;
+   inline uint8_t getStageCount() const;
    inline LengthStatus addStage(const uint8_t& afterIndex, const uint32_t& numberOfStages = 1);
    inline void moveStage(const uint8_t& fromIndex, const uint8_t& toIndex);
    inline void removeStage(const uint8_t& index);
