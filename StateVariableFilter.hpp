@@ -39,6 +39,8 @@ float StateVariableFilter::changeSound(const float& in)
       return highPass();
    else if (FilterMode::Notch == mode)
       return notch();
+   else if (FilterMode::Peak == mode)
+      return peak();
 
    return 0.0;
 }
@@ -61,6 +63,11 @@ float StateVariableFilter::highPass() const
 float StateVariableFilter::notch() const
 {
    return output.notch;
+}
+
+float StateVariableFilter::peak() const
+{
+   return output.peak;
 }
 
 void StateVariableFilter::setFrequency(const float& newFrequency)
@@ -98,11 +105,13 @@ void StateVariableFilter::process(const float& in)
       buffer.low = buffer.low + (sampleFrequency * buffer.band);
       buffer.high = buffer.notch - buffer.low;
       buffer.band = (sampleFrequency * buffer.high) + buffer.band - (drive * buffer.band * buffer.band * buffer.band);
+      buffer.peak = 0.0;
 
       output.low += 0.5f * buffer.low;
       output.band += 0.5f * buffer.band;
       output.high += 0.5f * buffer.high;
       output.notch += 0.5f * buffer.notch;
+      output.peak += 0.5f * (buffer.low - buffer.high);
    };
 
    for (uint8_t index = 0; index < numberOfPasses; index++)

@@ -19,6 +19,7 @@ public:
    inline float bandPass() const;
    inline float highPass() const;
    inline float notch() const;
+   inline float peak() const;
 
    inline void setFrequency(const float& newFrequency);
    inline void setResonance(const float& newResonannce);
@@ -31,6 +32,7 @@ private:
       float band = 0.0;
       float high = 0.0;
       float notch = 0.0;
+      float peak = 0.0;
    };
 
 private:

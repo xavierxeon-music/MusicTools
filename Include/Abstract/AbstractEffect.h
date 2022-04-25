@@ -6,7 +6,8 @@ enum class FilterMode
    LowPass,
    BandPass,
    HighPass,
-   Notch
+   Notch,
+   Peak
 };
 
 namespace Abstract
