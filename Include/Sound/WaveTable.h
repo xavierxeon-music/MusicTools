@@ -62,7 +62,7 @@ namespace WaveTable
 } // namespace WaveTable
 
 #ifndef WaveTableHPP
-#include "WaveTable.hpp"
+#include "../../WaveTable.hpp"
 #endif // NOT WaveTableHPP
 
 #endif // NOT WaveTableH
