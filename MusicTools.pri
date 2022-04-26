@@ -25,8 +25,11 @@ HEADERS += \
    $$PWD/Include/Sound/CircularTable.h \
    $$PWD/Include/Sound/FunctionTable.h \
    $$PWD/Include/Sound/GateOscilator.h \
+   $$PWD/Include/Sound/SoundMesh.h \
    $$PWD/Include/Sound/StandardTable.h \
+   $$PWD/Include/Sound/TableMorpher.h \
    $$PWD/Include/Sound/TableOscilator.h \
+   $$PWD/Include/Sound/WaveTable.h \
    $$PWD/Include/Tools/BoolField.h \
    $$PWD/Include/Tools/Convert.h \
    $$PWD/Include/Tools/Counter.h \
@@ -37,6 +40,9 @@ HEADERS += \
    $$PWD/Include/Tools/SevenBit.h \
    $$PWD/Include/Tools/SquareSignal.h \
    $$PWD/Include/Tools/Variable.h \
+   $$PWD/SoundMesh.hpp \
+   $$PWD/TableMorpher.hpp \
+   $$PWD/WaveTable.hpp
 
     
 HEADERS += \     \
@@ -47,6 +53,7 @@ HEADERS += \     \
    $$PWD/Counter.hpp \
    $$PWD/CvSwitch.hpp \
    $$PWD/FastRandom.hpp \
+   $$PWD/FunctionTable.hpp \
    $$PWD/GateOscilator.hpp \
    $$PWD/Glide.hpp \
    $$PWD/MidiInterfaceInput.hpp \

@@ -5,33 +5,51 @@
 
 #include <Maths.h>
 
-std::string Standard::getName(const Waveform::Shape& shape)
+std::string Standard::Waveform::getName(const Shape& shape)
 {
-   if (Standard::Waveform::Sine == shape)
+   if (Sine == shape)
       return "sin";
-   else if (Standard::Waveform::Saw == shape)
+   else if (Saw == shape)
       return "saw";
-   else if (Standard::Waveform::Square == shape)
+   else if (Square == shape)
       return "sqr";
-   else if (Standard::Waveform::SlopeUp == shape)
+   else if (SlopeUp == shape)
       return "up/";
-   else if (Standard::Waveform::SlopeDown == shape)
+   else if (SlopeDown == shape)
       return "dn\\";
 
    return "???";
 }
 
-const WaveTable::Table* Standard::getTable(const Waveform::Shape& shape)
+// table
+
+Standard::Table::Table()
+   : WaveTable::Table()
+   , dataMap()
+   , waveform(Waveform::Sine)
+   , anglePerStep(maxAngle / static_cast<float>(tableSize))
 {
+   using AngleFunction = std::function<float(const float& valuesPerAngle)>;
+
+   auto fillData = [&](AngleFunction angleFunction, const Waveform::Shape& shape)
+   {
+      for (uint64_t index = 0; index < tableSize; index++)
+      {
+         const float angle = index * anglePerStep;
+         const float value = angleFunction(angle);
+         dataMap[shape][index] = value;
+      }
+   };
+
    // sine
-   auto sineFunction = [](const float& angle) -> float
+   AngleFunction sineFunction = [](const float& angle)
    {
       return std::sin(angle);
    };
-   static const FunctionTable sineTable(Standard::tableSize, sineFunction);
+   fillData(sineFunction, Waveform::Sine);
 
    // saw
-   auto sawFunction = [](const float& angle) -> float
+   AngleFunction sawFunction = [](const float& angle) -> float
    {
       static const float pi = 0.5 * 2.0f * Maths::pi;
       if (angle <= pi)
@@ -49,10 +67,10 @@ const WaveTable::Table* Standard::getTable(const Waveform::Shape& shape)
          return value;
       }
    };
-   static const FunctionTable sawTable(tableSize, sawFunction);
+   fillData(sawFunction, Waveform::Saw);
 
    // square
-   auto sqaureFunction = [](const float& angle) -> float
+   AngleFunction sqaureFunction = [](const float& angle) -> float
    {
       static const float pi = 0.5f * 2.0f * Maths::pi;
       if (angle <= pi)
@@ -60,41 +78,55 @@ const WaveTable::Table* Standard::getTable(const Waveform::Shape& shape)
       else
          return -1.0f;
    };
-   static const FunctionTable sqaureTable(tableSize, sqaureFunction);
+   fillData(sqaureFunction, Waveform::Square);
 
    // slope up
-   auto slopeUpFunction = [](const float& angle) -> float
+   AngleFunction slopeUpFunction = [](const float& angle) -> float
    {
       const float precent = angle / (2.0f * Maths::pi);
       const float value = -1.0f + (2.0f * precent);
 
       return value;
    };
-   static const FunctionTable slopeUpTable(tableSize, slopeUpFunction);
+   fillData(slopeUpFunction, Waveform::SlopeUp);
 
    // slope down
-   auto slopeDownFunction = [](const float& angle) -> float
+   AngleFunction slopeDownFunction = [](const float& angle) -> float
    {
       const float precent = angle / (2.0f * Maths::pi);
       const float value = 1.0f - (2.0f * precent);
 
       return value;
    };
-   static const FunctionTable slopeDownTable(tableSize, slopeDownFunction);
+   fillData(slopeDownFunction, Waveform::SlopeDown);
+}
 
-   //
-   if (Standard::Waveform::Sine == shape)
-      return &sineTable;
-   else if (Standard::Waveform::Saw == shape)
-      return &sawTable;
-   else if (Standard::Waveform::Square == shape)
-      return &sqaureTable;
-   else if (Standard::Waveform::SlopeUp == shape)
-      return &slopeUpTable;
-   else if (Standard::Waveform::SlopeDown == shape)
-      return &slopeDownTable;
+void Standard::Table::setWaveform(const Waveform::Shape& newWaveform)
+{
+   waveform = newWaveform;
+}
 
-   return nullptr;
+float Standard::Table::valueByAngle(const float& angle) const
+{
+   auto getIndexFromAngle = [&](float angle) -> uint64_t
+   {
+      while (angle < 0)
+         angle += maxAngle;
+
+      while (angle >= maxAngle)
+         angle -= maxAngle;
+
+      const uint64_t index = static_cast<uint64_t>(angle / anglePerStep);
+      return index;
+   };
+
+   const uint64_t index = getIndexFromAngle(angle);
+   return dataMap.at(waveform)[index];
+}
+
+const uint64_t& Standard::Table::getResolution() const
+{
+   return tableSize;
 }
 
 #endif // StandardTableHPP
