@@ -1,14 +1,29 @@
-#ifndef TableOscilatorHPP
-#define TableOscilatorHPP
+#ifndef WaveTableHPP
+#define WaveTableHPP
 
-#include <Sound/TableOscilator.h>
+#include <Sound/WaveTable.h>
 
-#include <cmath>
-
-#include <Sound/CircularTable.h>
 #include <Tools/Range.h>
 
-TableOscilator::TableOscilator()
+// table
+
+WaveTable::Table::Table(const float maxAngle)
+   : maxAngle(maxAngle)
+{
+}
+
+WaveTable::Table::~Table()
+{
+}
+
+const float& WaveTable::Table::getMaxAngle() const
+{
+   return maxAngle;
+}
+
+// oscilator
+
+WaveTable::Oscilator::Oscilator()
    : Abstract::Oscilator()
    , table(nullptr)
    , sampleRate(1.0f)
@@ -19,7 +34,7 @@ TableOscilator::TableOscilator()
 {
 }
 
-void TableOscilator::init(const CircularTable* newTable, const float& newSampleRate)
+void WaveTable::Oscilator::init(const Table* newTable, const float& newSampleRate)
 {
    table = newTable;
    sampleRate = newSampleRate;
@@ -27,7 +42,7 @@ void TableOscilator::init(const CircularTable* newTable, const float& newSampleR
    compileDeltaPhase();
 }
 
-void TableOscilator::setPhase(const float& newPhase)
+void WaveTable::Oscilator::setPhase(const float& newPhase)
 {
    phase = newPhase;
 
@@ -37,12 +52,12 @@ void TableOscilator::setPhase(const float& newPhase)
       phase += table->getMaxAngle();
 }
 
-const float& TableOscilator::getPhase() const
+const float& WaveTable::Oscilator::getPhase() const
 {
    return phase;
 }
 
-void TableOscilator::setFrequency(const float& newFrequency)
+void WaveTable::Oscilator::setFrequency(const float& newFrequency)
 {
    if (frequency == newFrequency)
       return;
@@ -65,27 +80,27 @@ void TableOscilator::setFrequency(const float& newFrequency)
    compileDeltaPhase();
 }
 
-void TableOscilator::setCycleDuration(const float& cylceDuration)
+void WaveTable::Oscilator::setCycleDuration(const float& cylceDuration)
 {
    setFrequency(1.0 / cylceDuration);
 }
 
-const float& TableOscilator::getFrequency() const
+const float& WaveTable::Oscilator::getFrequency() const
 {
    return frequency;
 }
 
-void TableOscilator::setAmplitude(const float& newAmplitude)
+void WaveTable::Oscilator::setAmplitude(const float& newAmplitude)
 {
    amplitude = newAmplitude;
 }
 
-const float& TableOscilator::getAmplitude() const
+const float& WaveTable::Oscilator::getAmplitude() const
 {
    return amplitude;
 }
 
-float TableOscilator::createSound()
+float WaveTable::Oscilator::createSound()
 {
    if (!table || 0.0f == deltaPhase)
       return 0.0f;
@@ -100,7 +115,7 @@ float TableOscilator::createSound()
    return value * amplitude;
 }
 
-float TableOscilator::frequencyFromCV(float voltage)
+float WaveTable::Oscilator::frequencyFromCV(float voltage)
 {
    static const float baseFreq[6] = {65.40639132514963f, 130.81278265029925f, 261.6255653005985f, 523.251130601197f, 1046.502261202394f, 2093.004522404789f};
 
@@ -114,9 +129,9 @@ float TableOscilator::frequencyFromCV(float voltage)
    return frequency;
 }
 
-void TableOscilator::compileDeltaPhase()
+void WaveTable::Oscilator::compileDeltaPhase()
 {
    deltaPhase = (table->getMaxAngle() * frequency) / sampleRate;
 }
 
-#endif // TableOscilatorHPP
+#endif // NOT WaveTableHPP
