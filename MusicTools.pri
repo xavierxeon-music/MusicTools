@@ -27,9 +27,9 @@ HEADERS += \
    $$PWD/Include/Sound/GateOscilator.h \
    $$PWD/Include/Sound/SoundMesh.h \
    $$PWD/Include/Sound/StandardTable.h \
-   $$PWD/Include/Sound/TableMorpher.h \
    $$PWD/Include/Sound/TableOscilator.h \
    $$PWD/Include/Sound/WaveTable.h \
+   $$PWD/Include/Sound/WaveTableMorpher.h \
    $$PWD/Include/Tools/BoolField.h \
    $$PWD/Include/Tools/Convert.h \
    $$PWD/Include/Tools/Counter.h \
@@ -41,8 +41,8 @@ HEADERS += \
    $$PWD/Include/Tools/SquareSignal.h \
    $$PWD/Include/Tools/Variable.h \
    $$PWD/SoundMesh.hpp \
-   $$PWD/TableMorpher.hpp \
-   $$PWD/WaveTable.hpp
+   $$PWD/WaveTable.hpp \
+   $$PWD/WaveTableMorpher.hpp
 
     
 HEADERS += \     \

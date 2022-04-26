@@ -1,7 +1,7 @@
 #ifndef SoundMeshH
 #define SoundMeshH
 
-#include <Sound/TableMorpher.h>
+#include <Sound/WaveTableMorpher.h>
 
 class SoundMesh : public TableMorpher
 {
