@@ -21,7 +21,7 @@ std::string Standard::getName(const Waveform::Shape& shape)
    return "???";
 }
 
-const CircularTable* Standard::getTable(const Waveform::Shape& shape)
+const WaveTable::Table* Standard::getTable(const Waveform::Shape& shape)
 {
    // sine
    auto sineFunction = [](const float& angle) -> float

@@ -21,7 +21,7 @@ struct Standard
    };
 
    inline static std::string getName(const Waveform::Shape& shape);
-   inline static const CircularTable* getTable(const Waveform::Shape& shape);
+   inline static const WaveTable::Table* getTable(const Waveform::Shape& shape);
    static constexpr uint64_t tableSize = 4096; // TODO try smaller size
 };
 
