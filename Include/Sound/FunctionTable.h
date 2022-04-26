@@ -1,11 +1,11 @@
 #ifndef FunctionTableH
 #define FunctionTableH
 
-#include <Sound/CircularTable.h>
+#include <Sound/WaveTable.h>
 
 #include <functional>
 
-class FunctionTable : public CircularTable
+class FunctionTable : public WaveTable::Table
 {
 public:
    using AngleFunction = std::function<float(const float& valuesPerAngle)>;

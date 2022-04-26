@@ -4,7 +4,7 @@
 #include <Sound/FunctionTable.h>
 
 FunctionTable::FunctionTable(uint64_t resolution, const float maxAngle)
-   : CircularTable(maxAngle)
+   : WaveTable::Table(maxAngle)
    , resolution(resolution)
    , anglePerStep(maxAngle / static_cast<float>(resolution))
    , table(nullptr)
@@ -45,6 +45,5 @@ uint64_t FunctionTable::getIndexFromAngle(float angle) const
    const uint64_t index = static_cast<uint64_t>(angle / anglePerStep);
    return index;
 }
-
 
 #endif // FunctionTableHPP
