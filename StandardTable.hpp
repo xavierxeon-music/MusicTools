@@ -24,10 +24,9 @@ std::string Standard::Waveform::getName(const Shape& shape)
 // table
 
 Standard::Table::Table()
-   : WaveTable::Table()
+   : WaveTable::StepTable(tableSize)
    , dataMap()
    , waveform(Waveform::Sine)
-   , anglePerStep(maxAngle / static_cast<float>(tableSize))
 {
    using AngleFunction = std::function<float(const float& valuesPerAngle)>;
 
@@ -49,19 +48,18 @@ Standard::Table::Table()
    fillData(sineFunction, Waveform::Sine);
 
    // saw
-   AngleFunction sawFunction = [](const float& angle) -> float
+   AngleFunction sawFunction = [](const float& angle)
    {
-      static const float pi = 0.5 * 2.0f * Maths::pi;
-      if (angle <= pi)
+      if (angle <= Maths::pi)
       {
-         const float precent = angle / pi;
+         const float precent = angle / Maths::pi;
          const float value = -1.0f + (2.0f * precent);
 
          return value;
       }
       else
       {
-         const float precent = (angle - pi) / pi;
+         const float precent = (angle - Maths::pi) / Maths::pi;
          const float value = 1.0f - (2.0f * precent);
 
          return value;
@@ -70,10 +68,9 @@ Standard::Table::Table()
    fillData(sawFunction, Waveform::Saw);
 
    // square
-   AngleFunction sqaureFunction = [](const float& angle) -> float
+   AngleFunction sqaureFunction = [](const float& angle)
    {
-      static const float pi = 0.5f * 2.0f * Maths::pi;
-      if (angle <= pi)
+      if (angle <= Maths::pi)
          return 1.0f;
       else
          return -1.0f;
@@ -81,7 +78,7 @@ Standard::Table::Table()
    fillData(sqaureFunction, Waveform::Square);
 
    // slope up
-   AngleFunction slopeUpFunction = [](const float& angle) -> float
+   AngleFunction slopeUpFunction = [](const float& angle)
    {
       const float precent = angle / (2.0f * Maths::pi);
       const float value = -1.0f + (2.0f * precent);
@@ -91,7 +88,7 @@ Standard::Table::Table()
    fillData(slopeUpFunction, Waveform::SlopeUp);
 
    // slope down
-   AngleFunction slopeDownFunction = [](const float& angle) -> float
+   AngleFunction slopeDownFunction = [](const float& angle)
    {
       const float precent = angle / (2.0f * Maths::pi);
       const float value = 1.0f - (2.0f * precent);
@@ -108,25 +105,8 @@ void Standard::Table::setWaveform(const Waveform::Shape& newWaveform)
 
 float Standard::Table::valueByAngle(const float& angle) const
 {
-   auto getIndexFromAngle = [&](float angle) -> uint64_t
-   {
-      while (angle < 0)
-         angle += maxAngle;
-
-      while (angle >= maxAngle)
-         angle -= maxAngle;
-
-      const uint64_t index = static_cast<uint64_t>(angle / anglePerStep);
-      return index;
-   };
-
-   const uint64_t index = getIndexFromAngle(angle);
+   const uint64_t index = stepIndexFromAngle(angle);
    return dataMap.at(waveform)[index];
-}
-
-const uint64_t& Standard::Table::getResolution() const
-{
-   return tableSize;
 }
 
 #endif // StandardTableHPP

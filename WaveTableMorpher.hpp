@@ -4,7 +4,7 @@
 #include <Sound/WaveTableMorpher.h>
 
 WaveTable::Morpher::Morpher()
-   : Table()
+   : AbstractTable()
    , dataList()
    , mixStep(0)
    , mix(0.0)
@@ -12,7 +12,7 @@ WaveTable::Morpher::Morpher()
 {
 }
 
-void WaveTable::Morpher::addTable(const Table* table, const uint64_t& maxSteps)
+void WaveTable::Morpher::addTable(const AbstractTable* table, const uint64_t& maxSteps)
 {
    Data data{table, maxSteps};
    dataList.push_back(data);
@@ -67,12 +67,12 @@ float WaveTable::Morpher::valueByAngle(const float& angle) const
    if (dataList.empty())
       return 0.0;
 
-   const Table* firstTable = dataList.at(0).table;
+   const AbstractTable* firstTable = dataList.at(0).table;
    const float firstValue = firstTable->valueByAngle(angle);
    if (1 == dataList.size())
       return firstValue;
 
-   const Table* secondTable = dataList.at(1).table;
+   const AbstractTable* secondTable = dataList.at(1).table;
    const float secondValue = secondTable->valueByAngle(angle);
 
    const float value = ((1.0 - mix) * firstValue) + (mix * secondValue);

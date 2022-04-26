@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include <Sound/FunctionTable.h>
+#include <Sound/WaveTable.h>
 
 struct Standard
 {
@@ -22,7 +22,7 @@ struct Standard
       inline static std::string getName(const Shape& shape);
    };
 
-   class Table : public WaveTable::Table
+   class Table : public WaveTable::StepTable
    {
    public:
       inline Table();
@@ -30,7 +30,6 @@ struct Standard
    public:
       inline void setWaveform(const Waveform::Shape& newWaveform);
       inline virtual float valueByAngle(const float& angle) const override;
-      inline const uint64_t& getResolution() const;
 
    private:
       static constexpr uint64_t tableSize = 4096;
@@ -40,7 +39,6 @@ struct Standard
    private:
       DataMap dataMap;
       Waveform::Shape waveform;
-      const float anglePerStep;
    };
 };
 

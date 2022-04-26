@@ -8,11 +8,10 @@
 
 namespace WaveTable
 {
-   class Table
+   class AbstractTable
    {
    public:
-      inline Table(const float maxAngle = 2.0f * Maths::pi);
-      inline virtual ~Table();
+      inline AbstractTable(const float maxAngle = 2.0f * Maths::pi);
 
    public:
       inline const float& getMaxAngle() const;
@@ -22,8 +21,24 @@ namespace WaveTable
       const float maxAngle;
    };
 
-   // On Daisy device the frequency range is 2Hz to 20,000 Hz, otherwise any positive number
-   // A frequency of zero will turn off the oscilaotr.
+   class StepTable : public AbstractTable
+   {
+   public:
+      inline StepTable(uint64_t noOfSteps, const float maxAngle = 2.0f * Maths::pi);
+
+   public:
+      inline const uint64_t& getNoOfSteps() const;
+
+   protected:
+      inline uint64_t stepIndexFromAngle(float angle) const;
+
+   protected:
+      const uint64_t noOfSteps;
+      const float anglePerStep;
+   };
+
+   // On Daisy device the frequency range is 2Hz to 20,000 Hz, otherwise any positive number.
+   // A frequency of zero will turn off the oscilator.
    // Amplitude should be between 0 and 1.
 
    class Oscilator : public Abstract::Oscilator
@@ -32,26 +47,25 @@ namespace WaveTable
       inline Oscilator();
 
    public:
-      inline void init(const Table* newTable, const float& newSampleRate);
+      inline void init(const AbstractTable* newTable, const float& newSampleRate);
 
       inline void setPhase(const float& newPhase);
       inline const float& getPhase() const;
 
       inline void setFrequency(const float& newFrequency);
-      inline void setCycleDuration(const float& cylceDuration);
+      inline void setCycleDuration(const float& cylceDuration); // cylceDuration = 1.0 / frequency
       inline const float& getFrequency() const;
 
       inline void setAmplitude(const float& newAmplitude);
       inline const float& getAmplitude() const;
 
       inline float createSound() override;
-      inline static float frequencyFromCV(float voltage);
 
    private:
       inline void compileDeltaPhase();
 
    private:
-      const Table* table;
+      const AbstractTable* table;
       float sampleRate;
       float phase;
       float frequency;

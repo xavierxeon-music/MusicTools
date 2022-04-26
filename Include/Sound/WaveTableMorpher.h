@@ -8,13 +8,13 @@ namespace WaveTable
    // zero tables = no sound
    // one table = no morph, no step, no mix, no swap
    // step and morph work between first and second table only
-   class Morpher : public Table
+   class Morpher : public AbstractTable
    {
    public:
       inline Morpher();
 
    public:
-      inline void addTable(const Table* table, const uint64_t& maxSteps = 0);
+      inline void addTable(const AbstractTable* table, const uint64_t& maxSteps = 0);
       inline virtual bool step();             // advance mix. if at end (i.e. mix == 1.0) call swap and return true
       inline void setMix(const float newMix); // override mix. do not use with step or else odd behaviour. does not call swap!
       inline const float& getMix() const;     // get current mix
@@ -25,7 +25,7 @@ namespace WaveTable
    private:
       struct Data
       {
-         const Table* table;
+         const AbstractTable* table;
          const uint64_t maxSteps;
 
          using List = std::vector<Data>;

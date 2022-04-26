@@ -7,18 +7,40 @@
 
 // table
 
-WaveTable::Table::Table(const float maxAngle)
+WaveTable::AbstractTable::AbstractTable(const float maxAngle)
    : maxAngle(maxAngle)
 {
 }
 
-WaveTable::Table::~Table()
+const float& WaveTable::AbstractTable::getMaxAngle() const
+{
+   return maxAngle;
+}
+
+// step table
+
+WaveTable::StepTable::StepTable(uint64_t noOfSteps, const float maxAngle)
+   : AbstractTable(maxAngle)
+   , noOfSteps()
+   , anglePerStep(maxAngle / static_cast<float>(noOfSteps))
 {
 }
 
-const float& WaveTable::Table::getMaxAngle() const
+const uint64_t& WaveTable::StepTable::getNoOfSteps() const
 {
-   return maxAngle;
+   return noOfSteps;
+}
+
+uint64_t WaveTable::StepTable::stepIndexFromAngle(float angle) const
+{
+   while (angle < 0)
+      angle += maxAngle;
+
+   while (angle >= maxAngle)
+      angle -= maxAngle;
+
+   const uint64_t index = static_cast<uint64_t>(angle / anglePerStep);
+   return index;
 }
 
 // oscilator
@@ -34,7 +56,7 @@ WaveTable::Oscilator::Oscilator()
 {
 }
 
-void WaveTable::Oscilator::init(const Table* newTable, const float& newSampleRate)
+void WaveTable::Oscilator::init(const AbstractTable* newTable, const float& newSampleRate)
 {
    table = newTable;
    sampleRate = newSampleRate;
@@ -115,19 +137,6 @@ float WaveTable::Oscilator::createSound()
    return value * amplitude;
 }
 
-float WaveTable::Oscilator::frequencyFromCV(float voltage)
-{
-   static const float baseFreq[6] = {65.40639132514963f, 130.81278265029925f, 261.6255653005985f, 523.251130601197f, 1046.502261202394f, 2093.004522404789f};
-
-   if (0.0f > voltage || 5.0f < voltage)
-      return 0.0f;
-
-   const uint8_t octave = static_cast<uint8_t>(voltage);
-   const float rest = voltage - octave;
-   const float frequency = baseFreq[octave] * pow(2, rest);
-
-   return frequency;
-}
 
 void WaveTable::Oscilator::compileDeltaPhase()
 {
