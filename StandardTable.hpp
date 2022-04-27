@@ -1,6 +1,8 @@
 #ifndef StandardTableHPP
 #define StandardTableHPP
 
+#include <functional>
+
 #include <Sound/StandardTable.h>
 
 #include <Maths.h>

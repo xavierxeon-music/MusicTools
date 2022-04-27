@@ -20,14 +20,13 @@ HEADERS += \
    $$PWD/Include/Midi/MidiToolTempo.h \
    $$PWD/Include/Music/Note.h \
    $$PWD/Include/Music/Tempo.h \
+   $$PWD/Include/Music/TimeCode.h \
    $$PWD/Include/MusicTools.h \
    $$PWD/Include/MusicTools.h \
-   $$PWD/Include/Sound/CircularTable.h \
    $$PWD/Include/Sound/FunctionTable.h \
    $$PWD/Include/Sound/GateOscilator.h \
    $$PWD/Include/Sound/SoundMesh.h \
    $$PWD/Include/Sound/StandardTable.h \
-   $$PWD/Include/Sound/TableOscilator.h \
    $$PWD/Include/Sound/WaveTable.h \
    $$PWD/Include/Sound/WaveTableMorpher.h \
    $$PWD/Include/Tools/BoolField.h \
@@ -41,13 +40,13 @@ HEADERS += \
    $$PWD/Include/Tools/SquareSignal.h \
    $$PWD/Include/Tools/Variable.h \
    $$PWD/SoundMesh.hpp \
+   $$PWD/TimeCode.hpp \
    $$PWD/WaveTable.hpp \
    $$PWD/WaveTableMorpher.hpp
 
     
 HEADERS += \     \
    $$PWD/BoolField.hpp \
-   $$PWD/CircularTable.hpp \
    $$PWD/Compressor.hpp \
    $$PWD/Convert.hpp \
    $$PWD/Counter.hpp \
@@ -71,7 +70,6 @@ HEADERS += \     \
    $$PWD/SquareSignal.hpp \
    $$PWD/StandardTable.hpp \
    $$PWD/StateVariableFilter.hpp \
-   $$PWD/TableOscilator.hpp \
    $$PWD/Tempo.hpp \
    $$PWD/Trapezoid.hpp \
    $$PWD/Variable.hpp   \

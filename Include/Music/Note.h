@@ -1,35 +1,35 @@
 #ifndef NoteH
 #define NoteH
 
-#include <limits>
-
 #include <MusicTools.h>
 
 struct Note
 {
 public:
    using List = std::vector<Note>;
-   using Duration = uint16_t;
    using Index = uint8_t;
+   using Octave = uint8_t;
 
-   struct TimeCode
+   enum Value : uint8_t
    {
-      Duration bar;
-      uint8_t quarter;
-      uint8_t tick;
-
-      TimeCode();
-      TimeCode(Duration bar, uint8_t quarter, uint8_t tick = 0);
-      TimeCode(const Duration& duration);
-
-      std::string text() const;
-      Duration toDuration() const;
+      C,
+      Cs,
+      D,
+      Ds,
+      E,
+      F,
+      Fs,
+      G,
+      Gs,
+      A,
+      As,
+      B,
+      Invalid
    };
 
-   static constexpr Duration maxDuration = std::numeric_limits<Note::Duration>::max() - 1;
-   static const Note zeroNote;
-   static const List availableNotes;
-   static const Index maxIndex;
+   static const Note zeroNote;       // an invalid note
+   static const List availableNotes; // includes zero note
+   static const Index maxNoteIndex;  // size of availableNotes
 
 public:
    static const Note& fromVoltage(float voltage);
@@ -38,6 +38,8 @@ public:
 
 public:
    std::string name;
+   Value value;
+   Octave octave;
    float frequency;
    float voltage;
    uint8_t midiValue;

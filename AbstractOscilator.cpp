@@ -15,7 +15,7 @@ float Abstract::Oscilator::frequencyFromCV(float voltage)
 {
    static const std::vector<float> noteAFreq = []()
    {
-      float value = 55.0;
+      float value = 0.25 * 55.0;
 
       std::vector<float> freq(11);
       freq[0] = value;
