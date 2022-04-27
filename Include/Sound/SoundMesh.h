@@ -1,9 +1,18 @@
 #ifndef SoundMeshH
 #define SoundMeshH
 
+#include <functional>
+
 #include <Sound/WaveTableMorpher.h>
 
-class SoundMesh : public TableMorpher
+// Sound  Mesh is namespace
+
+// PathTable
+
+// Grid
+// * PathTable applyPath
+
+class SoundMesh
 {
 public:
    struct Point
@@ -12,24 +21,29 @@ public:
       uint16_t yIndex;
    };
 
+   class Grid
+   {
+   public:
+      Grid(const uint16_t xSize, const uint16_t ySize);
+   };
+
    using Path = std::vector<Point>;
+
+   using PointFunction = std::function<float(const Point& point)>;
+   using AngleFunction = std::function<Point(const float& valuesPerAngle)>;
 
 public:
    inline SoundMesh();
 
 public:
-   inline bool step() override;
-   inline void init(const uint16_t& newGridSize);
-   inline void setPath(const Path& newPath);
+   inline void setGrid(const Grid& newGrid);
+   inline void createAndSetGrid(PointFunction pointFunction, const uint16_t xSize, const uint16_t ySize);
+
+   inline WaveTable::StepTable applyPath(const Path& newPath);
+   inline WaveTable::StepTable createAndApplyPath(AngleFunction angleFunction, const uint16_t noOfElements);
 
 private:
-   using TableMorpher::addTable;
-   using TableMorpher::setLoop;
-   using TableMorpher::setMix;
-
-private:
-   uint16_t gridSize;
-   Path path;
+   Grid grid;
 };
 
 #ifndef SoundMeshHPP
