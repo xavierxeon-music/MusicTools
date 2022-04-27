@@ -63,7 +63,7 @@ const Note::List Note::availableNotes = []()
             note.midiValue = midiValue;
             midiValue++;
 
-            qDebug() << QString::fromStdString(note.name) << note.midiValue << note.frequency << note.voltage;
+            //qDebug() << QString::fromStdString(note.name) << note.midiValue << note.frequency << note.voltage;
 
             noteList.push_back(note);
             if (note.frequency > 20000)
