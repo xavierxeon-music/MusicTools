@@ -11,10 +11,12 @@ public:
    using AngleFunction = std::function<float(const float& valuesPerAngle)>;
 
 public:
-   inline FunctionTable(AngleFunction angleFunction, uint64_t resolution, const float maxAngle = 2.0f * Maths::pi);
+   inline FunctionTable(AngleFunction angleFunction, const uint64_t& noOfSteps, const float maxAngle = 2.0f * Maths::pi);
+   inline ~FunctionTable();
 
 public:
    inline virtual float valueByAngle(const float& angle) const override;
+
 protected:
    float* table;
 };

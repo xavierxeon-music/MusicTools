@@ -24,7 +24,7 @@ namespace WaveTable
    class StepTable : public AbstractTable
    {
    public:
-      inline StepTable(uint64_t noOfSteps, const float maxAngle = 2.0f * Maths::pi);
+      inline StepTable(const uint64_t& noOfSteps, const float& maxAngle = 2.0f * Maths::pi);
 
    public:
       inline const uint64_t& getNoOfSteps() const;

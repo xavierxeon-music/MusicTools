@@ -19,7 +19,7 @@ const float& WaveTable::AbstractTable::getMaxAngle() const
 
 // step table
 
-WaveTable::StepTable::StepTable(uint64_t noOfSteps, const float maxAngle)
+WaveTable::StepTable::StepTable(const uint64_t& noOfSteps, const float& maxAngle)
    : AbstractTable(maxAngle)
    , noOfSteps()
    , anglePerStep(maxAngle / static_cast<float>(noOfSteps))
@@ -136,7 +136,6 @@ float WaveTable::Oscilator::createSound()
 
    return value * amplitude;
 }
-
 
 void WaveTable::Oscilator::compileDeltaPhase()
 {

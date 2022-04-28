@@ -3,48 +3,53 @@
 
 #include <functional>
 
-#include <Sound/WaveTableMorpher.h>
+#include <Sound/WaveTable.h>
 
-// Sound  Mesh is namespace
-
-// PathTable
-
-// Grid
-// * PathTable applyPath
-
-class SoundMesh
+namespace SoundMesh
 {
-public:
    struct Point
    {
       uint16_t xIndex;
       uint16_t yIndex;
    };
+   using Path = std::vector<Point>;
 
    class Grid
    {
    public:
-      Grid(const uint16_t xSize, const uint16_t ySize);
+      using AngleFunction = std::function<float(const float& valuesPerAngle)>; // give unity radius for given angle
+      using PointFunction = std::function<float(const const Point& point)>;
+      using Row = float*;
+
+   public:
+      inline Grid(const uint16_t& size); // grid is always square
+      inline ~Grid();
+
+   public:
+      inline Row& operator[](const uint16_t& index);
+      inline const uint16_t& getSize() const;
+
+      inline void fill(PointFunction pointFunction);
+      inline Path createPath(AngleFunction angleFunction, const uint64_t& noOfSteps); // scales up from unity radius and searches nearest neighbour
+
+   private:
+      const uint16_t size;
+      Row* data;
    };
 
-   using Path = std::vector<Point>;
+   class Table : public WaveTable::StepTable
+   {
+   public:
+      inline Table(const uint64_t& noOfSteps);
 
-   using PointFunction = std::function<float(const Point& point)>;
-   using AngleFunction = std::function<Point(const float& valuesPerAngle)>;
+   public:
+      inline void update(const Grid& grid, const Path& path);
+      inline virtual float valueByAngle(const float& angle) const override;
 
-public:
-   inline SoundMesh();
-
-public:
-   inline void setGrid(const Grid& newGrid);
-   inline void createAndSetGrid(PointFunction pointFunction, const uint16_t xSize, const uint16_t ySize);
-
-   inline WaveTable::StepTable applyPath(const Path& newPath);
-   inline WaveTable::StepTable createAndApplyPath(AngleFunction angleFunction, const uint16_t noOfElements);
-
-private:
-   Grid grid;
-};
+   private:
+      float* table;
+   };
+} // namespace SoundMesh
 
 #ifndef SoundMeshHPP
 #include "../../SoundMesh.hpp"

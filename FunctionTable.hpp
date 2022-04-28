@@ -3,7 +3,7 @@
 
 #include <Sound/FunctionTable.h>
 
-FunctionTable::FunctionTable(AngleFunction angleFunction, uint64_t noOfSteps, const float maxAngle)
+FunctionTable::FunctionTable(AngleFunction angleFunction, const uint64_t& noOfSteps, const float maxAngle)
    : WaveTable::StepTable(noOfSteps, maxAngle)
    , table(nullptr)
 {
@@ -15,6 +15,12 @@ FunctionTable::FunctionTable(AngleFunction angleFunction, uint64_t noOfSteps, co
       const float value = angleFunction(angle);
       table[index] = value;
    }
+}
+
+FunctionTable::~FunctionTable()
+{
+   delete[] table;
+   table = nullptr;
 }
 
 float FunctionTable::valueByAngle(const float& angle) const
