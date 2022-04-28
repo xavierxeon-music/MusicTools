@@ -21,7 +21,7 @@ const float& WaveTable::AbstractTable::getMaxAngle() const
 
 WaveTable::StepTable::StepTable(const uint64_t& noOfSteps, const float& maxAngle)
    : AbstractTable(maxAngle)
-   , noOfSteps()
+   , noOfSteps(noOfSteps)
    , anglePerStep(maxAngle / static_cast<float>(noOfSteps))
 {
 }

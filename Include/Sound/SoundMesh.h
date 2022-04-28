@@ -24,22 +24,25 @@ namespace SoundMesh
       };
       using AngleFunction = std::function<PointF(const float& angle)>; // paramatreic eqaution, x & y should be in range [-1, 1]
       using PointFunction = std::function<float(const Point& point)>;  // return should be in range [-1, 1]
-      using Row = float*;
 
    public:
       inline Grid(const uint16_t& size); // grid is always square
       inline ~Grid();
 
    public:
-      inline Row& operator[](const uint16_t& index);
       inline const uint16_t& getSize() const;
+      inline float get(const uint16_t& x, const uint16_t& y) const;
+      inline void set(const uint16_t& x, const uint16_t& y, const float& value);
 
       inline void fill(PointFunction pointFunction);
       inline Path createPath(AngleFunction angleFunction, const uint64_t& noOfSteps); // scales up from unity radius and searches nearest neighbour
 
    private:
+      uint32_t index(const uint16_t& x, const uint16_t& y) const;
+
+   private:
       const uint16_t size;
-      Row* data;
+      float* data;
    };
 
    class Table : public WaveTable::StepTable

@@ -3,29 +3,31 @@
 
 #include <Sound/SoundMesh.h>
 
+#include <Tools/Range.h>
+
 // grid
 
 SoundMesh::Grid::Grid(const uint16_t& size)
    : size(size)
    , data(nullptr)
 {
-   data = new Row[size];
-   for (uint16_t index = 0; index < size; index++)
-      data[index] = new float[index];
+   data = new float[size * size];
 }
 
 SoundMesh::Grid::~Grid()
 {
-   for (uint16_t index = 0; index < size; index++)
-      delete[] data[index];
-
    delete[] data;
    data = nullptr;
 }
 
-SoundMesh::Grid::Row& SoundMesh::Grid::operator[](const uint16_t& index)
+float SoundMesh::Grid::get(const uint16_t& x, const uint16_t& y) const
 {
-   return data[index];
+   return data[index(x, y)];
+}
+
+void SoundMesh::Grid::set(const uint16_t& x, const uint16_t& y, const float& value)
+{
+   data[index(x, y)] = value;
 }
 
 const uint16_t& SoundMesh::Grid::getSize() const
@@ -40,7 +42,7 @@ void SoundMesh::Grid::fill(PointFunction pointFunction)
       for (uint16_t y = 0; y < size; y++)
       {
          const float value = pointFunction({x, y});
-         data[x][y] = value;
+         set(x, y, value);
       }
    }
 }
@@ -49,14 +51,26 @@ SoundMesh::Path SoundMesh::Grid::createPath(AngleFunction angleFunction, const u
 {
    Path path(noOfSteps, {0, 0});
 
+   Range::Mapper mapper(-1, 1, 0, size - 1);
+
    const float anglePerStep = 2.0 * Maths::pi / static_cast<float>(noOfSteps);
    for (uint64_t index = 0; index < noOfSteps; index++)
    {
       const float angle = index * anglePerStep;
       const PointF pf = angleFunction(angle);
+
+      const uint16_t x = static_cast<uint16_t>(mapper(pf.x));
+      const uint16_t y = static_cast<uint16_t>(mapper(pf.y));
+
+      path[index] = {x, y};
    }
 
    return path;
+}
+
+uint32_t SoundMesh::Grid::index(const uint16_t& x, const uint16_t& y) const
+{
+   return (x * size) + y;
 }
 
 // table
@@ -78,8 +92,9 @@ void SoundMesh::Table::update(const Grid& grid, const Path& path)
 {
    for (uint64_t index = 0; index < noOfSteps; index++)
    {
-      const float angle = index * anglePerStep;
-      const float value = 0.0;
+      const uint16_t x = path[index].xIndex;
+      const uint16_t y = path[index].yIndex;
+      const float value = grid.get(x, y);
       table[index] = value;
    }
 }
