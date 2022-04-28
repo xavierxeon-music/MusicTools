@@ -17,8 +17,13 @@ namespace SoundMesh
    class Grid
    {
    public:
-      using AngleFunction = std::function<float(const float& valuesPerAngle)>; // give unity radius for given angle
-      using PointFunction = std::function<float(const const Point& point)>;
+      struct PointF
+      {
+         float x;
+         float y;
+      };
+      using AngleFunction = std::function<PointF(const float& angle)>; // paramatreic eqaution, x & y should be in range [-1, 1]
+      using PointFunction = std::function<float(const Point& point)>;  // return should be in range [-1, 1]
       using Row = float*;
 
    public:
@@ -41,6 +46,7 @@ namespace SoundMesh
    {
    public:
       inline Table(const uint64_t& noOfSteps);
+      inline ~Table();
 
    public:
       inline void update(const Grid& grid, const Path& path);
