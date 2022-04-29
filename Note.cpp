@@ -84,8 +84,8 @@ const Note& Note::fromVoltage(float voltage)
    if (0.0f > voltage)
       return zeroNote;
 
-   const float value = Range::clamp<float>(voltage, 0.0f, 10.0f);
-   const uint8_t index = 1 + static_cast<uint8_t>(value * 12.0);
+   const float value = Range::clamp<float>(voltage, 0.0f, 10.0f) * 12.0;
+   const uint8_t index = 1 + static_cast<uint8_t>(value);
    if (index >= maxNoteIndex)
       return availableNotes[maxNoteIndex];
    else

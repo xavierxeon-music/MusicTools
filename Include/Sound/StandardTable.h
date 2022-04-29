@@ -32,13 +32,10 @@ struct Standard
       inline virtual float valueByAngle(const float& angle) const override;
 
    private:
-      static constexpr uint64_t tableSize = 4096;
-      using Data = float[tableSize];
-      using DataMap = std::map<Waveform::Shape, Data>;
+      static constexpr uint64_t tableSize = 1024;
 
    private:
-      DataMap dataMap;
-      Waveform::Shape waveform;
+      float data[tableSize];
    };
 };
 

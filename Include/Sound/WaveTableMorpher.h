@@ -14,19 +14,19 @@ namespace WaveTable
       inline Morpher();
 
    public:
-      inline void addTable(const AbstractTable* table, const uint64_t& maxSteps = 0);
+      inline void addTable(AbstractTable* table, const uint64_t& maxSteps = 0);
       inline virtual bool step();             // advance mix. if at end (i.e. mix == 1.0) call swap and return true
       inline void setMix(const float newMix); // override mix. do not use with step or else odd behaviour. does not call swap!
       inline const float& getMix() const;     // get current mix
       inline void setLoop(bool enabled);      // see swap
       inline void swap();                     // removes first table. if loop is set the table will be appended to the end of the list
-      inline float valueByAngle(const float& angle) const override final;
+      inline virtual float valueByAngle(const float& angle) const override;
 
    private:
       struct Data
       {
-         const AbstractTable* table;
-         const uint64_t maxSteps;
+         AbstractTable* table;
+         uint64_t maxSteps;
 
          using List = std::vector<Data>;
       };

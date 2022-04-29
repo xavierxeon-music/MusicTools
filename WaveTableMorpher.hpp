@@ -5,14 +5,14 @@
 
 WaveTable::Morpher::Morpher()
    : AbstractTable()
-   , dataList()
+   //, dataList()
    , mixStep(0)
    , mix(0.0)
    , loop(false)
 {
 }
 
-void WaveTable::Morpher::addTable(const AbstractTable* table, const uint64_t& maxSteps)
+void WaveTable::Morpher::addTable(AbstractTable* table, const uint64_t& maxSteps)
 {
    Data data{table, maxSteps};
    dataList.push_back(data);
