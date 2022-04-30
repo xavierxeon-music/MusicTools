@@ -6,10 +6,9 @@
 #include <Music/Tempo.h>
 #include <Tools/Counter.h>
 
-// a stage liinearly changes its value during its length from its start height to the start height of the next stage
+// a stage liinearly changes its value during its length from its start height irs end Height
 // the length of the last stage is ignored.
 //  * instead the remaining length in the PolyRamp is used.
-//  * the end value is the start height of the first stage
 // if anything other than the height of a stage is edited the PolyRamp will be reset
 // if the PolyRamp is not looping the value will always be zero after the last stage
 
@@ -58,11 +57,13 @@ public:
    inline uint8_t getStageStartHeight(const uint8_t& index) const;
    inline void setStageStartHeight(const uint8_t& index, const uint8_t& startHeight);
 
+   inline uint8_t getStageEndHeight(const uint8_t& index) const;
+   inline void setStageEndHeight(const uint8_t& index, const uint8_t& endHeight);
+
    inline uint8_t getStageLength(const uint8_t& index) const;
    // expandLength = true: adjust PolyRamp length to fit stages
    // expandLength = false: if new length exeeds current length, then do not add stage
    inline LengthStatus setStageLength(const uint8_t& index, const uint8_t& stageLength, bool expandLength = true);
-   inline LengthStatus setStageStartHeigthAndLength(const uint8_t& index, const uint8_t& startHeight, const uint8_t& stageLength, bool expandLength = true);
 
    inline bool isLooping() const;
    inline void setLooping(bool on);
@@ -71,7 +72,7 @@ private:
    class Stage : public Remember::Container
    {
    public:
-      inline Stage(const uint8_t& startHeigh = 255, const uint8_t& stageLength = 0);
+      inline Stage(const uint8_t& startHeigh = 255, const uint8_t& endHeight = 255, const uint8_t& stageLength = 0);
       inline Stage(const Stage& other);
       inline virtual ~Stage();
 
@@ -79,12 +80,13 @@ private:
 
    private:
       friend class PolyRamp;
-      using StartHeight_ = Remember::Value<uint8_t>;
-      using StageLength_ = Remember::Value<uint8_t>;
+      using Height_ = Remember::Value<uint8_t>;
+      using Length_ = Remember::Value<uint8_t>;
 
    private:
-      StartHeight_ startHeight;
-      StageLength_ stageLength;
+      Height_ startHeight;
+      Height_ endHeight;
+      Length_ stageLength;
    };
 
 private:
@@ -92,13 +94,13 @@ private:
 
 private:
    using StepSize_ = Remember::Value<Tempo::Division>;
-   using Length_ = Remember::Value<uint32_t>;
+   using RampLength_ = Remember::Value<uint32_t>;
    using StageList_ = Remember::RefList<Stage>;
    using Loop_ = Remember::Value<bool>;
 
 private:
    StepSize_ stepSize;
-   Length_ polyRampLength;
+   RampLength_ polyRampLength;
    StageList_ stages;
    Loop_ loop;
    bool pastLoop;

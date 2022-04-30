@@ -7,9 +7,10 @@
 
 // stage
 
-PolyRamp::Stage::Stage(const uint8_t& startHeight, const uint8_t& stageLength)
+PolyRamp::Stage::Stage(const uint8_t& startHeight, const uint8_t& endHeight, const uint8_t& stageLength)
    : Remember::Container()
    , startHeight(this, startHeight)
+   , endHeight(this, endHeight)
    , stageLength(this, stageLength)
 {
 }
@@ -17,6 +18,7 @@ PolyRamp::Stage::Stage(const uint8_t& startHeight, const uint8_t& stageLength)
 PolyRamp::Stage::Stage(const Stage& other)
    : Remember::Container()
    , startHeight(this, 0)
+   , endHeight(this, 0)
    , stageLength(this, 0)
 {
    *this = other;
@@ -30,6 +32,7 @@ PolyRamp::Stage::~Stage()
 PolyRamp::Stage& PolyRamp::Stage::operator=(const Stage& other)
 {
    startHeight = other.startHeight;
+   endHeight = other.endHeight;
    stageLength = other.stageLength;
 
    return *this;
@@ -158,8 +161,7 @@ float PolyRamp::getCurrentValue(const float& precentToNextTick) const
       return 0.0;
 
    const float startValue = stages[currentStageIndex].startHeight;
-   const bool isLastPolyRamp = (currentStageIndex + 1 >= stages.size());
-   const float endValue = isLastPolyRamp ? stages[0].startHeight : stages[currentStageIndex + 1].startHeight;
+   const float endValue = stages[currentStageIndex].endHeight;
 
    const float percentage = getCurrentStagePercentage(precentToNextTick);
    const float diffValue = percentage * (endValue - startValue);
@@ -316,6 +318,17 @@ void PolyRamp::setStageStartHeight(const uint8_t& index, const uint8_t& startHei
    Remember::Root::setUnsynced();
 }
 
+uint8_t PolyRamp::getStageEndHeight(const uint8_t& index) const
+{
+   return stages[index].endHeight;
+}
+
+void PolyRamp::setStageEndHeight(const uint8_t& index, const uint8_t& endHeight)
+{
+   stages[index].endHeight = endHeight;
+   Remember::Root::setUnsynced();
+}
+
 uint8_t PolyRamp::getStageLength(const uint8_t& index) const
 {
    return stages[index].stageLength;
@@ -345,14 +358,6 @@ PolyRamp::LengthStatus PolyRamp::setStageLength(const uint8_t& index, const uint
    return LengthStatus::Changed;
 }
 
-PolyRamp::LengthStatus PolyRamp::setStageStartHeigthAndLength(const uint8_t& index, const uint8_t& startHeight, const uint8_t& stageLength, bool expandLength)
-{
-   const PolyRamp::LengthStatus result = setStageLength(index, stageLength, expandLength);
-   if (LengthStatus::Error != result)
-      setStageStartHeight(index, startHeight);
-
-   return result;
-}
 
 bool PolyRamp::isLooping() const
 {
