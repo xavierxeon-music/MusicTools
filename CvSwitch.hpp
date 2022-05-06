@@ -14,7 +14,30 @@ uint8_t CvSwitch::getMaxIndex() const
    return static_cast<uint8_t>(channelCount);
 }
 
-float CvSwitch::map(const uint8_t index, bool applyOffset) const
+uint8_t CvSwitch::index(const float& voltage) const
+{
+   if (0.0 > voltage)
+      return 0;
+
+   if (5.0 < voltage)
+      return getMaxIndex() - 1;
+
+   const float diff = 2.5 / static_cast<float>(channelCount);
+
+   const VoltageList& list = voltageList(channelCount);
+   for (uint8_t i = 0; i < list.size(); i++)
+   {
+      const float minVoltage = list.at(i) - diff;
+      const float maxVoltage = list.at(i) + diff;
+
+      if (voltage >= minVoltage && voltage < maxVoltage)
+         return i;
+   }
+
+   return 0;
+}
+
+float CvSwitch::voltage(const uint8_t& index, bool applyOffset) const
 {
    if (index >= getMaxIndex())
       return 0.0;

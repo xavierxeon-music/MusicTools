@@ -31,7 +31,8 @@ public:
 
 public:
    inline uint8_t getMaxIndex() const;
-   inline float map(const uint8_t index, bool applyOffset = true) const;
+   inline uint8_t index(const float& voltage) const;
+   inline float voltage(const uint8_t& index, bool applyOffset = true) const;
 
 private:
    inline const VoltageList& voltageList(const ChannelCount& channelCount) const;
