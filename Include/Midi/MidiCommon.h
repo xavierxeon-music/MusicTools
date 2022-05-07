@@ -133,7 +133,7 @@ namespace Midi
          KeyStep3 = 7,
          KeyStep4 = 8,
          Daisy = 9,
-         BlackTrigger = 10,
+         DrumTrigger = 10,
          VCVRack = 11,
          FlameCC = 12,
          BitBox = 13,

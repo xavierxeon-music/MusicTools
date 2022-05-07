@@ -3,6 +3,8 @@
 
 #include <Blocks/CvSwitch.h>
 
+#include <iostream>
+
 CvSwitch::CvSwitch(const ChannelCount& channelCount, const VoltageOffsetMap& offsetMap)
    : channelCount(channelCount)
    , offsetMap(offsetMap)
@@ -34,6 +36,9 @@ uint8_t CvSwitch::index(const float& voltage) const
          return i;
    }
 
+   if (voltage > 4.0)
+      return getMaxIndex() - 1;
+
    return 0;
 }
 
@@ -63,7 +68,7 @@ const CvSwitch::VoltageList& CvSwitch::voltageList(const ChannelCount& channelCo
 
       for (const ChannelCount& cCount : {ChannelCount::Two, ChannelCount::Four, ChannelCount::Eight, ChannelCount::Sixteen})
       {
-         const uint maxIndex = static_cast<uint8_t>(cCount);
+         const uint8_t maxIndex = static_cast<uint8_t>(cCount);
          const float diff = 5.0 / maxIndex;
          const float offset = 0.5 * diff;
 
