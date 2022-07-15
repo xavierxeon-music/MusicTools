@@ -10,7 +10,7 @@ namespace Midi
    using SongPosition = uint16_t;
 
    // see https://ccrma.stanford.edu/~gary/controllers/midi.html
-   const static float msPerByte = 31250.0 / (8.0 * 1000.0); //31250 bits per second
+   const static float msPerByte = 31250.0 / (8.0 * 1000.0); // 31250 bits per second
 
    enum Event : uint8_t
    {
@@ -69,13 +69,13 @@ namespace Midi
       EffectControl1 = 0x0C,
       EffectControl2 = 0x0D,
       // START undefined in standard
-      RememberBlock = 0x14,
-      RememberApply = 0x15,
-      RememberRequest = 0x16,
-      DataBlock = 0x17,
-      DataApply = 0x18,
-      Undefined06 = 0x19,
-      Undefined07 = 0x1A,
+      RememberInit = 0x14,
+      RememberBlock = 0x15,
+      RememberApply = 0x16,
+      RememberRequest = 0x17,
+      DataInit = 0x18,
+      DataBlock = 0x19,
+      DataApply = 0x1A,
       Undefined08 = 0x1B,
       Undefined09 = 0x1C,
       Undefined10 = 0x1D,
