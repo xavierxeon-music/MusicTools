@@ -12,13 +12,13 @@ public:
    static constexpr Duration maxDuration = std::numeric_limits<Duration>::max() - 1;
 
 public:
-   TimeCode();
-   TimeCode(Duration bar, uint8_t quarter, uint8_t tick = 0);
-   TimeCode(const Duration& duration);
+   inline TimeCode();
+   inline TimeCode(Duration bar, uint8_t quarter, uint8_t tick = 0);
+   inline TimeCode(const Duration& duration);
 
 public:
-   std::string text() const;
-   Duration toDuration() const;
+   inline std::string text() const;
+   inline Duration toDuration() const;
 
 public:
    Duration bar;
