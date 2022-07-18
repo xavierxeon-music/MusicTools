@@ -22,20 +22,13 @@ struct Standard
       inline static std::string getName(const Shape& shape);
    };
 
-   class Table : public WaveTable::StepTable
+   class Table : public WaveTable::StepValueTable
    {
    public:
       inline Table();
 
    public:
       inline void setWaveform(const Waveform::Shape& newWaveform);
-      inline virtual float valueByAngle(const float& angle) const override;
-
-   private:
-      static constexpr uint64_t tableSize = 1024;
-
-   private:
-      float data[tableSize];
    };
 };
 

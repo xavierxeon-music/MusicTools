@@ -37,6 +37,19 @@ namespace WaveTable
       const float anglePerStep;
    };
 
+   class StepValueTable : public StepTable
+   {
+   public:
+      inline StepValueTable(const uint64_t tableSize = 1024);
+      inline ~StepValueTable();
+
+   public:
+      inline virtual float valueByAngle(const float& angle) const override;
+
+   protected:
+      float* data;
+   };
+
    // On Daisy device the frequency range is 2Hz to 20,000 Hz, otherwise any positive number.
    // A frequency of zero will turn off the oscilator.
    // Amplitude should be between 0 and 1.

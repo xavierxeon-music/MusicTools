@@ -26,8 +26,7 @@ std::string Standard::Waveform::getName(const Shape& shape)
 // table
 
 Standard::Table::Table()
-   : WaveTable::StepTable(tableSize)
-   , data{}
+   : WaveTable::StepValueTable()
 {
    setWaveform(Waveform::Sine);
 }
@@ -90,7 +89,7 @@ void Standard::Table::setWaveform(const Waveform::Shape& newWaveform)
 
    auto fillData = [&](AngleFunction angleFunction)
    {
-      for (uint64_t index = 0; index < tableSize; index++)
+      for (uint64_t index = 0; index < noOfSteps; index++)
       {
          const float angle = index * anglePerStep;
          const float value = angleFunction(angle);
@@ -108,12 +107,6 @@ void Standard::Table::setWaveform(const Waveform::Shape& newWaveform)
       fillData(slopeUpFunction);
    else if (Waveform::SlopeDown == newWaveform)
       fillData(slopeDownFunction);
-}
-
-float Standard::Table::valueByAngle(const float& angle) const
-{
-   const uint64_t index = stepIndexFromAngle(angle);
-   return data[index];
 }
 
 #endif // StandardTableHPP

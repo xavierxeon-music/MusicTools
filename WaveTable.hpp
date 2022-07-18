@@ -43,6 +43,25 @@ uint64_t WaveTable::StepTable::stepIndexFromAngle(float angle) const
    return index;
 }
 
+// step value table
+
+WaveTable::StepValueTable::StepValueTable(const uint64_t tableSize)
+   : StepTable(tableSize)
+{
+   data = new float[tableSize];
+}
+
+WaveTable::StepValueTable::~StepValueTable()
+{
+   delete[] data;
+}
+
+float WaveTable::StepValueTable::valueByAngle(const float& angle) const
+{
+   const uint64_t index = stepIndexFromAngle(angle);
+   return data[index];
+}
+
 // oscilator
 
 WaveTable::Oscilator::Oscilator()

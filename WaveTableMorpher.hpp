@@ -60,6 +60,13 @@ void WaveTable::Morpher::setLoop(bool enabled)
 
 void WaveTable::Morpher::swap()
 {
+   if (loop)
+   {
+      const Data& data = dataList.front();
+      dataList.push_back(data);
+   }
+
+   dataList.erase(dataList.begin());
 }
 
 float WaveTable::Morpher::valueByAngle(const float& angle) const

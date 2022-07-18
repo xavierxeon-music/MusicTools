@@ -19,7 +19,7 @@ namespace WaveTable
       inline void setMix(const float newMix); // override mix. do not use with step or else odd behaviour. does not call swap!
       inline const float& getMix() const;     // get current mix
       inline void setLoop(bool enabled);      // see swap
-      inline void swap();                     // removes first table. if loop is set the table will be appended to the end of the list
+      inline virtual void swap();             // removes first table. if loop is set the table will be appended to the end of the list
       inline virtual float valueByAngle(const float& angle) const override;
 
    private:
