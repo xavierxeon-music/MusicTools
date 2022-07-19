@@ -40,7 +40,7 @@ namespace WaveTable
    class StepValueTable : public StepTable
    {
    public:
-      inline StepValueTable(const uint64_t tableSize = 1024);
+      inline StepValueTable(const uint64_t tableSize = 1024, const float& maxAngle = 2.0f * Maths::pi);
       inline ~StepValueTable();
 
    public:

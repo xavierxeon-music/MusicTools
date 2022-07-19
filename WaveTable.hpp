@@ -45,8 +45,9 @@ uint64_t WaveTable::StepTable::stepIndexFromAngle(float angle) const
 
 // step value table
 
-WaveTable::StepValueTable::StepValueTable(const uint64_t tableSize)
-   : StepTable(tableSize)
+WaveTable::StepValueTable::StepValueTable(const uint64_t tableSize, const float& maxAngle)
+   : StepTable(tableSize, maxAngle)
+   , data(nullptr)
 {
    data = new float[tableSize];
 }
@@ -54,6 +55,7 @@ WaveTable::StepValueTable::StepValueTable(const uint64_t tableSize)
 WaveTable::StepValueTable::~StepValueTable()
 {
    delete[] data;
+   data = nullptr;
 }
 
 float WaveTable::StepValueTable::valueByAngle(const float& angle) const

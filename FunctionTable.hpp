@@ -4,29 +4,14 @@
 #include <Sound/FunctionTable.h>
 
 FunctionTable::FunctionTable(AngleFunction angleFunction, const uint64_t& noOfSteps, const float maxAngle)
-   : WaveTable::StepTable(noOfSteps, maxAngle)
-   , table(nullptr)
+   : WaveTable::StepValueTable(noOfSteps, maxAngle)
 {
-   table = new float[noOfSteps];
-
    for (uint64_t index = 0; index < noOfSteps; index++)
    {
       const float angle = index * anglePerStep;
       const float value = angleFunction(angle);
-      table[index] = value;
+      data[index] = value;
    }
-}
-
-FunctionTable::~FunctionTable()
-{
-   delete[] table;
-   table = nullptr;
-}
-
-float FunctionTable::valueByAngle(const float& angle) const
-{
-   const uint64_t index = stepIndexFromAngle(angle);
-   return table[index];
 }
 
 #endif // FunctionTableHPP

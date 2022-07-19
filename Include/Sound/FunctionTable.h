@@ -5,20 +5,13 @@
 
 #include <functional>
 
-class FunctionTable : public WaveTable::StepTable
+class FunctionTable : public WaveTable::StepValueTable
 {
 public:
    using AngleFunction = std::function<float(const float& valuesPerAngle)>;
 
 public:
-   inline FunctionTable(AngleFunction angleFunction, const uint64_t& noOfSteps, const float maxAngle = 2.0f * Maths::pi);
-   inline ~FunctionTable();
-
-public:
-   inline virtual float valueByAngle(const float& angle) const override;
-
-protected:
-   float* table;
+   inline FunctionTable(AngleFunction angleFunction, const uint64_t& noOfSteps, const float maxAngle = 2.0f * Maths::pi);   
 };
 
 #ifndef FunctionTableHPP

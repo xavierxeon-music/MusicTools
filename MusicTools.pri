@@ -2,6 +2,7 @@ INCLUDEPATH += \
    $$PWD/Include
 
 HEADERS += \
+   $$PWD/AudioFile.hpp \
    $$PWD/Include/Abstract/AbstractEffect.h \
    $$PWD/Include/Abstract/AbstractOscilator.h \
    $$PWD/Include/Blocks/CvSwitch.h \
@@ -23,6 +24,7 @@ HEADERS += \
    $$PWD/Include/Music/TimeCode.h \
    $$PWD/Include/MusicTools.h \
    $$PWD/Include/MusicTools.h \
+   $$PWD/Include/Sound/AudioFile.h \
    $$PWD/Include/Sound/FunctionTable.h \
    $$PWD/Include/Sound/GateOscilator.h \
    $$PWD/Include/Sound/SoundMesh.h \
