@@ -15,7 +15,7 @@ public:
    inline bool load(const std::string& fileName);
    inline bool save(const std::string& fileName);
 
-public:
+public:   
    uint16_t sampleRate;
    std::vector<float> leftData;
    std::vector<float> rightData;
@@ -41,6 +41,8 @@ private:
       uint32_t subchunk2Size;                        // Sampled data length
 
       Header();
+      void update();
+      void print();
    };
 };
 

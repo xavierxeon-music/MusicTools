@@ -4,6 +4,7 @@
 #include <Sound/AudioFile.h>
 
 #include <iostream>
+#include <limits>
 
 static const uint16_t BUFFER_SIZE = 4096;
 
@@ -11,17 +12,51 @@ static const uint16_t BUFFER_SIZE = 4096;
 
 AudioFile::Header::Header()
 {
+   numChannels = 2;
+   sampleRate = 41000;
+   subchunk2Size = 0;
+
+   // fixed
+   bitsPerSample = 16;
    Subchunk1Size = 16; // default for PCM
    audioFormat = 1;
-   numChannels = 2;
-   sampleRate = 48000;
-   bitsPerSample = 32;
+}
 
-   bytesPerSec = sampleRate * numChannels * bitsPerSample / 8;
-   blockAlign = numChannels * bitsPerSample / 8;
+void AudioFile::Header::update()
+{
+   blockAlign = numChannels * (bitsPerSample / 8);
+   bytesPerSec = sampleRate * blockAlign;
+   chunkSize = 36 + subchunk2Size;
+}
 
-   chunkSize = 0;     // RIFF Chunk Size
-   subchunk2Size = 0; // Sampled data length
+void AudioFile::Header::print()
+{
+   std::cout << "header size                : " << sizeof(Header) << std::endl;
+   std::cout << "Data length                : " << subchunk2Size << std::endl;
+   std::cout << "chunk size                 : " << chunkSize << std::endl;
+
+   std::cout << std::endl;
+
+   std::cout << "RIFF header                : " << RIFF[0] << RIFF[1] << RIFF[2] << RIFF[3] << std::endl;
+   std::cout << "WAVE header                : " << WAVE[0] << WAVE[1] << WAVE[2] << WAVE[3] << std::endl;
+   std::cout << "FMT                        : " << fmt[0] << fmt[1] << fmt[2] << fmt[3] << std::endl;
+
+   std::cout << std::endl;
+
+   // Display the sampling Rate from the header
+   std::cout << "Sampling Rate              : " << sampleRate << std::endl;
+   std::cout << "Number of bits used        : " << bitsPerSample << std::endl;
+   std::cout << "Number of channels         : " << numChannels << std::endl;
+   std::cout << "Number of bytes per second : " << bytesPerSec << std::endl;
+   std::cout << "Audio Format               : " << audioFormat << std::endl;
+
+   std::cout << std::endl;
+
+   std::cout << "Block align                : " << blockAlign << std::endl;
+   std::cout << "Data string                : " << subchunk2ID[0] << subchunk2ID[1] << subchunk2ID[2] << subchunk2ID[3] << std::endl;
+
+   std::cout << "-----------------" << std::endl;
+   std::cout << std::endl;
 }
 
 // audio file
@@ -44,47 +79,46 @@ bool AudioFile::load(const std::string& fileName)
 
    Header header;
    size_t bytesRead = fread(&header, 1, sizeof(Header), wavFile);
-   std::cout << "Header Read " << bytesRead << " bytes." << std::endl;
-
    if (bytesRead <= 0)
       return false;
 
-   std::cout << "RIFF header                :" << header.RIFF[0] << header.RIFF[1] << header.RIFF[2] << header.RIFF[3] << std::endl;
-   std::cout << "WAVE header                :" << header.WAVE[0] << header.WAVE[1] << header.WAVE[2] << header.WAVE[3] << std::endl;
-   std::cout << "FMT                        :" << header.fmt[0] << header.fmt[1] << header.fmt[2] << header.fmt[3] << std::endl;
-   std::cout << "Data size                  :" << header.chunkSize << std::endl;
+   if (header.audioFormat != 1 || header.bitsPerSample != 16)
+      return false;
 
-   // Display the sampling Rate from the header
-   std::cout << "Sampling Rate              :" << header.sampleRate << std::endl;
-   std::cout << "Number of bits used        :" << header.bitsPerSample << std::endl;
-   std::cout << "Number of channels         :" << header.numChannels << std::endl;
-   std::cout << "Number of bytes per second :" << header.bytesPerSec << std::endl;
-   std::cout << "Data length                :" << header.subchunk2Size << std::endl;
-   std::cout << "Audio Format               :" << header.audioFormat << std::endl;
-   // Audio format 1=PCM,6=mulaw,7=alaw, 257=IBM Mu-Law, 258=IBM A-Law, 259=ADPCM
-
-   std::cout << "Block align                :" << header.blockAlign << std::endl;
-   std::cout << "Data string                :" << header.subchunk2ID[0] << header.subchunk2ID[1] << header.subchunk2ID[2] << header.subchunk2ID[3] << std::endl;
-
+   sampleRate = header.sampleRate;
    leftData.clear();
    rightData.clear();
 
-   uint16_t bytesPerSample = header.bitsPerSample / 8;      //Number     of bytes per sample
-   uint64_t numSamples = header.chunkSize / bytesPerSample; //How many samples are in the wav file?
+   static const float maxValue = static_cast<float>(std::numeric_limits<int16_t>::max());
+   static const size_t bufferSize = sizeof(int16_t);
 
-   int8_t buffer[BUFFER_SIZE];
+   int16_t buffer;
+   bool leftChannel = true;
    while (true)
    {
-      bytesRead = fread(buffer, sizeof(buffer[0]), BUFFER_SIZE / (sizeof buffer[0]), wavFile);
+      bytesRead = fread(&buffer, 1, bufferSize, wavFile);
       if (bytesRead <= 0)
          break;
 
-      /** DO SOMETHING WITH THE WAVE DATA HERE **/
-      std::cout << "Read " << bytesRead << " bytes." << std::endl;
+      const float value = static_cast<float>(buffer) / maxValue;
+      if (1 == header.numChannels)
+      {
+         leftData.push_back(value);
+      }
+      else if (2 == header.numChannels)
+      {
+         if (leftChannel)
+            leftData.push_back(value);
+         else
+            rightData.push_back(value);
+
+         leftChannel ^= true;
+      }
    }
 
    fclose(wavFile);
 
+   std::cout << "read ok: " << leftData.size() << ", " << rightData.size() << std::endl;
    return true;
 }
 
