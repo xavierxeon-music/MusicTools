@@ -39,10 +39,9 @@ struct AudioFile::Header
    uint16_t bitsPerSample;                // Number of bits per sample
    // "data" sub-chunk
    uint8_t subchunk2ID[4] = {'d', 'a', 't', 'a'}; // "data"  string
-   uint32_t subchunk2Size;                        // Sampled data length
+   uint32_t dataSize;                             // Sampled data length
 
    inline Header();
-   inline void update();
 #ifdef NON_DAISY_DEVICE
    inline void print();
 #endif // NON_DAISY_DEVICE
@@ -52,7 +51,7 @@ AudioFile::Header::Header()
 {
    numChannels = 2;
    sampleRate = 41000;
-   subchunk2Size = 0;
+   dataSize = 0;
 
    // fixed
    bitsPerSample = 16;
@@ -60,18 +59,11 @@ AudioFile::Header::Header()
    audioFormat = 1;
 }
 
-void AudioFile::Header::update()
-{
-   blockAlign = numChannels * (bitsPerSample / 8);
-   bytesPerSec = sampleRate * blockAlign;
-   chunkSize = 36 + subchunk2Size;
-}
-
 #ifdef NON_DAISY_DEVICE
 void AudioFile::Header::print()
 {
    std::cout << "header size                : " << sizeof(Header) << std::endl;
-   std::cout << "Data length                : " << subchunk2Size << std::endl;
+   std::cout << "Data length                : " << dataSize << std::endl;
    std::cout << "chunk size                 : " << chunkSize << std::endl;
 
    std::cout << std::endl;
@@ -133,6 +125,7 @@ AudioFile::InputStream::InputStream(const std::string& fileName)
 
    metaData.stereo = (2 == header.numChannels);
    metaData.sampleRate = header.sampleRate;
+   metaData.numberOfSamples = header.dataSize / (header.bitsPerSample / 8);
 }
 
 AudioFile::InputStream::~InputStream()
@@ -200,7 +193,7 @@ AudioFile::Data AudioFile::load(const std::string& fileName, Meta* meta)
    {
       meta->stereo = (2 == header.numChannels);
       meta->sampleRate = header.sampleRate;
-      meta->numberOfSamples = header.subchunk2Size / header.blockAlign;
+      meta->numberOfSamples = header.dataSize / (header.bitsPerSample / 8);
    }
 
    Data data;
@@ -223,11 +216,32 @@ AudioFile::Data AudioFile::load(const std::string& fileName, Meta* meta)
 
 bool AudioFile::save(const std::string& fileName, const Meta& meta, const Data& data)
 {
-   (void)fileName;
-   (void)meta;
-   (void)data;
+   FILE* wavFile = fopen(fileName.c_str(), "w");
+   if (wavFile == nullptr)
+      return false;
 
-   return false;
+   size_t bytesWritten = 0;
+   {
+      Header header;
+
+      header.sampleRate = meta.sampleRate;
+      header.numChannels = meta.stereo ? 2 : 1;
+      header.blockAlign = header.numChannels * (header.bitsPerSample / 8);
+      header.bytesPerSec = header.sampleRate * header.blockAlign;
+
+      header.dataSize = data.size();
+      header.chunkSize = 36 + header.dataSize;
+
+      bytesWritten = fwrite(&header, 1, sizeof(Header), wavFile);
+   }
+   for (const float& value : data)
+   {
+      const int16_t buffer = static_cast<int16_t>(value * maxValue);
+      bytesWritten = fwrite(&buffer, 1, sizeof(int16_t), wavFile);
+   }
+
+   fclose(wavFile);
+   return true;
 }
 
 #endif // NOT AudioFileHPP
