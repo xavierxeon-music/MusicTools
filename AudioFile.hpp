@@ -3,12 +3,50 @@
 
 #include <Sound/AudioFile.h>
 
-#include <iostream>
 #include <limits>
 
-static const uint16_t BUFFER_SIZE = 4096;
+#ifdef NON_DAISY_DEVICE
+#include <iostream>
+#endif // NON_DAISY_DEVICE
+
+static const float maxValue = static_cast<float>(std::numeric_limits<int16_t>::max());
+
+// meta
+
+AudioFile::Meta::Meta()
+   : stereo(false)
+   , sampleRate(0)
+   , numberOfSamples(0)
+{
+}
 
 // header
+
+struct AudioFile::Header
+{
+   // RIFF Chunk Descriptor
+   uint8_t RIFF[4] = {'R', 'I', 'F', 'F'}; // RIFF Header Magic header
+   uint32_t chunkSize;                     // RIFF Chunk Size
+   uint8_t WAVE[4] = {'W', 'A', 'V', 'E'}; // WAVE Header
+   // "fmt" sub-chunk
+   uint8_t fmt[4] = {'f', 'm', 't', ' '}; // FMT header
+   uint32_t Subchunk1Size;                // Size of the fmt chunk
+   uint16_t audioFormat;                  // Audio format 1=PCM,6=mulaw,7=alaw, 257=IBM Mu-Law, 258=IBM A-Law, 259=ADPCM
+   uint16_t numChannels;                  // Number of channels 1=Mono 2=Stereo
+   uint32_t sampleRate;                   // Sampling Frequency in Hz
+   uint32_t bytesPerSec;                  // bytes per second
+   uint16_t blockAlign;                   // 2=16-bit mono, 4=16-bit stereo
+   uint16_t bitsPerSample;                // Number of bits per sample
+   // "data" sub-chunk
+   uint8_t subchunk2ID[4] = {'d', 'a', 't', 'a'}; // "data"  string
+   uint32_t subchunk2Size;                        // Sampled data length
+
+   inline Header();
+   inline void update();
+#ifdef NON_DAISY_DEVICE
+   inline void print();
+#endif // NON_DAISY_DEVICE
+};
 
 AudioFile::Header::Header()
 {
@@ -29,6 +67,7 @@ void AudioFile::Header::update()
    chunkSize = 36 + subchunk2Size;
 }
 
+#ifdef NON_DAISY_DEVICE
 void AudioFile::Header::print()
 {
    std::cout << "header size                : " << sizeof(Header) << std::endl;
@@ -58,73 +97,135 @@ void AudioFile::Header::print()
    std::cout << "-----------------" << std::endl;
    std::cout << std::endl;
 }
+#endif // NON_DAISY_DEVICE
 
-// audio file
+// input stream
 
-AudioFile::AudioFile()
-   : sampleRate(48000)
-   , leftData()
-   , rightData()
-{
-}
-
-bool AudioFile::load(const std::string& fileName)
+AudioFile::InputStream::InputStream(const std::string& fileName)
+   : wavFile(nullptr)
+   , metaData()
 {
    FILE* wavFile = fopen(fileName.c_str(), "r");
    if (wavFile == nullptr)
    {
+      // TODO
+   }
+
+   auto closeAndExit = [&]()
+   {
+      fclose(wavFile);
+      wavFile = nullptr;
+   };
+
+   Header header;
+   size_t bytesRead = fread(&header, 1, sizeof(Header), wavFile);
+   if (bytesRead <= 0)
+   {
+      closeAndExit();
+      return;
+   }
+
+   if (header.audioFormat != 1 || header.bitsPerSample != 16)
+   {
+      closeAndExit();
+      return;
+   }
+
+   metaData.stereo = (2 == header.numChannels);
+   metaData.sampleRate = header.sampleRate;
+}
+
+AudioFile::InputStream::~InputStream()
+{
+   if (wavFile)
+   {
+      fclose(wavFile);
+      wavFile = nullptr;
+   }
+}
+
+const AudioFile::Meta& AudioFile::InputStream::meta() const
+{
+   return metaData;
+}
+
+AudioFile::Data AudioFile::InputStream::read(size_t noOfBlocks)
+{
+   if (!wavFile)
+      return Data();
+
+   Data data;
+   size_t bytesRead = 0;
+
+   int16_t buffer;
+   for (size_t counter = 0; counter < noOfBlocks; counter++)
+   {
+      bytesRead = fread(&buffer, 1, sizeof(int16_t), wavFile);
+      if (bytesRead <= 0)
+         break;
+
+      const float value = static_cast<float>(buffer) / maxValue;
+      data.push_back(value);
+   }
+
+   return data;
+}
+
+// audio file
+
+AudioFile::Data AudioFile::load(const std::string& fileName, Meta* meta)
+{
+   if (meta)
+   {
+      meta->stereo = false;
+      meta->sampleRate = 0;
+   }
+
+   FILE* wavFile = fopen(fileName.c_str(), "r");
+   if (wavFile == nullptr)
+   {
       // fprintf(stderr, "Unable to open wave file: %s\n", filePath);
-      return false;
+      return Data();
    }
 
    Header header;
    size_t bytesRead = fread(&header, 1, sizeof(Header), wavFile);
    if (bytesRead <= 0)
-      return false;
+      return Data();
 
    if (header.audioFormat != 1 || header.bitsPerSample != 16)
-      return false;
+      return Data();
 
-   sampleRate = header.sampleRate;
-   leftData.clear();
-   rightData.clear();
+   if (meta)
+   {
+      meta->stereo = (2 == header.numChannels);
+      meta->sampleRate = header.sampleRate;
+      meta->numberOfSamples = header.subchunk2Size / header.blockAlign;
+   }
 
-   static const float maxValue = static_cast<float>(std::numeric_limits<int16_t>::max());
-   static const size_t bufferSize = sizeof(int16_t);
+   Data data;
 
    int16_t buffer;
-   bool leftChannel = true;
    while (true)
    {
-      bytesRead = fread(&buffer, 1, bufferSize, wavFile);
+      bytesRead = fread(&buffer, 1, sizeof(int16_t), wavFile);
       if (bytesRead <= 0)
          break;
 
       const float value = static_cast<float>(buffer) / maxValue;
-      if (1 == header.numChannels)
-      {
-         leftData.push_back(value);
-      }
-      else if (2 == header.numChannels)
-      {
-         if (leftChannel)
-            leftData.push_back(value);
-         else
-            rightData.push_back(value);
-
-         leftChannel ^= true;
-      }
+      data.push_back(value);
    }
 
    fclose(wavFile);
 
-   std::cout << "read ok: " << leftData.size() << ", " << rightData.size() << std::endl;
-   return true;
+   return data;
 }
 
-bool AudioFile::save(const std::string& fileName)
+bool AudioFile::save(const std::string& fileName, const Meta& meta, const Data& data)
 {
    (void)fileName;
+   (void)meta;
+   (void)data;
 
    return false;
 }

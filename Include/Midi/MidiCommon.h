@@ -10,7 +10,7 @@ namespace Midi
    using SongPosition = uint16_t;
 
    // see https://ccrma.stanford.edu/~gary/controllers/midi.html
-   const static float msPerByte = 31250.0 / (8.0 * 1000.0); // 31250 bits per second
+   const static float msPerByte = 1000.0 / 3125.0; // -> 3125 bytes per second
 
    enum Event : uint8_t
    {
