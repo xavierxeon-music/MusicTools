@@ -142,7 +142,7 @@ const AudioFile::Meta& AudioFile::InputStream::meta() const
    return metaData;
 }
 
-AudioFile::Data AudioFile::InputStream::read(size_t noOfBlocks)
+Data AudioFile::InputStream::read(size_t noOfBlocks)
 {
    if (!wavFile)
       return Data();
@@ -166,7 +166,7 @@ AudioFile::Data AudioFile::InputStream::read(size_t noOfBlocks)
 
 // audio file
 
-AudioFile::Data AudioFile::load(const std::string& fileName, Meta* meta)
+Data AudioFile::load(const std::string& fileName, Meta* meta)
 {
    if (meta)
    {
@@ -220,7 +220,6 @@ bool AudioFile::save(const std::string& fileName, const Meta& meta, const Data& 
    if (wavFile == nullptr)
       return false;
 
-   size_t bytesWritten = 0;
    {
       Header header;
 
@@ -232,12 +231,12 @@ bool AudioFile::save(const std::string& fileName, const Meta& meta, const Data& 
       header.dataSize = data.size();
       header.chunkSize = 36 + header.dataSize;
 
-      bytesWritten = fwrite(&header, 1, sizeof(Header), wavFile);
+      fwrite(&header, 1, sizeof(Header), wavFile);
    }
    for (const float& value : data)
    {
       const int16_t buffer = static_cast<int16_t>(value * maxValue);
-      bytesWritten = fwrite(&buffer, 1, sizeof(int16_t), wavFile);
+      fwrite(&buffer, 1, sizeof(int16_t), wavFile);
    }
 
    fclose(wavFile);

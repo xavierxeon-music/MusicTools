@@ -1,8 +1,11 @@
 INCLUDEPATH += \
    $$PWD/Include
 
+include(Include/ffft/ffft.pri)
+
 HEADERS += \
    $$PWD/AudioFile.hpp \
+   $$PWD/DoubleBuffer.hpp \
    $$PWD/Include/Abstract/AbstractEffect.h \
    $$PWD/Include/Abstract/AbstractOscilator.h \
    $$PWD/Include/Blocks/CvSwitch.h \
@@ -28,12 +31,14 @@ HEADERS += \
    $$PWD/Include/Sound/FunctionTable.h \
    $$PWD/Include/Sound/GateOscilator.h \
    $$PWD/Include/Sound/SoundMesh.h \
+   $$PWD/Include/Sound/Spectrum.h \
    $$PWD/Include/Sound/StandardTable.h \
    $$PWD/Include/Sound/WaveTable.h \
    $$PWD/Include/Sound/WaveTableMorpher.h \
    $$PWD/Include/Tools/BoolField.h \
    $$PWD/Include/Tools/Convert.h \
    $$PWD/Include/Tools/Counter.h \
+   $$PWD/Include/Tools/DoubleBuffer.h \
    $$PWD/Include/Tools/FastRandom.h \
    $$PWD/Include/Tools/Glide.h \
    $$PWD/Include/Tools/Range.h \
@@ -42,6 +47,7 @@ HEADERS += \
    $$PWD/Include/Tools/SquareSignal.h \
    $$PWD/Include/Tools/Variable.h \
    $$PWD/SoundMesh.hpp \
+   $$PWD/Spectrum.hpp \
    $$PWD/TimeCode.hpp \
    $$PWD/WaveTable.hpp \
    $$PWD/WaveTableMorpher.hpp
@@ -80,4 +86,4 @@ SOURCES += \
    $$PWD/AbstractEffect.cpp \
    $$PWD/AbstractOscilator.cpp \
    $$PWD/Maths.cpp \
-   $$PWD/Note.cpp \
+   $$PWD/Note.cpp

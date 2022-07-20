@@ -17,8 +17,6 @@ struct AudioFile
       inline Meta();
    };
 
-   using Data = std::vector<float>;
-
    struct Header;
 
    class InputStream
