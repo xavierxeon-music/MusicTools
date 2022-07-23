@@ -15,6 +15,7 @@ namespace Midi
    enum Event : uint8_t
    {
       Unknown = 0x00,
+      // non system events
       NoteOff = 0x80,
       NoteOn = 0x90,
       PolyKeyPressure = 0xA0,
@@ -22,6 +23,7 @@ namespace Midi
       ProgrammChange = 0xC0,
       ChannelPressure = 0xD0,
       PitchBend = 0xE0,
+      // system events
       System = 0xF0,
       TimeCode = 0xF1,
       SongPositionPointer = 0xF2,
