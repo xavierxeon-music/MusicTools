@@ -10,6 +10,7 @@ Spectrum::Spectrum()
    , writeIndex(0)
    , bufferReadIndex(0)
    , bufferWriteIndex(1)
+   , complexFrequency(bufferSize, 0.0)
 {
    buffer[0] = Data(bufferSize, 0.0);
    buffer[1] = Data(bufferSize, 0.0);
@@ -40,13 +41,13 @@ bool Spectrum::fill(const float& value)
 
 Data Spectrum::analyse()
 {
-   const Data input = buffer[bufferReadIndex];
-   Data complexFrequency(bufferSize, 0.0);
-
+   const Data& input = buffer[bufferReadIndex];
    transform.do_fft(complexFrequency.data(), input.data());
 
+   //return complexFrequency;
+
    const uint16_t halfBufferSize = bufferSize / 2;
-   Data frequency(halfBufferSize / 2, 0.0);
+   Data frequency(halfBufferSize, 0.0);
 
    for (uint16_t index = 0; index < halfBufferSize; index++)
    {
