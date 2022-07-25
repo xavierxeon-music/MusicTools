@@ -27,13 +27,13 @@ void init_MidiCommon(pybind11::module_& module)
    controllMessageType.value("ChannelVolume", Midi::ControllerMessage::ChannelVolume);
    controllMessageType.value("Balance", Midi::ControllerMessage::Balance);
    // START undefined in standard
+   controllMessageType.value("RememberInit", Midi::ControllerMessage::RememberInit);
    controllMessageType.value("RememberBlock", Midi::ControllerMessage::RememberBlock);
    controllMessageType.value("RememberApply", Midi::ControllerMessage::RememberApply);
    controllMessageType.value("RememberRequest", Midi::ControllerMessage::RememberRequest);
-   controllMessageType.value("Undefined04", Midi::ControllerMessage::Undefined04);
-   controllMessageType.value("Undefined05", Midi::ControllerMessage::Undefined05);
-   controllMessageType.value("Undefined06", Midi::ControllerMessage::Undefined06);
-   controllMessageType.value("Undefined07", Midi::ControllerMessage::Undefined07);
+   controllMessageType.value("DataInit", Midi::ControllerMessage::DataInit);
+   controllMessageType.value("DataBlock", Midi::ControllerMessage::DataBlock);
+   controllMessageType.value("DataApply", Midi::ControllerMessage::DataApply);
    controllMessageType.value("Undefined08", Midi::ControllerMessage::Undefined08);
    controllMessageType.value("Undefined09", Midi::ControllerMessage::Undefined09);
    controllMessageType.value("Undefined10", Midi::ControllerMessage::Undefined10);
