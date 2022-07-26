@@ -358,7 +358,6 @@ PolyRamp::LengthStatus PolyRamp::setStageLength(const uint8_t& index, const uint
    return LengthStatus::Changed;
 }
 
-
 bool PolyRamp::isLooping() const
 {
    return loop;

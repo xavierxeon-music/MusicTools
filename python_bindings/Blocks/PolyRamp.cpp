@@ -13,6 +13,8 @@ void init_PolyRamp(pybind11::module_& module)
    lengthStatus.value("Error", PolyRamp::LengthStatus::Error);
    lengthStatus.export_values();
 
+   polyRamp.def("clear", &PolyRamp::clear);
+
    polyRamp.def("clockTick", &PolyRamp::clockTick);
    polyRamp.def("clockReset", &PolyRamp::clockReset);
 
@@ -30,7 +32,7 @@ void init_PolyRamp(pybind11::module_& module)
    polyRamp.def("setLength", &PolyRamp::setLength);
    polyRamp.def("trimLength", &PolyRamp::trimLength);
 
-   polyRamp.def("stageCount", &PolyRamp::stageCount);
+   polyRamp.def("getStageCount", &PolyRamp::getStageCount);
    polyRamp.def("addStage", &PolyRamp::addStage);
    polyRamp.def("moveStage", &PolyRamp::moveStage);
    polyRamp.def("removeStage", &PolyRamp::removeStage);
@@ -38,9 +40,11 @@ void init_PolyRamp(pybind11::module_& module)
    polyRamp.def("getStageStartHeight", &PolyRamp::getStageStartHeight);
    polyRamp.def("setStageStartHeight", &PolyRamp::setStageStartHeight);
 
+   polyRamp.def("getStageEndHeight", &PolyRamp::getStageEndHeight);
+   polyRamp.def("setStageEndHeight", &PolyRamp::setStageEndHeight);
+
    polyRamp.def("getStageLength", &PolyRamp::getStageLength);
    polyRamp.def("setStageLength", &PolyRamp::setStageLength);
-   polyRamp.def("setStageStartHeigthAndLength", &PolyRamp::setStageStartHeigthAndLength);
 
    polyRamp.def("isLooping", &PolyRamp::isLooping);
    polyRamp.def("setLooping", &PolyRamp::setLooping);
