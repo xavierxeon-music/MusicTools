@@ -23,18 +23,32 @@ namespace Midi
       ProgrammChange = 0xC0,
       ChannelPressure = 0xD0,
       PitchBend = 0xE0,
-      // system events
+      // system common
       System = 0xF0,
       TimeCode = 0xF1,
       SongPositionPointer = 0xF2,
+      SongSelect = 0xF3,
+      // START undefined in standard
+      JsonBlockStart = 0xF4,
+      JsonBlockEnd = 0xF5,
+      // END undefined in standard
+      TuneRequest = 0xF6,
       SysExEnd = 0xF7,
+      // system real time
       Clock = 0xF8,
+      UndefinedA = 0xF9,
       Start = 0xFA,
       Continue = 0xFB,
       Stop = 0xFC,
+      UndefinedB = 0xFD,
       ActiveSensinig = 0xFE,
       Reset = 0xFF,
       Meta = 0xFF // for midi files
+   };
+
+   struct Manufacturer
+   {
+      const static uint8_t EducationalUse = 0x7D;
    };
 
    enum MetaEvent : uint8_t // for midi files
