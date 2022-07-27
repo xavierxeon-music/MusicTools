@@ -10,7 +10,7 @@ Spectrum::Spectrum()
    , writeIndex(0)
    , bufferReadIndex(0)
    , bufferWriteIndex(1)
-   , complexFrequency(bufferSize, 0.0)
+   , complexAmplitude(bufferSize, 0.0)
 {
    buffer[0] = Data(bufferSize, 0.0);
    buffer[1] = Data(bufferSize, 0.0);
@@ -39,26 +39,31 @@ bool Spectrum::fill(const float& value)
    return true;
 }
 
-Data Spectrum::analyse()
+Spectrum::Map Spectrum::analyse(const float& sampleRate)
 {
    const Data& input = buffer[bufferReadIndex];
-   transform.do_fft(complexFrequency.data(), input.data());
+   transform.do_fft(complexAmplitude.data(), input.data());
 
    //return complexFrequency;
 
+   const float binSize = sampleRate / bufferSize;
    const uint16_t halfBufferSize = bufferSize / 2;
-   Data frequency(halfBufferSize, 0.0);
+
+   Map map;
 
    for (uint16_t index = 0; index < halfBufferSize; index++)
    {
-      const float real = complexFrequency.at(index + 0);
-      const float img = complexFrequency.at(index + halfBufferSize);
+      const float real = complexAmplitude.at(index + 0);
+      const float img = complexAmplitude.at(index + halfBufferSize);
       const float absSquare = real * real + img * img;
 
-      frequency[index] = sqrt(absSquare);
+      const float frequency = index * binSize;
+      const float amplitude = sqrt(absSquare);
+
+      map[frequency] = amplitude;
    }
 
-   return frequency;
+   return map;
 }
 
 uint16_t Spectrum::compileBufferSize()

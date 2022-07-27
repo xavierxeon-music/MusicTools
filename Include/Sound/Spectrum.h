@@ -8,11 +8,13 @@
 class Spectrum
 {
 public:
+   using Map = std::map<float, float>; // frequency vc amplitude
+public:
    inline Spectrum();
 
 public:
    inline bool fill(const float& value); // return true if buffer full
-   inline Data analyse();
+   inline Map analyse(const float& sampleRate);
 
    inline static uint16_t compileBufferSize();
 
@@ -26,7 +28,7 @@ private:
    uint8_t bufferReadIndex;      
    uint8_t bufferWriteIndex;
 
-   Data complexFrequency;
+   Data complexAmplitude;
 };
 
 #ifndef SpectrumHPP
