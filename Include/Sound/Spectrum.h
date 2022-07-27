@@ -1,6 +1,8 @@
 #ifndef SpectrumH
 #define SpectrumH
 
+#include <map>
+
 #include <MusicTools.h>
 
 #include <ffft/FFTRealFixLen.h>
@@ -25,7 +27,7 @@ private:
 
    Data buffer[2];
    uint16_t writeIndex;
-   uint8_t bufferReadIndex;      
+   uint8_t bufferReadIndex;
    uint8_t bufferWriteIndex;
 
    Data complexAmplitude;
