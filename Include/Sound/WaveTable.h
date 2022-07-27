@@ -12,6 +12,7 @@ namespace WaveTable
    {
    public:
       inline AbstractTable(const float maxAngle = 2.0f * Maths::pi);
+      inline virtual ~AbstractTable();
 
    public:
       inline const float& getMaxAngle() const;
@@ -25,6 +26,7 @@ namespace WaveTable
    {
    public:
       inline StepTable(const uint64_t& noOfSteps, const float& maxAngle = 2.0f * Maths::pi);
+      inline virtual ~StepTable();
 
    public:
       inline const uint64_t& getNoOfSteps() const;
