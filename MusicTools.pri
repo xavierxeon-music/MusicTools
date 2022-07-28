@@ -12,7 +12,6 @@ HEADERS += \
    $$PWD/Include/Blocks/PolyRamp.h \
    $$PWD/Include/Blocks/Trapezoid.h \
    $$PWD/Include/Effect/Compressor.h \
-   $$PWD/Include/Effect/Resonator.h \
    $$PWD/Include/Effect/Revoice.h \
    $$PWD/Include/Effect/StateVariableFilter.h \
    $$PWD/Include/Maths.h \
@@ -69,7 +68,6 @@ HEADERS += \
    $$PWD/MusicTools.hpp \
    $$PWD/PolyRamp.hpp \
    $$PWD/Range.hpp \
-   $$PWD/Resonator.hpp \
    $$PWD/RingBuffer.hpp \
    $$PWD/SevenBit.hpp \
    $$PWD/SoundMesh.hpp \
