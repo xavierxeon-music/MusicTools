@@ -30,8 +30,6 @@ namespace Abstract
 
    public:
       float changeSound(const float& in) override final;
-
-   protected:
       virtual Data proccessBuffer(const Data& input) = 0;
       void clear();
 
