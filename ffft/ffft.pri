@@ -1,5 +1,3 @@
-INCLUDEPATH += $$PWD
-
 HEADERS += \
    $$PWD/Array.h \
    $$PWD/DynArray.h \

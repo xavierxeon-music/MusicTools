@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-        FFTRealUseTrigo.h
+        FFTRealPassDirect.h
         By Laurent de Soras
 
 --- Legal stuff ---
@@ -15,8 +15,8 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 
 
 
-#if ! defined (ffft_FFTRealUseTrigo_HEADER_INCLUDED)
-#define	ffft_FFTRealUseTrigo_HEADER_INCLUDED
+#if ! defined (ffft_FFTRealPassDirect_HEADER_INCLUDED)
+#define	ffft_FFTRealPassDirect_HEADER_INCLUDED
 
 #if defined (_MSC_VER)
 	#pragma once
@@ -27,9 +27,9 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include	"ffft/def.h"
-#include	"ffft/FFTRealFixLenParam.h"
-#include	"ffft/OscSinCos.h"
+#include "def.h"
+#include "FFTRealFixLenParam.h"
+#include "OscSinCos.h"
 
 
 
@@ -38,8 +38,8 @@ namespace ffft
 
 
 
-template <int ALGO>
-class FFTRealUseTrigo
+template <int PASS>
+class FFTRealPassDirect
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -50,9 +50,7 @@ public:
 	typedef	OscSinCos <DataType>	OscType;
 
 	ffft_FORCEINLINE static void
-						prepare (OscType &osc);
-	ffft_FORCEINLINE	static void
-						iterate (OscType &osc, DataType &c, DataType &s, const DataType cos_ptr [], long index_c, long index_s);
+						process (long len, DataType dest_ptr [], DataType src_ptr [], const DataType x_ptr [], const DataType cos_ptr [], long cos_len, const long br_ptr [], OscType osc_list []);
 
 
 
@@ -72,15 +70,14 @@ private:
 
 private:
 
-						FFTRealUseTrigo ();
-						~FFTRealUseTrigo ();
-						FFTRealUseTrigo (const FFTRealUseTrigo &other);
-	FFTRealUseTrigo &
-						operator = (const FFTRealUseTrigo &other);
-	bool				operator == (const FFTRealUseTrigo &other);
-	bool				operator != (const FFTRealUseTrigo &other);
+						FFTRealPassDirect ();
+						FFTRealPassDirect (const FFTRealPassDirect &other);
+	FFTRealPassDirect &
+						operator = (const FFTRealPassDirect &other);
+	bool				operator == (const FFTRealPassDirect &other);
+	bool				operator != (const FFTRealPassDirect &other);
 
-};	// class FFTRealUseTrigo
+};	// class FFTRealPassDirect
 
 
 
@@ -88,11 +85,11 @@ private:
 
 
 
-#include	"ffft/FFTRealUseTrigo.hpp"
+#include "FFTRealPassDirect.hpp"
 
 
 
-#endif	// ffft_FFTRealUseTrigo_HEADER_INCLUDED
+#endif	// ffft_FFTRealPassDirect_HEADER_INCLUDED
 
 
 

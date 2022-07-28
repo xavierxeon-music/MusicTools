@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-        FFTRealPassDirect.h
+        Array.h
         By Laurent de Soras
 
 --- Legal stuff ---
@@ -15,8 +15,8 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 
 
 
-#if ! defined (ffft_FFTRealPassDirect_HEADER_INCLUDED)
-#define	ffft_FFTRealPassDirect_HEADER_INCLUDED
+#if ! defined (ffft_Array_HEADER_INCLUDED)
+#define	ffft_Array_HEADER_INCLUDED
 
 #if defined (_MSC_VER)
 	#pragma once
@@ -27,10 +27,6 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include	"ffft/def.h"
-#include	"ffft/FFTRealFixLenParam.h"
-#include	"ffft/OscSinCos.h"
-
 
 
 namespace ffft
@@ -38,19 +34,25 @@ namespace ffft
 
 
 
-template <int PASS>
-class FFTRealPassDirect
+template <class T, long LEN>
+class Array
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
 
-   typedef	FFTRealFixLenParam::DataType	DataType;
-	typedef	OscSinCos <DataType>	OscType;
+	typedef	T	DataType;
 
-	ffft_FORCEINLINE static void
-						process (long len, DataType dest_ptr [], DataType src_ptr [], const DataType x_ptr [], const DataType cos_ptr [], long cos_len, const long br_ptr [], OscType osc_list []);
+						Array ();
+
+	inline const DataType &
+						operator [] (long pos) const;
+	inline DataType &
+						operator [] (long pos);
+
+	static inline long
+						size ();
 
 
 
@@ -64,20 +66,20 @@ protected:
 
 private:
 
+	DataType			_data_arr [LEN];
+
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
 
-						FFTRealPassDirect ();
-						FFTRealPassDirect (const FFTRealPassDirect &other);
-	FFTRealPassDirect &
-						operator = (const FFTRealPassDirect &other);
-	bool				operator == (const FFTRealPassDirect &other);
-	bool				operator != (const FFTRealPassDirect &other);
+						Array (const Array &other);
+	Array &			operator = (const Array &other);
+	bool				operator == (const Array &other);
+	bool				operator != (const Array &other);
 
-};	// class FFTRealPassDirect
+};	// class Array
 
 
 
@@ -85,11 +87,11 @@ private:
 
 
 
-#include	"ffft/FFTRealPassDirect.hpp"
+#include "Array.hpp"
 
 
 
-#endif	// ffft_FFTRealPassDirect_HEADER_INCLUDED
+#endif	// ffft_Array_HEADER_INCLUDED
 
 
 

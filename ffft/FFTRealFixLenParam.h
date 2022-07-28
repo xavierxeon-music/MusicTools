@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-        DynArray.h
+        FFTRealFixLenParam.h
         By Laurent de Soras
 
 --- Legal stuff ---
@@ -15,8 +15,8 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 
 
 
-#if ! defined (ffft_DynArray_HEADER_INCLUDED)
-#define	ffft_DynArray_HEADER_INCLUDED
+#if ! defined (ffft_FFTRealFixLenParam_HEADER_INCLUDED)
+#define	ffft_FFTRealFixLenParam_HEADER_INCLUDED
 
 #if defined (_MSC_VER)
 	#pragma once
@@ -34,27 +34,17 @@ namespace ffft
 
 
 
-template <class T>
-class DynArray
+class FFTRealFixLenParam
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
 
-	typedef	T	DataType;
+   // Over this bit depth, we use direct calculation for sin/cos
+   enum {	      TRIGO_BD_LIMIT	= 12  };
 
-						DynArray ();
-	explicit			DynArray (long size);
-						~DynArray ();
-
-	inline long		size () const;
-	inline void		resize (long size);
-
-	inline const DataType &
-						operator [] (long pos) const;
-	inline DataType &
-						operator [] (long pos);
+	typedef	float	DataType;
 
 
 
@@ -68,21 +58,20 @@ protected:
 
 private:
 
-	DataType *		_data_ptr;
-	long				_len;
-
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
 
-						DynArray (const DynArray &other);
-	DynArray &		operator = (const DynArray &other);
-	bool				operator == (const DynArray &other);
-	bool				operator != (const DynArray &other);
+						FFTRealFixLenParam ();
+						FFTRealFixLenParam (const FFTRealFixLenParam &other);
+	FFTRealFixLenParam &
+						operator = (const FFTRealFixLenParam &other);
+	bool				operator == (const FFTRealFixLenParam &other);
+	bool				operator != (const FFTRealFixLenParam &other);
 
-};	// class DynArray
+};	// class FFTRealFixLenParam
 
 
 
@@ -90,11 +79,11 @@ private:
 
 
 
-#include	"ffft/DynArray.hpp"
+//#include "FFTRealFixLenParam.hpp"
 
 
 
-#endif	// ffft_DynArray_HEADER_INCLUDED
+#endif	// ffft_FFTRealFixLenParam_HEADER_INCLUDED
 
 
 

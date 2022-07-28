@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-        FFTRealFixLenParam.h
+        FFTRealUseTrigo.h
         By Laurent de Soras
 
 --- Legal stuff ---
@@ -15,8 +15,8 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 
 
 
-#if ! defined (ffft_FFTRealFixLenParam_HEADER_INCLUDED)
-#define	ffft_FFTRealFixLenParam_HEADER_INCLUDED
+#if ! defined (ffft_FFTRealUseTrigo_HEADER_INCLUDED)
+#define	ffft_FFTRealUseTrigo_HEADER_INCLUDED
 
 #if defined (_MSC_VER)
 	#pragma once
@@ -27,6 +27,10 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "def.h"
+#include "FFTRealFixLenParam.h"
+#include "OscSinCos.h"
+
 
 
 namespace ffft
@@ -34,17 +38,21 @@ namespace ffft
 
 
 
-class FFTRealFixLenParam
+template <int ALGO>
+class FFTRealUseTrigo
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
 
-   // Over this bit depth, we use direct calculation for sin/cos
-   enum {	      TRIGO_BD_LIMIT	= 12  };
+   typedef	FFTRealFixLenParam::DataType	DataType;
+	typedef	OscSinCos <DataType>	OscType;
 
-	typedef	float	DataType;
+	ffft_FORCEINLINE static void
+						prepare (OscType &osc);
+	ffft_FORCEINLINE	static void
+						iterate (OscType &osc, DataType &c, DataType &s, const DataType cos_ptr [], long index_c, long index_s);
 
 
 
@@ -64,14 +72,15 @@ private:
 
 private:
 
-						FFTRealFixLenParam ();
-						FFTRealFixLenParam (const FFTRealFixLenParam &other);
-	FFTRealFixLenParam &
-						operator = (const FFTRealFixLenParam &other);
-	bool				operator == (const FFTRealFixLenParam &other);
-	bool				operator != (const FFTRealFixLenParam &other);
+						FFTRealUseTrigo ();
+						~FFTRealUseTrigo ();
+						FFTRealUseTrigo (const FFTRealUseTrigo &other);
+	FFTRealUseTrigo &
+						operator = (const FFTRealUseTrigo &other);
+	bool				operator == (const FFTRealUseTrigo &other);
+	bool				operator != (const FFTRealUseTrigo &other);
 
-};	// class FFTRealFixLenParam
+};	// class FFTRealUseTrigo
 
 
 
@@ -79,11 +88,11 @@ private:
 
 
 
-//#include	"ffft/FFTRealFixLenParam.hpp"
+#include "FFTRealUseTrigo.hpp"
 
 
 
-#endif	// ffft_FFTRealFixLenParam_HEADER_INCLUDED
+#endif	// ffft_FFTRealUseTrigo_HEADER_INCLUDED
 
 
 

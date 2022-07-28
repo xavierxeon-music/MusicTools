@@ -1,7 +1,7 @@
 INCLUDEPATH += \
    $$PWD/Include
 
-include(Include/ffft/ffft.pri)
+include(ffft/ffft.pri)
 
 HEADERS += \
    $$PWD/AudioFile.hpp \
@@ -13,6 +13,7 @@ HEADERS += \
    $$PWD/Include/Blocks/Trapezoid.h \
    $$PWD/Include/Effect/Compressor.h \
    $$PWD/Include/Effect/Resonator.h \
+    $$PWD/Include/Effect/Revoice.h \
    $$PWD/Include/Effect/StateVariableFilter.h \
    $$PWD/Include/Maths.h \
    $$PWD/Include/Midi/MidiCommon.h \
@@ -46,14 +47,10 @@ HEADERS += \
    $$PWD/Include/Tools/SevenBit.h \
    $$PWD/Include/Tools/SquareSignal.h \
    $$PWD/Include/Tools/Variable.h \
-   $$PWD/SoundMesh.hpp \
-   $$PWD/Spectrum.hpp \
-   $$PWD/TimeCode.hpp \
-   $$PWD/WaveTable.hpp \
-   $$PWD/WaveTableMorpher.hpp
+    $$PWD/Revoice.hpp
 
     
-HEADERS += \     \
+HEADERS += \   
    $$PWD/BoolField.hpp \
    $$PWD/Compressor.hpp \
    $$PWD/Convert.hpp \
@@ -75,15 +72,21 @@ HEADERS += \     \
    $$PWD/Resonator.hpp \
    $$PWD/RingBuffer.hpp \
    $$PWD/SevenBit.hpp \
+   $$PWD/SoundMesh.hpp \
    $$PWD/SquareSignal.hpp \
    $$PWD/StandardTable.hpp \
    $$PWD/StateVariableFilter.hpp \
    $$PWD/Tempo.hpp \
+   $$PWD/TimeCode.hpp \
    $$PWD/Trapezoid.hpp \
    $$PWD/Variable.hpp   \
+   $$PWD/WaveTable.hpp \
+   $$PWD/WaveTableMorpher.hpp \
+
 
 SOURCES += \
    $$PWD/AbstractEffect.cpp \
    $$PWD/AbstractOscilator.cpp \
    $$PWD/Maths.cpp \
-   $$PWD/Note.cpp
+   $$PWD/Note.cpp \
+   $$PWD/Spectrum.cpp \
