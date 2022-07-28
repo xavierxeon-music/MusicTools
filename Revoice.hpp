@@ -1,9 +1,15 @@
 #ifndef RevoiceHPP
 #define RevoiceHPP
 
-#include "Revoice.h"
+#include <Effect/Revoice.h>
 
 Revoice::Revoice()
+   : Abstract::BufferedEffect(Spectrum::compileBufferSize())
+   , spectrum()
+{
+}
+
+Data Revoice::proccessBuffer(const Data& input)
 {
 }
 
