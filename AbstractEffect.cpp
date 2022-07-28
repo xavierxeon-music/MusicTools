@@ -6,6 +6,10 @@ Abstract::Effect::Effect()
 {
 }
 
+Abstract::Effect::~Effect()
+{
+}
+
 // buffered effect
 
 Abstract::BufferedEffect::BufferedEffect(const uint16_t& bufferSize)
@@ -14,6 +18,10 @@ Abstract::BufferedEffect::BufferedEffect(const uint16_t& bufferSize)
    , bufferIndex(0)
    , inputBuffer(bufferSize, 0.0)
    , outputBuffer(bufferSize, 0.0)
+{
+}
+
+Abstract::BufferedEffect::~BufferedEffect()
 {
 }
 

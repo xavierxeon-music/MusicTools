@@ -18,6 +18,7 @@ namespace Abstract
    {
    public:
       Effect();
+      virtual ~Effect();
 
    public:
       virtual float changeSound(const float& in) = 0;
@@ -27,6 +28,7 @@ namespace Abstract
    {
    public:
       BufferedEffect(const uint16_t& bufferSize);
+      virtual ~BufferedEffect();
 
    public:
       float changeSound(const float& in) override final;
