@@ -13,7 +13,7 @@ HEADERS += \
    $$PWD/Include/Blocks/Trapezoid.h \
    $$PWD/Include/Effect/Compressor.h \
    $$PWD/Include/Effect/Resonator.h \
-    $$PWD/Include/Effect/Revoice.h \
+   $$PWD/Include/Effect/Revoice.h \
    $$PWD/Include/Effect/StateVariableFilter.h \
    $$PWD/Include/Maths.h \
    $$PWD/Include/Midi/MidiCommon.h \
