@@ -29,7 +29,7 @@ void Revoice::setSampleRate(const float& newSampleRate)
 
 Data Revoice::convert(const Data& input)
 {
-   static const float maxAmplitude = 1000 * numberOfVocices;
+   static const float maxAmplitude = 500 * numberOfVocices;
    static const uint16_t bufferSize = Spectrum::compileBufferSize();
 
    const Spectrum::Map spectrumMap = spectrum.analyse(input, sampleRate);
@@ -44,7 +44,6 @@ Data Revoice::convert(const Data& input)
 
    std::sort(amplitudeList.begin(), amplitudeList.end(), std::greater<float>());
 
-   Data sound;
    for (uint8_t voice = 0; voice < numberOfVocices; voice++)
    {
       const float amplitude = amplitudeList.at(voice);
@@ -52,6 +51,7 @@ Data Revoice::convert(const Data& input)
       oscilators[voice].setFrequency(frequency);
    }
 
+   Data sound(bufferSize, 0.0);
    for (uint16_t index = 0; index < bufferSize; index++)
    {
       float value = 0;
@@ -60,9 +60,8 @@ Data Revoice::convert(const Data& input)
          const float volume = amplitudeList.at(voice) / maxAmplitude;
          value += volume * oscilators[voice].createSound();
       }
-      sound.push_back(value);
+      sound[index] = value;
    }
-
    return sound;
 }
 

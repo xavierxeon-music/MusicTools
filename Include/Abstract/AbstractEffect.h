@@ -34,7 +34,7 @@ namespace Abstract
       void clear();
 
    private:
-      const uint16_t& bufferSize;
+      const uint16_t bufferSize;
       uint16_t bufferIndex;
       Data inputBuffer;
       Data outputBuffer;

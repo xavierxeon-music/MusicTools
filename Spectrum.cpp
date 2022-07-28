@@ -21,7 +21,7 @@ Spectrum::~Spectrum()
 
 Spectrum::Map Spectrum::analyse(const Data& data, const float& sampleRate)
 {
-   Data complexAmplitude;
+   static Data complexAmplitude(compileBufferSize(), 0.0);
    internal->transform.do_fft(complexAmplitude.data(), data.data());
 
    const uint16_t bufferSize = compileBufferSize();
