@@ -74,9 +74,8 @@ namespace WaveTable
       inline void setAmplitude(const float& newAmplitude);
       inline const float& getAmplitude() const;
 
-      inline float createSound() override;
-
    private:
+      inline float createSound() override;
       inline void compileDeltaPhase();
 
    private:

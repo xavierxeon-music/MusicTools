@@ -20,23 +20,23 @@ namespace Abstract
       Effect();
 
    public:
-      virtual float changeSound(const float &in) = 0;
+      virtual float changeSound(const float& in) = 0;
    };
 
    class BufferedEffect : public Effect
    {
    public:
-      BufferedEffect(const uint16_t &bufferSize);
+      BufferedEffect(const uint16_t& bufferSize);
 
-   protected:
-      virtual Data proccessBuffer(const Data &input) = 0;
+   public:
+      virtual Data proccessBuffer(const Data& input) = 0;
       void clear();
 
    private:
-      float changeSound(const float &in) override final;
+      float changeSound(const float& in) override final;
 
    private:
-      const uint16_t &bufferSize;
+      const uint16_t& bufferSize;
       uint16_t bufferIndex;
       Data inputBuffer;
       Data outputBuffer;
