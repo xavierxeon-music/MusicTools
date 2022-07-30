@@ -3,13 +3,16 @@
 
 #include <Effect/Revoice.h>
 
-Revoice::Revoice()
+Revoice::Revoice(const uint8_t& numberOfVocices)
    : Abstract::BufferedEffect(Spectrum::compileBufferSize())
-   , oscilators{}
+   , numberOfVocices(numberOfVocices)
+   , oscilators(nullptr)
    , sineTable()
    , sampleRate(1.0)
    , spectrum()
 {
+   oscilators = new WaveTable::Oscilator[numberOfVocices];
+
    sineTable.setWaveform(Standard::Waveform::Sine);
 
    for (uint8_t voice = 0; voice < numberOfVocices; voice++)
@@ -19,12 +22,44 @@ Revoice::Revoice()
    }
 }
 
+Revoice::~Revoice()
+{
+   delete[] oscilators;
+   oscilators = nullptr;
+}
+
+const uint8_t& Revoice::getNumberOfVoices() const
+{
+   return numberOfVocices;
+}
+
+void Revoice::setNumberOfVoices(const uint8_t& newNumberOfVocices)
+{
+   if (newNumberOfVocices == numberOfVocices)
+      return;
+
+   numberOfVocices = newNumberOfVocices;
+
+   delete[] oscilators;
+   oscilators = new WaveTable::Oscilator[numberOfVocices];
+
+   for (uint8_t voice = 0; voice < numberOfVocices; voice++)
+   {
+      oscilators[voice].init(&sineTable, sampleRate);
+      oscilators[voice].setAmplitude(1.0);
+   }
+
+   clear();
+}
+
 void Revoice::setSampleRate(const float& newSampleRate)
 {
    sampleRate = newSampleRate;
 
    for (uint8_t voice = 0; voice < numberOfVocices; voice++)
       oscilators[voice].init(&sineTable, sampleRate);
+
+   clear();
 }
 
 Data Revoice::convert(const Data& input)

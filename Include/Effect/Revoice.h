@@ -10,9 +10,12 @@
 class Revoice : public Abstract::BufferedEffect
 {
 public:
-   inline Revoice();
+   inline Revoice(const uint8_t& numberOfVocices = 16);
+   inline ~Revoice();
 
 public:
+   inline const uint8_t& getNumberOfVoices() const;
+   inline void setNumberOfVoices(const uint8_t& newNumberOfVocices);
    inline void setSampleRate(const float& newSampleRate);
    inline Data convert(const Data& input);
 
@@ -23,8 +26,8 @@ private:
    using AmplitudeMap = std::map<float, float>;
 
 private:
-   static constexpr uint8_t numberOfVocices = 16;
-   WaveTable::Oscilator oscilators[numberOfVocices];
+   uint8_t numberOfVocices;
+   WaveTable::Oscilator* oscilators;
    Standard::Table sineTable;
 
    float sampleRate;
