@@ -6,7 +6,7 @@
 #include <Tools/Range.h>
 
 Abstract::Oscilator::Oscilator()
-   : frequency(50.00f)
+   : frequency(110.0f)
    , amplitude(0.7f)
 
 {
