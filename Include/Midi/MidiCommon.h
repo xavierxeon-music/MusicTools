@@ -28,10 +28,6 @@ namespace Midi
       TimeCode = 0xF1,
       SongPositionPointer = 0xF2,
       SongSelect = 0xF3,
-      // START undefined in standard
-      JsonBlockStart = 0xF4,
-      JsonBlockEnd = 0xF5,
-      // END undefined in standard
       TuneRequest = 0xF6,
       SysExEnd = 0xF7,
       // system real time
