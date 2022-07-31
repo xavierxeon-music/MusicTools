@@ -3,8 +3,6 @@
 
 #include <Sound/WaveTable.h>
 
-#include <Tools/Range.h>
-
 // table
 
 WaveTable::AbstractTable::AbstractTable(const float maxAngle)
@@ -79,8 +77,6 @@ WaveTable::Oscilator::Oscilator()
    , table(nullptr)
    , sampleRate(1.0f)
    , phase(0.0f)
-   , frequency(50.00f)
-   , amplitude(0.7f)
    , deltaPhase(0.0f)
 {
 }
@@ -113,43 +109,10 @@ void WaveTable::Oscilator::setFrequency(const float& newFrequency)
    if (frequency == newFrequency)
       return;
 
-   if (0.0f >= newFrequency)
-      frequency = 0.0f;
-   else
-   {
-#ifndef NON_DAISY_DEVICE
-      // clamp to range of D/A converters
-      // * 1.0 = amplitude ~0.5
-      // * 2.0 = amplitude ~0.8
-      // * 5.0 = full amplitude
-      frequency = Range::clamp<float>(newFrequency, 2.0f, 20000.0f);
-#else
-      frequency = newFrequency;
-#endif // NON_DAISY_DEVICE
-   }
-
+   Abstract::Oscilator::setFrequency(newFrequency);
    compileDeltaPhase();
 }
 
-void WaveTable::Oscilator::setCycleDuration(const float& cylceDuration)
-{
-   setFrequency(1.0 / cylceDuration);
-}
-
-const float& WaveTable::Oscilator::getFrequency() const
-{
-   return frequency;
-}
-
-void WaveTable::Oscilator::setAmplitude(const float& newAmplitude)
-{
-   amplitude = newAmplitude;
-}
-
-const float& WaveTable::Oscilator::getAmplitude() const
-{
-   return amplitude;
-}
 
 float WaveTable::Oscilator::createSound()
 {

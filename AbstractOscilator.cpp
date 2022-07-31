@@ -3,12 +3,48 @@
 #include <Maths.h>
 #include <MusicTools.h>
 
+#include <Tools/Range.h>
+
 Abstract::Oscilator::Oscilator()
+   : frequency(50.00f)
+   , amplitude(0.7f)
+
 {
 }
 
 Abstract::Oscilator::~Oscilator()
 {
+}
+
+void Abstract::Oscilator::setFrequency(const float& newFrequency)
+{
+   if (frequency == newFrequency)
+      return;
+
+   if (0.0f >= newFrequency)
+      frequency = 0.0f;
+   else
+   {
+#ifndef NON_DAISY_DEVICE
+      // clamp to range of D/A converters
+      // * 1.0 = amplitude ~0.5
+      // * 2.0 = amplitude ~0.8
+      // * 5.0 = full amplitude
+      frequency = Range::clamp<float>(newFrequency, 2.0f, 20000.0f);
+#else
+      frequency = newFrequency;
+#endif // NON_DAISY_DEVICE
+   }
+}
+
+void Abstract::Oscilator::setCycleDuration(const float& cylceDuration)
+{
+   setFrequency(1.0 / cylceDuration);
+}
+
+const float& Abstract::Oscilator::getFrequency() const
+{
+   return frequency;
 }
 
 float Abstract::Oscilator::frequencyFromCV(float voltage)
@@ -39,4 +75,14 @@ float Abstract::Oscilator::frequencyFromCV(float voltage)
    const float frequency = noteAFreq[octave] * pow(2, rest);
 
    return frequency;
+}
+
+void Abstract::Oscilator::setAmplitude(const float& newAmplitude)
+{
+   amplitude = newAmplitude;
+}
+
+const float& Abstract::Oscilator::getAmplitude() const
+{
+   return amplitude;
 }

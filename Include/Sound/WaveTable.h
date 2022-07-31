@@ -67,12 +67,7 @@ namespace WaveTable
       inline void setPhase(const float& newPhase);
       inline const float& getPhase() const;
 
-      inline void setFrequency(const float& newFrequency);
-      inline void setCycleDuration(const float& cylceDuration); // cylceDuration = 1.0 / frequency
-      inline const float& getFrequency() const;
-
-      inline void setAmplitude(const float& newAmplitude);
-      inline const float& getAmplitude() const;
+      inline void setFrequency(const float& newFrequency) override;
 
       inline float createSound() override;
 
@@ -83,8 +78,6 @@ namespace WaveTable
       const AbstractTable* table;
       float sampleRate;
       float phase;
-      float frequency;
-      float amplitude;
       float deltaPhase;
    };
 

@@ -1,7 +1,7 @@
-#ifndef AudioFileHPP
-#define AudioFileHPP
+#ifndef SampleHPP
+#define SampleHPP
 
-#include <Sound/AudioFile.h>
+#include <Sound/Sample.h>
 
 #include <limits>
 
@@ -13,16 +13,30 @@ static const float maxValue = static_cast<float>(std::numeric_limits<int16_t>::m
 
 // meta
 
-AudioFile::Meta::Meta()
+Sample::Meta::Meta()
    : stereo(false)
    , sampleRate(0)
    , numberOfSamples(0)
 {
 }
 
-// header
+// audio file
 
-struct AudioFile::Header
+Data Sample::load(const std::string& fileName, Meta* meta)
+{
+   // TODO: support other formats than wav
+   return loadWav(fileName, meta);
+}
+
+bool Sample::save(const std::string& fileName, const Meta& meta, const Data& data)
+{
+   // TODO: support other formats than wav
+   return saveWav(fileName, meta, data);
+}
+
+// wav header
+
+struct Sample::WavHeader
 {
    // RIFF Chunk Descriptor
    uint8_t RIFF[4] = {'R', 'I', 'F', 'F'}; // RIFF Header Magic header
@@ -41,13 +55,13 @@ struct AudioFile::Header
    uint8_t subchunk2ID[4] = {'d', 'a', 't', 'a'}; // "data"  string
    uint32_t dataSize;                             // Sampled data length
 
-   inline Header();
+   inline WavHeader();
 #ifdef NON_DAISY_DEVICE
    inline void print();
 #endif // NON_DAISY_DEVICE
 };
 
-AudioFile::Header::Header()
+Sample::WavHeader::WavHeader()
 {
    numChannels = 2;
    sampleRate = 41000;
@@ -60,7 +74,7 @@ AudioFile::Header::Header()
 }
 
 #ifdef NON_DAISY_DEVICE
-void AudioFile::Header::print()
+void Sample::Header::print()
 {
    std::cout << "header size                : " << sizeof(Header) << std::endl;
    std::cout << "Data length                : " << dataSize << std::endl;
@@ -90,14 +104,51 @@ void AudioFile::Header::print()
    std::cout << std::endl;
 }
 #endif // NON_DAISY_DEVICE
-
 // input stream
 
-AudioFile::InputStream::InputStream(const std::string& fileName)
-   : wavFile(nullptr)
+Sample::Oscilator::Oscilator()
+   : Abstract::Oscilator()
+   , wavFile(nullptr)
    , metaData()
+   , loop(true)
+   , systemSampleRate(1.0)
+   , sampleFrequency(110.0) // same as oscilator default
 {
-   FILE* wavFile = fopen(fileName.c_str(), "r");
+}
+
+Sample::Oscilator::~Oscilator()
+{
+   if (wavFile)
+   {
+      fclose(wavFile);
+      wavFile = nullptr;
+   }
+}
+
+void Sample::Oscilator::start()
+{
+}
+
+void Sample::Oscilator::stop()
+{
+}
+
+bool Sample::Oscilator::isLooping() const
+{
+   return loop;
+}
+
+void Sample::Oscilator::setLooping(bool on)
+{
+   loop = on;
+}
+
+void Sample::Oscilator::init(const std::string& fileName, const float& newSampleRate, const float newSampleFrequency)
+{
+   systemSampleRate = newSampleRate;
+   sampleFrequency = newSampleFrequency;
+
+   wavFile = fopen(fileName.c_str(), "r");
    if (wavFile == nullptr)
    {
       // TODO
@@ -109,8 +160,8 @@ AudioFile::InputStream::InputStream(const std::string& fileName)
       wavFile = nullptr;
    };
 
-   Header header;
-   size_t bytesRead = fread(&header, 1, sizeof(Header), wavFile);
+   WavHeader header;
+   size_t bytesRead = fread(&header, 1, sizeof(WavHeader), wavFile);
    if (bytesRead <= 0)
    {
       closeAndExit();
@@ -128,21 +179,12 @@ AudioFile::InputStream::InputStream(const std::string& fileName)
    metaData.numberOfSamples = header.dataSize / (header.bitsPerSample / 8);
 }
 
-AudioFile::InputStream::~InputStream()
+float Sample::Oscilator::createSound()
 {
-   if (wavFile)
-   {
-      fclose(wavFile);
-      wavFile = nullptr;
-   }
+   return 0.0;
 }
 
-const AudioFile::Meta& AudioFile::InputStream::meta() const
-{
-   return metaData;
-}
-
-Data AudioFile::InputStream::read(size_t noOfBlocks)
+Data Sample::Oscilator::read(size_t noOfBlocks)
 {
    if (!wavFile)
       return Data();
@@ -164,9 +206,9 @@ Data AudioFile::InputStream::read(size_t noOfBlocks)
    return data;
 }
 
-// audio file
+// wav file functions
 
-Data AudioFile::load(const std::string& fileName, Meta* meta)
+Data Sample::loadWav(const std::string& fileName, Meta* meta)
 {
    if (meta)
    {
@@ -181,8 +223,8 @@ Data AudioFile::load(const std::string& fileName, Meta* meta)
       return Data();
    }
 
-   Header header;
-   size_t bytesRead = fread(&header, 1, sizeof(Header), wavFile);
+   WavHeader header;
+   size_t bytesRead = fread(&header, 1, sizeof(WavHeader), wavFile);
    if (bytesRead <= 0)
       return Data();
 
@@ -214,14 +256,14 @@ Data AudioFile::load(const std::string& fileName, Meta* meta)
    return data;
 }
 
-bool AudioFile::save(const std::string& fileName, const Meta& meta, const Data& data)
+bool Sample::saveWav(const std::string& fileName, const Meta& meta, const Data& data)
 {
    FILE* wavFile = fopen(fileName.c_str(), "w");
    if (wavFile == nullptr)
       return false;
 
    {
-      Header header;
+      WavHeader header;
 
       header.sampleRate = meta.sampleRate;
       header.numChannels = meta.stereo ? 2 : 1;
@@ -231,7 +273,7 @@ bool AudioFile::save(const std::string& fileName, const Meta& meta, const Data& 
       header.dataSize = data.size();
       header.chunkSize = 36 + header.dataSize;
 
-      fwrite(&header, 1, sizeof(Header), wavFile);
+      fwrite(&header, 1, sizeof(WavHeader), wavFile);
    }
    for (const float& value : data)
    {
@@ -243,4 +285,4 @@ bool AudioFile::save(const std::string& fileName, const Meta& meta, const Data& 
    return true;
 }
 
-#endif // NOT AudioFileHPP
+#endif // NOT SampleHPP
