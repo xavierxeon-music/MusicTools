@@ -36,49 +36,36 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 namespace ffft
 {
 
+   template <int ALGO>
+   class FFTRealUseTrigo
+   {
+      /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   public:
+      typedef FFTRealFixLenParam::DataType DataType;
+      typedef OscSinCos<DataType> OscType;
 
-template <int ALGO>
-class FFTRealUseTrigo
-{
+      ffft_FORCEINLINE static void
+      prepare(OscType& osc);
+      ffft_FORCEINLINE static void
+      iterate(OscType& osc, DataType& c, DataType& s, const DataType cos_ptr[], long index_c, long index_s);
 
-/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+      /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-public:
+   protected:
+      /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   typedef	FFTRealFixLenParam::DataType	DataType;
-	typedef	OscSinCos <DataType>	OscType;
+   private:
+      /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-	ffft_FORCEINLINE static void
-						prepare (OscType &osc);
-	ffft_FORCEINLINE	static void
-						iterate (OscType &osc, DataType &c, DataType &s, const DataType cos_ptr [], long index_c, long index_s);
-
-
-
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-protected:
-
-
-
-/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-
-
-/*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-						FFTRealUseTrigo ();
-						~FFTRealUseTrigo ();
-						FFTRealUseTrigo (const FFTRealUseTrigo &other);
-	FFTRealUseTrigo &
-						operator = (const FFTRealUseTrigo &other);
-	bool				operator == (const FFTRealUseTrigo &other);
-	bool				operator != (const FFTRealUseTrigo &other);
+   private:
+      FFTRealUseTrigo();
+      ~FFTRealUseTrigo();
+      FFTRealUseTrigo(const FFTRealUseTrigo& other);
+      FFTRealUseTrigo&
+      operator=(const FFTRealUseTrigo& other);
+      bool operator==(const FFTRealUseTrigo& other);
+      bool operator!=(const FFTRealUseTrigo& other);
 
 };	// class FFTRealUseTrigo
 

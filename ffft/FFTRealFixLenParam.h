@@ -32,44 +32,34 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 namespace ffft
 {
 
+   class FFTRealFixLenParam
+   {
+      /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   public:
+      // Over this bit depth, we use direct calculation for sin/cos
+      enum
+      {
+         TRIGO_BD_LIMIT = 12
+      };
 
-class FFTRealFixLenParam
-{
+      typedef float DataType;
 
-/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+      /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-public:
+   protected:
+      /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   // Over this bit depth, we use direct calculation for sin/cos
-   enum {	      TRIGO_BD_LIMIT	= 12  };
+   private:
+      /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-	typedef	float	DataType;
-
-
-
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-protected:
-
-
-
-/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-
-
-/*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-						FFTRealFixLenParam ();
-						FFTRealFixLenParam (const FFTRealFixLenParam &other);
-	FFTRealFixLenParam &
-						operator = (const FFTRealFixLenParam &other);
-	bool				operator == (const FFTRealFixLenParam &other);
-	bool				operator != (const FFTRealFixLenParam &other);
+   private:
+      FFTRealFixLenParam();
+      FFTRealFixLenParam(const FFTRealFixLenParam& other);
+      FFTRealFixLenParam&
+      operator=(const FFTRealFixLenParam& other);
+      bool operator==(const FFTRealFixLenParam& other);
+      bool operator!=(const FFTRealFixLenParam& other);
 
 };	// class FFTRealFixLenParam
 

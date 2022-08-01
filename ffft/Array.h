@@ -28,64 +28,46 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
-
 namespace ffft
 {
 
+   template <class T, long LEN>
+   class Array
+   {
+      /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   public:
+      typedef T DataType;
 
-template <class T, long LEN>
-class Array
-{
+      Array();
 
-/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+      inline const DataType&
+      operator[](long pos) const;
+      inline DataType&
+      operator[](long pos);
 
-public:
+      static inline long
+      size();
 
-	typedef	T	DataType;
+      /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-						Array ();
+   protected:
+      /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-	inline const DataType &
-						operator [] (long pos) const;
-	inline DataType &
-						operator [] (long pos);
+   private:
+      DataType _data_arr[LEN];
 
-	static inline long
-						size ();
+      /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   private:
+      Array(const Array& other);
+      Array& operator=(const Array& other);
+      bool operator==(const Array& other);
+      bool operator!=(const Array& other);
 
+   }; // class Array
 
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-protected:
-
-
-
-/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-	DataType			_data_arr [LEN];
-
-
-
-/*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-						Array (const Array &other);
-	Array &			operator = (const Array &other);
-	bool				operator == (const Array &other);
-	bool				operator != (const Array &other);
-
-};	// class Array
-
-
-
-}	// namespace ffft
-
-
+} // namespace ffft
 
 #include "Array.hpp"
 

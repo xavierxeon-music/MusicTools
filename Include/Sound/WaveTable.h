@@ -67,7 +67,7 @@ namespace WaveTable
       inline void setPhase(const float& newPhase);
       inline const float& getPhase() const;
 
-      inline void setFrequency(const float& newFrequency) override;
+      inline bool setFrequency(const float& newFrequency) override;
 
       inline float createSound() override;
 

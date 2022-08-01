@@ -32,55 +32,42 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 namespace ffft
 {
 
+   template <class T>
+   class DynArray
+   {
+      /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   public:
+      typedef T DataType;
 
-template <class T>
-class DynArray
-{
+      DynArray();
+      explicit DynArray(long size);
+      ~DynArray();
 
-/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+      inline long size() const;
+      inline void resize(long size);
 
-public:
+      inline const DataType&
+      operator[](long pos) const;
+      inline DataType&
+      operator[](long pos);
 
-	typedef	T	DataType;
+      /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-						DynArray ();
-	explicit			DynArray (long size);
-						~DynArray ();
+   protected:
+      /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-	inline long		size () const;
-	inline void		resize (long size);
+   private:
+      DataType* _data_ptr;
+      long _len;
 
-	inline const DataType &
-						operator [] (long pos) const;
-	inline DataType &
-						operator [] (long pos);
+      /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-
-
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-protected:
-
-
-
-/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-	DataType *		_data_ptr;
-	long				_len;
-
-
-
-/*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-						DynArray (const DynArray &other);
-	DynArray &		operator = (const DynArray &other);
-	bool				operator == (const DynArray &other);
-	bool				operator != (const DynArray &other);
+   private:
+      DynArray(const DynArray& other);
+      DynArray& operator=(const DynArray& other);
+      bool operator==(const DynArray& other);
+      bool operator!=(const DynArray& other);
 
 };	// class DynArray
 

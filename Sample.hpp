@@ -74,9 +74,9 @@ Sample::WavHeader::WavHeader()
 }
 
 #ifdef NON_DAISY_DEVICE
-void Sample::Header::print()
+void Sample::WavHeader::print()
 {
-   std::cout << "header size                : " << sizeof(Header) << std::endl;
+   std::cout << "header size                : " << sizeof(WavHeader) << std::endl;
    std::cout << "Data length                : " << dataSize << std::endl;
    std::cout << "chunk size                 : " << chunkSize << std::endl;
 
@@ -104,15 +104,24 @@ void Sample::Header::print()
    std::cout << std::endl;
 }
 #endif // NON_DAISY_DEVICE
+
 // input stream
 
-Sample::Oscilator::Oscilator()
+Sample::Oscilator::Oscilator(const bool buffered)
    : Abstract::Oscilator()
    , wavFile(nullptr)
    , metaData()
-   , loop(true)
+   , state(State::Pause)
+   , loop(false)
+   , systemPlayhead(0)
    , systemSampleRate(1.0)
-   , sampleFrequency(110.0) // same as oscilator default
+   , systemNumberOfSamples(0)
+   , samplePlayhead(0)
+   , sampleFrequency(defaultFrequency)
+   , sampleBuffer()
+   , playbackSpeed(1.0)
+   , buffered(buffered)
+   , rightValue(0.0)
 {
 }
 
@@ -125,12 +134,34 @@ Sample::Oscilator::~Oscilator()
    }
 }
 
-void Sample::Oscilator::start()
+const Sample::Meta& Sample::Oscilator::getMeta() const
 {
+   return metaData;
 }
 
-void Sample::Oscilator::stop()
+size_t Sample::Oscilator::getSamplePlayhead() const
 {
+   return samplePlayhead;
+}
+
+float Sample::Oscilator::getPlaybackSpeed() const
+{
+   return playbackSpeed;
+}
+
+void Sample::Oscilator::start()
+{
+   state = State::Play;
+}
+
+void Sample::Oscilator::pause()
+{
+   state = State::Pause;
+}
+
+void Sample::Oscilator::reset()
+{
+   systemPlayhead = 0;
 }
 
 bool Sample::Oscilator::isLooping() const
@@ -143,15 +174,29 @@ void Sample::Oscilator::setLooping(bool on)
    loop = on;
 }
 
+bool Sample::Oscilator::setFrequency(const float& newFrequency)
+{
+   if (Abstract::Oscilator::setFrequency(newFrequency))
+      playbackSpeed = frequency / sampleFrequency;
+
+   return true;
+}
+
 void Sample::Oscilator::init(const std::string& fileName, const float& newSampleRate, const float newSampleFrequency)
 {
+   systemPlayhead = 0;
    systemSampleRate = newSampleRate;
+   systemNumberOfSamples = 0;
+
+   sampleBuffer.clear();
+   samplePlayhead = 0;
    sampleFrequency = newSampleFrequency;
 
    wavFile = fopen(fileName.c_str(), "r");
-   if (wavFile == nullptr)
+   if (!wavFile)
    {
       // TODO
+      return;
    }
 
    auto closeAndExit = [&]()
@@ -163,44 +208,119 @@ void Sample::Oscilator::init(const std::string& fileName, const float& newSample
    WavHeader header;
    size_t bytesRead = fread(&header, 1, sizeof(WavHeader), wavFile);
    if (bytesRead <= 0)
-   {
-      closeAndExit();
-      return;
-   }
+      return closeAndExit();
 
    if (header.audioFormat != 1 || header.bitsPerSample != 16)
-   {
-      closeAndExit();
-      return;
-   }
+      return closeAndExit();
 
    metaData.stereo = (2 == header.numChannels);
    metaData.sampleRate = header.sampleRate;
    metaData.numberOfSamples = header.dataSize / (header.bitsPerSample / 8);
+
+   systemNumberOfSamples = metaData.numberOfSamples * systemSampleRate / metaData.sampleRate;
+
+   if (buffered)
+   {
+      sampleBuffer = Data(metaData.numberOfSamples);
+
+      int16_t rawBuffer;
+      for (size_t counter = 0; counter < metaData.numberOfSamples; counter++)
+      {
+         fread(&rawBuffer, 1, sizeof(int16_t), wavFile);
+         const float value = static_cast<float>(rawBuffer) / maxValue;
+         sampleBuffer[counter] = value;
+      }
+
+      fclose(wavFile);
+      wavFile = nullptr;
+   }
 }
 
 float Sample::Oscilator::createSound()
 {
-   return 0.0;
+   if (State::Play != state)
+   {
+      rightValue = 0.0;
+      return 0.0;
+   }
+
+   const float ratio = metaData.sampleRate / systemSampleRate;
+   const float fIndex = systemPlayhead * ratio;
+
+   const size_t oldSamplePlayhead = samplePlayhead;
+   samplePlayhead = static_cast<size_t>(fIndex);
+   if (!loop && (samplePlayhead < oldSamplePlayhead))
+   {
+      state = State::Past;
+      samplePlayhead = oldSamplePlayhead;
+
+      rightValue = 0.0;
+      return 0.0;
+   }
+
+   const uint8_t length = metaData.stereo ? 2 : 1;
+   Data current = read(samplePlayhead, length);
+
+   auto advanceSystemPlayhead = [&]()
+   {
+      systemPlayhead += playbackSpeed;
+      if (systemPlayhead >= systemNumberOfSamples)
+         systemPlayhead -= systemNumberOfSamples;
+   };
+
+   advanceSystemPlayhead();
+   const float leftValue = current.at(0);
+
+   if (metaData.stereo)
+   {
+      advanceSystemPlayhead();
+      rightValue = current.at(1);
+   }
+   else
+   {
+      rightValue = leftValue;
+   }
+
+   return leftValue;
 }
 
-Data Sample::Oscilator::read(size_t noOfBlocks)
+float Sample::Oscilator::rightSound()
 {
-   if (!wavFile)
-      return Data();
+   return rightValue;
+}
 
-   Data data;
-   size_t bytesRead = 0;
-
-   int16_t buffer;
-   for (size_t counter = 0; counter < noOfBlocks; counter++)
+Data Sample::Oscilator::read(const size_t& position, const size_t& numberOfSamples)
+{
+   Data data(numberOfSamples);
+   if (buffered)
    {
-      bytesRead = fread(&buffer, 1, sizeof(int16_t), wavFile);
-      if (bytesRead <= 0)
-         break;
+      size_t samplePos = position;
+      for (size_t counter = 0; counter < numberOfSamples; counter++)
+      {
+         data[counter] = sampleBuffer.at(samplePos);
 
-      const float value = static_cast<float>(buffer) / maxValue;
-      data.push_back(value);
+         samplePos++;
+         if (samplePos >= sampleBuffer.size())
+            samplePos = 0;
+      }
+   }
+   else
+   {
+      if (!wavFile)
+         return Data();
+
+      int16_t rawBuffer;
+      fseek(wavFile, position, SEEK_SET);
+      for (size_t counter = 0; counter < numberOfSamples; counter++)
+      {
+         fread(&rawBuffer, 1, sizeof(int16_t), wavFile);
+
+         if (feof(wavFile))
+            fseek(wavFile, sizeof(WavHeader), SEEK_SET);
+
+         const float value = static_cast<float>(rawBuffer) / maxValue;
+         data[counter] = value;
+      }
    }
 
    return data;
@@ -240,14 +360,14 @@ Data Sample::loadWav(const std::string& fileName, Meta* meta)
 
    Data data;
 
-   int16_t buffer;
+   int16_t rawBuffer;
    while (true)
    {
-      bytesRead = fread(&buffer, 1, sizeof(int16_t), wavFile);
+      bytesRead = fread(&rawBuffer, 1, sizeof(int16_t), wavFile);
       if (bytesRead <= 0)
          break;
 
-      const float value = static_cast<float>(buffer) / maxValue;
+      const float value = static_cast<float>(rawBuffer) / maxValue;
       data.push_back(value);
    }
 

@@ -25,6 +25,11 @@ Abstract::BufferedEffect::~BufferedEffect()
 {
 }
 
+const uint16_t& Abstract::BufferedEffect::getBufferSize() const
+{
+   return bufferSize;
+}
+
 float Abstract::BufferedEffect::changeSound(const float& in)
 {
    inputBuffer[bufferIndex] = in;

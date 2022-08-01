@@ -10,7 +10,7 @@
 class Revoice : public Abstract::BufferedEffect
 {
 public:
-   inline Revoice(const uint8_t& numberOfVocices = 16);
+   inline Revoice(const uint8_t& numberOfVocices = 16, const Spectrum::Quality& quality = Spectrum::Quality::Low);
    inline ~Revoice();
 
 public:

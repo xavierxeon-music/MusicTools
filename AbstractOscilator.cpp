@@ -5,8 +5,10 @@
 
 #include <Tools/Range.h>
 
+const float Abstract::Oscilator::defaultFrequency = frequencyFromCV(2.0);
+
 Abstract::Oscilator::Oscilator()
-   : frequency(110.0f)
+   : frequency(defaultFrequency)
    , amplitude(0.7f)
 
 {
@@ -16,13 +18,15 @@ Abstract::Oscilator::~Oscilator()
 {
 }
 
-void Abstract::Oscilator::setFrequency(const float& newFrequency)
+bool Abstract::Oscilator::setFrequency(const float& newFrequency)
 {
    if (frequency == newFrequency)
-      return;
+      return false;
 
    if (0.0f >= newFrequency)
+   {
       frequency = 0.0f;
+   }
    else
    {
 #ifndef NON_DAISY_DEVICE
@@ -35,6 +39,8 @@ void Abstract::Oscilator::setFrequency(const float& newFrequency)
       frequency = newFrequency;
 #endif // NON_DAISY_DEVICE
    }
+
+   return true;
 }
 
 void Abstract::Oscilator::setCycleDuration(const float& cylceDuration)

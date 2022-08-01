@@ -34,106 +34,82 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 namespace ffft
 {
 
+   /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   template <class T>
+   DynArray<T>::DynArray()
+      : _data_ptr(0)
+      , _len(0)
+   {
+      // Nothing
+   }
 
-/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+   template <class T>
+   DynArray<T>::DynArray(long size)
+      : _data_ptr(0)
+      , _len(0)
+   {
+      assert(size >= 0);
+      if (size > 0)
+      {
+         _data_ptr = new DataType[size];
+         _len = size;
+      }
+   }
 
+   template <class T>
+   DynArray<T>::~DynArray()
+   {
+      delete[] _data_ptr;
+      _data_ptr = 0;
+      _len = 0;
+   }
 
+   template <class T>
+   long DynArray<T>::size() const
+   {
+      return (_len);
+   }
 
-template <class T>
-DynArray <T>::DynArray ()
-:	_data_ptr (0)
-,	_len (0)
-{
-	// Nothing
-}
+   template <class T>
+   void DynArray<T>::resize(long size)
+   {
+      assert(size >= 0);
+      if (size > 0)
+      {
+         DataType* old_data_ptr = _data_ptr;
+         DataType* tmp_data_ptr = new DataType[size];
 
+         _data_ptr = tmp_data_ptr;
+         _len = size;
 
+         delete[] old_data_ptr;
+      }
+   }
 
-template <class T>
-DynArray <T>::DynArray (long size)
-:	_data_ptr (0)
-,	_len (0)
-{
-	assert (size >= 0);
-	if (size > 0)
-	{
-		_data_ptr = new DataType [size];
-		_len = size;
-	}
-}
+   template <class T>
+   const typename DynArray<T>::DataType& DynArray<T>::operator[](long pos) const
+   {
+      assert(pos >= 0);
+      assert(pos < _len);
 
+      return (_data_ptr[pos]);
+   }
 
+   template <class T>
+   typename DynArray<T>::DataType& DynArray<T>::operator[](long pos)
+   {
+      assert(pos >= 0);
+      assert(pos < _len);
 
-template <class T>
-DynArray <T>::~DynArray ()
-{
-	delete [] _data_ptr;
-	_data_ptr = 0;
-	_len = 0;
-}
+      return (_data_ptr[pos]);
+   }
 
+   /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-template <class T>
-long	DynArray <T>::size () const
-{
-	return (_len);
-}
-
-
-
-template <class T>
-void	DynArray <T>::resize (long size)
-{
-	assert (size >= 0);
-	if (size > 0)
-	{
-		DataType *		old_data_ptr = _data_ptr;
-		DataType *		tmp_data_ptr = new DataType [size];
-
-		_data_ptr = tmp_data_ptr;
-		_len = size;
-
-		delete [] old_data_ptr;
-	}
-}
-
-
-
-template <class T>
-const typename DynArray <T>::DataType &	DynArray <T>::operator [] (long pos) const
-{
-	assert (pos >= 0);
-	assert (pos < _len);
-
-	return (_data_ptr [pos]);
-}
-
-
-
-template <class T>
-typename DynArray <T>::DataType &	DynArray <T>::operator [] (long pos)
-{
-	assert (pos >= 0);
-	assert (pos < _len);
-
-	return (_data_ptr [pos]);
-}
-
-
-
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-
-
-/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-
-
-}	// namespace ffft
-
-
+} // namespace ffft
 
 #endif	// ffft_DynArray_CODEHEADER_INCLUDED
 

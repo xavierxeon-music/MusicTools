@@ -1,16 +1,21 @@
 #ifndef AbstractOscilatorH
 #define AbstractOscilatorH
 
+#include "AbstractSoundSource.h"
+
 namespace Abstract
 {
-   class Oscilator
+   class Oscilator : public SoundSource
    {
+   public:
+      static const float defaultFrequency;
+
    public:
       Oscilator();
       virtual ~Oscilator();
 
    public:
-      virtual void setFrequency(const float& newFrequency);
+      virtual bool setFrequency(const float& newFrequency);
       void setCycleDuration(const float& cylceDuration); // cylceDuration = 1.0 / frequency
       const float& getFrequency() const;
       static float frequencyFromCV(float voltage);
@@ -18,7 +23,6 @@ namespace Abstract
       virtual void setAmplitude(const float& newAmplitude);
       const float& getAmplitude() const;
 
-      virtual float createSound() = 0;
 
    protected:
       float frequency;

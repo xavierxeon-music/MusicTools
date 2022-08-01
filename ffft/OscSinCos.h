@@ -34,59 +34,46 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 namespace ffft
 {
 
+   template <class T>
+   class OscSinCos
+   {
+      /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   public:
+      typedef T DataType;
 
-template <class T>
-class OscSinCos
-{
+      OscSinCos();
 
-/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+      ffft_FORCEINLINE void
+      set_step(double angle_rad);
 
-public:
+      ffft_FORCEINLINE DataType
+      get_cos() const;
+      ffft_FORCEINLINE DataType
+      get_sin() const;
+      ffft_FORCEINLINE void
+      step();
+      ffft_FORCEINLINE void
+      clear_buffers();
 
-	typedef	T	DataType;
+      /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-						OscSinCos ();
+   protected:
+      /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-	ffft_FORCEINLINE void
-						set_step (double angle_rad);
+   private:
+      DataType _pos_cos;  // Current phase expressed with sin and cos. [-1 ; 1]
+      DataType _pos_sin;  // -
+      DataType _step_cos; // Phase increment per step, [-1 ; 1]
+      DataType _step_sin; // -
 
-	ffft_FORCEINLINE DataType
-						get_cos () const;
-	ffft_FORCEINLINE DataType
-						get_sin () const;
-	ffft_FORCEINLINE void
-						step ();
-	ffft_FORCEINLINE void
-						clear_buffers ();
+      /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-
-
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-protected:
-
-
-
-/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-	DataType			_pos_cos;		// Current phase expressed with sin and cos. [-1 ; 1]
-	DataType			_pos_sin;		// -
-	DataType			_step_cos;		// Phase increment per step, [-1 ; 1]
-	DataType			_step_sin;		// -
-
-
-
-/*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-						OscSinCos (const OscSinCos &other);
-	OscSinCos &		operator = (const OscSinCos &other);
-	bool				operator == (const OscSinCos &other);
-	bool				operator != (const OscSinCos &other);
+   private:
+      OscSinCos(const OscSinCos& other);
+      OscSinCos& operator=(const OscSinCos& other);
+      bool operator==(const OscSinCos& other);
+      bool operator!=(const OscSinCos& other);
 
 };	// class OscSinCos
 

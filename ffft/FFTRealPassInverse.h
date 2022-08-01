@@ -37,50 +37,37 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 namespace ffft
 {
 
+   template <int PASS>
+   class FFTRealPassInverse
+   {
+      /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   public:
+      typedef FFTRealFixLenParam::DataType DataType;
+      typedef OscSinCos<DataType> OscType;
 
-template <int PASS>
-class FFTRealPassInverse
-{
+      ffft_FORCEINLINE static void
+      process(long len, DataType dest_ptr[], DataType src_ptr[], const DataType f_ptr[], const DataType cos_ptr[], long cos_len, const long br_ptr[], OscType osc_list[]);
+      ffft_FORCEINLINE static void
+      process_rec(long len, DataType dest_ptr[], DataType src_ptr[], const DataType cos_ptr[], long cos_len, const long br_ptr[], OscType osc_list[]);
+      ffft_FORCEINLINE static void
+      process_internal(long len, DataType dest_ptr[], const DataType src_ptr[], const DataType cos_ptr[], long cos_len, const long br_ptr[], OscType osc_list[]);
 
-/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+      /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-public:
+   protected:
+      /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   typedef	FFTRealFixLenParam::DataType	DataType;
-	typedef	OscSinCos <DataType>	OscType;
+   private:
+      /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-	ffft_FORCEINLINE static void
-						process (long len, DataType dest_ptr [], DataType src_ptr [], const DataType f_ptr [], const DataType cos_ptr [], long cos_len, const long br_ptr [], OscType osc_list []);
-	ffft_FORCEINLINE static void
-						process_rec (long len, DataType dest_ptr [], DataType src_ptr [], const DataType cos_ptr [], long cos_len, const long br_ptr [], OscType osc_list []);
-	ffft_FORCEINLINE static void
-						process_internal (long len, DataType dest_ptr [], const DataType src_ptr [], const DataType cos_ptr [], long cos_len, const long br_ptr [], OscType osc_list []);
-
-
-
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-protected:
-
-
-
-/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-
-
-/*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-						FFTRealPassInverse ();
-						FFTRealPassInverse (const FFTRealPassInverse &other);
-	FFTRealPassInverse &
-						operator = (const FFTRealPassInverse &other);
-	bool				operator == (const FFTRealPassInverse &other);
-	bool				operator != (const FFTRealPassInverse &other);
+   private:
+      FFTRealPassInverse();
+      FFTRealPassInverse(const FFTRealPassInverse& other);
+      FFTRealPassInverse&
+      operator=(const FFTRealPassInverse& other);
+      bool operator==(const FFTRealPassInverse& other);
+      bool operator!=(const FFTRealPassInverse& other);
 
 };	// class FFTRealPassInverse
 

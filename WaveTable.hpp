@@ -104,15 +104,13 @@ const float& WaveTable::Oscilator::getPhase() const
    return phase;
 }
 
-void WaveTable::Oscilator::setFrequency(const float& newFrequency)
+bool WaveTable::Oscilator::setFrequency(const float& newFrequency)
 {
-   if (frequency == newFrequency)
-      return;
+   if (Abstract::Oscilator::setFrequency(newFrequency))
+      compileDeltaPhase();
 
-   Abstract::Oscilator::setFrequency(newFrequency);
-   compileDeltaPhase();
+   return true;
 }
-
 
 float WaveTable::Oscilator::createSound()
 {

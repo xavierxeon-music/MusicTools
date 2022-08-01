@@ -3,13 +3,13 @@
 
 #include <Effect/Revoice.h>
 
-Revoice::Revoice(const uint8_t& numberOfVocices)
-   : Abstract::BufferedEffect(Spectrum::compileBufferSize())
+Revoice::Revoice(const uint8_t& numberOfVocices, const Spectrum::Quality& quality)
+   : Abstract::BufferedEffect(Spectrum::compileBufferSize(quality))
    , numberOfVocices(numberOfVocices)
    , oscilators(nullptr)
    , sineTable()
    , sampleRate(1.0)
-   , spectrum()
+   , spectrum(quality)
 {
    oscilators = new WaveTable::Oscilator[numberOfVocices];
 
@@ -41,7 +41,10 @@ void Revoice::setNumberOfVoices(const uint8_t& newNumberOfVocices)
    numberOfVocices = newNumberOfVocices;
 
    delete[] oscilators;
-   oscilators = new WaveTable::Oscilator[numberOfVocices];
+   if (0 < newNumberOfVocices)
+      oscilators = new WaveTable::Oscilator[numberOfVocices];
+   else
+      oscilators = nullptr;
 
    for (uint8_t voice = 0; voice < numberOfVocices; voice++)
    {
@@ -64,9 +67,13 @@ void Revoice::setSampleRate(const float& newSampleRate)
 
 Data Revoice::convert(const Data& input)
 {
-   static const float maxAmplitude = 500 * numberOfVocices;
-   static const uint16_t bufferSize = Spectrum::compileBufferSize();
+   if (0 == numberOfVocices)
+      return input;
 
+   using LoudnessMap = std::map<Spectrum::Quality, uint16_t>;
+   static const LoudnessMap loudnessMap = {{Spectrum::Quality::Low, 100}, {Spectrum::Quality::Medium, 200}, {Spectrum::Quality::High, 300}, {Spectrum::Quality::Ultra, 400}};
+
+   static const float scale = loudnessMap.at(spectrum.getQuality()) * numberOfVocices;
    const Spectrum::Map spectrumMap = spectrum.analyse(input, sampleRate);
 
    AmplitudeMap amplitudeMap;
@@ -86,13 +93,13 @@ Data Revoice::convert(const Data& input)
       oscilators[voice].setFrequency(frequency);
    }
 
-   Data sound(bufferSize, 0.0);
-   for (uint16_t index = 0; index < bufferSize; index++)
+   Data sound(getBufferSize(), 0.0);
+   for (uint16_t index = 0; index < getBufferSize(); index++)
    {
       float value = 0;
       for (uint8_t voice = 0; voice < numberOfVocices; voice++)
       {
-         const float volume = amplitudeList.at(voice) / maxAmplitude;
+         const float volume = amplitudeList.at(voice) / scale;
          value += volume * oscilators[voice].createSound();
       }
       sound[index] = value;

@@ -37,88 +37,102 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 namespace ffft
 {
 
+   template <int LL2>
+   class FFTRealFixLen
+   {
+      typedef int CompileTimeCheck1[(LL2 >= 0) ? 1 : -1];
+      typedef int CompileTimeCheck2[(LL2 <= 30) ? 1 : -1];
 
+      /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-template <int LL2>
-class FFTRealFixLen
-{
-	typedef	int	CompileTimeCheck1 [(LL2 >=  0) ? 1 : -1];
-	typedef	int	CompileTimeCheck2 [(LL2 <= 30) ? 1 : -1];
+   public:
+      typedef FFTRealFixLenParam::DataType DataType;
+      typedef OscSinCos<DataType> OscType;
 
-/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+      enum
+      {
+         FFT_LEN_L2 = LL2
+      };
+      enum
+      {
+         FFT_LEN = 1 << FFT_LEN_L2
+      };
 
-public:
+      FFTRealFixLen();
 
-   typedef	FFTRealFixLenParam::DataType   DataType;
-	typedef	OscSinCos <DataType>	OscType;
+      inline long get_length() const;
+      void do_fft(DataType f[], const DataType x[]);
+      void do_ifft(const DataType f[], DataType x[]);
+      void rescale(DataType x[]) const;
 
-	enum {			FFT_LEN_L2	= LL2	};
-	enum {			FFT_LEN		= 1 << FFT_LEN_L2	};
+      /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-						FFTRealFixLen ();
+   protected:
+      /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-	inline long		get_length () const;
-	void				do_fft (DataType f [], const DataType x []);
-	void				do_ifft (const DataType f [], DataType x []);
-	void				rescale (DataType x []) const;
+   private:
+      enum
+      {
+         TRIGO_BD_LIMIT = FFTRealFixLenParam::TRIGO_BD_LIMIT
+      };
 
+      enum
+      {
+         BR_ARR_SIZE_L2 = ((FFT_LEN_L2 - 3) < 0) ? 0 : (FFT_LEN_L2 - 2)
+      };
+      enum
+      {
+         BR_ARR_SIZE = 1 << BR_ARR_SIZE_L2
+      };
 
+      enum
+      {
+         TRIGO_BD = ((FFT_LEN_L2 - TRIGO_BD_LIMIT) < 0)
+                       ? (int)FFT_LEN_L2
+                       : (int)TRIGO_BD_LIMIT
+      };
+      enum
+      {
+         TRIGO_TABLE_ARR_SIZE_L2 = (LL2 < 4) ? 0 : (TRIGO_BD - 2)
+      };
+      enum
+      {
+         TRIGO_TABLE_ARR_SIZE = 1 << TRIGO_TABLE_ARR_SIZE_L2
+      };
 
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+      enum
+      {
+         NBR_TRIGO_OSC = FFT_LEN_L2 - TRIGO_BD
+      };
+      enum
+      {
+         TRIGO_OSC_ARR_SIZE = (NBR_TRIGO_OSC > 0) ? NBR_TRIGO_OSC : 1
+      };
 
-protected:
+      void build_br_lut();
+      void build_trigo_lut();
+      void build_trigo_osc();
 
+      DynArray<DataType>
+         _buffer;
+      DynArray<long>
+         _br_data;
+      DynArray<DataType>
+         _trigo_data;
+      Array<OscType, TRIGO_OSC_ARR_SIZE>
+         _trigo_osc;
 
+      /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+   private:
+      FFTRealFixLen(const FFTRealFixLen& other);
+      FFTRealFixLen& operator=(const FFTRealFixLen& other);
+      bool operator==(const FFTRealFixLen& other);
+      bool operator!=(const FFTRealFixLen& other);
 
-private:
+   }; // class FFTRealFixLen
 
-	enum {			TRIGO_BD_LIMIT	= FFTRealFixLenParam::TRIGO_BD_LIMIT	};
-
-	enum {			BR_ARR_SIZE_L2	= ((FFT_LEN_L2 - 3) < 0) ? 0 : (FFT_LEN_L2 - 2)	};
-	enum {			BR_ARR_SIZE		= 1 << BR_ARR_SIZE_L2	};
-
-   enum {			TRIGO_BD			=   ((FFT_LEN_L2 - TRIGO_BD_LIMIT) < 0)
-											  ? (int)FFT_LEN_L2
-											  : (int)TRIGO_BD_LIMIT };
-	enum {			TRIGO_TABLE_ARR_SIZE_L2	= (LL2 < 4) ? 0 : (TRIGO_BD - 2)	};
-	enum {			TRIGO_TABLE_ARR_SIZE	= 1 << TRIGO_TABLE_ARR_SIZE_L2	};
-
-	enum {			NBR_TRIGO_OSC			= FFT_LEN_L2 - TRIGO_BD	};
-	enum {			TRIGO_OSC_ARR_SIZE	=	(NBR_TRIGO_OSC > 0) ? NBR_TRIGO_OSC : 1	};
-
-	void				build_br_lut ();
-	void				build_trigo_lut ();
-	void				build_trigo_osc ();
-
-	DynArray <DataType>
-						_buffer;
-	DynArray <long>
-						_br_data;
-	DynArray <DataType>
-						_trigo_data;
-   Array <OscType, TRIGO_OSC_ARR_SIZE>
-						_trigo_osc;
-
-
-
-/*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-						FFTRealFixLen (const FFTRealFixLen &other);
-	FFTRealFixLen&	operator = (const FFTRealFixLen &other);
-	bool				operator == (const FFTRealFixLen &other);
-	bool				operator != (const FFTRealFixLen &other);
-
-};	// class FFTRealFixLen
-
-
-
-}	// namespace ffft
-
-
+} // namespace ffft
 
 #include "FFTRealFixLen.hpp"
 

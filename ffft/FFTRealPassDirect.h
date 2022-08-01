@@ -36,46 +36,33 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 namespace ffft
 {
 
+   template <int PASS>
+   class FFTRealPassDirect
+   {
+      /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   public:
+      typedef FFTRealFixLenParam::DataType DataType;
+      typedef OscSinCos<DataType> OscType;
 
-template <int PASS>
-class FFTRealPassDirect
-{
+      ffft_FORCEINLINE static void
+      process(long len, DataType dest_ptr[], DataType src_ptr[], const DataType x_ptr[], const DataType cos_ptr[], long cos_len, const long br_ptr[], OscType osc_list[]);
 
-/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+      /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-public:
+   protected:
+      /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   typedef	FFTRealFixLenParam::DataType	DataType;
-	typedef	OscSinCos <DataType>	OscType;
+   private:
+      /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-	ffft_FORCEINLINE static void
-						process (long len, DataType dest_ptr [], DataType src_ptr [], const DataType x_ptr [], const DataType cos_ptr [], long cos_len, const long br_ptr [], OscType osc_list []);
-
-
-
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-protected:
-
-
-
-/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-
-
-/*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-						FFTRealPassDirect ();
-						FFTRealPassDirect (const FFTRealPassDirect &other);
-	FFTRealPassDirect &
-						operator = (const FFTRealPassDirect &other);
-	bool				operator == (const FFTRealPassDirect &other);
-	bool				operator != (const FFTRealPassDirect &other);
+   private:
+      FFTRealPassDirect();
+      FFTRealPassDirect(const FFTRealPassDirect& other);
+      FFTRealPassDirect&
+      operator=(const FFTRealPassDirect& other);
+      bool operator==(const FFTRealPassDirect& other);
+      bool operator!=(const FFTRealPassDirect& other);
 
 };	// class FFTRealPassDirect
 

@@ -31,6 +31,7 @@ namespace Abstract
       virtual ~BufferedEffect();
 
    public:
+      const uint16_t& getBufferSize() const;
       float changeSound(const float& in) override final;
       virtual Data proccessBuffer(const Data& input) = 0;
       void clear();

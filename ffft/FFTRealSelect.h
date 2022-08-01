@@ -33,35 +33,26 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 namespace ffft
 {
 
+   template <int P>
+   class FFTRealSelect
+   {
+      /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   public:
+      ffft_FORCEINLINE static float*
+      sel_bin(float* e_ptr, float* o_ptr);
 
-template <int P>
-class FFTRealSelect
-{
+      /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+   private:
+      FFTRealSelect();
+      ~FFTRealSelect();
+      FFTRealSelect(const FFTRealSelect& other);
+      FFTRealSelect& operator=(const FFTRealSelect& other);
+      bool operator==(const FFTRealSelect& other);
+      bool operator!=(const FFTRealSelect& other);
 
-public:
-
-	ffft_FORCEINLINE static float *
-						sel_bin (float *e_ptr, float *o_ptr);
-
-
-
-/*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-
-						FFTRealSelect ();
-						~FFTRealSelect ();
-						FFTRealSelect (const FFTRealSelect &other);
-	FFTRealSelect&	operator = (const FFTRealSelect &other);
-	bool				operator == (const FFTRealSelect &other);
-	bool				operator != (const FFTRealSelect &other);
-
-};	// class FFTRealSelect
-
-
+   }; // class FFTRealSelect
 
 }	// namespace ffft
 
