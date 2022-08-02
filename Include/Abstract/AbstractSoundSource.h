@@ -9,7 +9,7 @@ namespace Abstract
       SoundSource();
       virtual ~SoundSource();
 
-   protected:
+   public:
       virtual float createSound() = 0;
    };
 } // namespace Abstract

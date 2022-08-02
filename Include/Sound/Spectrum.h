@@ -20,7 +20,6 @@ public:
       Medium = 11,
       High = 12,
       Ultra = 13
-
    };
 
 public:
