@@ -54,6 +54,8 @@ void Abstract::BufferedEffect::clear()
 
 // threaded bufferd effect
 
+#ifdef NON_DAISY_DEVICE
+
 Abstract::ThreadeBufferEffect::ThreadeBufferEffect(const uint16_t& bufferSize)
    : Effect()
    , bufferSize(bufferSize)
@@ -133,3 +135,5 @@ void Abstract::ThreadeBufferEffect::run()
       }
    }
 }
+
+#endif //  NON_DAISY_DEVICE

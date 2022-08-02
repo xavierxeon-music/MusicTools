@@ -4,7 +4,11 @@
 #include <Effect/Revoice.h>
 
 Revoice::Revoice(const uint8_t& numberOfVocices, const Spectrum::Quality& quality)
+#ifdef NON_DAIS_DEVICE
    : Abstract::ThreadeBufferEffect(Spectrum::compileBufferSize(quality))
+#else
+   : Abstract::BufferedEffect(Spectrum::compileBufferSize(quality))
+#endif
    , numberOfVocices(numberOfVocices)
    , oscilators(nullptr)
    , sineTable()

@@ -1,9 +1,11 @@
 #ifndef AbstractEffectH
 #define AbstractEffectH
 
-#include <thread>
-
 #include <MusicTools.h>
+
+#include <atomic>
+#include <mutex>
+#include <thread>
 
 enum class FilterMode
 {
@@ -45,6 +47,7 @@ namespace Abstract
       Data outputBuffer;
    };
 
+#ifdef NON_DAISY_DEVICE
    class ThreadeBufferEffect : public Effect
    {
    public:
@@ -71,6 +74,7 @@ namespace Abstract
       std::atomic_bool stopThread;
       std::thread thread;
    };
+#endif //  NON_DAISY_DEVICE
 
 } // namespace Abstract
 
