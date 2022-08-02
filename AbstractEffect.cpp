@@ -60,11 +60,20 @@ Abstract::ThreadeBufferEffect::ThreadeBufferEffect(const uint16_t& bufferSize)
    , bufferPosition(0)
    , writeBufferIndex(0)
    , buffer{Data(bufferSize, 0.0), Data(bufferSize, 0.0), Data(bufferSize, 0.0)}
+   , processMutex()
+   , processBufferIndex(3)
+   , stopThread(false)
+   , thread(&ThreadeBufferEffect::run, this)
 {
 }
 
 Abstract::ThreadeBufferEffect::~ThreadeBufferEffect()
 {
+   {
+      std::lock_guard<std::mutex> guard(processMutex);
+      stopThread = true;
+   }
+   thread.join();
 }
 
 const uint16_t& Abstract::ThreadeBufferEffect::getBufferSize() const
@@ -82,12 +91,11 @@ float Abstract::ThreadeBufferEffect::changeSound(const float& in)
    bufferPosition++;
    if (bufferPosition >= bufferSize)
    {
+      {
+         std::lock_guard<std::mutex> guard(processMutex);
+         processBufferIndex = (writeBufferIndex + 2) % 3;
+      }
       bufferPosition = 0;
-
-      // to do: theraded
-      const uint8_t processBufferIndex = (writeBufferIndex + 2) % 3;
-      buffer[processBufferIndex] = proccessBuffer(buffer[processBufferIndex]);
-
       writeBufferIndex = (writeBufferIndex + 1) % 3;
    }
 
@@ -101,4 +109,30 @@ void Abstract::ThreadeBufferEffect::clear()
    buffer[0] = Data(bufferSize, 0.0);
    buffer[1] = Data(bufferSize, 0.0);
    buffer[2] = Data(bufferSize, 0.0);
+}
+
+void Abstract::ThreadeBufferEffect::run()
+{
+   std::cout << "start thread" << std::endl;
+   while (true)
+   {
+      {
+         std::lock_guard<std::mutex> guard(processMutex);
+
+         if (stopThread)
+            break;
+
+         if (3 == processBufferIndex)
+            continue;
+      }
+
+      buffer[processBufferIndex] = proccessBuffer(buffer[processBufferIndex]);
+
+      {
+         std::lock_guard<std::mutex> guard(processMutex);
+         processBufferIndex = 3;
+      }
+   }
+
+   std::cout << "end thread" << std::endl;
 }

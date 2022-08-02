@@ -4,7 +4,7 @@
 #include <Effect/Revoice.h>
 
 Revoice::Revoice(const uint8_t& numberOfVocices, const Spectrum::Quality& quality)
-   : Abstract::BufferedEffect(Spectrum::compileBufferSize(quality))
+   : Abstract::ThreadeBufferEffect(Spectrum::compileBufferSize(quality))
    , numberOfVocices(numberOfVocices)
    , oscilators(nullptr)
    , sineTable()

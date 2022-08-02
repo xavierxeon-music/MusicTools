@@ -7,7 +7,7 @@
 #include <Sound/StandardTable.h>
 #include <Sound/WaveTable.h>
 
-class Revoice : public Abstract::BufferedEffect
+class Revoice : public Abstract::ThreadeBufferEffect
 {
 public:
    inline Revoice(const uint8_t& numberOfVocices = 16, const Spectrum::Quality& quality = Spectrum::Quality::Low);

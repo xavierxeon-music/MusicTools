@@ -47,6 +47,7 @@ namespace Abstract
 
    class ThreadeBufferEffect : public Effect
    {
+   public:
       ThreadeBufferEffect(const uint16_t& bufferSize);
       virtual ~ThreadeBufferEffect();
 
@@ -57,10 +58,18 @@ namespace Abstract
       void clear();
 
    private:
+      void run();
+
+   private:
       const uint16_t bufferSize;
       uint16_t bufferPosition;
-      uint8_t writeBufferIndex;
+      uint16_t writeBufferIndex;
       Data buffer[3];
+
+      std::mutex processMutex;
+      uint16_t processBufferIndex;
+      std::atomic_bool stopThread;
+      std::thread thread;
    };
 
 } // namespace Abstract
