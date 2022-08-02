@@ -8,6 +8,7 @@ Spectrum::Spectrum(const Quality& quality)
    , halfBufferSize(bufferSize / 2)
    , complexAmplitude(bufferSize, 0.0)
    , transform(nullptr)
+
 {
    init();
 }

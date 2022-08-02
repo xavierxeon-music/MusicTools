@@ -1,6 +1,8 @@
 #ifndef AbstractEffectH
 #define AbstractEffectH
 
+#include <thread>
+
 #include <MusicTools.h>
 
 enum class FilterMode
@@ -38,9 +40,27 @@ namespace Abstract
 
    private:
       const uint16_t bufferSize;
-      uint16_t bufferIndex;
+      uint16_t bufferPosition;
       Data inputBuffer;
       Data outputBuffer;
+   };
+
+   class ThreadeBufferEffect : public Effect
+   {
+      ThreadeBufferEffect(const uint16_t& bufferSize);
+      virtual ~ThreadeBufferEffect();
+
+   public:
+      const uint16_t& getBufferSize() const;
+      float changeSound(const float& in) override final;
+      virtual Data proccessBuffer(const Data& input) = 0;
+      void clear();
+
+   private:
+      const uint16_t bufferSize;
+      uint16_t bufferPosition;
+      uint8_t writeBufferIndex;
+      Data buffer[3];
    };
 
 } // namespace Abstract
