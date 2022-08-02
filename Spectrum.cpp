@@ -2,80 +2,19 @@
 
 #include "ffft/FFTRealFixLen.h"
 
-class Spectrum::Internal
-{
-public:
-   Internal(Spectrum* spectrum)
-      : spectrum(spectrum)
-   {
-      if (Quality::Low == spectrum->quality)
-         transformLow = new TransformLow();
-      else if (Quality::Medium == spectrum->quality)
-         transformMedium = new TransformMedium();
-      else if (Quality::High == spectrum->quality)
-         transformHigh = new TransformHigh();
-      else if (Quality::Ultra == spectrum->quality)
-         transformUltra = new TransformUltra();
-   }
-
-   ~Internal()
-   {
-      if (transformLow)
-         delete transformLow, transformLow = nullptr;
-
-      if (transformMedium)
-         delete transformMedium, transformMedium = nullptr;
-
-      if (transformHigh)
-         delete transformHigh, transformHigh = nullptr;
-
-      if (transformUltra)
-         delete transformUltra, transformUltra = nullptr;
-   }
-
-   void fo_fft(const Data& input, Data& output)
-   {
-      if (Quality::Low == spectrum->quality)
-         transformLow->do_fft(output.data(), input.data());
-      else if (Quality::Medium == spectrum->quality)
-         transformMedium->do_fft(output.data(), input.data());
-      else if (Quality::High == spectrum->quality)
-         transformHigh->do_fft(output.data(), input.data());
-      else if (Quality::Ultra == spectrum->quality)
-         transformUltra->do_fft(output.data(), input.data());
-   }
-
-private:
-   using TransformLow = ffft::FFTRealFixLen<static_cast<uint8_t>(Quality::Low)>;
-   using TransformMedium = ffft::FFTRealFixLen<static_cast<uint8_t>(Quality::Medium)>;
-   using TransformHigh = ffft::FFTRealFixLen<static_cast<uint8_t>(Quality::High)>;
-   using TransformUltra = ffft::FFTRealFixLen<static_cast<uint8_t>(Quality::Ultra)>;
-
-private:
-   Spectrum* spectrum;
-
-   TransformLow* transformLow = nullptr;
-   TransformMedium* transformMedium = nullptr;
-   TransformHigh* transformHigh = nullptr;
-   TransformUltra* transformUltra = nullptr;
-};
-
-// spectrum
-
 Spectrum::Spectrum(const Quality& quality)
    : quality(quality)
    , bufferSize(compileBufferSize(quality))
    , halfBufferSize(bufferSize / 2)
    , complexAmplitude(bufferSize, 0.0)
-   , internal(nullptr)
+   , transform(nullptr)
 {
-   internal = new Internal(this);
+   init();
 }
 
 Spectrum::~Spectrum()
 {
-   delete internal;
-   internal = nullptr;
+   clear();
 }
 
 const Spectrum::Quality& Spectrum::getQuality() const
@@ -88,7 +27,7 @@ Spectrum::Map Spectrum::analyse(const Data& data, const float& sampleRate)
    if (bufferSize != data.size())
       return Map();
 
-   internal->fo_fft(data, complexAmplitude);
+   transform->timeToFrequency(data, complexAmplitude);
 
    Map map;
 
@@ -111,4 +50,27 @@ Spectrum::Map Spectrum::analyse(const Data& data, const float& sampleRate)
 uint16_t Spectrum::compileBufferSize(const Quality& quality)
 {
    return pow(2, static_cast<uint8_t>(quality));
+}
+
+void Spectrum::init()
+{
+   clear();
+
+   if (Quality::Low == quality)
+      transform = new ffft::FFTRealFixLen<static_cast<uint8_t>(Quality::Low)>();
+   else if (Quality::Medium == quality)
+      transform = new ffft::FFTRealFixLen<static_cast<uint8_t>(Quality::Medium)>();
+   else if (Quality::High == quality)
+      transform = new ffft::FFTRealFixLen<static_cast<uint8_t>(Quality::High)>();
+   else if (Quality::Ultra == quality)
+      transform = new ffft::FFTRealFixLen<static_cast<uint8_t>(Quality::Ultra)>();
+}
+
+void Spectrum::clear()
+{
+   if (transform)
+   {
+      delete transform;
+      transform = nullptr;
+   }
 }

@@ -27,10 +27,10 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "def.h"
 #include "FFTRealPassDirect.h"
 #include "FFTRealPassInverse.h"
 #include "FFTRealSelect.h"
+#include "def.h"
 
 #include	<cassert>
 #include	<cmath>
@@ -46,7 +46,8 @@ namespace ffft
 
    template <int LL2>
    FFTRealFixLen<LL2>::FFTRealFixLen()
-      : _buffer(FFT_LEN)
+      : FFTBase()
+      , _buffer(FFT_LEN)
       , _br_data(BR_ARR_SIZE)
       , _trigo_data(TRIGO_TABLE_ARR_SIZE)
       , _trigo_osc()
@@ -57,9 +58,27 @@ namespace ffft
    }
 
    template <int LL2>
-   long FFTRealFixLen<LL2>::get_length() const
+   long FFTRealFixLen<LL2>::getLength() const
    {
       return (FFT_LEN);
+   }
+
+   template <int LL2>
+   void FFTRealFixLen<LL2>::timeToFrequency(const std::vector<float>& timeDomain, std::vector<float>& frequencyDomain)
+   {
+      do_fft(frequencyDomain.data(), timeDomain.data());
+   }
+
+   template <int LL2>
+   void FFTRealFixLen<LL2>::frequencyToTime(const std::vector<float>& frequencyDomain, std::vector<float>& timeDomain)
+   {
+      do_ifft(frequencyDomain.data(), timeDomain.data());
+   }
+
+   template <int LL2>
+   void FFTRealFixLen<LL2>::rescaleTimeDomain(std::vector<float>& timeDomain)
+   {
+      rescale(timeDomain.data());
    }
 
    // General case

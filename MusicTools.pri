@@ -4,10 +4,9 @@ INCLUDEPATH += \
 include(ffft/ffft.pri)
 
 HEADERS += \
-   $$PWD/AudioFile.hpp \
-   $$PWD/DoubleBuffer.hpp \
    $$PWD/Include/Abstract/AbstractEffect.h \
    $$PWD/Include/Abstract/AbstractOscilator.h \
+   $$PWD/Include/Abstract/AbstractSoundSource.h \
    $$PWD/Include/Blocks/CvSwitch.h \
    $$PWD/Include/Blocks/PolyRamp.h \
    $$PWD/Include/Blocks/Trapezoid.h \
@@ -27,9 +26,9 @@ HEADERS += \
    $$PWD/Include/Music/TimeCode.h \
    $$PWD/Include/MusicTools.h \
    $$PWD/Include/MusicTools.h \
-   $$PWD/Include/Sound/AudioFile.h \
    $$PWD/Include/Sound/FunctionTable.h \
    $$PWD/Include/Sound/GateOscilator.h \
+   $$PWD/Include/Sound/Sample.h \
    $$PWD/Include/Sound/SoundMesh.h \
    $$PWD/Include/Sound/Spectrum.h \
    $$PWD/Include/Sound/StandardTable.h \
@@ -46,7 +45,6 @@ HEADERS += \
    $$PWD/Include/Tools/SevenBit.h \
    $$PWD/Include/Tools/SquareSignal.h \
    $$PWD/Include/Tools/Variable.h \
-    $$PWD/Revoice.hpp
 
     
 HEADERS += \   
@@ -55,6 +53,7 @@ HEADERS += \
    $$PWD/Convert.hpp \
    $$PWD/Counter.hpp \
    $$PWD/CvSwitch.hpp \
+   $$PWD/DoubleBuffer.hpp \
    $$PWD/FastRandom.hpp \
    $$PWD/FunctionTable.hpp \
    $$PWD/GateOscilator.hpp \
@@ -68,7 +67,9 @@ HEADERS += \
    $$PWD/MusicTools.hpp \
    $$PWD/PolyRamp.hpp \
    $$PWD/Range.hpp \
+   $$PWD/Revoice.hpp \
    $$PWD/RingBuffer.hpp \
+   $$PWD/Sample.hpp \
    $$PWD/SevenBit.hpp \
    $$PWD/SoundMesh.hpp \
    $$PWD/SquareSignal.hpp \
@@ -85,6 +86,7 @@ HEADERS += \
 SOURCES += \
    $$PWD/AbstractEffect.cpp \
    $$PWD/AbstractOscilator.cpp \
+   $$PWD/AbstractSoundSource.cpp \
    $$PWD/Maths.cpp \
    $$PWD/Note.cpp \
    $$PWD/Spectrum.cpp \

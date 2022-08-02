@@ -5,6 +5,11 @@
 
 #include <MusicTools.h>
 
+namespace ffft
+{
+   class FFTBase;
+}
+
 class Spectrum
 {
 public:
@@ -28,7 +33,8 @@ public:
    static uint16_t compileBufferSize(const Quality& quality = Quality::High);
 
 private:
-   class Internal;
+   void init();
+   void clear();
 
 private:
    const Quality quality;
@@ -36,8 +42,7 @@ private:
    const uint16_t halfBufferSize;
    Data complexAmplitude;
 
-   //static constexpr uint8_t frameSize = 12;
-   Internal* internal;
+   ffft::FFTBase* transform;
 };
 
 #endif // NOT SpectrumH

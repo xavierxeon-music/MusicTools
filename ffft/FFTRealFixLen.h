@@ -37,8 +37,25 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 namespace ffft
 {
 
+   class FFTBase
+   {
+   public:
+      inline FFTBase()
+      {
+      }
+      inline virtual ~FFTBase()
+      {
+      }
+
+   public:
+      virtual long getLength() const = 0;
+      virtual void timeToFrequency(const std::vector<float>& timeDomain, std::vector<float>& frequencyDomain) = 0;
+      virtual void frequencyToTime(const std::vector<float>& frequencyDomain, std::vector<float>& timeDomain) = 0;
+      virtual void rescaleTimeDomain(std::vector<float>& timeDomain) = 0;
+   };
+
    template <int LL2>
-   class FFTRealFixLen
+   class FFTRealFixLen : public FFTBase
    {
       typedef int CompileTimeCheck1[(LL2 >= 0) ? 1 : -1];
       typedef int CompileTimeCheck2[(LL2 <= 30) ? 1 : -1];
@@ -60,14 +77,19 @@ namespace ffft
 
       FFTRealFixLen();
 
-      inline long get_length() const;
-      void do_fft(DataType f[], const DataType x[]);
-      void do_ifft(const DataType f[], DataType x[]);
-      void rescale(DataType x[]) const;
+      inline long getLength() const override;
+
+      void timeToFrequency(const std::vector<float>& timeDomain, std::vector<float>& frequencyDomain) override;
+      void frequencyToTime(const std::vector<float>& frequencyDomain, std::vector<float>& timeDomain) override;
+      void rescaleTimeDomain(std::vector<float>& timeDomain) override;
 
       /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
    protected:
+      void do_fft(DataType f[], const DataType x[]);
+      void do_ifft(const DataType f[], DataType x[]);
+      void rescale(DataType x[]) const;
+
       /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
    private:
