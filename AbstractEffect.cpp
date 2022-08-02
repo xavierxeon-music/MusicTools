@@ -113,7 +113,6 @@ void Abstract::ThreadeBufferEffect::clear()
 
 void Abstract::ThreadeBufferEffect::run()
 {
-   std::cout << "start thread" << std::endl;
    while (true)
    {
       {
@@ -133,6 +132,4 @@ void Abstract::ThreadeBufferEffect::run()
          processBufferIndex = 3;
       }
    }
-
-   std::cout << "end thread" << std::endl;
 }
