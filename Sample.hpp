@@ -15,7 +15,7 @@ static const float maxValue = static_cast<float>(std::numeric_limits<int16_t>::m
 
 Sample::Meta::Meta()
    : stereo(false)
-   , sampleRate(0)
+   , sampleRate(1)
    , numberOfSamples(0)
 {
 }
@@ -294,6 +294,8 @@ Data Sample::Oscilator::read(const size_t& position, const size_t& numberOfSampl
    Data data(numberOfSamples);
    if (buffered)
    {
+      if (sampleBuffer.empty())
+         return data;
       size_t samplePos = position;
       for (size_t counter = 0; counter < numberOfSamples; counter++)
       {
@@ -307,10 +309,10 @@ Data Sample::Oscilator::read(const size_t& position, const size_t& numberOfSampl
    else
    {
       if (!wavFile)
-         return Data();
+         return data;
 
       int16_t rawBuffer;
-      fseek(wavFile, position, SEEK_SET);
+      fseek(wavFile, 2 * position, SEEK_SET);
       for (size_t counter = 0; counter < numberOfSamples; counter++)
       {
          fread(&rawBuffer, 1, sizeof(int16_t), wavFile);
