@@ -31,6 +31,8 @@ Replay::Info Replay::compileInfo() const
    info.seconds = totalSeconds % 60;
    info.minutes = (totalSeconds - info.seconds) / 60;
 
+   info.numberOfTracks = trackList.size();
+
    return info;
 }
 

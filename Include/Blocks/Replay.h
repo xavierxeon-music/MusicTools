@@ -22,6 +22,7 @@ public:
       uint32_t bpm = 0;
       uint32_t minutes = 0;
       uint8_t seconds = 0;
+      uint32_t numberOfTracks = 0;
    };
 
 public:
@@ -33,7 +34,7 @@ public:
    inline uint64_t compileBarCounter(uint64_t trackIndex) const;
 
 protected:
-   using Time = size_t;
+   using Time = uint64_t;
 
    struct NoteEvent
    {
@@ -57,7 +58,7 @@ protected:
 
 protected:
    uint16_t ticksPer16;
-   uint32_t uSecsPerQuarter;
+   uint64_t uSecsPerQuarter;
    Track::List trackList;
 };
 
