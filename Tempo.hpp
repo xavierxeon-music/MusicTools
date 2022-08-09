@@ -95,7 +95,7 @@ double Tempo::getPercentage(const Division& division) const
    return 0.0;
 }
 
-uint8_t Tempo::getBeatsPerMinute() const
+uint16_t Tempo::getBeatsPerMinute() const
 {
    return bpm;
 }

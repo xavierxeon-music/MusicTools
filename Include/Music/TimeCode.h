@@ -13,7 +13,7 @@ public:
 
 public:
    inline TimeCode();
-   inline TimeCode(Duration bar, uint8_t quarter, uint8_t tick = 0);
+   inline TimeCode(uint16_t bar, uint8_t quarter, uint8_t tick = 0);
    inline TimeCode(const Duration& duration);
 
 public:
@@ -21,7 +21,7 @@ public:
    inline Duration toDuration() const;
 
 public:
-   Duration bar;
+   uint16_t bar;
    uint8_t quarter;
    uint8_t tick;
 };

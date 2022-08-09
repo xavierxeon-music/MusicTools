@@ -12,7 +12,7 @@ TimeCode::TimeCode()
 {
 }
 
-TimeCode::TimeCode(Duration bar, uint8_t quarter, uint8_t tick)
+TimeCode::TimeCode(uint16_t bar, uint8_t quarter, uint8_t tick)
    : bar(bar)
    , quarter(quarter)
    , tick(tick)

@@ -1,7 +1,7 @@
-#ifndef MidiFileReaderH
-#define MidiFileReaderH
+#ifndef MidiFileH
+#define MidiFileH
 
-#include <Blocks/Replay.h>
+#include <Blocks/Sequencer.h>
 
 #include <Midi/MidiCommon.h>
 #include <MusicTools.h>
@@ -10,15 +10,16 @@
 
 namespace Midi
 {
-   class FileReader : public Replay
+   class File
    {
    public:
-      inline FileReader();
+      class Reader;
+      class Writer;
 
-   public:
-      inline bool load(const Bytes& content);
+      inline static Sequencer load(const Bytes& content);
+      inline static Bytes save(const Sequencer& seqeuencer);
 
-   private:
+   protected:
       struct Chunk
       {
          std::string id;
@@ -26,6 +27,14 @@ namespace Midi
 
          using List = std::vector<Chunk>;
       };
+
+      const static bool verbose = false;
+   };
+
+   class File::Reader : public Sequencer, public File
+   {
+   public:
+      inline Reader(const Bytes& content);
 
    private:
       // workflow
@@ -40,8 +49,8 @@ namespace Midi
    };
 } // namespace Midi
 
-#ifndef MidiFileReaderHPP
-#include "../../MidiFileReader.hpp"
-#endif // NOT MidiFileReaderHPP
+#ifndef MidiFileHPP
+#include "../../MidiFile.hpp"
+#endif // NOT MidiFileHPP
 
-#endif // NOT MidiFileReaderH
+#endif // NOT MidiFileH

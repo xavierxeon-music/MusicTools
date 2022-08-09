@@ -1,18 +1,27 @@
-#ifndef MidiFileReaderHPP
-#define MidiFileReaderHPP
+#ifndef MidiFileHPP
+#define MidiFileHPP
 
-#include <Midi/MidiFileReader.h>
+#include <Midi/MidiFile.h>
 
 #include <algorithm>
 
-const static bool verbose = false;
+// midi file
 
-Midi::FileReader::FileReader()
-   : Replay()
+Sequencer Midi::File::load(const Bytes& content)
 {
+   Midi::File::Reader reader(content);
+   return reader;
 }
 
-bool Midi::FileReader::load(const Bytes& content)
+Bytes Midi::File::save(const Sequencer& seqeuencer)
+{
+   return Bytes();
+}
+
+// reader
+
+Midi::File::Reader::Reader(const Bytes& content)
+   : Sequencer()
 {
    Chunk::List chunkList;
    uint64_t cursor = 0;
@@ -45,7 +54,7 @@ bool Midi::FileReader::load(const Bytes& content)
 
    readHeader(chunkList.at(0));
    if (0 == ticksPer16)
-      return false;
+      return;
 
    const size_t maxIndex = chunkList.size();
    for (size_t index = 1; index < maxIndex; index++)
@@ -56,10 +65,10 @@ bool Midi::FileReader::load(const Bytes& content)
       readTrack(trackChunk);
    }
 
-   return true;
+   return;
 }
 
-void Midi::FileReader::readHeader(const Chunk& headerChunk)
+void Midi::File::Reader::readHeader(const Chunk& headerChunk)
 {
    if ("MThd" != headerChunk.id || 6 != headerChunk.data.size())
       return;
@@ -80,7 +89,7 @@ void Midi::FileReader::readHeader(const Chunk& headerChunk)
    }
 }
 
-void Midi::FileReader::readTrack(const Chunk& trackChunk)
+void Midi::File::Reader::readTrack(const Chunk& trackChunk)
 {
    // clang-format off
    static const std::map<uint8_t, uint64_t> messageStaticLengthMap =
@@ -96,15 +105,15 @@ void Midi::FileReader::readTrack(const Chunk& trackChunk)
 
    Track track;
 
-   Time fileTick = 0;
+   Tick fileTick = 0;
    uint64_t cursor = 0;
    const uint64_t maxCursor = trackChunk.data.size();
 
-   Time lastNoteOnTick;
-   Time lastNoteOffTick;
+   Tick lastNoteOnTick;
+   Tick lastNoteOffTick;
    while (cursor < maxCursor)
    {
-      const Time tickDiff = variableLength(trackChunk.data, cursor);
+      const Tick tickDiff = variableLength(trackChunk.data, cursor);
       fileTick += tickDiff;
 
       if (cursor >= maxCursor)
@@ -144,10 +153,11 @@ void Midi::FileReader::readTrack(const Chunk& trackChunk)
       }
       else if (isEvent(Event::NoteOn))
       {
-         NoteEvent noteOnEvent;
+         Track::NoteEvent noteOnEvent;
          noteOnEvent.channel = 0x0f & marker;
          noteOnEvent.key = trackChunk.data.at(cursor + 0);
          noteOnEvent.velocity = trackChunk.data.at(cursor + 1);
+         noteOnEvent.on = true;
          cursor += 2;
 
          track.noteOnEventMap[fileTick].push_back(noteOnEvent);
@@ -158,7 +168,7 @@ void Midi::FileReader::readTrack(const Chunk& trackChunk)
       }
       else if (isEvent(Event::NoteOff))
       {
-         NoteEvent noteOffEvent;
+         Track::NoteEvent noteOffEvent;
          noteOffEvent.channel = 0x0f & marker;
          noteOffEvent.key = trackChunk.data.at(cursor + 0);
          noteOffEvent.velocity = trackChunk.data.at(cursor + 1);
@@ -186,13 +196,10 @@ void Midi::FileReader::readTrack(const Chunk& trackChunk)
 
       track.header.maxTick = maxTick;
       trackList.push_back(track);
-
-      const uint64_t barCounter = maxTick / (16 * ticksPer16);
-      std::cout << barCounter << std::endl;
    }
 }
 
-Midi::MetaEvent Midi::FileReader::readMetaEvent(const Bytes& trackChunkData, uint64_t& cursor, Track* track)
+Midi::MetaEvent Midi::File::Reader::readMetaEvent(const Bytes& trackChunkData, uint64_t& cursor, Track* track)
 {
    // clang-format off
    static const std::map<uint8_t, uint64_t> messageStaticLengthMap =
@@ -289,7 +296,7 @@ Midi::MetaEvent Midi::FileReader::readMetaEvent(const Bytes& trackChunkData, uin
    return MetaEvent::MetaUnkown;
 }
 
-bool Midi::FileReader::hasCheck(const uint8_t value) const
+bool Midi::File::Reader::hasCheck(const uint8_t value) const
 {
    static const uint8_t checkMask = 0x80; // bit 7 only
 
@@ -297,14 +304,14 @@ bool Midi::FileReader::hasCheck(const uint8_t value) const
    return test;
 }
 
-uint8_t Midi::FileReader::removeCheck(const uint8_t value) const
+uint8_t Midi::File::Reader::removeCheck(const uint8_t value) const
 {
    static const uint8_t valueMask = 0x7f; // all but bit 7
 
    return (value & valueMask);
 }
 
-uint64_t Midi::FileReader::variableLength(const Bytes& data, uint64_t& cursor) const
+uint64_t Midi::File::Reader::variableLength(const Bytes& data, uint64_t& cursor) const
 {
    std::vector<uint8_t> valList;
    for (size_t index = 0; true; index++)
@@ -330,4 +337,6 @@ uint64_t Midi::FileReader::variableLength(const Bytes& data, uint64_t& cursor) c
    return length;
 }
 
-#endif // NOT MidiFileReaderHPP
+// writer
+
+#endif // NOT MidiFileHPP
