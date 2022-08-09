@@ -1,7 +1,6 @@
 #ifndef SampleH
 #define SampleH
 
-#include <Abstract/AbstractOscilator.h>
 
 #include <MusicTools.h>
 
@@ -10,71 +9,19 @@ class Sample
 public:
    struct Meta
    {
-      bool stereo;
-      uint16_t sampleRate;
-      size_t numberOfSamples;
-
-      inline Meta();
+      uint8_t noOfChannels = 1;
+      uint16_t sampleRate = 1;
+      size_t numberOfSamples = 0;
    };
 
    inline static Data load(const std::string& fileName, Meta* meta = nullptr);
    inline static bool save(const std::string& fileName, const Meta& meta, const Data& data);
 
-   // wav file only!
-   class Oscilator : public Abstract::Oscilator
-   {
-   public:
-      inline Oscilator(const bool buffered = true);
-      inline ~Oscilator();
+   inline static Data interlace(const std::vector<Data> input);
+   inline static std::vector<Data> deinterlace(const Data& input, const uint8_t numberOfChannels = 2);
 
-   public:
-      inline const Meta& getMeta() const;
-      inline size_t getSamplePlayhead() const;
-      inline float getPlaybackSpeed() const;
-
-      inline void start();
-      inline void pause();
-      inline void reset();
-
-      inline bool isLooping() const; // default true
-      inline void setLooping(bool on);
-
-      inline bool setFrequency(const float& newFrequency) override;
-
-      inline void init(const std::string& fileName, const float& newSampleRate, const float newSampleFrequency = defaultFrequency); // system sample rate, NOT sampe rate of file!
-      inline float createSound() override;                                                                                          // left channel
-      inline float rightSound();
-
-   private:
-      enum class State
-      {
-         Pause,
-         Play,
-         Past // beyond loop
-      };
-
-   private:
-      inline Data read(const size_t& position, const size_t& numberOfSamples);
-
-   private:
-      FILE* wavFile;
-      Meta metaData;
-      State state;
-      bool loop;
-
-      float systemPlayhead;
-      float systemSampleRate;
-      size_t systemNumberOfSamples;
-
-      size_t samplePlayhead;
-      float sampleFrequency;
-      Data sampleBuffer;
-
-      //
-      float playbackSpeed;
-      const bool buffered;
-      float rightValue;
-   };
+   class Oscilator;
+   class Recorder;
 
 private:
    // 16 bit PCM wav files
