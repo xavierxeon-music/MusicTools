@@ -15,7 +15,8 @@ namespace Midi
    // see https://ccrma.stanford.edu/~gary/controllers/midi.html
    const static float msPerByte = 1000.0 / 3125.0; // -> 3125 bytes per second
 
-   pyexport enum Event : uint8_t {
+   enum Event : uint8_t
+   {
       Unknown = 0x00,
       // non system events
       NoteOff = 0x80,
@@ -49,7 +50,7 @@ namespace Midi
       const static uint8_t EducationalUse = 0x7D;
    };
 
-   pyexport enum MetaEvent : uint8_t // for midi files
+   enum MetaEvent : uint8_t // for midi files
    {
       MetaUnkown = 0x00,
       Text = 0x01,
@@ -125,7 +126,8 @@ namespace Midi
       AllNotesOff = 0x78
    };
 
-   pyexport enum class Playback : uint8_t {
+   enum class Playback : uint8_t
+   {
       Start,
       Continue,
       Stop
