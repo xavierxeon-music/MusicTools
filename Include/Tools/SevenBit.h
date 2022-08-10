@@ -8,8 +8,8 @@
 class SevenBit
 {
 public:
-   inline static Bytes encode(const Bytes& input);
-   inline static Bytes decode(const Bytes& input);
+   pyexport inline static Bytes encode(const Bytes& input);
+   pyexport inline static Bytes decode(const Bytes& input);
 };
 
 #ifndef SevenBitHPP

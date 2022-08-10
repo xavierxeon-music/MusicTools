@@ -12,12 +12,12 @@
 class FastRandom
 {
 public:
-   inline FastRandom(const uint64_t& seed = 0);
+   pyexport inline FastRandom(const uint64_t& seed = 0);
 
 public:
-   inline void reset(const uint64_t& seed = 0);
-   inline void skip(const uint64_t& noOfValues);
-   inline float value();
+   pyexport inline void reset(const uint64_t& seed = 0);
+   pyexport inline void skip(const uint64_t& noOfValues);
+   pyexport inline float value();
 
 private:
    uint64_t current;

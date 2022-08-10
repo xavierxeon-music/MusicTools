@@ -7,6 +7,8 @@
 
 // see http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html
 
+PYCLASS(Midi::File)
+
 namespace Midi
 {
    class File
@@ -15,8 +17,8 @@ namespace Midi
       class Reader;
       class Writer;
 
-      inline static Sequencer load(const Bytes& content);
-      inline static Bytes save(const Sequencer& seqeuencer);
+      pyexport inline static Sequencer load(const Bytes& content);
+      pyexport inline static Bytes save(const Sequencer& seqeuencer);
 
    protected:
       struct Chunk

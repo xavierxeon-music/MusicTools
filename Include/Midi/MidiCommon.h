@@ -3,6 +3,9 @@
 
 #include <MusicTools.h>
 
+PYNAMESPCE(Midi)
+PYCLASS(Midi)
+
 namespace Midi
 {
    using Channel = uint8_t; // channels from 1 to 16
@@ -12,8 +15,7 @@ namespace Midi
    // see https://ccrma.stanford.edu/~gary/controllers/midi.html
    const static float msPerByte = 1000.0 / 3125.0; // -> 3125 bytes per second
 
-   enum Event : uint8_t
-   {
+   pyexport enum Event : uint8_t {
       Unknown = 0x00,
       // non system events
       NoteOff = 0x80,
@@ -47,7 +49,7 @@ namespace Midi
       const static uint8_t EducationalUse = 0x7D;
    };
 
-   enum MetaEvent : uint8_t // for midi files
+   pyexport enum MetaEvent : uint8_t // for midi files
    {
       MetaUnkown = 0x00,
       Text = 0x01,
@@ -67,8 +69,7 @@ namespace Midi
       KeySignature = 0x59
    };
 
-   enum ControllerMessage : uint8_t
-   {
+   pyexport enum ControllerMessage : uint8_t {
       BankSelect = 0x00,
       ModWheel = 0x01,
       BreathController = 0x02,
@@ -124,8 +125,7 @@ namespace Midi
       AllNotesOff = 0x78
    };
 
-   enum class Playback : uint8_t
-   {
+   pyexport enum class Playback : uint8_t {
       Start,
       Continue,
       Stop
