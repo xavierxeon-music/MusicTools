@@ -24,7 +24,10 @@ TimeCode::TimeCode(const Duration& duration)
 {
    tick = duration % 4;
    quarter = ((duration - tick) / 4) % 4;
-   bar = (((duration - tick) / 4) - quarter) / 4;
+
+   const uint8_t restTicks = tick + (quarter * 4);
+   const uint16_t barTicks = duration - restTicks;
+   bar = barTicks / 16;
 }
 
 std::string TimeCode::text() const

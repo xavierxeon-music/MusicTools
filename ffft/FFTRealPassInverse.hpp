@@ -81,12 +81,22 @@ namespace ffft
    template <>
    inline void FFTRealPassInverse<0>::process_rec(long len, DataType dest_ptr[], DataType src_ptr[], const DataType cos_ptr[], long cos_len, const long br_ptr[], OscType osc_list[])
    {
+      (void)len;
+      (void)dest_ptr;
+      (void)src_ptr;
+      (void)cos_ptr;
+      (void)cos_len;
+      (void)br_ptr;
+      (void)osc_list;
+
       // Stops recursion
    }
 
    template <int PASS>
    void FFTRealPassInverse<PASS>::process_internal(long len, DataType dest_ptr[], const DataType src_ptr[], const DataType cos_ptr[], long cos_len, const long br_ptr[], OscType osc_list[])
    {
+      (void)br_ptr;
+
       const long dist = 1L << (PASS - 1);
       const long c1_r = 0;
       const long c1_i = dist;
@@ -149,6 +159,11 @@ namespace ffft
    template <>
    inline void FFTRealPassInverse<2>::process_internal(long len, DataType dest_ptr[], const DataType src_ptr[], const DataType cos_ptr[], long cos_len, const long br_ptr[], OscType osc_list[])
    {
+      (void)cos_ptr;
+      (void)cos_len;
+      (void)br_ptr;
+      (void)osc_list;
+
       // Antepenultimate pass
       const DataType sqrt2_2 = DataType(SQRT2 * 0.5);
 
@@ -177,6 +192,11 @@ namespace ffft
    template <>
    inline void FFTRealPassInverse<1>::process_internal(long len, DataType dest_ptr[], const DataType src_ptr[], const DataType cos_ptr[], long cos_len, const long br_ptr[], OscType osc_list[])
    {
+      (void)cos_ptr;
+      (void)cos_len;
+      (void)br_ptr;
+      (void)osc_list;
+
       // Penultimate and last pass at once
       const long qlen = len >> 2;
 
