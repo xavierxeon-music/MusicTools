@@ -153,6 +153,7 @@ bool Sample::saveWav(const std::string& fileName, const Meta& meta, const Data& 
 
       fwrite(&header, 1, sizeof(WavHeader), wavFile);
    }
+
    for (const float& value : data)
    {
       const int16_t buffer = static_cast<int16_t>(value * maxValue);

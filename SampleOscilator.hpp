@@ -111,7 +111,7 @@ void Sample::Oscilator::init(const std::string& fileName, const float& newSample
 
    metaData.noOfChannels = header.numChannels;
    metaData.sampleRate = header.sampleRate;
-   metaData.numberOfSamples = (8 * header.dataSize) / header.bitsPerSample;
+   metaData.numberOfSamples = (8 * (header.chunkSize - 36)) / header.bitsPerSample;
 
    systemNumberOfSamples = metaData.numberOfSamples * systemSampleRate / metaData.sampleRate;
 
@@ -172,6 +172,9 @@ float Sample::Oscilator::createSound()
 
 float Sample::Oscilator::getSound(uint8_t channel)
 {
+   if (channel >= current.size())
+      return 0.0;
+
    return current.at(channel);
 }
 

@@ -4,7 +4,7 @@
 #include <Blocks/Sequencer.h>
 
 Sequencer::Sequencer()
-   : ticksPer16(0)
+   : ticksPer16(1)
    , uSecsPerQuarter(500000) // 120 bpm
    , trackList()
 {
