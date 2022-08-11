@@ -39,18 +39,25 @@ namespace ffft
    template <int ALGO>
    void FFTRealUseTrigo<ALGO>::prepare(OscType& osc)
    {
+      (void)osc;
+
       osc.clear_buffers();
    }
 
    template <>
    inline void FFTRealUseTrigo<0>::prepare(OscType& osc)
    {
+      (void)osc;
       // Nothing
    }
 
    template <int ALGO>
    void FFTRealUseTrigo<ALGO>::iterate(OscType& osc, DataType& c, DataType& s, const DataType cos_ptr[], long index_c, long index_s)
    {
+      (void)cos_ptr;
+      (void)index_c;
+      (void)index_s;
+
       osc.step();
       c = osc.get_cos();
       s = osc.get_sin();
@@ -59,6 +66,8 @@ namespace ffft
    template <>
    inline void FFTRealUseTrigo<0>::iterate(OscType& osc, DataType& c, DataType& s, const DataType cos_ptr[], long index_c, long index_s)
    {
+      (void)osc;
+
       c = cos_ptr[index_c];
       s = cos_ptr[index_s];
    }
