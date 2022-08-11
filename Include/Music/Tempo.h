@@ -30,7 +30,7 @@ public:
    inline static std::string getName(const Division& division);
    inline RunState getRunState() const;
    inline bool isRunningOrFirstTick() const;
-   inline virtual uint8_t getBeatsPerMinute() const;
+   inline virtual uint16_t getBeatsPerMinute() const;
    inline virtual uint8_t getCounter(const Division& division) const;
    inline virtual double getPercentage(const Division& division) const;
 
@@ -42,7 +42,7 @@ public:
 protected:
    RunState runState;
    Counter straightBarCount; // 1 bar of 4/4
-   RingBuffer<uint8_t, 4 * 16> bpm;
+   RingBuffer<uint16_t, 4 * 16> bpm;
    float msSinceLastTick;
    float msPerTick;
    float tickPercentage;

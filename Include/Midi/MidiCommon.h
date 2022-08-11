@@ -3,6 +3,9 @@
 
 #include <MusicTools.h>
 
+PYNAMESPCE(Midi)
+PYCLASS(Midi)
+
 namespace Midi
 {
    using Channel = uint8_t; // channels from 1 to 16
@@ -67,8 +70,7 @@ namespace Midi
       KeySignature = 0x59
    };
 
-   enum ControllerMessage : uint8_t
-   {
+   pyexport enum ControllerMessage : uint8_t {
       BankSelect = 0x00,
       ModWheel = 0x01,
       BreathController = 0x02,

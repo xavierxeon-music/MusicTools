@@ -15,14 +15,14 @@ class Revoice
 #endif
 {
 public:
-   inline Revoice(const uint8_t& numberOfVocices = 16, const Spectrum::Quality& quality = Spectrum::Quality::Low);
+   pyexport inline Revoice(const uint8_t& numberOfVocices = 16, const Spectrum::Quality& quality = Spectrum::Quality::Low);
    inline ~Revoice();
 
 public:
-   inline const uint8_t& getNumberOfVoices() const;
-   inline void setNumberOfVoices(const uint8_t& newNumberOfVocices);
-   inline void setSampleRate(const float& newSampleRate);
-   inline Data convert(const Data& input);
+   pyexport inline const uint8_t& getNumberOfVoices() const;
+   pyexport inline void setNumberOfVoices(const uint8_t& newNumberOfVocices);
+   pyexport inline void setSampleRate(const float& newSampleRate);
+   pyexport inline Data convert(const Data& input);
 
 protected:
    inline Data proccessBuffer(const Data& input) override;

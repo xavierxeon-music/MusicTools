@@ -1,6 +1,8 @@
 #ifndef RevoiceHPP
 #define RevoiceHPP
 
+#include <algorithm>
+
 #include <Effect/Revoice.h>
 
 Revoice::Revoice(const uint8_t& numberOfVocices, const Spectrum::Quality& quality)

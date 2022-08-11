@@ -17,56 +17,55 @@
 class PolyRamp : public Remember::Container
 {
 public:
-   enum class LengthStatus
-   {
+   pyexport enum class LengthStatus {
       Kept,
       Changed,
-      Error,
+      Error
    };
 
 public:
-   inline PolyRamp();
+   pyexport inline PolyRamp();
 
 public:
-   inline void clear();
+   pyexport inline void clear();
 
-   inline void clockTick();
-   inline void clockReset();
+   pyexport inline void clockTick();
+   pyexport inline void clockReset();
 
-   inline uint8_t getCurrentStageIndex() const;
-   inline float getCurrentStagePercentage(const float& precentToNextTick = 0.0) const;
-   inline float getCurrentValue(const float& precentToNextTick = 0.0) const;
+   pyexport inline uint8_t getCurrentStageIndex() const;
+   pyexport inline float getCurrentStagePercentage(const float& precentToNextTick = 0.0) const;
+   pyexport inline float getCurrentValue(const float& precentToNextTick = 0.0) const;
 
-   inline bool isValid() const;
+   pyexport inline bool isValid() const;
 
-   inline Tempo::Division getStepSize() const;
-   inline void setStepSize(const Tempo::Division& newStepSize);
-   inline void changeStepSize(bool longer);
+   pyexport inline Tempo::Division getStepSize() const;
+   pyexport inline void setStepSize(const Tempo::Division& newStepSize);
+   pyexport inline void changeStepSize(bool longer);
 
-   inline uint32_t getLength() const;
+   pyexport inline uint32_t getLength() const;
    // autoDiscard = true: stages exceeding new length will be removed
    // autoDiscard = false: if stages exceed new length, then length will not be changed
-   inline LengthStatus setLength(const uint32_t newLength, bool autoDiscard = false);
-   inline void trimLength(); // set length to fit stages
+   pyexport inline LengthStatus setLength(const uint32_t newLength, bool autoDiscard = false);
+   pyexport inline void trimLength(); // set length to fit stages
 
-   inline uint8_t getStageCount() const;
-   inline LengthStatus addStage(const uint8_t& afterIndex, const uint32_t& numberOfStages = 1);
-   inline void moveStage(const uint8_t& fromIndex, const uint8_t& toIndex);
-   inline void removeStage(const uint8_t& index);
+   pyexport inline uint8_t getStageCount() const;
+   pyexport inline LengthStatus addStage(const uint8_t& afterIndex, const uint32_t& numberOfStages = 1);
+   pyexport inline void moveStage(const uint8_t& fromIndex, const uint8_t& toIndex);
+   pyexport inline void removeStage(const uint8_t& index);
 
-   inline uint8_t getStageStartHeight(const uint8_t& index) const;
-   inline void setStageStartHeight(const uint8_t& index, const uint8_t& startHeight);
+   pyexport inline uint8_t getStageStartHeight(const uint8_t& index) const;
+   pyexport inline void setStageStartHeight(const uint8_t& index, const uint8_t& startHeight);
 
-   inline uint8_t getStageEndHeight(const uint8_t& index) const;
-   inline void setStageEndHeight(const uint8_t& index, const uint8_t& endHeight);
+   pyexport inline uint8_t getStageEndHeight(const uint8_t& index) const;
+   pyexport inline void setStageEndHeight(const uint8_t& index, const uint8_t& endHeight);
 
-   inline uint8_t getStageLength(const uint8_t& index) const;
+   pyexport inline uint8_t getStageLength(const uint8_t& index) const;
    // expandLength = true: adjust PolyRamp length to fit stages
    // expandLength = false: if new length exeeds current length, then do not add stage
-   inline LengthStatus setStageLength(const uint8_t& index, const uint8_t& stageLength, bool expandLength = true);
+   pyexport inline LengthStatus setStageLength(const uint8_t& index, const uint8_t& stageLength, bool expandLength = true);
 
-   inline bool isLooping() const;
-   inline void setLooping(bool on);
+   pyexport inline bool isLooping() const;
+   pyexport inline void setLooping(bool on);
 
 private:
    class Stage : public Remember::Container

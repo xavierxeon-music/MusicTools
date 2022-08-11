@@ -14,23 +14,21 @@ class Spectrum
 {
 public:
    using Map = std::map<float, float>; // frequency vc amplitude
-   enum class Quality : uint8_t
-   {
+   pyexport enum class Quality : uint8_t {
       Low = 10,
       Medium = 11,
       High = 12,
       Ultra = 13
-
    };
 
 public:
-   Spectrum(const Quality& quality = Quality::High);
+   pyexport Spectrum(const Quality& quality = Quality::High);
    ~Spectrum();
 
 public:
-   const Quality& getQuality() const;
-   Map analyse(const Data& data, const float& sampleRate);
-   static uint16_t compileBufferSize(const Quality& quality = Quality::High);
+   pyexport const Quality& getQuality() const;
+   pyexport Map analyse(const Data& data, const float& sampleRate);
+   pyexport static uint16_t compileBufferSize(const Quality& quality = Quality::High);
 
 private:
    void init();
