@@ -63,27 +63,27 @@ static constexpr uint8_t decodingTable[] =
  };
 // clang-format on
 
-Bytes SevenBit::encode(const Bytes& input)
+std::string SevenBit::encode(const Bytes& input)
 {
    const size_t inputLength = input.size();
    if (0 == inputLength)
-      return Bytes();
+      return std::string();
 
    const size_t outputLength = 4 * ((inputLength + 2) / 3);
 
-   Bytes output;
-   output.resize(outputLength);
+   Bytes base64;
+   base64.resize(outputLength);
 
    size_t j = 0;
    auto addToOutput = [&](const uint8_t& encodingIndex)
    {
-      output[j] = encodingTable[encodingIndex];
+      base64[j] = encodingTable[encodingIndex];
       j++;
    };
 
    auto addPadding = [&]()
    {
-      output[j] = 0x3d; // append =
+      base64[j] = 0x3d; // append =
       j++;
    };
 
@@ -115,11 +115,15 @@ Bytes SevenBit::encode(const Bytes& input)
       addPadding();
    }
 
+   std::string output(base64.begin(), base64.end());
    return output;
 }
 
-Bytes SevenBit::decode(const Bytes& input)
+Bytes SevenBit::decode(const std::string& input)
 {
+   Bytes base64(input.size(), 0);
+   std::memcpy(base64.data(), input.data(), input.size());
+
    size_t inputLength = input.size();
    if (0 == inputLength || inputLength % 4 != 0)
       return Bytes();
@@ -127,9 +131,9 @@ Bytes SevenBit::decode(const Bytes& input)
    size_t outputLength = inputLength / 4 * 3;
 
    // discard eventual padding
-   if (input[inputLength - 1] == '=')
+   if (base64[inputLength - 1] == '=')
       outputLength--;
-   if (input[inputLength - 2] == '=')
+   if (base64[inputLength - 2] == '=')
       outputLength--;
 
    Bytes output;
@@ -141,14 +145,14 @@ Bytes SevenBit::decode(const Bytes& input)
    {
       auto getNextInputByte = [&]() -> uint8_t
       {
-         if (input[i] == '=') // end padding
+         if (base64[i] == '=') // end padding
          {
             i++;
             return 0;
          }
          else
          {
-            const uint8_t index = input[i];
+            const uint8_t index = base64[i];
             i++;
             return decodingTable[index];
          }

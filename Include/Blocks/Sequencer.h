@@ -14,41 +14,41 @@ public:
 
    pyexport struct Info
    {
-      Tick maxTick = 0;
-      uint64_t barCounter = 0;
-      uint16_t bpm = 0;
-      uint32_t minutes = 0;
-      uint8_t seconds = 0;
+      pyexport Tick maxTick = 0;
+      pyexport uint64_t barCounter = 0;
+      pyexport uint16_t bpm = 0;
+      pyexport uint32_t minutes = 0;
+      pyexport uint8_t seconds = 0;
 
-      std::vector<uint32_t> polyphonicTrackIndexList;
-      std::vector<uint32_t> monophonicTrackIndexList;
+      pyexport std::vector<uint32_t> polyphonicTrackIndexList;
+      pyexport std::vector<uint32_t> monophonicTrackIndexList;
    };
 
    pyexport struct Track
    {
       pyexport struct Header
       {
-         Tick maxTick = 0;
-         std::string name;
+         pyexport Tick maxTick = 0;
+         pyexport std::string name;
 
          using List = std::vector<Header>;
       };
 
       pyexport struct NoteEvent
       {
-         uint8_t channel = 0;
-         uint8_t key = 0;
-         uint8_t velocity = 0;
-         bool on = false;
+         pyexport uint8_t channel = 0;
+         pyexport uint8_t key = 0;
+         pyexport uint8_t velocity = 0;
+         pyexport bool on = false;
 
          using List = std::vector<NoteEvent>;
          using TimeMap = std::map<Tick, List>;
       };
 
-      Header header;
+      pyexport Header header;
 
-      NoteEvent::TimeMap noteOnEventMap;
-      NoteEvent::TimeMap noteOffEventMap;
+      pyexport NoteEvent::TimeMap noteOnEventMap;
+      pyexport NoteEvent::TimeMap noteOffEventMap;
 
       using List = std::vector<Track>;
    };
