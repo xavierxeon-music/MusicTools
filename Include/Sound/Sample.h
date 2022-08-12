@@ -8,9 +8,9 @@ class Sample
 public:
    pyexport struct Meta
    {
-      uint8_t noOfChannels = 1;
-      uint16_t sampleRate = 1;
-      size_t numberOfSamples = 0;
+      pyexport uint8_t noOfChannels = 1;
+      pyexport uint16_t sampleRate = 1;
+      pyexport size_t numberOfSamples = 0;
    };
 
    pyexport inline static Data load(const std::string& fileName, Meta* meta = nullptr);
