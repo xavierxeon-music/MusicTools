@@ -3,7 +3,7 @@
 
 #include <MusicTools.h>
 
-// see https://en.wikipedia.org/wiki/SevenBit
+// see https://en.wikipedia.org/wiki/Base64
 
 class SevenBit
 {
