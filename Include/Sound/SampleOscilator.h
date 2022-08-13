@@ -4,8 +4,6 @@
 #include <Abstract/AbstractOscilator.h>
 #include <Sound/Sample.h>
 
-PYCLASS(Sample::Oscilator)
-
 // wav file only!
 pyexport class Sample::Oscilator : public Abstract::Oscilator
 {

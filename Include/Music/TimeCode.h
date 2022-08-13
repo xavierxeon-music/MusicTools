@@ -5,7 +5,7 @@
 
 #include <MusicTools.h>
 
-class TimeCode
+pyexport class TimeCode
 {
 public:
    using Duration = uint16_t;
@@ -13,17 +13,17 @@ public:
 
 public:
    inline TimeCode();
-   inline TimeCode(uint16_t bar, uint8_t quarter, uint8_t tick = 0);
+   pyexport inline TimeCode(uint16_t bar, uint8_t quarter, uint8_t tick = 0);
    inline TimeCode(const Duration& duration);
 
 public:
-   inline std::string text() const;
-   inline Duration toDuration() const;
+   pyexport inline std::string text() const;
+   pyexport inline Duration toDuration() const;
 
 public:
-   uint16_t bar;
-   uint8_t quarter;
-   uint8_t tick;
+   pyexport uint16_t bar;
+   pyexport uint8_t quarter;
+   pyexport uint8_t tick;
 };
 
 #ifndef TimeCodeHPP
