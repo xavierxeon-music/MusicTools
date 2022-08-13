@@ -6,7 +6,7 @@
 #include <Music/Tempo.h>
 #include <Tools/Counter.h>
 
-class Trapezoid : public Remember::Container
+pyexport class Trapezoid : public Remember::Container
 {
 public:
    enum class Stage

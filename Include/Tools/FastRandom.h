@@ -9,7 +9,7 @@
 // so that we can have several generators with independent seeds
 
 // A linear congruential generator
-class FastRandom
+pyexport class FastRandom
 {
 public:
    pyexport inline FastRandom(const uint64_t& seed = 0);

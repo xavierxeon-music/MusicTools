@@ -6,14 +6,8 @@
 #include <vector>
 
 // used to auto geenrate python bindings
-// must be at start of sub class, sub struct, function or eneum
+// must be at start of namespce, class, sub class, sub struct, function or enum
 #define pyexport
-
-// OPTIONAL: marks the class name to be used in a python binding, one per file
-#define PYCLASS(text)
-
-// OPTIONAL: add namespace to pyuthon name, one per file
-#define PYNAMESPCE(text)
 
 // byte sized data
 using Bytes = std::vector<uint8_t>;

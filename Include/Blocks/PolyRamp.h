@@ -14,10 +14,11 @@
 
 // CALL clockReset AFTER LOAD!
 
-class PolyRamp : public Remember::Container
+pyexport class PolyRamp : public Remember::Container
 {
 public:
-   pyexport enum class LengthStatus {
+   pyexport enum class LengthStatus //
+   {
       Kept,
       Changed,
       Error

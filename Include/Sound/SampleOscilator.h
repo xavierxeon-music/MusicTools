@@ -7,7 +7,7 @@
 PYCLASS(Sample::Oscilator)
 
 // wav file only!
-class Sample::Oscilator : public Abstract::Oscilator
+pyexport class Sample::Oscilator : public Abstract::Oscilator
 {
 public:
    pyexport inline Oscilator(const bool buffered = true);

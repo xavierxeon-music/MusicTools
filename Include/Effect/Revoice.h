@@ -7,7 +7,7 @@
 #include <Sound/StandardTable.h>
 #include <Sound/WaveTable.h>
 
-class Revoice
+pyexport class Revoice
 #ifdef NON_DAIS_DEVICE
    : public Abstract::ThreadeBufferEffect
 #else

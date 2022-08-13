@@ -3,7 +3,7 @@
 
 #include <MusicTools.h>
 
-class Counter
+pyexport class Counter
 {
 public:
    pyexport inline Counter(const uint64_t& maxValue);
