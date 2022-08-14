@@ -3,7 +3,7 @@
 
 #include <MusicTools.h>
 
-pyexport struct Note
+pyexport class Note
 {
 public:
    using List = std::vector<Note>;
@@ -32,17 +32,23 @@ public:
    pyexport static const Index maxNoteIndex;  // size of availableNotes
 
 public:
+   Note();
+
+public:
    pyexport static const Note& fromVoltage(float voltage);
    pyexport static const Note& fromMidi(uint8_t midi);
    pyexport static const Note& fromFrequency(float frequency);
 
 public:
-   pyexport std::string name;
-   pyexport Value value;
-   pyexport Octave octave;
-   pyexport float frequency;
-   pyexport float voltage;
-   pyexport uint8_t midiValue;
+   pyexport const std::string name;
+   pyexport const Value value;
+   pyexport const Octave octave;
+   pyexport const float frequency;
+   pyexport const float voltage;
+   pyexport const uint8_t midiValue;
+
+private:
+   Note(std::string name, Value value, Octave octave, float frequency, float voltage, uint8_t midiValue);
 };
 
 #endif // NoteH
