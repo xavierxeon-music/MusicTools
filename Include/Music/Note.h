@@ -32,7 +32,7 @@ public:
    pyexport static const Index maxNoteIndex;  // size of availableNotes
 
 public:
-   Note();
+   pyexport Note();
 
 public:
    pyexport static const Note& fromVoltage(float voltage);
