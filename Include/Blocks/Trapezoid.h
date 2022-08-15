@@ -6,10 +6,10 @@
 #include <Music/Tempo.h>
 #include <Tools/Counter.h>
 
-class Trapezoid : public Remember::Container
+pyexport class Trapezoid : public Remember::Container
 {
 public:
-   enum class Stage
+   pyexport enum class Stage //
    {
       Wait,
       Rise,
@@ -18,39 +18,39 @@ public:
       Low
    };
 
-   enum class Bound
+   pyexport enum class Bound //
    {
       Min,
       Max
    };
 
 public:
-   inline Trapezoid();
+   pyexport inline Trapezoid();
 
 public:
-   inline static std::string stageName(const Stage& stage);
+   pyexport inline static std::string stageName(const Stage& stage);
 
-   inline void init();
-   inline void clockTick();
-   inline void clockReset();
+   pyexport inline void init();
+   pyexport inline void clockTick();
+   pyexport inline void clockReset();
 
-   inline const Stage& getCurrentStage() const;
-   inline float getCurrentStagePercentage(const float& precentToNextTick = 0.0) const;
-   inline float getCurrentValue(const float& precentToNextTick = 0.0) const;
+   pyexport inline const Stage& getCurrentStage() const;
+   pyexport inline float getCurrentStagePercentage(const float& precentToNextTick = 0.0) const;
+   pyexport inline float getCurrentValue(const float& precentToNextTick = 0.0) const;
 
-   inline const uint8_t& getStageLength(const Stage& stage) const;
-   inline void setStageLength(const Stage& stage, const uint8_t& newLength);
-   inline void changeStageLength(const Stage& stage, bool longer);
+   pyexport inline const uint8_t& getStageLength(const Stage& stage) const;
+   pyexport inline void setStageLength(const Stage& stage, const uint8_t& newLength);
+   pyexport inline void changeStageLength(const Stage& stage, bool longer);
 
-   inline Tempo::Division getStepSize() const;
-   inline void setStepSize(const Tempo::Division& newStepSize);
-   inline void changeStepSize(bool longer);
+   pyexport inline Tempo::Division getStepSize() const;
+   pyexport inline void setStepSize(const Tempo::Division& newStepSize);
+   pyexport inline void changeStepSize(bool longer);
 
-   inline float getBound(const Bound& bound) const;
-   inline void setBound(const Bound& bound, const float& newValue);
-   inline void changeBound(const Bound& bound, bool more);
+   pyexport inline float getBound(const Bound& bound) const;
+   pyexport inline void setBound(const Bound& bound, const float& newValue);
+   pyexport inline void changeBound(const Bound& bound, bool more);
 
-   inline bool isValid() const;
+   pyexport inline bool isValid() const;
 
 private: // things to remeber
    using StageValues_ = Remember::ValueArray<uint8_t, 5>;

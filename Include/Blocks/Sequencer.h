@@ -7,7 +7,7 @@
 
 #include <Music/TimeCode.h>
 
-class Sequencer
+pyexport class Sequencer
 {
 public:
    using Tick = uint64_t;

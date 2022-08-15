@@ -10,7 +10,7 @@ namespace ffft
    class FFTBase;
 }
 
-class Spectrum
+pyexport class Spectrum
 {
 public:
    using Map = std::map<float, float>; // frequency vc amplitude

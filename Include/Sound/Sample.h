@@ -3,7 +3,7 @@
 
 #include <MusicTools.h>
 
-class Sample
+pyexport class Sample
 {
 public:
    pyexport struct Meta
