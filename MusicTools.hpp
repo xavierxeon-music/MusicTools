@@ -40,4 +40,10 @@ void print(const Bytes& data, bool withAscii)
 }
 #endif
 
+template <typename DataType>
+void mergeVectos(std::vector<DataType>& data, const std::vector<DataType>& other)
+{
+   data.insert(data.end(), other.cbegin(), other.cend());
+}
+
 #endif // MusicToolsHPP

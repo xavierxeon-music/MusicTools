@@ -18,7 +18,7 @@ inline void print(const Bytes& data, bool withAscii = false);
 using Data = std::vector<float>;
 
 template <typename DataType>
-void add(std::vector<DataType>& data, const std::vector<DataType>& other);
+void mergeVectos(std::vector<DataType>& data, const std::vector<DataType>& other);
 
 #ifndef MusicToolsHPP
 #include "../MusicTools.hpp"
