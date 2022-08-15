@@ -3,14 +3,14 @@
 
 #include <MusicTools.h>
 
-struct Note
+pyexport class Note
 {
 public:
    using List = std::vector<Note>;
    using Index = uint8_t;
    using Octave = uint8_t;
 
-   enum Value : uint8_t
+   pyexport enum Value : uint8_t //
    {
       C,
       Cs,
@@ -27,22 +27,28 @@ public:
       Invalid
    };
 
-   static const Note zeroNote;       // an invalid note
-   static const List availableNotes; // includes zero note
-   static const Index maxNoteIndex;  // size of availableNotes
+   pyexport static const Note zeroNote;       // an invalid note
+   pyexport static const List availableNotes; // includes zero note
+   pyexport static const Index maxNoteIndex;  // size of availableNotes
 
 public:
-   static const Note& fromVoltage(float voltage);
-   static const Note& fromMidi(uint8_t midi);
-   static const Note& fromFrequency(float frequency);
+   pyexport Note();
 
 public:
-   std::string name;
-   Value value;
-   Octave octave;
-   float frequency;
-   float voltage;
-   uint8_t midiValue;
+   pyexport static const Note& fromVoltage(float voltage);
+   pyexport static const Note& fromMidi(uint8_t midi);
+   pyexport static const Note& fromFrequency(float frequency);
+
+public:
+   pyexport const std::string name;
+   pyexport const Value value;
+   pyexport const Octave octave;
+   pyexport const float frequency;
+   pyexport const float voltage;
+   pyexport const uint8_t midiValue;
+
+private:
+   Note(std::string name, Value value, Octave octave, float frequency, float voltage, uint8_t midiValue);
 };
 
 #endif // NoteH

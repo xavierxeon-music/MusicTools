@@ -5,7 +5,7 @@
 
 #include <map>
 
-const Note Note::zeroNote = {"Z0", Note::Invalid, 0, -1.0f, 0.0f, 0};
+const Note Note::zeroNote = Note();
 
 const Note::List Note::availableNotes = []()
 {
@@ -50,20 +50,16 @@ const Note::List Note::availableNotes = []()
       {
          for (uint8_t voltageIndex = 0; voltageIndex < 12; voltageIndex++)
          {
-            Note note;
-            note.value = static_cast<Value>(voltageIndex);
-            note.octave = octave;
-            note.name = nameMap.at(note.value) + std::to_string(octave);
+            const Value value = static_cast<Value>(voltageIndex);
+            const std::string name = nameMap.at(value) + std::to_string(octave);
 
-            note.voltage = octave + (voltageIndex / 12.0);
-            const uint8_t freqOctave = static_cast<uint8_t>(note.voltage + 0.25);
-            const float rest = (note.voltage - freqOctave) + 0.25;
-            note.frequency = noteAFreq[freqOctave] * pow(2, rest);
+            const float voltage = octave + (voltageIndex / 12.0);
+            const uint8_t freqOctave = static_cast<uint8_t>(voltage + 0.25);
+            const float rest = (voltage - freqOctave) + 0.25;
+            const float frequency = noteAFreq[freqOctave] * pow(2, rest);
 
-            note.midiValue = midiValue;
+            Note note(name, value, octave, frequency, voltage, midiValue);
             midiValue++;
-
-            //qDebug() << QString::fromStdString(note.name) << note.midiValue << note.frequency << note.voltage;
 
             noteList.push_back(note);
             if (note.frequency > 20000)
@@ -78,6 +74,16 @@ const Note::List Note::availableNotes = []()
 // clang-format on
 
 const Note::Index Note::maxNoteIndex = availableNotes.size() - 1;
+
+Note::Note()
+   : name("Z0")
+   , value(Note::Invalid)
+   , octave(0)
+   , frequency(-1.0f)
+   , voltage(0.0f)
+   , midiValue(0)
+{
+}
 
 const Note& Note::fromVoltage(float voltage)
 {
@@ -118,4 +124,14 @@ const Note& Note::fromFrequency(float frequency)
 
    const Note& note = fromVoltage(voltage);
    return note;
+}
+
+Note::Note(std::string name, Value value, Octave octave, float frequency, float voltage, uint8_t midiValue)
+   : name(name)
+   , value(value)
+   , octave(octave)
+   , frequency(frequency)
+   , voltage(voltage)
+   , midiValue(midiValue)
+{
 }

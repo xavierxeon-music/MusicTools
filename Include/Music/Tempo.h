@@ -4,10 +4,10 @@
 #include <Tools/Counter.h>
 #include <Tools/RingBuffer.h>
 
-class Tempo
+pyexport class Tempo
 {
 public:
-   enum Division
+   pyexport enum Division //
    {
       Sixteenth = 1,
       Eigth = 2,
@@ -15,7 +15,7 @@ public:
       Bar = 16
    };
 
-   enum RunState
+   pyexport enum RunState //
    {
       Reset,
       Off,
@@ -24,20 +24,20 @@ public:
    };
 
 public:
-   inline Tempo();
+   pyexport inline Tempo();
 
 public:
-   inline static std::string getName(const Division& division);
-   inline RunState getRunState() const;
-   inline bool isRunningOrFirstTick() const;
-   inline virtual uint16_t getBeatsPerMinute() const;
-   inline virtual uint8_t getCounter(const Division& division) const;
-   inline virtual double getPercentage(const Division& division) const;
+   pyexport inline static std::string getName(const Division& division);
+   pyexport inline RunState getRunState() const;
+   pyexport inline bool isRunningOrFirstTick() const;
+   pyexport inline virtual uint16_t getBeatsPerMinute() const;
+   pyexport inline virtual uint8_t getCounter(const Division& division) const;
+   pyexport inline virtual double getPercentage(const Division& division) const;
 
    // to control tempo
-   inline virtual void advance(const float callackRate); // to be called from loop
-   inline void clockTick();
-   inline void clockReset();
+   pyexport inline virtual void advance(const float callackRate); // to be called from loop
+   pyexport inline void clockTick();
+   pyexport inline void clockReset();
 
 protected:
    RunState runState;

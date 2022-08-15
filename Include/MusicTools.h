@@ -6,7 +6,7 @@
 #include <vector>
 
 // used to auto geenrate python bindings
-// must be at start of sub class, sub struct, function or eneum
+// must be at start of namespce, class, sub class, sub struct, function or enum
 #define pyexport
 
 // byte sized data

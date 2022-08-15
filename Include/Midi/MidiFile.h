@@ -7,11 +7,9 @@
 
 // see http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html
 
-PYCLASS(Midi::File)
-
-namespace Midi
+pyexport namespace Midi
 {
-   class File
+   pyexport class File
    {
    public:
       class Reader;

@@ -7,12 +7,7 @@
 #include <Sound/StandardTable.h>
 #include <Sound/WaveTable.h>
 
-class Revoice
-#ifdef NON_DAIS_DEVICE
-   : public Abstract::ThreadeBufferEffect
-#else
-   : public Abstract::BufferedEffect
-#endif
+pyexport class Revoice : public Abstract::ThreadeBufferEffect
 {
 public:
    pyexport inline Revoice(const uint8_t& numberOfVocices = 16, const Spectrum::Quality& quality = Spectrum::Quality::Low);

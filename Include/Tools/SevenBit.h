@@ -5,7 +5,7 @@
 
 // see https://en.wikipedia.org/wiki/Base64
 
-class SevenBit
+pyexport class SevenBit
 {
 public:
    pyexport inline static std::string encode(const Bytes& input);
