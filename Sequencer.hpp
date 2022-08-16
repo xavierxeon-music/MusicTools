@@ -18,8 +18,8 @@ Sequencer::Info Sequencer::compileInfo() const
 
    for (const Track& track : trackList)
    {
-      if (info.maxTick < track.header.maxTick)
-         info.maxTick = track.header.maxTick;
+      if (info.maxTick < track.maxTick)
+         info.maxTick = track.maxTick;
    }
 
    info.barCounter = info.maxTick / (16 * ticksPer16);
@@ -29,50 +29,6 @@ Sequencer::Info Sequencer::compileInfo() const
    const uint64_t totalSeconds = static_cast<uint64_t>(beatCounter / beatsPerSecond);
    info.seconds = totalSeconds % 60;
    info.minutes = (totalSeconds - info.seconds) / 60;
-
-   for (uint32_t trackIndex = 0; trackIndex < trackList.size(); trackIndex++)
-   {
-      auto compileIsPolyphonic = [](const Track& track)
-      {
-         uint64_t counterOn = 0;
-         uint64_t counterOff = 0;
-
-         uint32_t maxPoly = 0;
-         uint32_t currentPoly = 0;
-
-         for (Tick tick = 0; true; tick++)
-         {
-            if (track.noteOnEventMap.size() <= counterOn && track.noteOffEventMap.size() <= counterOff)
-               break;
-
-            if (track.noteOffEventMap.find(tick) != track.noteOffEventMap.end())
-            {
-               counterOff++;
-
-               const Sequencer::Track::NoteEvent::List& eventList = track.noteOffEventMap.at(tick);
-               currentPoly -= eventList.size();
-            }
-
-            if (track.noteOnEventMap.find(tick) != track.noteOnEventMap.end())
-            {
-               counterOn++;
-
-               const Sequencer::Track::NoteEvent::List& eventList = track.noteOnEventMap.at(tick);
-               currentPoly += eventList.size();
-               if (currentPoly > maxPoly)
-                  maxPoly = currentPoly;
-            }
-         }
-
-         return (maxPoly >= 2);
-      };
-
-      const Track& track = trackList.at(trackIndex);
-      if (compileIsPolyphonic(track))
-         info.polyphonicTrackIndexList.push_back(trackIndex);
-      else
-         info.monophonicTrackIndexList.push_back(trackIndex);
-   }
 
    return info;
 }
@@ -85,7 +41,7 @@ const Sequencer::Track::List& Sequencer::getTrackList() const
 uint64_t Sequencer::compileBarCounter(uint64_t trackIndex) const
 {
    const Track& track = trackList.at(trackIndex);
-   const uint64_t barCounter = track.header.maxTick / (16 * ticksPer16);
+   const uint64_t barCounter = track.maxTick / (16 * ticksPer16);
 
    return barCounter;
 }
@@ -103,6 +59,44 @@ Sequencer::Tick Sequencer::toTick(const TimeCode::Duration& duration, const doub
    const Tick tick = static_cast<Tick>(fTicks);
 
    return tick;
+}
+
+void Sequencer::updateMonophonicFlag()
+{
+   for (Track& track : trackList)
+   {
+      uint64_t counterOn = 0;
+      uint64_t counterOff = 0;
+
+      uint32_t maxPoly = 0;
+      uint32_t currentPoly = 0;
+
+      for (Tick tick = 0; true; tick++)
+      {
+         if (track.noteOnEventMap.size() <= counterOn && track.noteOffEventMap.size() <= counterOff)
+            break;
+
+         if (track.noteOffEventMap.find(tick) != track.noteOffEventMap.end())
+         {
+            counterOff++;
+
+            const Sequencer::Track::NoteEvent::List& eventList = track.noteOffEventMap.at(tick);
+            currentPoly -= eventList.size();
+         }
+
+         if (track.noteOnEventMap.find(tick) != track.noteOnEventMap.end())
+         {
+            counterOn++;
+
+            const Sequencer::Track::NoteEvent::List& eventList = track.noteOnEventMap.at(tick);
+            currentPoly += eventList.size();
+            if (currentPoly > maxPoly)
+               maxPoly = currentPoly;
+         }
+      }
+
+      track.isMonophonic = (maxPoly < 2);
+   }
 }
 
 #endif // NOT SequencerHPP

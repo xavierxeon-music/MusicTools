@@ -19,21 +19,10 @@ public:
       pyexport uint16_t bpm = 0;
       pyexport uint32_t minutes = 0;
       pyexport uint8_t seconds = 0;
-
-      pyexport std::vector<uint32_t> polyphonicTrackIndexList;
-      pyexport std::vector<uint32_t> monophonicTrackIndexList;
    };
 
    pyexport struct Track
    {
-      pyexport struct Header
-      {
-         pyexport Tick maxTick = 0;
-         pyexport std::string name;
-
-         using List = std::vector<Header>;
-      };
-
       pyexport struct NoteEvent
       {
          pyexport uint8_t channel = 0;
@@ -45,7 +34,9 @@ public:
          using TimeMap = std::map<Tick, List>;
       };
 
-      pyexport Header header;
+      pyexport Tick maxTick = 0;
+      pyexport std::string name;
+      pyexport bool isMonophonic = false;
 
       pyexport NoteEvent::TimeMap noteOnEventMap;
       pyexport NoteEvent::TimeMap noteOffEventMap;
@@ -63,6 +54,9 @@ public:
 
    pyexport inline TimeCode::Duration fromTick(const Tick& tick);
    pyexport inline Tick toTick(const TimeCode::Duration& duration, const double& precentageToNextBeat = 0);
+
+protected:
+   inline void updateMonophonicFlag();
 
 protected:
    uint16_t ticksPer16;

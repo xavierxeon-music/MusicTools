@@ -50,7 +50,7 @@ Midi::File::Reader::Reader(const Bytes& content)
       readTrack(trackChunk);
    }
 
-   return;
+   updateMonophonicFlag();
 }
 
 void Midi::File::Reader::readHeader(const Chunk& headerChunk)
@@ -179,7 +179,7 @@ void Midi::File::Reader::readTrack(const Chunk& trackChunk)
       if (0 != lastNoteOffTick && lastNoteOnTick < lastNoteOffTick)
          maxTick = lastNoteOffTick;
 
-      track.header.maxTick = maxTick;
+      track.maxTick = maxTick;
       trackList.push_back(track);
    }
 }
@@ -236,7 +236,7 @@ Midi::MetaEvent Midi::File::Reader::readMetaEvent(const Bytes& trackChunkData, u
       //std::cout << std::string(text.cbegin(), text.cend()) << std::endl;
 
       if (MetaEvent::TrackName == (MetaEvent)subMarker && track)
-         track->header.name = std::string(text.begin(), text.end());
+         track->name = std::string(text.begin(), text.end());
 
       return static_cast<MetaEvent>(subMarker);
    }
