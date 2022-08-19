@@ -136,6 +136,8 @@ pyexport namespace Midi
       enum Channel : uint8_t
       {
          Splitter = 0,
+         VCMC = 0,
+         Pamela = 0,
          DopeferQuad1 = 1,
          DopeferQuad2 = 2,
          DopeferQuad3 = 3,
