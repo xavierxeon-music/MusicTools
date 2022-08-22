@@ -3,6 +3,16 @@
 
 #include <Tools/File.h>
 
+bool File::exists(const std::string& fileName)
+{
+   FILE* file = fopen(fileName.c_str(), "r");
+   if (!file)
+      return false;
+
+   fclose(file);
+   return true;
+}
+
 Bytes File::load(const std::string& fileName)
 {
    FILE* file = fopen(fileName.c_str(), "r");
