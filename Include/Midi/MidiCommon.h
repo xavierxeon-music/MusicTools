@@ -150,11 +150,10 @@ pyexport namespace Midi
          FlameCC = 12,
          BitBox = 13,
          BitBoxMicro = 14,
-         UnusedA = 15,
-         UnusedB = 16,
+         Metropolix = 15,
+         Unused = 16,
          // sender only
-         VCMC = 100,
-         Pamela = 101,
+         VCMC = 100
       };
    };
 
