@@ -4,17 +4,22 @@ INCLUDEPATH += \
 include(ffft/ffft.pri)
 
 HEADERS += \
+   $$PWD/File.hpp \
    $$PWD/Include/Abstract/AbstractEffect.h \
    $$PWD/Include/Abstract/AbstractOscilator.h \
    $$PWD/Include/Abstract/AbstractSoundSource.h \
    $$PWD/Include/Blocks/CvSwitch.h \
    $$PWD/Include/Blocks/PolyRamp.h \
+   $$PWD/Include/Blocks/Sequencer.h \
    $$PWD/Include/Blocks/Trapezoid.h \
    $$PWD/Include/Effect/Compressor.h \
    $$PWD/Include/Effect/Revoice.h \
    $$PWD/Include/Effect/StateVariableFilter.h \
    $$PWD/Include/Maths.h \
    $$PWD/Include/Midi/MidiCommon.h \
+   $$PWD/Include/Midi/MidiFile.h \
+   $$PWD/Include/Midi/MidiFileReader.h \
+   $$PWD/Include/Midi/MidiFileWriter.h \
    $$PWD/Include/Midi/MidiInterfaceInput.h \
    $$PWD/Include/Midi/MidiInterfaceOutput.h \
    $$PWD/Include/Midi/MidiTargetDoepferQuad.h \
@@ -45,6 +50,20 @@ HEADERS += \
    $$PWD/Include/Tools/SevenBit.h \
    $$PWD/Include/Tools/SquareSignal.h \
    $$PWD/Include/Tools/Variable.h \
+   $$PWD/Include/Tracker/TrackerBank.h \
+   $$PWD/Include/Tracker/TrackerProject.h \
+   $$PWD/Include/Tracker/TrackerSegement.h \
+   $$PWD/Include/Tracker/TrackerTrack.h \
+   $$PWD/MidiFile.hpp \
+   $$PWD/MidiFileReader.hpp \
+   $$PWD/MidiFileWriter.hpp \
+   $$PWD/SampleOscilator.hpp \
+   $$PWD/SampleRecorder.hpp \
+   $$PWD/Sequencer.hpp \
+   $$PWD/TrackerBank.hpp \
+   $$PWD/TrackerProject.hpp \
+   $$PWD/TrackerSegement.hpp \
+   $$PWD/TrackerTrack.hpp
 
     
 HEADERS += \   
