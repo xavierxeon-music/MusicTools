@@ -12,9 +12,11 @@ namespace Tracker
    public:
       pyexport inline Bank();
       inline Bank(const Bank& other);
+      inline Bank& operator=(const Bank& other);
 
    public:
       inline void init(const uint32_t newSegmentCount);
+      inline Track& getTrack(const uint8_t trackIndex);
 
    private:
       using Tracks_ = Remember::RefArray<Track, 8>;

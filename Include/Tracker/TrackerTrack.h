@@ -20,11 +20,15 @@ namespace Tracker
 
    public:
       pyexport inline Track();
+      inline Track(const Track& other);
       inline Track& operator=(const Track& other);
 
    public:
       pyexport inline void resize(const uint32_t segementCount);
       pyexport inline Segment& getSegment(const uint32_t index);
+
+      pyexport inline std::string getName() const;
+      pyexport inline void setName(const std::string& text);
 
    private:
       using Name_ = Remember::String;

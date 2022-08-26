@@ -6,12 +6,14 @@
 Tracker::Project::Project()
    : Remember::Container()
    , name(this, "")
-   , beatsPerMinute(this, 120)
    , division(this, Tempo::Bar)
    , segmentCount(this, 0)
    , banks(this)
    , loop(this, false)
+   , currentSegmentIndex(0)
+   , divisionCounter(1)
    , pastLoop(false)
+   , firstTickDone(false)
 {
 }
 
@@ -19,6 +21,8 @@ void Tracker::Project::clear(const uint8_t bankCount, const Tempo::Division& new
 {
    division = newDivision;
    segmentCount = newSegementCount;
+
+   divisionCounter.setMaxValue(static_cast<Tempo::Division>(division));
 
    banks.clear();
    for (uint8_t index = 0; index < bankCount; index++)
@@ -33,10 +37,33 @@ void Tracker::Project::clear(const uint8_t bankCount, const Tempo::Division& new
 
 void Tracker::Project::clockTick()
 {
+   if (pastLoop)
+      return;
+
+   if (!firstTickDone) // ignore the first clock tick
+   {
+      firstTickDone = true;
+      return;
+   }
+
+   if (!divisionCounter.nextAndIsMaxValue())
+      return;
+
+   currentSegmentIndex++;
+   if (currentSegmentIndex == segmentCount)
+   {
+      if (loop)
+         currentSegmentIndex = 0;
+      else
+         pastLoop = true;
+   }
 }
 
 void Tracker::Project::clockReset()
 {
+   divisionCounter.reset();
+   currentSegmentIndex = 0;
+   pastLoop = false;
 }
 
 const std::string Tracker::Project::getName() const
@@ -47,17 +74,6 @@ const std::string Tracker::Project::getName() const
 void Tracker::Project::setName(const std::string& text)
 {
    name = text;
-   Remember::Root::setUnsynced();
-}
-
-uint8_t Tracker::Project::getBeatsPerMinute() const
-{
-   return beatsPerMinute;
-}
-
-void Tracker::Project::setBeatsPerMintute(const uint8_t value)
-{
-   beatsPerMinute = value;
    Remember::Root::setUnsynced();
 }
 

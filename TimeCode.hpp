@@ -32,12 +32,9 @@ TimeCode::TimeCode(const Duration& duration)
 
 std::string TimeCode::text() const
 {
-   if (0 == toDuration())
-      return "-- - -";
-
-   const std::string frontText = Convert::text(bar);
-   const std::string midText = Convert::text(quarter);
-   const std::string backText = Convert::text(tick);
+   const std::string frontText = Convert::text(bar + 1);
+   const std::string midText = Convert::text(quarter + 1);
+   const std::string backText = Convert::text(tick + 1);
 
    const std::string durationText = frontText + " " + midText + " " + backText;
    return durationText;
