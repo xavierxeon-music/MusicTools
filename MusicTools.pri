@@ -52,7 +52,7 @@ HEADERS += \
    $$PWD/Include/Tools/Variable.h \
    $$PWD/Include/Tracker/TrackerBank.h \
    $$PWD/Include/Tracker/TrackerProject.h \
-   $$PWD/Include/Tracker/TrackerSegement.h \
+   $$PWD/Include/Tracker/TrackerSegment.h \
    $$PWD/Include/Tracker/TrackerTrack.h \
    $$PWD/MidiFile.hpp \
    $$PWD/MidiFileReader.hpp \
@@ -62,7 +62,7 @@ HEADERS += \
    $$PWD/Sequencer.hpp \
    $$PWD/TrackerBank.hpp \
    $$PWD/TrackerProject.hpp \
-   $$PWD/TrackerSegement.hpp \
+   $$PWD/TrackerSegment.hpp \
    $$PWD/TrackerTrack.hpp
 
     

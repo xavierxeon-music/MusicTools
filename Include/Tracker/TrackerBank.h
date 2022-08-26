@@ -7,17 +7,21 @@
 
 namespace Tracker
 {
-   class Bank : public Remember::Container
+   pyexport class Bank : public Remember::Container
    {
    public:
-      inline Bank();
+      pyexport inline Bank();
       inline Bank(const Bank& other);
+
+   public:
+      inline void init(const uint32_t newSegmentCount);
 
    private:
       using Tracks_ = Remember::RefArray<Track, 8>;
 
    private:
       Tracks_ tracks;
+      uint32_t segmentCount;
    };
 } // namespace Tracker
 

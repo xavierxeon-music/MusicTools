@@ -8,22 +8,23 @@ Tracker::Project::Project()
    , name(this, "")
    , beatsPerMinute(this, 120)
    , division(this, Tempo::Bar)
-   , length(this, 0)
+   , segmentCount(this, 0)
    , banks(this)
    , loop(this, false)
    , pastLoop(false)
 {
 }
 
-void Tracker::Project::clear(const uint8_t bankCount, const Tempo::Division& newDivision, const uint32_t newLength)
+void Tracker::Project::clear(const uint8_t bankCount, const Tempo::Division& newDivision, const uint32_t newSegementCount)
 {
    division = newDivision;
-   length = newLength;
+   segmentCount = newSegementCount;
 
    banks.clear();
    for (uint8_t index = 0; index < bankCount; index++)
    {
       Bank bank;
+      bank.init(segmentCount);
       banks.append(bank);
    }
 
@@ -65,9 +66,9 @@ Tempo::Division Tracker::Project::getDivison() const
    return division;
 }
 
-uint32_t Tracker::Project::getLength() const
+uint32_t Tracker::Project::getSegementCount() const
 {
-   return length;
+   return segmentCount;
 }
 
 uint8_t Tracker::Project::getBankCount() const
@@ -78,6 +79,17 @@ uint8_t Tracker::Project::getBankCount() const
 Tracker::Bank& Tracker::Project::getBank(const uint8_t index)
 {
    return banks[index];
+}
+
+bool Tracker::Project::isLooping() const
+{
+   return loop;
+}
+
+void Tracker::Project::setLooping(bool on)
+{
+   loop = on;
+   Remember::Root::setUnsynced();
 }
 
 #endif // NOT TrackerProjectHPP

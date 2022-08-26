@@ -15,7 +15,7 @@ namespace Tracker
       pyexport inline Project();
 
    public:
-      pyexport inline void clear(const uint8_t bankCount, const Tempo::Division& newDivision, const uint32_t newLength);
+      pyexport inline void clear(const uint8_t bankCount, const Tempo::Division& newDivision, const uint32_t newSegementCount);
 
       pyexport inline void clockTick();
       pyexport inline void clockReset();
@@ -27,16 +27,19 @@ namespace Tracker
       pyexport inline void setBeatsPerMintute(const uint8_t value);
 
       pyexport inline Tempo::Division getDivison() const;
-      pyexport inline uint32_t getLength() const;
+      pyexport inline uint32_t getSegementCount() const;
 
       pyexport inline uint8_t getBankCount() const;
       pyexport inline Bank& getBank(const uint8_t index);
+
+      pyexport inline bool isLooping() const;
+      pyexport inline void setLooping(bool on);
 
    private:
       using Name_ = Remember::String;
       using Tempo_ = Remember::Value<uint8_t>;
       using Division_ = Remember::Value<Tempo::Division>;
-      using Length_ = Remember::Value<uint32_t>;
+      using SegementCount_ = Remember::Value<uint32_t>;
       using Banks_ = Remember::RefList<Bank>;
       using Loop_ = Remember::Value<bool>;
 
@@ -44,7 +47,7 @@ namespace Tracker
       Name_ name;
       Tempo_ beatsPerMinute;
       Division_ division;
-      Length_ length;
+      SegementCount_ segmentCount;
       Banks_ banks;
       Loop_ loop;
 
