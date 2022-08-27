@@ -9,14 +9,6 @@ namespace Tracker
 {
    pyexport class Lane : public Remember::Container
    {
-   public:
-      pyexport enum class Type //
-      {
-         CV,
-         Note,
-         Gate,
-         Trigger
-      };
 
    public:
       pyexport inline Lane();
@@ -32,14 +24,10 @@ namespace Tracker
 
    private:
       using Name_ = Remember::String;
-      using Type_ = Remember::Value<Type>;
-      using Steady_ = Remember::Value<bool>;
       using Segments_ = Remember::RefList<Segment>;
 
    private:
       Name_ name;
-      Type_ type;
-      Steady_ steady;
       Segments_ segments;
    };
 } // namespace Tracker

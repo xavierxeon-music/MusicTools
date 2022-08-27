@@ -60,4 +60,17 @@ std::string Convert::text(const float& value, const uint8_t& decimalPlaces)
    return text;
 }
 
+uint16_t Convert::compileDigitCount(uint64_t number)
+{
+   uint16_t counter = 1;
+   uint64_t test = 10;
+
+   while (test < number)
+   {
+      counter++;
+      test *= 10;
+   }
+   return counter;
+}
+
 #endif // ConvertHPP

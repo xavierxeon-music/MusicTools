@@ -17,10 +17,10 @@ Tracker::Project::Project()
 {
 }
 
-void Tracker::Project::clear(const Tempo::Division& newDivision, const uint32_t newSegementCount)
+void Tracker::Project::clear(const Tempo::Division& newDivision, const uint32_t newSegmentCount)
 {
    division = newDivision;
-   segmentCount = newSegementCount;
+   segmentCount = newSegmentCount;
 
    divisionCounter.setMaxValue(static_cast<Tempo::Division>(division));
 

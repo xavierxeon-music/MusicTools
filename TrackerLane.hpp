@@ -6,8 +6,6 @@
 Tracker::Lane::Lane()
    : Remember::Container()
    , name(this, "")
-   , type(this, Type::CV)
-   , steady(this, false)
    , segments(this)
 {
 }

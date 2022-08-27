@@ -11,6 +11,8 @@ struct Convert
    inline static std::string text(const uint32_t& value);
    inline static std::string text(const uint64_t& value);
    inline static std::string text(const float& value, const uint8_t& decimalPlaces = 2);
+
+   inline static uint16_t compileDigitCount(uint64_t number);
 };
 
 #ifndef ConvertHPP

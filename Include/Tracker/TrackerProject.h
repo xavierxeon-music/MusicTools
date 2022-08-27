@@ -16,7 +16,7 @@ namespace Tracker
       pyexport inline Project();
 
    public:
-      pyexport inline void clear(const Tempo::Division& newDivision, const uint32_t newSegementCount);
+      pyexport inline void clear(const Tempo::Division& newDivision, const uint32_t newSegmentCount);
 
       pyexport inline void clockTick();
       pyexport inline void clockReset();

@@ -9,6 +9,7 @@ Tracker::Segment::Segment()
    , startExists(this, false)
    , endValue(this, 0)
    , endExists(this, false)
+   , steady(this, false)
 {
 }
 
@@ -18,7 +19,17 @@ Tracker::Segment::Segment(const Segment& other)
    , startExists(this, other.startExists)
    , endValue(this, other.endValue)
    , endExists(this, other.endExists)
+   , steady(this, other.steady)
 {
+}
+
+void Tracker::Segment::reset()
+{
+   startValue = 0;
+   startExists = false;
+
+   endValue = 0;
+   endExists = false;
 }
 
 uint8_t Tracker::Segment::getStartValue() const
@@ -52,6 +63,22 @@ void Tracker::Segment::setEndValue(const uint8_t value)
 {
    endValue = value;
    endExists = true;
+   Remember::Root::setUnsynced();
+}
+
+bool Tracker::Segment::hasValues() const
+{
+   return startExists || endExists;
+}
+
+bool Tracker::Segment::isSteady() const
+{
+   return steady;
+}
+
+void Tracker::Segment::setSteady(bool on)
+{
+   steady = on;
    Remember::Root::setUnsynced();
 }
 
