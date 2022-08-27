@@ -3,6 +3,8 @@
 
 #include "Remember.h"
 
+#include <string>
+
 // root
 void Remember::Root::setUnsynced()
 {
@@ -41,6 +43,8 @@ Remember::Value<DataType>::Value()
 {
 }
 
+// value array
+
 template <typename DataType, uint16_t ArraySize>
 Remember::ValueArray<DataType, ArraySize>::ValueArray(Container* parent)
    : Remember::Array<DataType, ArraySize>()
@@ -61,6 +65,8 @@ Remember::ValueArray<DataType, ArraySize>::ValueArray(Container* parent, std::in
    }
 }
 
+// value list
+
 template <typename DataType>
 Remember::ValueList<DataType>::ValueList(Container* parent)
    : Remember::List<DataType>()
@@ -73,6 +79,38 @@ Remember::ValueList<DataType>::ValueList(Container* parent, std::initializer_lis
 {
    for (const DataType& value : initialValues)
       members.push_back(value);
+}
+
+// string
+
+Remember::String::String(Container* parent)
+   : ValueList<char>(parent)
+{
+}
+
+Remember::String::String(Container* parent, const std::string& text)
+   : ValueList<char>(parent)
+{
+   *this = text;
+}
+
+Remember::String& Remember::String::operator=(const std::string& text)
+{
+   members.clear();
+
+   for (const char& letter : text)
+      append(letter);
+
+   return *this;
+}
+
+Remember::String::operator std::string() const
+{
+   std::string text;
+   for (const char& letter : members)
+      text += letter;
+
+   return text;
 }
 
 // ref
@@ -113,11 +151,15 @@ Remember::Ref<ContainerType>::Ref()
 {
 }
 
+// ref array
+
 template <typename ContainerType, uint16_t ArraySize>
 Remember::RefArray<ContainerType, ArraySize>::RefArray(Container* parent)
    : Remember::Array<ContainerType, ArraySize>()
 {
 }
+
+// ref list
 
 template <typename ContainerType>
 Remember::RefList<ContainerType>::RefList(Container* parent)

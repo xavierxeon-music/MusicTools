@@ -54,8 +54,19 @@ namespace Remember
       inline ValueList(Container* parent);
       inline ValueList(Container* parent, std::initializer_list<DataType> initialValues);
 
-   private:
+   protected:
       using Remember::List<DataType>::members;
+   };
+
+   class String : public ValueList<char>
+   {
+   public:
+      inline String(Container* parent);
+      inline String(Container* parent, const std::string& text);
+
+   public:
+      inline String& operator=(const std::string& text);
+      inline operator std::string() const;
    };
 
    // ref
