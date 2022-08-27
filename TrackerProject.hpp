@@ -8,7 +8,7 @@ Tracker::Project::Project()
    , name(this, "")
    , division(this, Tempo::Bar)
    , segmentCount(this, 0)
-   , banks(this)
+   , lanes(this)
    , loop(this, false)
    , currentSegmentIndex(0)
    , divisionCounter(1)
@@ -17,20 +17,15 @@ Tracker::Project::Project()
 {
 }
 
-void Tracker::Project::clear(const uint8_t bankCount, const Tempo::Division& newDivision, const uint32_t newSegementCount)
+void Tracker::Project::clear(const Tempo::Division& newDivision, const uint32_t newSegementCount)
 {
    division = newDivision;
    segmentCount = newSegementCount;
 
    divisionCounter.setMaxValue(static_cast<Tempo::Division>(division));
 
-   banks.clear();
-   for (uint8_t index = 0; index < bankCount; index++)
-   {
-      Bank bank;
-      bank.init(segmentCount);
-      banks.append(bank);
-   }
+   for (uint8_t laneIndex = 0; laneIndex < getLaneCount(); laneIndex++)
+      lanes[laneIndex].resize(segmentCount);
 
    Remember::Root::setUnsynced();
 }
@@ -87,14 +82,14 @@ uint32_t Tracker::Project::getSegementCount() const
    return segmentCount;
 }
 
-uint8_t Tracker::Project::getBankCount() const
+uint8_t Tracker::Project::getLaneCount() const
 {
-   return banks.size();
+   return lanes.getSize();
 }
 
-Tracker::Bank& Tracker::Project::getBank(const uint8_t index)
+Tracker::Lane& Tracker::Project::getLane(const uint8_t laneIndex)
 {
-   return banks[index];
+   return lanes[laneIndex];
 }
 
 bool Tracker::Project::isLooping() const

@@ -6,7 +6,7 @@
 #include <Music/Tempo.h>
 #include <Tools/Counter.h>
 
-#include "TrackerBank.h"
+#include "TrackerLane.h"
 
 namespace Tracker
 {
@@ -16,7 +16,7 @@ namespace Tracker
       pyexport inline Project();
 
    public:
-      pyexport inline void clear(const uint8_t bankCount, const Tempo::Division& newDivision, const uint32_t newSegementCount);
+      pyexport inline void clear(const Tempo::Division& newDivision, const uint32_t newSegementCount);
 
       pyexport inline void clockTick();
       pyexport inline void clockReset();
@@ -27,8 +27,8 @@ namespace Tracker
       pyexport inline Tempo::Division getDivison() const;
       pyexport inline uint32_t getSegementCount() const;
 
-      pyexport inline uint8_t getBankCount() const;
-      pyexport inline Bank& getBank(const uint8_t index);
+      pyexport inline uint8_t getLaneCount() const;
+      inline Lane& getLane(const uint8_t laneIndex);
 
       pyexport inline bool isLooping() const;
       pyexport inline void setLooping(bool on);
@@ -37,14 +37,14 @@ namespace Tracker
       using Name_ = Remember::String;
       using Division_ = Remember::Value<Tempo::Division>;
       using SegementCount_ = Remember::Value<uint32_t>;
-      using Banks_ = Remember::RefList<Bank>;
+      using Laness_ = Remember::RefArray<Lane, 32>;
       using Loop_ = Remember::Value<bool>;
 
    private:
       Name_ name;
       Division_ division;
       SegementCount_ segmentCount;
-      Banks_ banks;
+      Laness_ lanes;
       Loop_ loop;
 
       uint32_t currentSegmentIndex;

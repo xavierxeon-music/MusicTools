@@ -1,5 +1,5 @@
-#ifndef TrackerTrackH
-#define TrackerTrackH
+#ifndef TrackerLaneH
+#define TrackerLaneH
 
 #include <Remember.h>
 
@@ -7,7 +7,7 @@
 
 namespace Tracker
 {
-   pyexport class Track : public Remember::Container
+   pyexport class Lane : public Remember::Container
    {
    public:
       pyexport enum class Type //
@@ -19,9 +19,9 @@ namespace Tracker
       };
 
    public:
-      pyexport inline Track();
-      inline Track(const Track& other);
-      inline Track& operator=(const Track& other);
+      pyexport inline Lane();
+      inline Lane(const Lane& other);
+      inline Lane& operator=(const Lane& other);
 
    public:
       pyexport inline void resize(const uint32_t segementCount);
@@ -44,8 +44,8 @@ namespace Tracker
    };
 } // namespace Tracker
 
-#ifndef TrackerTrackHPP
-#include "../../TrackerTrack.hpp"
-#endif // NOT TrackerTrackHPP
+#ifndef TrackerLaneHPP
+#include "../../TrackerLane.hpp"
+#endif // NOT TrackerLaneHPP
 
-#endif // NOT TrackerTrackH
+#endif // NOT TrackerLaneH

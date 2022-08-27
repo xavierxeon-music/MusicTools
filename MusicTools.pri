@@ -50,20 +50,18 @@ HEADERS += \
    $$PWD/Include/Tools/SevenBit.h \
    $$PWD/Include/Tools/SquareSignal.h \
    $$PWD/Include/Tools/Variable.h \
-   $$PWD/Include/Tracker/TrackerBank.h \
+   $$PWD/Include/Tracker/TrackerLane.h \
    $$PWD/Include/Tracker/TrackerProject.h \
    $$PWD/Include/Tracker/TrackerSegment.h \
-   $$PWD/Include/Tracker/TrackerTrack.h \
    $$PWD/MidiFile.hpp \
    $$PWD/MidiFileReader.hpp \
    $$PWD/MidiFileWriter.hpp \
    $$PWD/SampleOscilator.hpp \
    $$PWD/SampleRecorder.hpp \
    $$PWD/Sequencer.hpp \
-   $$PWD/TrackerBank.hpp \
+   $$PWD/TrackerLane.hpp \
    $$PWD/TrackerProject.hpp \
-   $$PWD/TrackerSegment.hpp \
-   $$PWD/TrackerTrack.hpp
+   $$PWD/TrackerSegment.hpp
 
     
 HEADERS += \   

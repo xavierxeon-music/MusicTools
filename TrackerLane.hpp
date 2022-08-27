@@ -1,9 +1,9 @@
-#ifndef TrackerTrackHPP
-#define TrackerTrackHPP
+#ifndef TrackerLaneHPP
+#define TrackerLaneHPP
 
-#include <Tracker/TrackerTrack.h>
+#include <Tracker/TrackerLane.h>
 
-Tracker::Track::Track()
+Tracker::Lane::Lane()
    : Remember::Container()
    , name(this, "")
    , type(this, Type::CV)
@@ -12,13 +12,13 @@ Tracker::Track::Track()
 {
 }
 
-Tracker::Track::Track(const Track& other)
-   : Track()
+Tracker::Lane::Lane(const Lane& other)
+   : Lane()
 {
    *this = other;
 }
 
-Tracker::Track& Tracker::Track::operator=(const Track& other)
+Tracker::Lane& Tracker::Lane::operator=(const Lane& other)
 {
    const uint32_t segementCount = other.segments.size();
 
@@ -32,7 +32,7 @@ Tracker::Track& Tracker::Track::operator=(const Track& other)
    return *this;
 }
 
-void Tracker::Track::resize(const uint32_t segementCount)
+void Tracker::Lane::resize(const uint32_t segementCount)
 {
    segments.clear();
    for (uint32_t index = 0; index < segementCount; index++)
@@ -42,20 +42,20 @@ void Tracker::Track::resize(const uint32_t segementCount)
    Remember::Root::setUnsynced();
 }
 
-Tracker::Segment& Tracker::Track::getSegment(const uint32_t index)
+Tracker::Segment& Tracker::Lane::getSegment(const uint32_t index)
 {
    return segments[index];
 }
 
-std::string Tracker::Track::getName() const
+std::string Tracker::Lane::getName() const
 {
    return name;
 }
 
-void Tracker::Track::setName(const std::string& text)
+void Tracker::Lane::setName(const std::string& text)
 {
    name = text;
    Remember::Root::setUnsynced();
 }
 
-#endif // NOT TrackerTrackHPP
+#endif // NOT TrackerLaneHPP
