@@ -11,6 +11,8 @@ HEADERS += \
    $$PWD/Include/Blocks/CvSwitch.h \
    $$PWD/Include/Blocks/PolyRamp.h \
    $$PWD/Include/Blocks/Sequencer.h \
+   $$PWD/Include/Blocks/TrackerLane.h \
+   $$PWD/Include/Blocks/TrackerProject.h \
    $$PWD/Include/Blocks/Trapezoid.h \
    $$PWD/Include/Effect/Compressor.h \
    $$PWD/Include/Effect/Revoice.h \
@@ -50,18 +52,7 @@ HEADERS += \
    $$PWD/Include/Tools/SevenBit.h \
    $$PWD/Include/Tools/SquareSignal.h \
    $$PWD/Include/Tools/Variable.h \
-   $$PWD/Include/Tracker/TrackerLane.h \
-   $$PWD/Include/Tracker/TrackerProject.h \
-   $$PWD/Include/Tracker/TrackerSegment.h \
-   $$PWD/MidiFile.hpp \
-   $$PWD/MidiFileReader.hpp \
-   $$PWD/MidiFileWriter.hpp \
-   $$PWD/SampleOscilator.hpp \
-   $$PWD/SampleRecorder.hpp \
-   $$PWD/Sequencer.hpp \
-   $$PWD/TrackerLane.hpp \
-   $$PWD/TrackerProject.hpp \
-   $$PWD/TrackerSegment.hpp
+
 
     
 HEADERS += \   
@@ -98,6 +89,14 @@ HEADERS += \
    $$PWD/Variable.hpp   \
    $$PWD/WaveTable.hpp \
    $$PWD/WaveTableMorpher.hpp \
+   $$PWD/MidiFile.hpp \
+   $$PWD/MidiFileReader.hpp \
+   $$PWD/MidiFileWriter.hpp \
+   $$PWD/SampleOscilator.hpp \
+   $$PWD/SampleRecorder.hpp \
+   $$PWD/Sequencer.hpp \
+   $$PWD/TrackerLane.hpp \
+   $$PWD/TrackerProject.hpp
 
 
 SOURCES += \

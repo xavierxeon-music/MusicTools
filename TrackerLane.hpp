@@ -15,6 +15,24 @@ Tracker::Lane::Segment::Segment()
 {
 }
 
+Tracker::Lane::Segment::Segment(const Segment& other)
+   : Segment()
+{
+   *this = other;
+}
+
+Tracker::Lane::Segment& Tracker::Lane::Segment::operator=(const Segment& other)
+{
+   startValue = other.startValue;
+   startExists = other.startExists;
+
+   endValue = other.endValue;
+   endExists = other.endExists;
+
+   steady = other.steady;
+   return *this;
+}
+
 // lane
 
 Tracker::Lane::Lane()

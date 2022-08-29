@@ -54,6 +54,8 @@ namespace Tracker
          Bool_ steady;
 
          inline Segment();
+         inline Segment(const Segment& other);
+         inline Segment& operator=(const Segment& other);
       };
 
       struct Proxy
