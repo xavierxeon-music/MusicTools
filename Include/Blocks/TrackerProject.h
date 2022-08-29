@@ -21,27 +21,25 @@ namespace Tracker
       pyexport inline void clockTick();
       pyexport inline void clockReset();
 
-      pyexport inline const std::string getName() const;
-      pyexport inline void setName(const std::string& text);
-
       pyexport inline Tempo::Division getDivison() const;
       pyexport inline uint32_t getSegementCount() const;
 
       pyexport inline uint8_t getLaneCount() const;
-      inline Lane& getLane(const uint8_t laneIndex);
+      pyexport inline Lane& getLane(const uint8_t laneIndex);
+      inline const Lane& getLane(const uint8_t laneIndex) const;
 
       pyexport inline bool isLooping() const;
       pyexport inline void setLooping(bool on);
 
+      pyexport inline const uint32_t& getCurrentSegmentIndex() const;
+
    private:
-      using Name_ = Remember::String;
       using Division_ = Remember::Value<Tempo::Division>;
       using SegementCount_ = Remember::Value<uint32_t>;
       using Laness_ = Remember::RefArray<Lane, 32>;
       using Loop_ = Remember::Value<bool>;
 
    private:
-      Name_ name;
       Division_ division;
       SegementCount_ segmentCount;
       Laness_ lanes;

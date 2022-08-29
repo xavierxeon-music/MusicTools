@@ -1,11 +1,10 @@
 #ifndef TrackerProjectHPP
 #define TrackerProjectHPP
 
-#include <Tracker/TrackerProject.h>
+#include <Blocks/TrackerProject.h>
 
 Tracker::Project::Project()
    : Remember::Container()
-   , name(this, "")
    , division(this, Tempo::Bar)
    , segmentCount(this, 0)
    , lanes(this)
@@ -61,17 +60,6 @@ void Tracker::Project::clockReset()
    pastLoop = false;
 }
 
-const std::string Tracker::Project::getName() const
-{
-   return name;
-}
-
-void Tracker::Project::setName(const std::string& text)
-{
-   name = text;
-   Remember::Root::setUnsynced();
-}
-
 Tempo::Division Tracker::Project::getDivison() const
 {
    return division;
@@ -92,6 +80,11 @@ Tracker::Lane& Tracker::Project::getLane(const uint8_t laneIndex)
    return lanes[laneIndex];
 }
 
+const Tracker::Lane& Tracker::Project::getLane(const uint8_t laneIndex) const
+{
+   return lanes[laneIndex];
+}
+
 bool Tracker::Project::isLooping() const
 {
    return loop;
@@ -101,6 +94,11 @@ void Tracker::Project::setLooping(bool on)
 {
    loop = on;
    Remember::Root::setUnsynced();
+}
+
+const uint32_t& Tracker::Project::getCurrentSegmentIndex() const
+{
+   return currentSegmentIndex;
 }
 
 #endif // NOT TrackerProjectHPP
