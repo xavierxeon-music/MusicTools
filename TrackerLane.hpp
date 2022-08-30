@@ -99,6 +99,9 @@ uint8_t Tracker::Lane::getSegmentValue(const uint32_t index, const float& percen
       dirty = false;
    }
 
+   if (index >= segments.size())
+      return 0;
+
    if (0.0 >= percentage)
       return proxyList[index].startValue;
    else if (1.0 <= percentage)
@@ -114,6 +117,9 @@ uint8_t Tracker::Lane::getSegmentValue(const uint32_t index, const float& percen
 
 void Tracker::Lane::resetSegment(const uint32_t index)
 {
+   if (index >= segments.size())
+      return;
+
    segments[index].startValue = 0;
    segments[index].startExists = false;
 
@@ -123,16 +129,25 @@ void Tracker::Lane::resetSegment(const uint32_t index)
 
 uint8_t Tracker::Lane::getSegmentStartValue(const uint32_t index) const
 {
+   if (index >= segments.size())
+      return 0;
+
    return segments[index].startValue;
 }
 
 bool Tracker::Lane::hasSegmentStartValue(const uint32_t index) const
 {
+   if (index >= segments.size())
+      return false;
+
    return segments[index].startExists;
 }
 
 void Tracker::Lane::setSegmentStartValue(const uint32_t index, const uint8_t value)
 {
+   if (index >= segments.size())
+      return;
+
    segments[index].startValue = value;
    segments[index].startExists = true;
 
@@ -142,16 +157,25 @@ void Tracker::Lane::setSegmentStartValue(const uint32_t index, const uint8_t val
 
 uint8_t Tracker::Lane::getSegmentEndValue(const uint32_t index) const
 {
+   if (index >= segments.size())
+      return 0;
+
    return segments[index].endValue;
 }
 
 bool Tracker::Lane::hasSegmentEndValue(const uint32_t index) const
 {
+   if (index >= segments.size())
+      return false;
+
    return segments[index].endExists;
 }
 
 void Tracker::Lane::setSegmentEndValue(const uint32_t index, const uint8_t value)
 {
+   if (index >= segments.size())
+      return;
+
    segments[index].endValue = value;
    segments[index].endExists = true;
 
@@ -166,11 +190,17 @@ bool Tracker::Lane::hasSegmentValues(const uint32_t index) const
 
 bool Tracker::Lane::isSegmentSteady(const uint32_t index) const
 {
+   if (index >= segments.size())
+      return false;
+
    return segments[index].steady;
 }
 
 void Tracker::Lane::setSegmentSteady(const uint32_t index, bool on)
 {
+   if (index >= segments.size())
+      return;
+
    segments[index].steady = on;
 
    dirty = true;
