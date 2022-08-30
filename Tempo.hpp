@@ -7,8 +7,6 @@ Tempo::Tempo()
    : runState(RunState::Reset)
    , straightBarCount(16)
    , bpm()
-   , msSinceLastTick(0.0f)
-   , msPerTick(-1.0f)
    , tickPercentage(0.0f)
    , barCounter(0)
 {
@@ -100,7 +98,16 @@ uint16_t Tempo::getBeatsPerMinute() const
    return bpm;
 }
 
-void Tempo::advance(const float callackRate)
+// control
+
+Tempo::Control::Control()
+   : Tempo()
+   , msSinceLastTick(0.0f)
+   , msPerTick(-1.0f)
+{
+}
+
+void Tempo::Control::advance(const float callackRate)
 {
    if (!isRunningOrFirstTick())
       return;
@@ -115,7 +122,7 @@ void Tempo::advance(const float callackRate)
       runState = RunState::Off;
 }
 
-void Tempo::clockTick()
+void Tempo::Control::clockTick()
 {
    if (RunState::Reset == runState)
    {
@@ -133,7 +140,7 @@ void Tempo::clockTick()
    msSinceLastTick = 0.0;
 }
 
-void Tempo::clockReset()
+void Tempo::Control::clockReset()
 {
    straightBarCount.reset();
 

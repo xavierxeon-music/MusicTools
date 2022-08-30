@@ -7,6 +7,8 @@
 pyexport class Tempo
 {
 public:
+   class Control;
+
    pyexport enum Division //
    {
       Sixteenth = 1,
@@ -34,19 +36,29 @@ public:
    pyexport inline virtual uint8_t getCounter(const Division& division) const;
    pyexport inline virtual double getPercentage(const Division& division) const;
 
-   // to control tempo
-   pyexport inline virtual void advance(const float callackRate); // to be called from loop
-   pyexport inline void clockTick();
-   pyexport inline void clockReset();
 
 protected:
    RunState runState;
    Counter straightBarCount; // 1 bar of 4/4
    RingBuffer<uint16_t, 4 * 16> bpm;
-   float msSinceLastTick;
-   float msPerTick;
    float tickPercentage;
    uint64_t barCounter;
+};
+
+pyexport class Tempo::Control : public Tempo
+{
+public:
+   pyexport inline Control();
+
+public:
+   // to control tempo
+   pyexport inline virtual void advance(const float callackRate); // to be called from loop
+   pyexport inline void clockTick();
+   pyexport inline void clockReset();
+
+private:
+   float msSinceLastTick;
+   float msPerTick;
 };
 
 #ifndef TempoHPP
