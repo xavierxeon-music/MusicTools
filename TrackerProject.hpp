@@ -37,6 +37,7 @@ void Tracker::Project::clockTick()
    if (!firstTickDone) // ignore the first clock tick
    {
       firstTickDone = true;
+      divisionCounter.nextAndIsMaxValue();
       return;
    }
 

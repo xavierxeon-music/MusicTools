@@ -179,16 +179,22 @@ void Tracker::Lane::setSegmentSteady(const uint32_t index, bool on)
 
 void Tracker::Lane::updateProxyList() const
 {
-   std::cout << __FUNCTION__ << std::endl;
    for (uint32_t index = 0; index < segments.size(); index++)
    {
-      uint32_t startSegmentCount = 1;
-      uint32_t startValue = segments[index].startValue;
-      for (uint32_t startIndex = index; startIndex >= 0; startIndex--)
+      uint32_t startSegmentCount = 0;
+      uint8_t startValue = segments[index].startValue;
+      uint32_t startIndex = 0;
+      for (startIndex = index; startIndex >= 0; startIndex--)
       {
          if (0 == startIndex && !segments[startIndex].startExists)
          {
             startValue = 0.0;
+            break;
+         }
+
+         if (startIndex != index && segments[startIndex].endExists)
+         {
+            startValue = segments[startIndex].endValue;
             break;
          }
 
@@ -201,13 +207,19 @@ void Tracker::Lane::updateProxyList() const
          startSegmentCount++;
       }
 
-      uint32_t endSegmentCount = 1;
-      uint32_t endValue = segments[index].endValue;
+      uint32_t endSegmentCount = 0;
+      uint8_t endValue = segments[index].endValue;
       for (uint32_t endIndex = index; endIndex < segments.size(); endIndex++)
       {
          if (endIndex + 1 == segments.size() && !segments[endIndex].endExists)
          {
             endValue = 0;
+            break;
+         }
+
+         if (endIndex != index && segments[endIndex].startExists)
+         {
+            endValue = segments[endIndex].startValue;
             break;
          }
 
@@ -220,7 +232,24 @@ void Tracker::Lane::updateProxyList() const
          endSegmentCount++;
       }
 
-      std::cout << startValue << " " << endValue << " " << startSegmentCount << " " << endSegmentCount << std::endl;
+      bool startSteady = segments[startIndex].steady;
+      if (startSteady)
+      {
+         proxyList[index].startValue = startValue;
+         proxyList[index].endValue = startValue;
+      }
+      else
+      {
+         const float totalSegments = 1 + startSegmentCount + endSegmentCount;
+         const float startPrecent = startSegmentCount / totalSegments;
+         const float endPrecent = (startSegmentCount + 1) / totalSegments;
+
+         const float start = startValue;
+         const float diff = endValue - startValue;
+
+         proxyList[index].startValue = static_cast<uint8_t>(start + (startPrecent * diff));
+         proxyList[index].endValue = static_cast<uint8_t>(start + (endPrecent * diff));
+      }
    }
 }
 
