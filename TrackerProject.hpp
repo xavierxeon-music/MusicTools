@@ -61,14 +61,14 @@ void Tracker::Project::clockReset()
    pastLoop = false;
 }
 
-Tempo::Division Tracker::Project::getDivison() const
+const Tempo::Division& Tracker::Project::getDivison() const
 {
-   return division;
+   return division.constRef();
 }
 
-uint32_t Tracker::Project::getSegementCount() const
+const uint32_t& Tracker::Project::getSegmentCount() const
 {
-   return segmentCount;
+   return segmentCount.constRef();
 }
 
 uint8_t Tracker::Project::getLaneCount() const

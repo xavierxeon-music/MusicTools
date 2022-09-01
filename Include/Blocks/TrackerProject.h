@@ -21,8 +21,8 @@ namespace Tracker
       pyexport inline void clockTick();
       pyexport inline void clockReset();
 
-      pyexport inline Tempo::Division getDivison() const;
-      pyexport inline uint32_t getSegementCount() const;
+      pyexport inline const Tempo::Division& getDivison() const;
+      pyexport inline const uint32_t& getSegmentCount() const;
 
       pyexport inline uint8_t getLaneCount() const;
       pyexport inline Lane& getLane(const uint8_t laneIndex);
