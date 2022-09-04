@@ -38,6 +38,12 @@ Remember::Value<DataType>::operator DataType&()
 }
 
 template <typename DataType>
+const DataType& Remember::Value<DataType>::constRef() const
+{
+   return content;
+}
+
+template <typename DataType>
 Remember::Value<DataType>::Value()
    : Value<DataType>(nullptr, 0)
 {
