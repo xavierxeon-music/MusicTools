@@ -16,7 +16,7 @@ namespace Tracker
       inline Lane& operator=(const Lane& other);
 
    public:
-      pyexport inline void resize(const uint32_t segmentCount);
+      pyexport inline void resize(const uint32_t segmentCount, bool clearContent);
 
       pyexport inline std::string getName() const;
       pyexport inline void setName(const std::string& text);

@@ -6,7 +6,7 @@
 Midi::Interface::Input::Input()
    : noteOnFunctionList()
    , noteOffFunctionList()
-   , controllChangeFunctionList()
+   , controllerChangeFunctionList()
    , clockTickFunctionList()
    , clockStatusFunctionList()
    , passthroughList()
@@ -35,6 +35,12 @@ void Midi::Interface::Input::onNoteOn(ClassType* instance, void (ClassType::*fun
    noteOnFunctionList.push_back(noteOnFunction);
 }
 
+void Midi::Interface::Input::noteOn(const Channel& channel, const Note& note, const Velocity& velocity)
+{
+   for (const NoteOnFunction& noteOnFunction : noteOnFunctionList)
+      noteOnFunction(channel, note, velocity);
+}
+
 template <typename ClassType>
 void Midi::Interface::Input::onNoteOff(ClassType* instance, void (ClassType::*functionPointer)(const Midi::Channel&, const Note&))
 {
@@ -42,11 +48,23 @@ void Midi::Interface::Input::onNoteOff(ClassType* instance, void (ClassType::*fu
    noteOffFunctionList.push_back(noteOffFunction);
 }
 
-template <typename ClassType>
-void Midi::Interface::Input::onControllChange(ClassType* instance, void (ClassType::*functionPointer)(const Midi::Channel&, const ControllerMessage&, const uint8_t&))
+void Midi::Interface::Input::noteOff(const Channel& channel, const Note& note)
 {
-   ControllChangeFunction controllChangeFunction = std::bind(functionPointer, instance, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-   controllChangeFunctionList.push_back(controllChangeFunction);
+   for (const NoteOffFunction& noteOffFunction : noteOffFunctionList)
+      noteOffFunction(channel, note);
+}
+
+template <typename ClassType>
+void Midi::Interface::Input::onControllerChange(ClassType* instance, void (ClassType::*functionPointer)(const Midi::Channel&, const ControllerMessage&, const uint8_t&))
+{
+   ControllerChangeFunction controllerChangeFunction = std::bind(functionPointer, instance, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+   controllerChangeFunctionList.push_back(controllerChangeFunction);
+}
+
+void Midi::Interface::Input::controllerChange(const Channel& channel, const ControllerMessage& controllerMessage, const uint8_t& value)
+{
+   for (const ControllerChangeFunction& controllerChangeFunction : controllerChangeFunctionList)
+      controllerChangeFunction(channel, controllerMessage, value);
 }
 
 template <typename ClassType>
@@ -56,11 +74,23 @@ void Midi::Interface::Input::onClockTick(ClassType* instance, void (ClassType::*
    clockTickFunctionList.push_back(clockTickFunction);
 }
 
+void Midi::Interface::Input::clockTick()
+{
+   for (const ClockTickFunction& clockTickFunction : clockTickFunctionList)
+      clockTickFunction();
+}
+
 template <typename ClassType>
 void Midi::Interface::Input::onClockStatus(ClassType* instance, void (ClassType::*functionPointer)(const Playback&))
 {
    ClockStatusFunction clockStatusFunction = std::bind(functionPointer, instance, std::placeholders::_1);
    clockStatusFunctionList.push_back(clockStatusFunction);
+}
+
+void Midi::Interface::Input::clockStatus(const Playback& status)
+{
+   for (const ClockStatusFunction& clockStatusFunction : clockStatusFunctionList)
+      clockStatusFunction(status);
 }
 
 void Midi::Interface::Input::addPassThroughInterface(Interface::Output* passthrough)
@@ -80,24 +110,18 @@ void Midi::Interface::Input::dataFromInput(const Bytes& message)
       {
          const Note note = Note::fromMidi(message[1]);
          const Velocity velocity = message[2];
-
-         for (const NoteOnFunction& noteOnFunction : noteOnFunctionList)
-            noteOnFunction(channel, note, velocity);
+         noteOn(channel, note, velocity);
       }
       else if (Event::NoteOff == event)
       {
          const Note note = Note::fromMidi(message[1]);
-
-         for (const NoteOffFunction& noteOffFunction : noteOffFunctionList)
-            noteOffFunction(channel, note);
+         noteOff(channel, note);
       }
       else if (Event::ControlChange == event)
       {
          const ControllerMessage controllerMessage = static_cast<ControllerMessage>(message[1]);
          const uint8_t value = message[2];
-
-         for (const ControllChangeFunction& controllChangeFunction : controllChangeFunctionList)
-            controllChangeFunction(channel, controllerMessage, value);
+         controllerChange(channel, controllerMessage, value);
       }
    }
    else
@@ -114,23 +138,19 @@ void Midi::Interface::Input::dataFromInput(const Bytes& message)
       }
       else if (Event::Clock == event)
       {
-         for (const ClockTickFunction& clockTickFunction : clockTickFunctionList)
-            clockTickFunction();
+         clockTick();
       }
       else if (Event::Start == event)
       {
-         for (const ClockStatusFunction& clockStatusFunction : clockStatusFunctionList)
-            clockStatusFunction(Playback::Start);
+         clockStatus(Playback::Start);
       }
       else if (Event::Continue == event)
       {
-         for (const ClockStatusFunction& clockStatusFunction : clockStatusFunctionList)
-            clockStatusFunction(Playback::Continue);
+         clockStatus(Playback::Continue);
       }
       else if (Event::Stop == event)
       {
-         for (const ClockStatusFunction& clockStatusFunction : clockStatusFunctionList)
-            clockStatusFunction(Playback::Stop);
+         clockStatus(Playback::Stop);
       }
    }
 }

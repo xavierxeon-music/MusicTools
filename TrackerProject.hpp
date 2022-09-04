@@ -16,7 +16,20 @@ Tracker::Project::Project()
 {
 }
 
-void Tracker::Project::clear(const Tempo::Division& newDivision, const uint32_t newSegmentCount)
+void Tracker::Project::clear()
+{
+   division = Tempo::Bar;
+   segmentCount = 0;
+
+   divisionCounter.setMaxValue(static_cast<Tempo::Division>(division));
+
+   for (uint8_t laneIndex = 0; laneIndex < getLaneCount(); laneIndex++)
+      lanes[laneIndex].resize(0, true);
+
+   Remember::Root::setUnsynced();
+}
+
+void Tracker::Project::update(const Tempo::Division& newDivision, const uint32_t newSegmentCount)
 {
    division = newDivision;
    segmentCount = newSegmentCount;
@@ -24,7 +37,7 @@ void Tracker::Project::clear(const Tempo::Division& newDivision, const uint32_t 
    divisionCounter.setMaxValue(static_cast<Tempo::Division>(division));
 
    for (uint8_t laneIndex = 0; laneIndex < getLaneCount(); laneIndex++)
-      lanes[laneIndex].resize(segmentCount);
+      lanes[laneIndex].resize(segmentCount, false);
 
    Remember::Root::setUnsynced();
 }

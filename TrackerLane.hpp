@@ -67,9 +67,11 @@ Tracker::Lane& Tracker::Lane::operator=(const Lane& other)
    return *this;
 }
 
-void Tracker::Lane::resize(const uint32_t segmentCount)
+void Tracker::Lane::resize(const uint32_t segmentCount, bool clearContent)
 {
-   segments.clear();
+   if (clearContent)
+      segments.clear();
+
    for (uint32_t index = 0; index < segmentCount; index++)
    {
       segments.append(Segment());
