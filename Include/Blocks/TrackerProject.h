@@ -13,6 +13,9 @@ namespace Tracker
    pyexport class Project : public Remember::Container
    {
    public:
+      static constexpr uint8_t laneCount = 32;
+
+   public:
       pyexport inline Project();
 
    public:
@@ -37,13 +40,13 @@ namespace Tracker
    private:
       using Division_ = Remember::Value<Tempo::Division>;
       using SegementCount_ = Remember::Value<uint32_t>;
-      using Laness_ = Remember::RefArray<Lane, 32>;
+      using Lanes_ = Remember::RefArray<Lane, laneCount>;
       using Loop_ = Remember::Value<bool>;
 
    private:
       Division_ division;
       SegementCount_ segmentCount;
-      Laness_ lanes;
+      Lanes_ lanes;
       Loop_ loop;
 
       uint32_t currentSegmentIndex;

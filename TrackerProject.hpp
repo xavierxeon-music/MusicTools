@@ -86,7 +86,7 @@ const uint32_t& Tracker::Project::getSegmentCount() const
 
 uint8_t Tracker::Project::getLaneCount() const
 {
-   return lanes.getSize();
+   return laneCount;
 }
 
 Tracker::Lane& Tracker::Project::getLane(const uint8_t laneIndex)

@@ -243,21 +243,22 @@ void Tracker::Lane::updateProxyList() const
       uint8_t endValue = segments[index].endValue;
       for (uint32_t endIndex = index; endIndex < segments.size(); endIndex++)
       {
-         if (endIndex + 1 == segments.size() && !segments[endIndex].endExists)
-         {
-            endValue = 0;
-            break;
-         }
-
          if (endIndex != index && segments[endIndex].startExists)
          {
             endValue = segments[endIndex].startValue;
+            endSegmentCount--;
             break;
          }
 
          if (segments[endIndex].endExists)
          {
             endValue = segments[endIndex].endValue;
+            break;
+         }
+
+         if (endIndex + 1 == segments.size() && !segments[endIndex].endExists)
+         {
+            endValue = 0;
             break;
          }
 
