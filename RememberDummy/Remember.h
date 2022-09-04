@@ -29,6 +29,8 @@ namespace Remember
       operator DataType() const;
       operator DataType&();
 
+      const DataType& constRef() const;
+
    private:
       inline Value();
 
