@@ -2,6 +2,7 @@
 #define SevenBitHPP
 
 #include <Tools/SevenBit.h>
+#include <cstring>
 
 // modified from https://gist.github.com/tomykaira/f0fd86b6c73063283afe550bc5d77594
 
