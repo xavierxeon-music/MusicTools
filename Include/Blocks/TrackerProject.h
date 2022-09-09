@@ -8,7 +8,7 @@
 
 #include "TrackerLane.h"
 
-namespace Tracker
+pyexport namespace Tracker
 {
    pyexport class Project : public Remember::Container
    {
@@ -30,7 +30,7 @@ namespace Tracker
 
       pyexport inline uint8_t getLaneCount() const;
       pyexport inline Lane& getLane(const uint8_t laneIndex);
-      inline const Lane& getLane(const uint8_t laneIndex) const;
+      inline const Lane& getConstLane(const uint8_t laneIndex) const;
 
       pyexport inline bool isLooping() const;
       pyexport inline void setLooping(bool on);

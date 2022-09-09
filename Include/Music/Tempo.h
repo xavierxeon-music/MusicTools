@@ -7,8 +7,6 @@
 pyexport class Tempo
 {
 public:
-   class Control;
-
    pyexport enum Division //
    {
       Sixteenth = 1,
@@ -36,19 +34,21 @@ public:
    pyexport inline virtual uint8_t getCounter(const Division& division) const;
    pyexport inline virtual double getPercentage(const Division& division) const;
 
-
 protected:
    RunState runState;
    Counter straightBarCount; // 1 bar of 4/4
    RingBuffer<uint16_t, 4 * 16> bpm;
    float tickPercentage;
    uint64_t barCounter;
+
+private:
+   friend class TempoControl;
 };
 
-pyexport class Tempo::Control : public Tempo
+pyexport class TempoControl : public Tempo
 {
 public:
-   pyexport inline Control();
+   pyexport inline TempoControl();
 
 public:
    // to control tempo

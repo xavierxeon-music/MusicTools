@@ -100,14 +100,14 @@ uint16_t Tempo::getBeatsPerMinute() const
 
 // control
 
-Tempo::Control::Control()
+TempoControl::TempoControl()
    : Tempo()
    , msSinceLastTick(0.0f)
    , msPerTick(-1.0f)
 {
 }
 
-void Tempo::Control::advance(const float callackRate)
+void TempoControl::advance(const float callackRate)
 {
    if (!isRunningOrFirstTick())
       return;
@@ -122,7 +122,7 @@ void Tempo::Control::advance(const float callackRate)
       runState = RunState::Off;
 }
 
-void Tempo::Control::clockTick()
+void TempoControl::clockTick()
 {
    if (RunState::Reset == runState)
    {
@@ -140,7 +140,7 @@ void Tempo::Control::clockTick()
    msSinceLastTick = 0.0;
 }
 
-void Tempo::Control::clockReset()
+void TempoControl::clockReset()
 {
    straightBarCount.reset();
 

@@ -5,11 +5,10 @@
 
 #include <Remember.h>
 
-namespace Tracker
+pyexport namespace Tracker
 {
    pyexport class Lane : public Remember::Container
    {
-
    public:
       pyexport inline Lane();
       inline Lane(const Lane& other);

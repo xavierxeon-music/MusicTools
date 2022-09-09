@@ -94,7 +94,7 @@ Tracker::Lane& Tracker::Project::getLane(const uint8_t laneIndex)
    return lanes[laneIndex];
 }
 
-const Tracker::Lane& Tracker::Project::getLane(const uint8_t laneIndex) const
+const Tracker::Lane& Tracker::Project::getConstLane(const uint8_t laneIndex) const
 {
    return lanes[laneIndex];
 }
