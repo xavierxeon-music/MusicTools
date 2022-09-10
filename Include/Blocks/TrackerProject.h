@@ -36,6 +36,7 @@ pyexport namespace Tracker
       pyexport inline void setLooping(bool on);
 
       pyexport inline const uint32_t& getCurrentSegmentIndex() const;
+      pyexport inline void setCurrentSegmentIndex(const uint32_t index);
 
    private:
       using Division_ = Remember::Value<Tempo::Division>;

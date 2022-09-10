@@ -115,4 +115,9 @@ const uint32_t& Tracker::Project::getCurrentSegmentIndex() const
    return currentSegmentIndex;
 }
 
+void Tracker::Project::setCurrentSegmentIndex(const uint32_t index)
+{
+   currentSegmentIndex = index;
+}
+
 #endif // NOT TrackerProjectHPP
