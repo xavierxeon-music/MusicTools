@@ -59,6 +59,13 @@ void BoolField<IntegerType>::set(const uint8_t& index, const bool value)
 }
 
 template <typename IntegerType>
+void BoolField<IntegerType>::flip(const uint8_t& index)
+{
+   bool value = get(index);
+   set(index, !value);
+}
+
+template <typename IntegerType>
 IntegerType BoolField<IntegerType>::getMask(const uint8_t& index) const
 {
    const IntegerType mask = 0x01 << Range::clamp<uint8_t>(index, 0, size());
