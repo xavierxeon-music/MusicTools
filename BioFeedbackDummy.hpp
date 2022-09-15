@@ -1,7 +1,7 @@
 #ifndef BioFeedbackDummyHPP
 #define BioFeedbackDummyHPP
 
-#include "BioFeedbackDummy.h"
+#include <Blocks/BioFeedbackDummy.h>
 
 #include <Tools/Range.h>
 
@@ -10,8 +10,8 @@ BioFeedbackDummy::BioFeedbackDummy(const float& sampleRate)
    , baseOscilator()
    , noiseGenerator()
    , noiseFilter()
-   , noiseFrequencyMapper(0.0, 1.0, 10000.0, 100.0)
    , signalFilter()
+   , filterFrequencyMapper(0.0, 1.0, 10000.0, 10.0)
    , state()
    , modulationMap()
 {
@@ -26,9 +26,16 @@ BioFeedbackDummy::BioFeedbackDummy(const float& sampleRate)
    state[NoiseSmooth] = 0.0;
    state[NoiseAmplitude] = 1.0;
 
+   state[MasterSmooth] = 0.0;
+   state[MasterAmplitude] = 1.0;
+
    sawTable.setWaveform(Standard::Waveform::Saw);
+
    noiseFilter.setResonance(0.5);
    noiseFilter.setDrive(0.5);
+
+   signalFilter.setResonance(1.0);
+   signalFilter.setDrive(0.1);
 
    setSampleRate(sampleRate);
 }
@@ -56,13 +63,20 @@ float BioFeedbackDummy::compileSignalVoltage(float* baseSoundVoltage)
 
    float noiseValue = 2.0 * noiseGenerator.value() - 1.0;
    const float noiseSmooth = stateValue(NoiseSmooth);
-   const float noiseSmoothFrequency = noiseFrequencyMapper(noiseSmooth);
+   const float noiseSmoothFrequency = filterFrequencyMapper(noiseSmooth);
    noiseFilter.setFrequency(noiseSmoothFrequency);
    noiseValue = noiseFilter.changeSound(noiseValue);
 
-   float value = (0.5 * baseValue * stateValue(BaseAmplitude)) + (0.5 * noiseValue * stateValue(NoiseAmplitude));
+   float value = (baseValue * stateValue(BaseAmplitude)) + (noiseValue * stateValue(NoiseAmplitude));
 
-   return 2.0 * value;
+   const float masterSmooth = stateValue(MasterSmooth);
+   const float masterSmoothFrequency = filterFrequencyMapper(masterSmooth);
+   signalFilter.setFrequency(masterSmoothFrequency);
+   value = signalFilter.changeSound(value);
+
+   value = stateValue(MasterAmplitude) * value;
+
+   return 10.0 * value;
 }
 
 void BioFeedbackDummy::setState(const FunctionId& id, const float& value)

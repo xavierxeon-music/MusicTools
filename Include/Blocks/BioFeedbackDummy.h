@@ -53,16 +53,17 @@ private:
 
    FastRandom noiseGenerator;
    StateVariableFilter noiseFilter;
-   Range::Mapper noiseFrequencyMapper;
 
    StateVariableFilter signalFilter;
+
+   Range::Mapper filterFrequencyMapper;
 
    State state;
    Modulation::Map modulationMap;
 };
 
 #ifndef BioFeedbackDummyHPP
-#include "BioFeedbackDummy.hpp"
+#include "../../BioFeedbackDummy.hpp"
 #endif // NOT BioFeedbackDummyHPP
 
 #endif // NOT BioFeedbackDummyH
