@@ -90,7 +90,7 @@ void StateVariableFilter::setResonance(const float& newResonannce)
 
 void StateVariableFilter::setDrive(const float& newDrive)
 {
-   predrive = Range::clamp<float>(newDrive, 0.f, 1.f);
+   predrive = 1.0 - Range::clamp<float>(newDrive, 0.f, 1.f);
    drive = predrive * resonance;
 }
 
