@@ -23,7 +23,7 @@ pyexport namespace Tracker
       pyexport inline std::string getName() const;
       pyexport inline void setName(const std::string& text);
 
-      pyexport inline uint8_t getSegmentValue(const uint32_t index, const float& percentage) const;
+      pyexport inline uint8_t getSegmentValue(const uint32_t index, const float& segmentPercentage) const;
 
       pyexport inline void resetSegment(const uint32_t index);
 

@@ -20,13 +20,14 @@ pyexport namespace Tracker
 
    public:
       pyexport inline void clear();
-      pyexport inline void update(const Tempo::Division& newDivision, const uint32_t newSegmentCount);
+      pyexport inline void update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount);
 
       pyexport inline void clockTick();
       pyexport inline void clockReset();
 
-      pyexport inline const Tempo::Division& getDefaultDivison() const;
+      pyexport inline const uint8_t& getDefaultDivison() const;
       pyexport inline const uint32_t& getSegmentCount() const;
+      pyexport inline uint8_t getSegmentLength(const uint32_t index) const;
 
       pyexport inline uint8_t getLaneCount() const;
       pyexport inline Lane& getLane(const uint8_t laneIndex);
@@ -37,9 +38,10 @@ pyexport namespace Tracker
 
       pyexport inline const uint32_t& getCurrentSegmentIndex() const;
       pyexport inline void setCurrentSegmentIndex(const uint32_t index);
+      pyexport inline float getCurrentSegmentPrecentage(const float tickPercentage) const;
 
    private:
-      using Division_ = Remember::Value<Tempo::Division>;
+      using Division_ = Remember::Value<uint8_t>;
       using SegementCount_ = Remember::Value<uint32_t>;
       using Lanes_ = Remember::RefArray<Lane, laneCount>;
       using Loop_ = Remember::Value<bool>;

@@ -23,7 +23,7 @@ void Tracker::Project::clear()
    deafaultDivision = Tempo::Bar;
    segmentCount = 0;
 
-   divisionCounter.setMaxValue(static_cast<Tempo::Division>(deafaultDivision));
+   divisionCounter.setMaxValue(deafaultDivision);
 
    for (uint8_t laneIndex = 0; laneIndex < getLaneCount(); laneIndex++)
       lanes[laneIndex].resize(0, true);
@@ -31,12 +31,12 @@ void Tracker::Project::clear()
    Remember::Root::setUnsynced();
 }
 
-void Tracker::Project::update(const Tempo::Division& newDivision, const uint32_t newSegmentCount)
+void Tracker::Project::update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount)
 {
-   deafaultDivision = newDivision;
+   deafaultDivision = newDefaultDivision;
    segmentCount = newSegmentCount;
 
-   divisionCounter.setMaxValue(static_cast<Tempo::Division>(deafaultDivision));
+   divisionCounter.setMaxValue(deafaultDivision);
 
    for (uint8_t laneIndex = 0; laneIndex < getLaneCount(); laneIndex++)
       lanes[laneIndex].resize(segmentCount, false);
@@ -76,7 +76,7 @@ void Tracker::Project::clockReset()
    pastLoop = false;
 }
 
-const Tempo::Division& Tracker::Project::getDefaultDivison() const
+const uint8_t& Tracker::Project::getDefaultDivison() const
 {
    return deafaultDivision.constRef();
 }
@@ -84,6 +84,12 @@ const Tempo::Division& Tracker::Project::getDefaultDivison() const
 const uint32_t& Tracker::Project::getSegmentCount() const
 {
    return segmentCount.constRef();
+}
+
+uint8_t Tracker::Project::getSegmentLength(const uint32_t index) const
+{
+   // TODO allow for individual segment lengths
+   return deafaultDivision.constRef();
 }
 
 uint8_t Tracker::Project::getLaneCount() const
@@ -120,6 +126,19 @@ const uint32_t& Tracker::Project::getCurrentSegmentIndex() const
 void Tracker::Project::setCurrentSegmentIndex(const uint32_t index)
 {
    currentSegmentIndex = index;
+}
+
+float Tracker::Project::getCurrentSegmentPrecentage(const float tickPercentage) const
+{
+   float currentTick = divisionCounter.getCurrentValue();
+   const float maxTick = divisionCounter.getMaxValue();
+
+   if (currentTick != maxTick && 0.0 < tickPercentage && 1.0 > tickPercentage)
+      currentTick += tickPercentage;
+
+   const float percentage = currentTick / maxTick;
+
+   return percentage;
 }
 
 #endif // NOT TrackerProjectHPP

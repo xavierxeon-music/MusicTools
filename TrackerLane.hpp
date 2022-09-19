@@ -100,7 +100,7 @@ void Tracker::Lane::setName(const std::string& text)
    Remember::Root::setUnsynced();
 }
 
-uint8_t Tracker::Lane::getSegmentValue(const uint32_t index, const float& percentage) const
+uint8_t Tracker::Lane::getSegmentValue(const uint32_t index, const float& segmentPercentage) const
 {
    if (dirty)
    {
@@ -111,16 +111,16 @@ uint8_t Tracker::Lane::getSegmentValue(const uint32_t index, const float& percen
    if (index >= segments.size())
       return 0;
 
-   if (0.0 >= percentage)
+   if (0.0 >= segmentPercentage)
       return proxyList[index].startValue;
-   else if (1.0 <= percentage)
+   else if (1.0 <= segmentPercentage)
       return proxyList[index].endValue;
 
    // interpolate
    const float startValue = proxyList[index].startValue;
    const float diffValue = proxyList[index].endValue - proxyList[index].startValue;
 
-   const float value = startValue + (percentage * diffValue);
+   const float value = startValue + (segmentPercentage * diffValue);
    return static_cast<uint8_t>(value);
 }
 

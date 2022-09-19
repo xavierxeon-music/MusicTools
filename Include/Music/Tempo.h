@@ -7,7 +7,7 @@
 pyexport class Tempo
 {
 public:
-   pyexport enum Division //
+   pyexport enum Division : uint8_t //
    {
       Sixteenth = 1,
       Eigth = 2,
