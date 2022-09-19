@@ -12,7 +12,9 @@ public:
       Sixteenth = 1,
       Eigth = 2,
       Quarter = 4,
-      Bar = 16
+      Bar = 16,
+      Bar2 = 2 * Bar,
+      Bar4 = 4 * Bar
    };
 
    pyexport enum RunState //
@@ -31,15 +33,12 @@ public:
    pyexport inline RunState getRunState() const;
    pyexport inline bool isRunningOrFirstTick() const;
    pyexport inline virtual uint16_t getBeatsPerMinute() const;
-   pyexport inline virtual uint8_t getCounter(const Division& division) const;
-   pyexport inline virtual double getPercentage(const Division& division) const;
+   pyexport inline virtual double getPercentage() const;
 
 protected:
    RunState runState;
-   Counter straightBarCount; // 1 bar of 4/4
    RingBuffer<uint16_t, 4 * 16> bpm;
    float tickPercentage;
-   uint64_t barCounter;
 
 private:
    friend class TempoControl;

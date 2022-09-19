@@ -7,6 +7,8 @@
 
 pyexport namespace Tracker
 {
+   class Project;
+
    pyexport class Lane : public Remember::Container
    {
    public:
@@ -15,6 +17,7 @@ pyexport namespace Tracker
       inline Lane& operator=(const Lane& other);
 
    public:
+      pyexport inline void setup(Project* project);
       pyexport inline void resize(const uint32_t segmentCount, bool clearContent);
 
       pyexport inline std::string getName() const;
@@ -71,6 +74,8 @@ pyexport namespace Tracker
       inline void updateProxyList() const;
 
    private:
+      Project* project;
+
       Name_ name;
       Segments_ segments;
 

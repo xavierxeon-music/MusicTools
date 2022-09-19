@@ -5,7 +5,7 @@
 
 Tracker::Project::Project()
    : Remember::Container()
-   , division(this, Tempo::Bar)
+   , deafaultDivision(this, Tempo::Bar)
    , segmentCount(this, 0)
    , lanes(this)
    , loop(this, false)
@@ -14,14 +14,16 @@ Tracker::Project::Project()
    , pastLoop(false)
    , firstTickDone(false)
 {
+   for (uint8_t laneIndex = 0; laneIndex < getLaneCount(); laneIndex++)
+      lanes[laneIndex].setup(this);
 }
 
 void Tracker::Project::clear()
 {
-   division = Tempo::Bar;
+   deafaultDivision = Tempo::Bar;
    segmentCount = 0;
 
-   divisionCounter.setMaxValue(static_cast<Tempo::Division>(division));
+   divisionCounter.setMaxValue(static_cast<Tempo::Division>(deafaultDivision));
 
    for (uint8_t laneIndex = 0; laneIndex < getLaneCount(); laneIndex++)
       lanes[laneIndex].resize(0, true);
@@ -31,10 +33,10 @@ void Tracker::Project::clear()
 
 void Tracker::Project::update(const Tempo::Division& newDivision, const uint32_t newSegmentCount)
 {
-   division = newDivision;
+   deafaultDivision = newDivision;
    segmentCount = newSegmentCount;
 
-   divisionCounter.setMaxValue(static_cast<Tempo::Division>(division));
+   divisionCounter.setMaxValue(static_cast<Tempo::Division>(deafaultDivision));
 
    for (uint8_t laneIndex = 0; laneIndex < getLaneCount(); laneIndex++)
       lanes[laneIndex].resize(segmentCount, false);
@@ -74,9 +76,9 @@ void Tracker::Project::clockReset()
    pastLoop = false;
 }
 
-const Tempo::Division& Tracker::Project::getDivison() const
+const Tempo::Division& Tracker::Project::getDefaultDivison() const
 {
-   return division.constRef();
+   return deafaultDivision.constRef();
 }
 
 const uint32_t& Tracker::Project::getSegmentCount() const

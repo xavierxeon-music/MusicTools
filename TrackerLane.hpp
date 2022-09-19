@@ -37,6 +37,7 @@ Tracker::Lane::Segment& Tracker::Lane::Segment::operator=(const Segment& other)
 
 Tracker::Lane::Lane()
    : Remember::Container()
+   , project(nullptr)
    , name(this, "")
    , segments(this)
    , dirty(true)
@@ -52,6 +53,7 @@ Tracker::Lane::Lane(const Lane& other)
 
 Tracker::Lane& Tracker::Lane::operator=(const Lane& other)
 {
+   project = other.project;
    const uint32_t segmentCount = other.segments.size();
 
    segments.clear();
@@ -65,6 +67,11 @@ Tracker::Lane& Tracker::Lane::operator=(const Lane& other)
    dirty = true;
 
    return *this;
+}
+
+void Tracker::Lane::setup(Project* project)
+{
+   this->project = project;
 }
 
 void Tracker::Lane::resize(const uint32_t segmentCount, bool clearContent)
@@ -215,8 +222,9 @@ void Tracker::Lane::updateProxyList() const
    {
       uint32_t startSegmentCount = 0;
       uint8_t startValue = segments[index].startValue;
-      uint32_t startIndex = 0;
-      for (startIndex = index; startIndex >= 0; startIndex--)
+
+      uint32_t startIndex = index;
+      while (true)
       {
          if (0 == startIndex && !segments[startIndex].startExists)
          {
@@ -237,6 +245,7 @@ void Tracker::Lane::updateProxyList() const
          }
 
          startSegmentCount++;
+         startIndex--;
       }
 
       uint32_t endSegmentCount = 0;

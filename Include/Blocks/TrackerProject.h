@@ -25,7 +25,7 @@ pyexport namespace Tracker
       pyexport inline void clockTick();
       pyexport inline void clockReset();
 
-      pyexport inline const Tempo::Division& getDivison() const;
+      pyexport inline const Tempo::Division& getDefaultDivison() const;
       pyexport inline const uint32_t& getSegmentCount() const;
 
       pyexport inline uint8_t getLaneCount() const;
@@ -45,7 +45,7 @@ pyexport namespace Tracker
       using Loop_ = Remember::Value<bool>;
 
    private:
-      Division_ division;
+      Division_ deafaultDivision;
       SegementCount_ segmentCount;
       Lanes_ lanes;
       Loop_ loop;

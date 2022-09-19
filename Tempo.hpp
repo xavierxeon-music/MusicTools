@@ -5,23 +5,25 @@
 
 Tempo::Tempo()
    : runState(RunState::Reset)
-   , straightBarCount(16)
    , bpm()
    , tickPercentage(0.0f)
-   , barCounter(0)
 {
 }
 
 std::string Tempo::getName(const Division& division)
 {
-   if (Division::Bar == division)
+   if (Division::Bar4 == division)
+      return "4 bars";
+   else if (Division::Bar2 == division)
+      return "2 bars";
+   else if (Division::Bar == division)
       return "bar";
    else if (Division::Quarter == division)
-      return "qtr";
+      return "quarter";
    else if (Division::Eigth == division)
       return "8th";
    else
-      return "16.";
+      return "16th";
 }
 
 Tempo::RunState Tempo::getRunState() const
@@ -40,57 +42,9 @@ bool Tempo::isRunningOrFirstTick() const
    return false;
 }
 
-uint8_t Tempo::getCounter(const Division& division) const
+double Tempo::getPercentage() const
 {
-   const uint8_t counter16 = static_cast<uint8_t>(straightBarCount.getCurrentValue());
-   if (Division::Sixteenth == division)
-   {
-      return counter16;
-   }
-   else if (Division::Eigth == division)
-   {
-      const uint8_t overshoot = counter16 % 2;
-      const uint8_t counter8 = (counter16 - overshoot) / 2;
-
-      return counter8;
-   }
-   else if (Division::Quarter == division)
-   {
-      const uint8_t overshoot = counter16 % 4;
-      const uint8_t counter4 = (counter16 - overshoot) / 4;
-
-      return counter4;
-   }
-   return barCounter;
-}
-
-double Tempo::getPercentage(const Division& division) const
-{
-   const uint8_t counter16 = static_cast<uint8_t>(straightBarCount.getCurrentValue());
-   if (Division::Sixteenth == division)
-   {
-      return tickPercentage;
-   }
-   else if (Division::Eigth == division)
-   {
-      const uint8_t overshoot = counter16 % 2;
-
-      const double percentage = (static_cast<double>(overshoot) + tickPercentage) / 2.0;
-      return percentage;
-   }
-   else if (Division::Quarter == division)
-   {
-      const uint8_t overshoot = counter16 % 4;
-
-      const double percentage = (static_cast<double>(overshoot) + tickPercentage) / 4.0;
-      return percentage;
-   }
-   else
-   {
-      const double percentage = (static_cast<double>(counter16) + tickPercentage) / 16.0;
-      return percentage;
-   }
-   return 0.0;
+   return tickPercentage;
 }
 
 uint16_t Tempo::getBeatsPerMinute() const
@@ -130,9 +84,6 @@ void TempoControl::clockTick()
       return;
    }
 
-   if (straightBarCount.nextAndIsMaxValue())
-      barCounter++;
-
    runState = RunState::Running;
 
    msPerTick = msSinceLastTick;
@@ -142,8 +93,6 @@ void TempoControl::clockTick()
 
 void TempoControl::clockReset()
 {
-   straightBarCount.reset();
-
    bpm.clear();
 
    msSinceLastTick = 0.0;
@@ -151,7 +100,6 @@ void TempoControl::clockReset()
    tickPercentage = 0.0;
 
    runState = RunState::Reset;
-   barCounter = 0;
 }
 
 #endif // TempoHPP
