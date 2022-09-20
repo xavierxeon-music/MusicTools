@@ -42,7 +42,6 @@ HEADERS += \
    $$PWD/Include/Sound/WaveTable.h \
    $$PWD/Include/Sound/WaveTableMorpher.h \
    $$PWD/Include/Tools/BoolField.h \
-   $$PWD/Include/Tools/Convert.h \
    $$PWD/Include/Tools/Counter.h \
    $$PWD/Include/Tools/DoubleBuffer.h \
    $$PWD/Include/Tools/FastRandom.h \
@@ -51,14 +50,15 @@ HEADERS += \
    $$PWD/Include/Tools/RingBuffer.h \
    $$PWD/Include/Tools/SevenBit.h \
    $$PWD/Include/Tools/SquareSignal.h \
+   $$PWD/Include/Tools/Text.h \
    $$PWD/Include/Tools/Variable.h \
 
 
     
-HEADERS += \   
+HEADERS += \
+   $$PWD/Text.hpp \
    $$PWD/BoolField.hpp \
    $$PWD/Compressor.hpp \
-   $$PWD/Convert.hpp \
    $$PWD/Counter.hpp \
    $$PWD/CvSwitch.hpp \
    $$PWD/DoubleBuffer.hpp \

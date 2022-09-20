@@ -3,6 +3,8 @@
 
 #include <Music/Tempo.h>
 
+#include <Music/TimeCode.h>
+
 Tempo::Tempo()
    : runState(RunState::Reset)
    , bpm()
@@ -10,20 +12,42 @@ Tempo::Tempo()
 {
 }
 
-std::string Tempo::getName(const Division& division)
+std::string Tempo::compileName(const uint8_t& division)
 {
-   if (Division::Bar4 == division)
-      return "4 bars";
-   else if (Division::Bar2 == division)
-      return "2 bars";
-   else if (Division::Bar == division)
+   if (0 == division)
+      return "none";
+   else if (Bar == division)
       return "bar";
-   else if (Division::Quarter == division)
+   else if (Quarter == division)
       return "quarter";
-   else if (Division::Eigth == division)
-      return "8th";
-   else
+   else if (Sixteenth == division)
       return "16th";
+
+   TimeCode timeCode(division);
+   std::string name;
+
+   if (1 == timeCode.bar)
+      name += "1 bar";
+   else if (1 < timeCode.bar)
+      name += std::to_string(timeCode.bar) + " bars";
+
+   if (!name.empty() && 0 != timeCode.quarter)
+      name += ", ";
+
+   if (1 == timeCode.quarter)
+      name += "1 quarter";
+   else if (1 < timeCode.quarter)
+      name += std::to_string(timeCode.quarter) + " quarters";
+
+   if (!name.empty() && 0 != timeCode.tick)
+      name += ", ";
+
+   if (1 == timeCode.tick)
+      name += "1 tick";
+   else if (1 < timeCode.tick)
+      name += std::to_string(timeCode.tick) + " ticks";
+
+   return name;
 }
 
 Tempo::RunState Tempo::getRunState() const

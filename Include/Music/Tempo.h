@@ -10,11 +10,8 @@ public:
    pyexport enum Division : uint8_t //
    {
       Sixteenth = 1,
-      Eigth = 2,
       Quarter = 4,
-      Bar = 16,
-      Bar2 = 2 * Bar,
-      Bar4 = 4 * Bar
+      Bar = 16
    };
 
    pyexport enum RunState //
@@ -29,7 +26,7 @@ public:
    pyexport inline Tempo();
 
 public:
-   pyexport inline static std::string getName(const Division& division);
+   pyexport inline static std::string compileName(const uint8_t& division);
    pyexport inline RunState getRunState() const;
    pyexport inline bool isRunningOrFirstTick() const;
    pyexport inline virtual uint16_t getBeatsPerMinute() const;

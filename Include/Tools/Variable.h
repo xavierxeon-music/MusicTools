@@ -46,6 +46,8 @@ namespace Variable
       const bool wrap;
    };
 
+   inline static uint16_t compileDigitCount(uint64_t number);
+
 } // namespace Variable
 
 #ifndef VariableHPP

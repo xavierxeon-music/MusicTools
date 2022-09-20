@@ -147,4 +147,19 @@ size_t Variable::Enum<EnumType>::getIndex() const
    return 0;
 }
 
+// other
+
+uint16_t Variable::compileDigitCount(uint64_t number)
+{
+   uint16_t counter = 1;
+   uint64_t test = 10;
+
+   while (test < number)
+   {
+      counter++;
+      test *= 10;
+   }
+   return counter;
+}
+
 #endif // VariableHPP

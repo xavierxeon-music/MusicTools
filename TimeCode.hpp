@@ -3,7 +3,7 @@
 
 #include <Music/TimeCode.h>
 
-#include <Tools/Convert.h>
+#include <Tools/Text.h>
 
 TimeCode::TimeCode()
    : bar(0)
@@ -32,9 +32,9 @@ TimeCode::TimeCode(const Duration& duration)
 
 std::string TimeCode::text() const
 {
-   const std::string frontText = Convert::text(bar + 1);
-   const std::string midText = Convert::text(quarter + 1);
-   const std::string backText = Convert::text(tick + 1);
+   const std::string frontText = Text::convert(bar + 1);
+   const std::string midText = Text::convert(quarter + 1);
+   const std::string backText = Text::convert(tick + 1);
 
    const std::string durationText = frontText + " " + midText + " " + backText;
    return durationText;

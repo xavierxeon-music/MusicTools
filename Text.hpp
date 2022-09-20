@@ -1,11 +1,11 @@
-#ifndef ConvertHPP
-#define ConvertHPP
+#ifndef TextHPP
+#define TextHPP
 
-#include <Tools/Convert.h>
+#include <Tools/Text.h>
 
 #include <cmath>
 
-std::string Convert::text(const bool& value)
+std::string Text::convert(const bool& value)
 {
    if (value)
       return "True";
@@ -13,27 +13,27 @@ std::string Convert::text(const bool& value)
       return "False";
 }
 
-std::string Convert::text(const int& value)
+std::string Text::convert(const int& value)
 {
    return std::to_string(value);
 }
 
-std::string Convert::text(const uint8_t& value)
+std::string Text::convert(const uint8_t& value)
 {
    return std::to_string(value);
 }
 
-std::string Convert::text(const uint32_t& value)
+std::string Text::convert(const uint32_t& value)
 {
    return std::to_string(value);
 }
 
-std::string Convert::text(const uint64_t& value)
+std::string Text::convert(const uint64_t& value)
 {
    return std::to_string(value);
 }
 
-std::string Convert::text(const float& value, const uint8_t& decimalPlaces)
+std::string Text::convert(const float& value, const uint8_t& decimalPlaces)
 {
    bool isNegative = (0 > value);
    const float factor = std::pow(10.0f, decimalPlaces);
@@ -60,17 +60,13 @@ std::string Convert::text(const float& value, const uint8_t& decimalPlaces)
    return text;
 }
 
-uint16_t Convert::compileDigitCount(uint64_t number)
+std::string Text::pad(const std::string& text, uint8_t numberOfDigits, const std::string& padChar)
 {
-   uint16_t counter = 1;
-   uint64_t test = 10;
+   std::string outText = text;
+   while (numberOfDigits > text.size())
+      outText = padChar + outText;
 
-   while (test < number)
-   {
-      counter++;
-      test *= 10;
-   }
-   return counter;
+   return outText;
 }
 
-#endif // ConvertHPP
+#endif // TextHPP
