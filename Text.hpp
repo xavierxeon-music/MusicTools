@@ -63,7 +63,7 @@ std::string Text::convert(const float& value, const uint8_t& decimalPlaces)
 std::string Text::pad(const std::string& text, uint8_t numberOfDigits, const std::string& padChar)
 {
    std::string outText = text;
-   while (numberOfDigits > text.size())
+   while (numberOfDigits > outText.size())
       outText = padChar + outText;
 
    return outText;
