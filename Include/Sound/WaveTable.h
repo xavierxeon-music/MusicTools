@@ -1,8 +1,6 @@
 #ifndef WaveTableH
 #define WaveTableH
 
-#include <Abstract/AbstractOscilator.h>
-
 #include <Maths.h>
 #include <MusicTools.h>
 
@@ -50,35 +48,6 @@ namespace WaveTable
 
    protected:
       float* data;
-   };
-
-   // On Daisy device the frequency range is 2Hz to 20,000 Hz, otherwise any positive number.
-   // A frequency of zero will turn off the oscilator.
-   // Amplitude should be between 0 and 1.
-
-   class Oscilator : public Abstract::Oscilator
-   {
-   public:
-      inline Oscilator();
-
-   public:
-      inline void init(const AbstractTable* newTable, const float& newSampleRate);
-
-      inline void setPhase(const float& newPhase);
-      inline const float& getPhase() const;
-
-      inline bool setFrequency(const float& newFrequency) override;
-
-      inline float createSound() override;
-
-   private:
-      inline void compileDeltaPhase();
-
-   private:
-      const AbstractTable* table;
-      float sampleRate;
-      float phase;
-      float deltaPhase;
    };
 
 } // namespace WaveTable
