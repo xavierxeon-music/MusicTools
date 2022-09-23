@@ -4,6 +4,7 @@
 #include <Effect/StateVariableFilter.h>
 #include <Sound/StandardTable.h>
 #include <Sound/WaveTable.h>
+#include <Sound/WaveTableOscilator.h>
 #include <Tools/FastRandom.h>
 #include <Tools/Range.h>
 

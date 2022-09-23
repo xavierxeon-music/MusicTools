@@ -6,6 +6,7 @@
 #include <Sound/Spectrum.h>
 #include <Sound/StandardTable.h>
 #include <Sound/WaveTable.h>
+#include <Sound/WaveTableOscilator.h>
 
 pyexport class Revoice : public Abstract::ThreadeBufferEffect
 {
