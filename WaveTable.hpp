@@ -64,6 +64,11 @@ WaveTable::StepValueTable::~StepValueTable()
    data = nullptr;
 }
 
+float WaveTable::StepValueTable::valueByIndex(const uint64_t index) const
+{
+   return data[index];
+}
+
 float WaveTable::StepValueTable::valueByAngle(const float& angle) const
 {
    const uint64_t index = stepIndexFromAngle(angle);

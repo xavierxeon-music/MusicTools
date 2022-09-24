@@ -13,10 +13,10 @@ struct Standard
       enum Shape
       {
          Sine,
-         Saw,
+         Triange,
          Square,
-         SlopeUp,
-         SlopeDown
+         Saw,
+         InvSaw
          // TODO noise
       };
       inline static std::string getName(const Shape& shape);

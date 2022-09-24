@@ -25,7 +25,7 @@ void WaveTable::Oscilator::init(const AbstractTable* newTable, const float& newS
 
 void WaveTable::Oscilator::setPhase(const float& newPhase)
 {
-   phase = newPhase * 2 * Maths::pi;
+   phase = newPhase * table->getMaxAngle();
    normalizeAngle(phase);
 }
 
@@ -47,10 +47,12 @@ float WaveTable::Oscilator::createSound()
    if (!table || 0.0f == deltaAngle)
       return 0.0f;
 
-   const float value = table->valueByAngle(angle);
+   float currentAngle = angle + phase;
+   normalizeAngle(currentAngle);
+   const float value = table->valueByAngle(currentAngle);
 
-   // advance phase
-   angle = angle + phase + deltaAngle;
+   // advance angle
+   angle += deltaAngle;
    normalizeAngle(angle);
 
    return value * amplitude;

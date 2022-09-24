@@ -44,6 +44,7 @@ namespace WaveTable
       inline ~StepValueTable();
 
    public:
+      inline float valueByIndex(const uint64_t index) const;
       inline virtual float valueByAngle(const float& angle) const override;
 
    protected:
