@@ -42,7 +42,7 @@ float StateVariableFilter::changeSound(const float& in)
    else if (FilterMode::Peak == mode)
       return peak();
 
-   return 0.0;
+   return in;
 }
 
 float StateVariableFilter::lowPass() const
