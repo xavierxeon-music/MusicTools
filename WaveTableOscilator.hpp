@@ -23,6 +23,11 @@ void WaveTable::Oscilator::init(const AbstractTable* newTable, const float& newS
    compileDeltaAngle();
 }
 
+void WaveTable::Oscilator::reset()
+{
+   angle = 0.0;
+}
+
 void WaveTable::Oscilator::setPhase(const float& newPhase)
 {
    phase = newPhase * table->getMaxAngle();

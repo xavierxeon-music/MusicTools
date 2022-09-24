@@ -1,10 +1,9 @@
 #ifndef StandardTableH
 #define StandardTableH
 
-#include <map>
-#include <string>
-
 #include <Sound/WaveTable.h>
+
+#include <Tools/FastRandom.h>
 
 struct Standard
 {
@@ -16,8 +15,8 @@ struct Standard
          Triange,
          Square,
          Saw,
-         InvSaw
-         // TODO noise
+         InvSaw,
+         Noise
       };
       inline static std::string getName(const Shape& shape);
    };
@@ -25,10 +24,20 @@ struct Standard
    class Table : public WaveTable::StepValueTable
    {
    public:
-      inline Table();
+      inline Table(const Waveform::Shape& waveform = Waveform::Sine);
 
    public:
+      inline Waveform::Shape getWaveform() const;
       inline void setWaveform(const Waveform::Shape& newWaveform);
+
+      inline float valueByIndex(const uint64_t index) const override;
+
+   private:
+      inline void createStandardFrom();
+
+   private:
+      Waveform::Shape waveform;
+      mutable FastRandom noise;
    };
 };
 

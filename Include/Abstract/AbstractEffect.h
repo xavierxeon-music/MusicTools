@@ -9,6 +9,7 @@
 
 enum class FilterMode
 {
+   Off,
    LowPass,
    BandPass,
    HighPass,

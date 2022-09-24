@@ -19,6 +19,7 @@ namespace WaveTable
    public:
       inline void init(const AbstractTable* newTable, const float& newSampleRate);
 
+      inline void reset();
       inline void setPhase(const float& newPhase); // -1 to +1, corresponds to -2pi to +2pi
       inline const float& getPhase() const;
 

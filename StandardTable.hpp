@@ -19,20 +19,52 @@ std::string Standard::Waveform::getName(const Shape& shape)
       return "saw";
    else if (InvSaw == shape)
       return "was";
+   else if (Noise == shape)
+      return "noz";
 
    return "???";
 }
 
 // table
 
-Standard::Table::Table()
+Standard::Table::Table(const Waveform::Shape& waveform)
    : WaveTable::StepValueTable()
+   , waveform(waveform)
+   , noise()
 {
-   setWaveform(Waveform::Sine);
+   createStandardFrom();
+}
+
+Standard::Waveform::Shape Standard::Table::getWaveform() const
+{
+   return waveform;
 }
 
 void Standard::Table::setWaveform(const Waveform::Shape& newWaveform)
 {
+   if (newWaveform == waveform)
+      return;
+
+   waveform = newWaveform;
+   createStandardFrom();
+}
+
+float Standard::Table::valueByIndex(const uint64_t index) const
+{
+   if (Waveform::Noise != waveform)
+      return WaveTable::StepValueTable::valueByIndex(index);
+
+   const float precent = noise.value();
+   const float value = -1.0f + (2.0f * precent);
+
+   return value;
+}
+
+void Standard::Table::createStandardFrom()
+{
+   if (Waveform::Noise == waveform)
+      return;
+
    using AngleFunction = std::function<float(const float& valuesPerAngle)>;
 
    // sine
@@ -41,7 +73,7 @@ void Standard::Table::setWaveform(const Waveform::Shape& newWaveform)
       return std::sin(angle);
    };
 
-   // saw
+   // triangle
    AngleFunction triangleFunction = [](const float& angle)
    {
       if (angle <= Maths::pi)
@@ -62,14 +94,14 @@ void Standard::Table::setWaveform(const Waveform::Shape& newWaveform)
 
    // square
    AngleFunction sqaureFunction = [](const float& angle)
-   {      
+   {
       if (angle <= Maths::pi)
          return 1.0f;
       else
          return -1.0f;
    };
 
-   // slope up
+   // saw
    AngleFunction sawFunction = [](const float& angle)
    {
       const float precent = angle / (2.0f * Maths::pi);
@@ -78,7 +110,7 @@ void Standard::Table::setWaveform(const Waveform::Shape& newWaveform)
       return value;
    };
 
-   // slope down
+   // inverse square
    AngleFunction invSawFunction = [](const float& angle)
    {
       const float precent = angle / (2.0f * Maths::pi);
@@ -91,22 +123,22 @@ void Standard::Table::setWaveform(const Waveform::Shape& newWaveform)
    {
       for (uint64_t index = 0; index < noOfSteps; index++)
       {
-         const float angle = index * anglePerStep;         
+         const float angle = index * anglePerStep;
          const float value = angleFunction(angle);
          data[index] = value;
          //std::cout << index << " " << value << std::endl;
       }
    };
 
-   if (Waveform::Sine == newWaveform)
+   if (Waveform::Sine == waveform)
       fillData(sineFunction);
-   else if (Waveform::Triange == newWaveform)
+   else if (Waveform::Triange == waveform)
       fillData(triangleFunction);
-   else if (Waveform::Square == newWaveform)
+   else if (Waveform::Square == waveform)
       fillData(sqaureFunction);
-   else if (Waveform::Saw == newWaveform)
+   else if (Waveform::Saw == waveform)
       fillData(sawFunction);
-   else if (Waveform::InvSaw == newWaveform)
+   else if (Waveform::InvSaw == waveform)
       fillData(invSawFunction);
 }
 
