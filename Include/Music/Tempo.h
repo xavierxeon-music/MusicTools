@@ -48,7 +48,7 @@ public:
 
 public:
    // to control tempo
-   pyexport inline virtual void advance(const float callackRate); // to be called from loop
+   pyexport inline virtual void advance(const float callackRate, const float allowedTickPercentage = 3.0); // to be called from loop
    pyexport inline void clockTick();
    pyexport inline void clockReset();
 

@@ -85,7 +85,7 @@ TempoControl::TempoControl()
 {
 }
 
-void TempoControl::advance(const float callackRate)
+void TempoControl::advance(const float callackRate, const float allowedTickPercentage)
 {
    if (!isRunningOrFirstTick())
       return;
@@ -96,7 +96,7 @@ void TempoControl::advance(const float callackRate)
    if (msPerTick > 0.0)
       tickPercentage = msSinceLastTick / msPerTick;
 
-   if (tickPercentage > 1.5)
+   if (tickPercentage > allowedTickPercentage)
       runState = RunState::Off;
 }
 
