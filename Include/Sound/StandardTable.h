@@ -3,8 +3,6 @@
 
 #include <Sound/WaveTable.h>
 
-#include <Tools/FastRandom.h>
-
 struct Standard
 {
    struct Waveform
@@ -15,8 +13,7 @@ struct Standard
          Triange,
          Square,
          Saw,
-         InvSaw,
-         Noise
+         InvSaw
       };
       inline static std::string getName(const Shape& shape);
    };
@@ -37,7 +34,6 @@ struct Standard
 
    private:
       Waveform::Shape waveform;
-      mutable FastRandom noise;
    };
 };
 
