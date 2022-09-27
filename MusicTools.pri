@@ -29,7 +29,6 @@ HEADERS += \
    $$PWD/Include/Tools/SevenBit.h \
    $$PWD/Include/Tools/File.h \
    $$PWD/Include/Tools/Variable.h \
-   $$PWD/Include/Tools/SquareSignal.h \
    $$PWD/Include/Tools/DoubleBuffer.h \
    $$PWD/Include/Tools/RingBuffer.h \
    $$PWD/Include/Midi/MidiFile.h \
@@ -47,18 +46,21 @@ HEADERS += \
    $$PWD/Include/Effect/Compressor.h \
    $$PWD/Include/Maths.h \
    $$PWD/Include/Sound/WaveTableMorpher.h \
+   $$PWD/Include/Sound/Noise.h \
    $$PWD/Include/Sound/WaveTable.h \
    $$PWD/Include/Sound/WaveTableOscilator.h \
    $$PWD/Include/Sound/SampleRecorder.h \
-   $$PWD/Include/Sound/Spectrum.h \
    $$PWD/Include/Sound/FunctionTable.h \
    $$PWD/Include/Sound/GateOscilator.h \
    $$PWD/Include/Sound/SoundMesh.h \
    $$PWD/Include/Sound/SampleOscilator.h \
    $$PWD/Include/Sound/Sample.h \
    $$PWD/Include/Sound/StandardTable.h \
+   $$PWD/Include/Utility/RandomWalk.h \
+   $$PWD/Include/Utility/Spectrum.h \
+   $$PWD/Include/Utility/SquareSignal.h \
    $$PWD/DoubleBuffer.h \
-
+ 
     
 HEADERS += \
    $$PWD/BioFeedbackDummy.hpp \
@@ -82,7 +84,9 @@ HEADERS += \
    $$PWD/MidiToolGate.hpp \
    $$PWD/MidiToolTempo.hpp \
    $$PWD/MusicTools.hpp \
+   $$PWD/Noise.hpp \
    $$PWD/PolyRamp.hpp \
+   $$PWD/RandomWalk.hpp \
    $$PWD/Range.hpp \
    $$PWD/RememberDummy/Remember.hpp \
    $$PWD/RememberDummy/RememberArray.hpp \
@@ -108,6 +112,7 @@ HEADERS += \
    $$PWD/WaveTableMorpher.hpp \
    $$PWD/WaveTableOscilator.hpp \
 
+
 SOURCES += \
    $$PWD/AbstractSoundSource.cpp \
    $$PWD/Spectrum.cpp \
@@ -115,3 +120,4 @@ SOURCES += \
    $$PWD/AbstractOscilator.cpp \
    $$PWD/Maths.cpp \
    $$PWD/Note.cpp \
+
