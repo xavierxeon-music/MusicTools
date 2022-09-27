@@ -27,8 +27,6 @@ struct Standard
       inline Waveform::Shape getWaveform() const;
       inline void setWaveform(const Waveform::Shape& newWaveform);
 
-      inline float valueByIndex(const uint64_t index) const override;
-
    private:
       inline void createStandardFrom();
 

@@ -19,8 +19,6 @@ std::string Standard::Waveform::getName(const Shape& shape)
       return "saw";
    else if (InvSaw == shape)
       return "was";
-   else if (Noise == shape)
-      return "noz";
 
    return "???";
 }
@@ -30,7 +28,6 @@ std::string Standard::Waveform::getName(const Shape& shape)
 Standard::Table::Table(const Waveform::Shape& waveform)
    : WaveTable::StepValueTable()
    , waveform(waveform)
-   , noise()
 {
    createStandardFrom();
 }
@@ -49,22 +46,8 @@ void Standard::Table::setWaveform(const Waveform::Shape& newWaveform)
    createStandardFrom();
 }
 
-float Standard::Table::valueByIndex(const uint64_t index) const
-{
-   if (Waveform::Noise != waveform)
-      return WaveTable::StepValueTable::valueByIndex(index);
-
-   const float precent = noise.value();
-   const float value = -1.0f + (2.0f * precent);
-
-   return value;
-}
-
 void Standard::Table::createStandardFrom()
 {
-   if (Waveform::Noise == waveform)
-      return;
-
    using AngleFunction = std::function<float(const float& valuesPerAngle)>;
 
    // sine

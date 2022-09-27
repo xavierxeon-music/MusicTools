@@ -1,4 +1,4 @@
-#include <Sound/Spectrum.h>
+#include <Utility/Spectrum.h>
 
 #include "ffft/FFTRealFixLen.h"
 
