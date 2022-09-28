@@ -153,7 +153,8 @@ pyexport namespace Midi
          Metropolix = 15,
          Unused = 16,
          // sender only
-         VCMC = 100
+         VCMC = 100,
+         ACDC = 101
       };
    };
 
