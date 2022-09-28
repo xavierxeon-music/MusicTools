@@ -88,6 +88,7 @@ const uint32_t& Tracker::Project::getSegmentCount() const
 
 uint8_t Tracker::Project::getSegmentLength(const uint32_t index) const
 {
+   (void)index;
    // TODO allow for individual segment lengths
    return deafaultDivision.constRef();
 }
