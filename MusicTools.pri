@@ -9,7 +9,6 @@ HEADERS += \
    $$PWD/RememberDummy/RememberList.h \
    $$PWD/Include/Blocks/TrackerProject.h \
    $$PWD/Include/Blocks/Trapezoid.h \
-   $$PWD/Include/Blocks/PolyRamp.h \
    $$PWD/Include/Blocks/CvSwitch.h \
    $$PWD/Include/Blocks/BioFeedbackDummy.h \
    $$PWD/Include/Blocks/Sequencer.h \
@@ -85,7 +84,6 @@ HEADERS += \
    $$PWD/MidiToolTempo.hpp \
    $$PWD/MusicTools.hpp \
    $$PWD/Noise.hpp \
-   $$PWD/PolyRamp.hpp \
    $$PWD/RandomWalk.hpp \
    $$PWD/Range.hpp \
    $$PWD/RememberDummy/Remember.hpp \
