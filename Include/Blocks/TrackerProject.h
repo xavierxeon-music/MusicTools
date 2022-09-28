@@ -13,7 +13,7 @@ pyexport namespace Tracker
    pyexport class Project : public Remember::Container
    {
    public:
-      static constexpr uint8_t laneCount = 32;
+      static constexpr uint8_t laneCount = 16;
 
    public:
       pyexport inline Project();
