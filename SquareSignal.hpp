@@ -1,7 +1,7 @@
 #ifndef SquareSignalHPP
 #define SquareSignalHPP
 
-#include <Tools/SquareSignal.h>
+#include <Utility/SquareSignal.h>
 
 SquareSignal::SquareSignal(const uint8_t& halfLength, const bool& startHigh)
    : halfLength(halfLength)
