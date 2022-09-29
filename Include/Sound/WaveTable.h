@@ -48,7 +48,7 @@ namespace WaveTable
       inline virtual float valueByAngle(const float& angle) const override;
 
    protected:
-      float DSY_SDRAM_BSS data[TableSize];
+      float  data[TableSize];
    };
 
 } // namespace WaveTable
