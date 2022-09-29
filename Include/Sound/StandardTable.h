@@ -18,7 +18,7 @@ struct Standard
       inline static std::string getName(const Shape& shape);
    };
 
-   class Table : public WaveTable::StepValueTable
+   class Table : public WaveTable::StepValueTable<>
    {
    public:
       inline Table(const Waveform::Shape& waveform = Waveform::Sine);

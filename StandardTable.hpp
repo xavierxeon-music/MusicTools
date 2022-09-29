@@ -26,7 +26,7 @@ std::string Standard::Waveform::getName(const Shape& shape)
 // table
 
 Standard::Table::Table(const Waveform::Shape& waveform)
-   : WaveTable::StepValueTable()
+   : WaveTable::StepValueTable<>()
    , waveform(waveform)
 {
    createStandardFrom();
