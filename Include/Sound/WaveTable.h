@@ -37,18 +37,18 @@ namespace WaveTable
       const float anglePerStep;
    };
 
+   template <uint64_t TableSize = 1024>
    class StepValueTable : public StepTable
    {
    public:
-      inline StepValueTable(const uint64_t tableSize = 1024, const float& maxAngle = 2.0f * Maths::pi);
-      inline ~StepValueTable();
+      inline StepValueTable(const float& maxAngle = 2.0f * Maths::pi);
 
    public:
       inline virtual float valueByIndex(const uint64_t index) const;
       inline virtual float valueByAngle(const float& angle) const override;
 
    protected:
-      float* data;
+      float DSY_SDRAM_BSS data[TableSize];
    };
 
 } // namespace WaveTable
