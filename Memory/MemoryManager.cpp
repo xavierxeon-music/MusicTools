@@ -2,7 +2,7 @@
 
 #include <cstring>
 
-#include <dev/sdram.h>
+#include <MusicTools.h>
 
 static constexpr uint64_t blockCount = 64 * 1024 * 1024;
 static uint8_t DSY_SDRAM_BSS theMemory[blockCount];
