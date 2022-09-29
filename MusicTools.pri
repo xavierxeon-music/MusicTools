@@ -2,6 +2,7 @@ INCLUDEPATH += \
    $$PWD/Include \
 
 include(ffft/ffft.pri)
+include(Memory/Memory.pri)
 
 HEADERS += \
    $$PWD/RememberDummy/Remember.h \

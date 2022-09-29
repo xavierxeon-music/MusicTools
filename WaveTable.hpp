@@ -54,7 +54,7 @@ uint64_t WaveTable::StepTable::stepIndexFromAngle(float angle) const
 template <uint64_t TableSize>
 WaveTable::StepValueTable<TableSize>::StepValueTable(const float& maxAngle)
    : StepTable(TableSize, maxAngle)
-   , data{}
+   , data()
 {
    for (u_int64_t index = 0; index < TableSize; index++)
       data[index] = 0.0;
