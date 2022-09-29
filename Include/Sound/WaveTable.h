@@ -49,8 +49,8 @@ namespace WaveTable
       inline virtual float valueByAngle(const float& angle) const override;
 
    protected:
-      //typename Memory::Array<float, TableSize> data;
-      float data[TableSize];
+      typename Memory::Array<float, TableSize> data;
+      //float data[TableSize];
    };
 
 } // namespace WaveTable
