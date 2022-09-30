@@ -1,55 +1,45 @@
-#ifndef TrackerProjectH
-#define TrackerProjectH
+#ifndef AbstractSegmentCrawlerH
+#define AbstractSegmentCrawlerH
 
 #include <Remember.h>
 
 #include <Music/Tempo.h>
 #include <Tools/Counter.h>
 
-#include "TrackerLane.h"
-
-pyexport namespace Tracker
+pyexport namespace Abstract
 {
-   pyexport class Project : public Remember::Container
+   pyexport class SegmentCrawler : public Remember::Container
    {
    public:
-      static constexpr uint8_t laneCount = 16;
+      pyexport inline SegmentCrawler();
 
    public:
-      pyexport inline Project();
-
-   public:
-      pyexport inline void clear();
-      pyexport inline void update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount);
+      pyexport inline virtual void clear();
+      pyexport inline virtual void update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount);
 
       pyexport inline void clockTick();
       pyexport inline void clockReset();
 
-      pyexport inline const uint8_t& getDefaultDivison() const;
+      pyexport inline const uint8_t& getDefaultDivision() const;
       pyexport inline const uint32_t& getSegmentCount() const;
       pyexport inline uint8_t getSegmentLength(const uint32_t index) const;
-
-      pyexport inline uint8_t getLaneCount() const;
-      pyexport inline Lane& getLane(const uint8_t laneIndex);
-      inline const Lane& getConstLane(const uint8_t laneIndex) const;
 
       pyexport inline bool isLooping() const;
       pyexport inline void setLooping(bool on);
 
       pyexport inline const uint32_t& getCurrentSegmentIndex() const;
+      pyexport inline uint8_t getCurrentSegmentTick() const;
       pyexport inline void setCurrentSegmentIndex(const uint32_t index);
       pyexport inline float getCurrentSegmentPrecentage(const float tickPercentage) const;
 
    private:
       using Division_ = Remember::Value<uint8_t>;
       using SegementCount_ = Remember::Value<uint32_t>;
-      using Lanes_ = Remember::RefArray<Lane, laneCount>;
       using Loop_ = Remember::Value<bool>;
 
    private:
       Division_ deafaultDivision;
       SegementCount_ segmentCount;
-      Lanes_ lanes;
       Loop_ loop;
 
       uint32_t currentSegmentIndex;
@@ -57,10 +47,10 @@ pyexport namespace Tracker
       bool pastLoop;
       bool firstTickDone;
    };
-} // namespace Tracker
+} // namespace Abstract
 
-#ifndef TrackerProjectHPP
-#include "../../TrackerProject.hpp"
-#endif // NOT TrackerProjectHPP
+#ifndef AbstractSegmentCrawlerHPP
+#include "../../AbstractSegmentCrawler.hpp"
+#endif // NOT AbstractSegmentCrawlerHPP
 
-#endif // NOT TrackerProjectH
+#endif // NOT AbstractSegmentCrawlerH

@@ -20,12 +20,6 @@ using Data = std::vector<float>;
 template <typename DataType>
 void mergeVectos(std::vector<DataType>& data, const std::vector<DataType>& other);
 
-#ifdef NON_DAISY_DEVICE
-#define DSY_SDRAM_BSS
-#else
-#include <dev/sdram.h>
-#endif //  NON_DAISY_DEVICE
-
 #ifndef MusicToolsHPP
 #include "../MusicTools.hpp"
 #endif // NOT MusicToolsHPP

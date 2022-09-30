@@ -1,50 +1,41 @@
-#ifndef TrackerProjectHPP
-#define TrackerProjectHPP
+#ifndef AbstractSegmentCrawlerHPP
+#define AbstractSegmentCrawlerHPP
 
-#include <Blocks/TrackerProject.h>
+#include <Abstract/AbstractSegmentCrawler.h>
 
-Tracker::Project::Project()
+Abstract::SegmentCrawler::SegmentCrawler()
    : Remember::Container()
    , deafaultDivision(this, Tempo::Bar)
    , segmentCount(this, 0)
-   , lanes(this)
    , loop(this, false)
    , currentSegmentIndex(0)
    , divisionCounter(1)
    , pastLoop(false)
    , firstTickDone(false)
 {
-   for (uint8_t laneIndex = 0; laneIndex < getLaneCount(); laneIndex++)
-      lanes[laneIndex].setup(this);
 }
 
-void Tracker::Project::clear()
+void Abstract::SegmentCrawler::clear()
 {
    deafaultDivision = Tempo::Bar;
    segmentCount = 0;
 
    divisionCounter.setMaxValue(deafaultDivision);
 
-   for (uint8_t laneIndex = 0; laneIndex < getLaneCount(); laneIndex++)
-      lanes[laneIndex].resize(0, true);
-
    Remember::Root::setUnsynced();
 }
 
-void Tracker::Project::update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount)
+void Abstract::SegmentCrawler::update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount)
 {
    deafaultDivision = newDefaultDivision;
    segmentCount = newSegmentCount;
 
    divisionCounter.setMaxValue(deafaultDivision);
 
-   for (uint8_t laneIndex = 0; laneIndex < getLaneCount(); laneIndex++)
-      lanes[laneIndex].resize(segmentCount, false);
-
    Remember::Root::setUnsynced();
 }
 
-void Tracker::Project::clockTick()
+void Abstract::SegmentCrawler::clockTick()
 {
    if (pastLoop)
       return;
@@ -69,67 +60,57 @@ void Tracker::Project::clockTick()
    }
 }
 
-void Tracker::Project::clockReset()
+void Abstract::SegmentCrawler::clockReset()
 {
    divisionCounter.reset();
    currentSegmentIndex = 0;
    pastLoop = false;
 }
 
-const uint8_t& Tracker::Project::getDefaultDivison() const
+const uint8_t& Abstract::SegmentCrawler::getDefaultDivision() const
 {
    return deafaultDivision.constRef();
 }
 
-const uint32_t& Tracker::Project::getSegmentCount() const
+const uint32_t& Abstract::SegmentCrawler::getSegmentCount() const
 {
    return segmentCount.constRef();
 }
 
-uint8_t Tracker::Project::getSegmentLength(const uint32_t index) const
+uint8_t Abstract::SegmentCrawler::getSegmentLength(const uint32_t index) const
 {
    (void)index;
    // TODO allow for individual segment lengths
    return deafaultDivision.constRef();
 }
 
-uint8_t Tracker::Project::getLaneCount() const
-{
-   return laneCount;
-}
-
-Tracker::Lane& Tracker::Project::getLane(const uint8_t laneIndex)
-{
-   return lanes[laneIndex];
-}
-
-const Tracker::Lane& Tracker::Project::getConstLane(const uint8_t laneIndex) const
-{
-   return lanes[laneIndex];
-}
-
-bool Tracker::Project::isLooping() const
+bool Abstract::SegmentCrawler::isLooping() const
 {
    return loop;
 }
 
-void Tracker::Project::setLooping(bool on)
+void Abstract::SegmentCrawler::setLooping(bool on)
 {
    loop = on;
    Remember::Root::setUnsynced();
 }
 
-const uint32_t& Tracker::Project::getCurrentSegmentIndex() const
+const uint32_t& Abstract::SegmentCrawler::getCurrentSegmentIndex() const
 {
    return currentSegmentIndex;
 }
 
-void Tracker::Project::setCurrentSegmentIndex(const uint32_t index)
+void Abstract::SegmentCrawler::setCurrentSegmentIndex(const uint32_t index)
 {
    currentSegmentIndex = index;
 }
 
-float Tracker::Project::getCurrentSegmentPrecentage(const float tickPercentage) const
+uint8_t Abstract::SegmentCrawler::getCurrentSegmentTick() const
+{
+   return divisionCounter.getCurrentValue();
+}
+
+float Abstract::SegmentCrawler::getCurrentSegmentPrecentage(const float tickPercentage) const
 {
    float currentTick = divisionCounter.getCurrentValue();
    const float maxTick = divisionCounter.getMaxValue();
@@ -142,4 +123,4 @@ float Tracker::Project::getCurrentSegmentPrecentage(const float tickPercentage) 
    return percentage;
 }
 
-#endif // NOT TrackerProjectHPP
+#endif // NOT AbstractSegmentCrawlerHPP

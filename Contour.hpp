@@ -1,11 +1,11 @@
-#ifndef TrackerLaneHPP
-#define TrackerLaneHPP
+#ifndef ContourHPP
+#define ContourHPP
 
-#include <Blocks/TrackerLane.h>
+#include <Blocks/Contour.h>
 
 // segment
 
-Tracker::Lane::Segment::Segment()
+Contour::Segment::Segment()
    : Remember::Container()
    , startValue(this, 0)
    , startExists(this, false)
@@ -15,13 +15,13 @@ Tracker::Lane::Segment::Segment()
 {
 }
 
-Tracker::Lane::Segment::Segment(const Segment& other)
+Contour::Segment::Segment(const Segment& other)
    : Segment()
 {
    *this = other;
 }
 
-Tracker::Lane::Segment& Tracker::Lane::Segment::operator=(const Segment& other)
+Contour::Segment& Contour::Segment::operator=(const Segment& other)
 {
    startValue = other.startValue;
    startExists = other.startExists;
@@ -35,9 +35,9 @@ Tracker::Lane::Segment& Tracker::Lane::Segment::operator=(const Segment& other)
 
 // lane
 
-Tracker::Lane::Lane()
+Contour::Contour()
    : Remember::Container()
-   , project(nullptr)
+   , poly(nullptr)
    , name(this, "")
    , segments(this)
    , dirty(true)
@@ -45,15 +45,15 @@ Tracker::Lane::Lane()
 {
 }
 
-Tracker::Lane::Lane(const Lane& other)
-   : Lane()
+Contour::Contour(const Contour& other)
+   : Contour()
 {
    *this = other;
 }
 
-Tracker::Lane& Tracker::Lane::operator=(const Lane& other)
+Contour& Contour::operator=(const Contour& other)
 {
-   project = other.project;
+   poly = other.poly;
    const uint32_t segmentCount = other.segments.size();
 
    segments.clear();
@@ -69,12 +69,12 @@ Tracker::Lane& Tracker::Lane::operator=(const Lane& other)
    return *this;
 }
 
-void Tracker::Lane::setup(Project* project)
+void Contour::setup(Poly* poly)
 {
-   this->project = project;
+   this->poly = poly;
 }
 
-void Tracker::Lane::resize(const uint32_t segmentCount, bool clearContent)
+void Contour::resize(const uint32_t segmentCount, bool clearContent)
 {
    if (clearContent)
       segments.clear();
@@ -89,18 +89,18 @@ void Tracker::Lane::resize(const uint32_t segmentCount, bool clearContent)
    Remember::Root::setUnsynced();
 }
 
-std::string Tracker::Lane::getName() const
+std::string Contour::getName() const
 {
    return name;
 }
 
-void Tracker::Lane::setName(const std::string& text)
+void Contour::setName(const std::string& text)
 {
    name = text;
    Remember::Root::setUnsynced();
 }
 
-uint8_t Tracker::Lane::getSegmentValue(const uint32_t index, const float& segmentPercentage) const
+uint8_t Contour::getSegmentValue(const uint32_t index, const float& segmentPercentage) const
 {
    if (dirty)
    {
@@ -124,7 +124,7 @@ uint8_t Tracker::Lane::getSegmentValue(const uint32_t index, const float& segmen
    return static_cast<uint8_t>(value);
 }
 
-void Tracker::Lane::resetSegment(const uint32_t index)
+void Contour::resetSegment(const uint32_t index)
 {
    if (index >= segments.size())
       return;
@@ -136,7 +136,7 @@ void Tracker::Lane::resetSegment(const uint32_t index)
    segments[index].endExists = false;
 }
 
-uint8_t Tracker::Lane::getSegmentStartValue(const uint32_t index) const
+uint8_t Contour::getSegmentStartValue(const uint32_t index) const
 {
    if (index >= segments.size())
       return 0;
@@ -144,7 +144,7 @@ uint8_t Tracker::Lane::getSegmentStartValue(const uint32_t index) const
    return segments[index].startValue;
 }
 
-bool Tracker::Lane::hasSegmentStartValue(const uint32_t index) const
+bool Contour::hasSegmentStartValue(const uint32_t index) const
 {
    if (index >= segments.size())
       return false;
@@ -152,7 +152,7 @@ bool Tracker::Lane::hasSegmentStartValue(const uint32_t index) const
    return segments[index].startExists;
 }
 
-void Tracker::Lane::setSegmentStartValue(const uint32_t index, const uint8_t value)
+void Contour::setSegmentStartValue(const uint32_t index, const uint8_t value)
 {
    if (index >= segments.size())
       return;
@@ -164,7 +164,7 @@ void Tracker::Lane::setSegmentStartValue(const uint32_t index, const uint8_t val
    Remember::Root::setUnsynced();
 }
 
-uint8_t Tracker::Lane::getSegmentEndValue(const uint32_t index) const
+uint8_t Contour::getSegmentEndValue(const uint32_t index) const
 {
    if (index >= segments.size())
       return 0;
@@ -172,7 +172,7 @@ uint8_t Tracker::Lane::getSegmentEndValue(const uint32_t index) const
    return segments[index].endValue;
 }
 
-bool Tracker::Lane::hasSegmentEndValue(const uint32_t index) const
+bool Contour::hasSegmentEndValue(const uint32_t index) const
 {
    if (index >= segments.size())
       return false;
@@ -180,7 +180,7 @@ bool Tracker::Lane::hasSegmentEndValue(const uint32_t index) const
    return segments[index].endExists;
 }
 
-void Tracker::Lane::setSegmentEndValue(const uint32_t index, const uint8_t value)
+void Contour::setSegmentEndValue(const uint32_t index, const uint8_t value)
 {
    if (index >= segments.size())
       return;
@@ -192,12 +192,12 @@ void Tracker::Lane::setSegmentEndValue(const uint32_t index, const uint8_t value
    Remember::Root::setUnsynced();
 }
 
-bool Tracker::Lane::hasSegmentValues(const uint32_t index) const
+bool Contour::hasSegmentValues(const uint32_t index) const
 {
    return segments[index].startExists || segments[index].endExists;
 }
 
-bool Tracker::Lane::isSegmentSteady(const uint32_t index) const
+bool Contour::isSegmentSteady(const uint32_t index) const
 {
    if (index >= segments.size())
       return false;
@@ -205,7 +205,7 @@ bool Tracker::Lane::isSegmentSteady(const uint32_t index) const
    return segments[index].steady;
 }
 
-void Tracker::Lane::setSegmentSteady(const uint32_t index, bool on)
+void Contour::setSegmentSteady(const uint32_t index, bool on)
 {
    if (index >= segments.size())
       return;
@@ -216,7 +216,7 @@ void Tracker::Lane::setSegmentSteady(const uint32_t index, bool on)
    Remember::Root::setUnsynced();
 }
 
-void Tracker::Lane::updateProxyList() const
+void Contour::updateProxyList() const
 {
    for (uint32_t index = 0; index < segments.size(); index++)
    {
@@ -294,5 +294,45 @@ void Tracker::Lane::updateProxyList() const
       }
    }
 }
+// project
 
-#endif // NOT TrackerLaneHPP
+Contour::Poly::Poly()
+   : Abstract::SegmentCrawler()
+   , contours(this)
+{
+   for (uint8_t contourIndex = 0; contourIndex < getContourCount(); contourIndex++)
+      contours[contourIndex].setup(this);
+}
+
+void Contour::Poly::clear()
+{
+   Abstract::SegmentCrawler::clear();
+
+   for (uint8_t contourIndex = 0; contourIndex < getContourCount(); contourIndex++)
+      contours[contourIndex].resize(0, true);
+}
+
+void Contour::Poly::update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount)
+{
+   Abstract::SegmentCrawler::update(newDefaultDivision, newSegmentCount);
+
+   for (uint8_t contourIndex = 0; contourIndex < getContourCount(); contourIndex++)
+      contours[contourIndex].resize(getSegmentCount(), false);
+}
+
+uint8_t Contour::Poly::getContourCount() const
+{
+   return contourCount;
+}
+
+Contour& Contour::Poly::getContour(const uint8_t contourIndex)
+{
+   return contours[contourIndex];
+}
+
+const Contour& Contour::Poly::getConstContour(const uint8_t contourIndex) const
+{
+   return contours[contourIndex];
+}
+
+#endif // NOT ContourHPP
