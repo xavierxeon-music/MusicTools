@@ -13,8 +13,9 @@ namespace ffft
 pyexport class Spectrum
 {
 public:
-   using Map = std::map<float, float>; // frequency vc amplitude
-   pyexport enum class Quality : uint8_t {
+   using Map = std::map<float, float>;   // frequency vc amplitude
+   pyexport enum class Quality : uint8_t //
+   {
       Low = 10,
       Medium = 11,
       High = 12,
