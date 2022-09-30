@@ -10,7 +10,7 @@ Grooves::Grooves()
    , stateMap()
    , stateProxyList()
 {
-   beatMap[0] = Beat(getDefaultDivision(), BoolField8(0));
+   beatMap[0] = Beat(getDefaultDivision(), BoolField8(255));
    updateBeatProxyList();
 
    stateMap[0] = BoolField8(0);
