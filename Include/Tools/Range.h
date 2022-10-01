@@ -12,7 +12,8 @@ struct Range
       Finder();
 
    public:
-      void reset();
+      void reset();                     // mint to datatype max and max to datatype min
+      void init(const DataType& value); // min and max to value
       void observe(const DataType& value);
       const DataType& getMinValue() const;
       const DataType& getMaxValue() const;

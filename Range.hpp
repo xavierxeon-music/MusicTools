@@ -28,6 +28,13 @@ void Range::Finder<DataType>::reset()
 }
 
 template <typename DataType>
+void Range::Finder<DataType>::init(const DataType& value)
+{
+   min = value;
+   max = value;
+}
+
+template <typename DataType>
 void Range::Finder<DataType>::observe(const DataType& value)
 {
    if (value < min)

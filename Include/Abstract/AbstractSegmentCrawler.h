@@ -26,13 +26,13 @@ pyexport namespace Abstract
       pyexport inline const std::string& getSegmentName(const uint32_t index) const;
       pyexport inline void setSegmentName(const uint32_t index, const std::string& name);
 
-      pyexport inline uint8_t getSegmentLength(const uint32_t index) const;
+      pyexport inline uint8_t getSegmentLength(const uint32_t index, bool* isDefault = nullptr) const;
       pyexport inline void setSegmentLength(const uint32_t index, const uint8_t& length);
 
-      pyexport inline const Color& getSegmentForegroundColor(const uint32_t index) const;
+      pyexport inline Color getSegmentForegroundColor(const uint32_t index, bool* isDefault = nullptr) const;
       pyexport inline void setSegmentForegroundColor(const uint32_t index, const Color& color);
 
-      pyexport inline const Color& getSegmentBackgroundColor(const uint32_t index) const;
+      pyexport inline Color getSegmentBackgroundColor(const uint32_t index, bool* isDefault = nullptr) const;
       pyexport inline void setSegmentBackgroundColor(const uint32_t index, const Color& color);
 
       pyexport inline bool isLooping() const;

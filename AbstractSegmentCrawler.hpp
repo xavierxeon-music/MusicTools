@@ -5,11 +5,14 @@
 
 // header
 
+static const Color fgDefaultColor{0, 0, 0};
+static const Color bgDefaultColor{255, 255, 255};
+
 Abstract::SegmentCrawler::Header::Header()
    : name()
    , length(0)
-   , foregroundColor{0, 0, 0}
-   , backgroundColor{255, 255, 255}
+   , foregroundColor(fgDefaultColor)
+   , backgroundColor(bgDefaultColor)
 {
 }
 
@@ -122,12 +125,20 @@ void Abstract::SegmentCrawler::setSegmentName(const uint32_t index, const std::s
    Remember::Root::setUnsynced();
 }
 
-uint8_t Abstract::SegmentCrawler::getSegmentLength(const uint32_t index) const
+uint8_t Abstract::SegmentCrawler::getSegmentLength(const uint32_t index, bool* isDefault) const
 {
    if (0 == headers[index].length)
+   {
+      if (isDefault)
+         *isDefault = true;
       return deafaultDivision.constRef();
+   }
    else
+   {
+      if (isDefault)
+         *isDefault = false;
       return headers[index].length;
+   }
 }
 
 void Abstract::SegmentCrawler::setSegmentLength(const uint32_t index, const uint8_t& length)
@@ -136,9 +147,13 @@ void Abstract::SegmentCrawler::setSegmentLength(const uint32_t index, const uint
    Remember::Root::setUnsynced();
 }
 
-const Color& Abstract::SegmentCrawler::getSegmentForegroundColor(const uint32_t index) const
+Color Abstract::SegmentCrawler::getSegmentForegroundColor(const uint32_t index, bool* isDefault) const
 {
-   return headers[index].foregroundColor;
+   const Color color = headers[index].foregroundColor;
+   if (isDefault)
+      *isDefault = (fgDefaultColor == color);
+
+   return color;
 }
 
 void Abstract::SegmentCrawler::setSegmentForegroundColor(const uint32_t index, const Color& color)
@@ -147,9 +162,13 @@ void Abstract::SegmentCrawler::setSegmentForegroundColor(const uint32_t index, c
    Remember::Root::setUnsynced();
 }
 
-const Color& Abstract::SegmentCrawler::getSegmentBackgroundColor(const uint32_t index) const
+Color Abstract::SegmentCrawler::getSegmentBackgroundColor(const uint32_t index, bool* isDefault) const
 {
-   return headers[index].backgroundColor;
+   const Color color = headers[index].backgroundColor;
+   if (isDefault)
+      *isDefault = (bgDefaultColor == color);
+
+   return color;
 }
 
 void Abstract::SegmentCrawler::setSegmentBackgroundColor(const uint32_t index, const Color& color)
