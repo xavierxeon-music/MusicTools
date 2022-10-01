@@ -3,8 +3,17 @@
 
 #include <Abstract/AbstractSegmentCrawler.h>
 
+Abstract::SegmentCrawler::Header::Header()
+   : name()
+   , length(0)
+   , foregroundColor{0, 0, 0}
+   , backgroundColor{255, 255, 255}
+{
+}
+
 Abstract::SegmentCrawler::SegmentCrawler()
    : Remember::Container()
+   , headers(this)
    , deafaultDivision(this, Tempo::Bar)
    , segmentCount(this, 0)
    , loop(this, false)
@@ -19,6 +28,7 @@ void Abstract::SegmentCrawler::clear()
 {
    deafaultDivision = Tempo::Bar;
    segmentCount = 0;
+   headers.clear();
 
    divisionCounter.setMaxValue(deafaultDivision);
 
@@ -29,6 +39,10 @@ void Abstract::SegmentCrawler::update(const uint8_t& newDefaultDivision, const u
 {
    deafaultDivision = newDefaultDivision;
    segmentCount = newSegmentCount;
+
+   headers.clear();
+   for (uint32_t index = 0; index < segmentCount; index++)
+      headers.append(Header());
 
    divisionCounter.setMaxValue(deafaultDivision);
 
@@ -77,11 +91,51 @@ const uint32_t& Abstract::SegmentCrawler::getSegmentCount() const
    return segmentCount.constRef();
 }
 
+const std::string& Abstract::SegmentCrawler::getSegmentName(const uint32_t index) const
+{
+   return headers[index].name;
+}
+
+void Abstract::SegmentCrawler::setSegmentName(const uint32_t index, const std::string& name)
+{
+   headers[index].name = name;
+   Remember::Root::setUnsynced();
+}
+
 uint8_t Abstract::SegmentCrawler::getSegmentLength(const uint32_t index) const
 {
-   (void)index;
-   // TODO allow for individual segment lengths
-   return deafaultDivision.constRef();
+   if (0 == headers[index].length)
+      return deafaultDivision.constRef();
+   else
+      return headers[index].length;
+}
+
+void Abstract::SegmentCrawler::setSegmentLength(const uint32_t index, const uint8_t& length)
+{
+   headers[index].length = length;
+   Remember::Root::setUnsynced();
+}
+
+const Color& Abstract::SegmentCrawler::getSegmentForegroundColor(const uint32_t index) const
+{
+   return headers[index].foregroundColor;
+}
+
+void Abstract::SegmentCrawler::setSegmentForegroundColor(const uint32_t index, const Color& color)
+{
+   headers[index].foregroundColor = color;
+   Remember::Root::setUnsynced();
+}
+
+const Color& Abstract::SegmentCrawler::getSegmentBackgroundColor(const uint32_t index) const
+{
+   return headers[index].backgroundColor;
+}
+
+void Abstract::SegmentCrawler::setSegmentBackgroundColor(const uint32_t index, const Color& color)
+{
+   headers[index].backgroundColor = color;
+   Remember::Root::setUnsynced();
 }
 
 bool Abstract::SegmentCrawler::isLooping() const

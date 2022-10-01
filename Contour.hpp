@@ -77,11 +77,21 @@ void Contour::setup(Poly* poly)
 void Contour::resize(const uint32_t segmentCount, bool clearContent)
 {
    if (clearContent)
+   {
       segments.clear();
 
-   for (uint32_t index = 0; index < segmentCount; index++)
+      for (uint32_t index = 0; index < segmentCount; index++)
+         segments.append(Segment());
+   }
+   else if (segments.size() < segmentCount)
    {
-      segments.append(Segment());
+      for (uint32_t index = segments.size(); index < segmentCount; index++)
+         segments.append(Segment());
+   }
+   else
+   {
+      while (segments.size() > segmentCount)
+         segments.remove(segments.size() - 1);
    }
 
    proxyList.resize(segmentCount);

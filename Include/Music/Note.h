@@ -3,6 +3,8 @@
 
 #include <MusicTools.h>
 
+#include <map>
+
 pyexport class Note
 {
 public:
@@ -30,6 +32,9 @@ public:
    pyexport static const Note zeroNote;       // an invalid note
    pyexport static const List availableNotes; // includes zero note
    pyexport static const Index maxNoteIndex;  // size of availableNotes
+
+   using ColorMap = std::map<Value, Color>;
+   pyexport static const ColorMap colorMap;
 
 public:
    pyexport Note();

@@ -20,6 +20,13 @@ using Data = std::vector<float>;
 template <typename DataType>
 void mergeVectos(std::vector<DataType>& data, const std::vector<DataType>& other);
 
+struct Color
+{
+   uint8_t red;
+   uint8_t green;
+   uint8_t blue;
+};
+
 #ifndef MusicToolsHPP
 #include "../MusicTools.hpp"
 #endif // NOT MusicToolsHPP

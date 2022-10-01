@@ -22,7 +22,18 @@ pyexport namespace Abstract
 
       pyexport inline const uint8_t& getDefaultDivision() const;
       pyexport inline const uint32_t& getSegmentCount() const;
+
+      pyexport inline const std::string& getSegmentName(const uint32_t index) const;
+      pyexport inline void setSegmentName(const uint32_t index, const std::string& name);
+
       pyexport inline uint8_t getSegmentLength(const uint32_t index) const;
+      pyexport inline void setSegmentLength(const uint32_t index, const uint8_t& length);
+
+      pyexport inline const Color& getSegmentForegroundColor(const uint32_t index) const;
+      pyexport inline void setSegmentForegroundColor(const uint32_t index, const Color& color);
+
+      pyexport inline const Color& getSegmentBackgroundColor(const uint32_t index) const;
+      pyexport inline void setSegmentBackgroundColor(const uint32_t index, const Color& color);
 
       pyexport inline bool isLooping() const;
       pyexport inline void setLooping(bool on);
@@ -33,11 +44,25 @@ pyexport namespace Abstract
       pyexport inline float getCurrentSegmentPrecentage(const float tickPercentage) const;
 
    private:
+      class Header : public Remember::Container
+      {
+      public:
+         inline Header();
+
+      public:
+         std::string name;
+         uint8_t length;
+         Color foregroundColor;
+         Color backgroundColor;
+      };
+
+      using Headers_ = Remember::RefList<Header>;
       using Division_ = Remember::Value<uint8_t>;
       using SegementCount_ = Remember::Value<uint32_t>;
       using Loop_ = Remember::Value<bool>;
 
    private:
+      Headers_ headers;
       Division_ deafaultDivision;
       SegementCount_ segmentCount;
       Loop_ loop;
