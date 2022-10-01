@@ -48,6 +48,8 @@ pyexport namespace Abstract
       {
       public:
          inline Header();
+         inline Header(const Header& other);
+         inline Header& operator=(const Header& other);
 
       public:
          std::string name;

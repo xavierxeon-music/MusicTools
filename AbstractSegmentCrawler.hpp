@@ -3,6 +3,8 @@
 
 #include <Abstract/AbstractSegmentCrawler.h>
 
+// header
+
 Abstract::SegmentCrawler::Header::Header()
    : name()
    , length(0)
@@ -10,6 +12,24 @@ Abstract::SegmentCrawler::Header::Header()
    , backgroundColor{255, 255, 255}
 {
 }
+
+Abstract::SegmentCrawler::Header::Header(const Header& other)
+   : Header()
+{
+   *this = other;
+}
+
+Abstract::SegmentCrawler::Header& Abstract::SegmentCrawler::Header::operator=(const Header& other)
+{
+   name = other.name;
+   length = other.length;
+   foregroundColor = other.foregroundColor;
+   backgroundColor = other.backgroundColor;
+
+   return *this;
+}
+
+// segment crawler
 
 Abstract::SegmentCrawler::SegmentCrawler()
    : Remember::Container()
