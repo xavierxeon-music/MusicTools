@@ -15,12 +15,21 @@ struct Range
       void reset();                     // mint to datatype max and max to datatype min
       void init(const DataType& value); // min and max to value
       void observe(const DataType& value);
-      const DataType& getMinValue() const;
-      const DataType& getMaxValue() const;
+
+      const DataType& min() const;
+      const DataType& max() const;
+      DataType diff() const;
+
+      // only for integer types
+      template <typename TestType = DataType, std::enable_if_t<std::is_integral<TestType>::value, bool> = true>
+      size_t length() const;
+
+      template <typename TestType = DataType, std::enable_if_t<std::is_integral<TestType>::value, bool> = true>
+      DataType value(const size_t index) const;
 
    private:
-      DataType min;
-      DataType max;
+      DataType minValue;
+      DataType maxValue;
    };
 
    class Mapper

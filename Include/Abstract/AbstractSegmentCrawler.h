@@ -11,6 +11,10 @@ pyexport namespace Abstract
    pyexport class SegmentCrawler : public Remember::Container
    {
    public:
+      static constexpr Color fgDefaultColor{0, 0, 0};
+      static constexpr Color bgDefaultColor{255, 255, 255};
+
+   public:
       pyexport inline SegmentCrawler();
 
    public:
@@ -30,10 +34,10 @@ pyexport namespace Abstract
       pyexport inline void setSegmentLength(const uint32_t index, const uint8_t& length);
 
       pyexport inline Color getSegmentForegroundColor(const uint32_t index, bool* isDefault = nullptr) const;
-      pyexport inline void setSegmentForegroundColor(const uint32_t index, const Color& color);
+      pyexport inline void setSegmentForegroundColor(const uint32_t index, const Color& color = fgDefaultColor);
 
       pyexport inline Color getSegmentBackgroundColor(const uint32_t index, bool* isDefault = nullptr) const;
-      pyexport inline void setSegmentBackgroundColor(const uint32_t index, const Color& color);
+      pyexport inline void setSegmentBackgroundColor(const uint32_t index, const Color& color = bgDefaultColor);
 
       pyexport inline bool isLooping() const;
       pyexport inline void setLooping(bool on);

@@ -10,8 +10,8 @@
 
 template <typename DataType>
 Range::Finder<DataType>::Finder()
-   : min()
-   , max()
+   : minValue()
+   , maxValue()
 {
    reset();
 }
@@ -19,40 +19,63 @@ Range::Finder<DataType>::Finder()
 template <typename DataType>
 void Range::Finder<DataType>::reset()
 {
-   min = std::numeric_limits<DataType>::max();
+   minValue = std::numeric_limits<DataType>::max();
 
    if (std::is_signed<DataType>::value)
-      max = DataType(0);
+      maxValue = DataType(0);
    else
-      max = -std::numeric_limits<DataType>::max();
+      maxValue = -std::numeric_limits<DataType>::max();
 }
 
 template <typename DataType>
 void Range::Finder<DataType>::init(const DataType& value)
 {
-   min = value;
-   max = value;
+   minValue = value;
+   maxValue = value;
 }
 
 template <typename DataType>
 void Range::Finder<DataType>::observe(const DataType& value)
 {
-   if (value < min)
-      min = value;
-   if (value > max)
-      max = value;
+   if (value < minValue)
+      minValue = value;
+   if (value > maxValue)
+      maxValue = value;
 }
 
 template <typename DataType>
-const DataType& Range::Finder<DataType>::getMinValue() const
+const DataType& Range::Finder<DataType>::min() const
 {
-   return min;
+   return minValue;
 }
 
 template <typename DataType>
-const DataType& Range::Finder<DataType>::getMaxValue() const
+const DataType& Range::Finder<DataType>::max() const
 {
-   return max;
+   return maxValue;
+}
+
+template <typename DataType>
+DataType Range::Finder<DataType>::diff() const
+{
+   return maxValue - minValue;
+}
+
+template <typename DataType>
+template <typename TestType, std::enable_if_t<std::is_integral<TestType>::value, bool>>
+size_t Range::Finder<DataType>::length() const
+{
+   return 1 + (maxValue - minValue);
+}
+
+template <typename DataType>
+template <typename TestType, std::enable_if_t<std::is_integral<TestType>::value, bool>>
+DataType Range::Finder<DataType>::value(const size_t index) const
+{
+   if (index >= length())
+      return maxValue;
+
+   return minValue + index;
 }
 
 // Mapper
@@ -101,7 +124,7 @@ void Range::Mapper::updateScale()
    const float diffOutput = maxOutput - minOutput;
    const float diffInput = maxInput - minInput;
 
-   if (0.0 == diffInput || 0.0 == diffOutput)
+   if (0.0 >= diffInput || 0.0 >= diffOutput)
    {
       scale = 0.0;
    }

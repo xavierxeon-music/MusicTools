@@ -5,9 +5,6 @@
 
 // header
 
-static const Color fgDefaultColor{0, 0, 0};
-static const Color bgDefaultColor{255, 255, 255};
-
 Abstract::SegmentCrawler::Header::Header()
    : name()
    , length(0)
