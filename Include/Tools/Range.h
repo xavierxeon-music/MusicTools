@@ -12,8 +12,18 @@ struct Range
       Finder();
 
    public:
-      void reset();                     // mint to datatype max and max to datatype min
-      void init(const DataType& value); // min and max to value
+      /// min to datatype max and max to datatype min
+      template <typename TestType = DataType, isSigned<TestType> = true>
+      void reset();
+
+      /// min to zero and max to datatype min
+      template <typename TestType = DataType, isUnsigned<TestType> = true>
+      void reset();
+
+      /// min and max to value
+      void init(const DataType& value);
+
+      /// test value and update min / mix
       void observe(const DataType& value);
 
       const DataType& min() const;
@@ -21,11 +31,10 @@ struct Range
       DataType diff() const;
 
       // only for integer types
-
       template <typename TestType = DataType, isIntegerType<TestType> = true>
       size_t length() const;
 
-      template <typename TestType = DataType, typename std::enable_if<std::is_integral<TestType>::value, int>::type = 0>
+      template <typename TestType = DataType, isIntegerType<TestType> = true>
       DataType value(const size_t index) const;
 
    private:

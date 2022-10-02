@@ -17,14 +17,19 @@ Range::Finder<DataType>::Finder()
 }
 
 template <typename DataType>
+template <typename TestType, isSigned<TestType>>
 void Range::Finder<DataType>::reset()
 {
    minValue = std::numeric_limits<DataType>::max();
+   maxValue = -std::numeric_limits<DataType>::max();
+}
 
-   if (std::is_signed<DataType>::value)
-      maxValue = DataType(0);
-   else
-      maxValue = -std::numeric_limits<DataType>::max();
+template <typename DataType>
+template <typename TestType, isUnsigned<TestType>>
+void Range::Finder<DataType>::reset()
+{
+   minValue = std::numeric_limits<DataType>::max();
+   maxValue = DataType(0);
 }
 
 template <typename DataType>
@@ -69,7 +74,7 @@ size_t Range::Finder<DataType>::length() const
 }
 
 template <typename DataType>
-template <typename TestType, typename std::enable_if<std::is_integral<TestType>::value, int>::type>
+template <typename TestType, isIntegerType<TestType>>
 DataType Range::Finder<DataType>::value(const size_t index) const
 {
    if (index >= length())

@@ -30,9 +30,18 @@ struct Color
    inline bool operator==(const Color& other) const;
 };
 
-/// only compile if TestType is integer
+// optional compiler tests
 template <typename TestType>
 using isIntegerType = typename std::enable_if<std::is_integral<TestType>::value, bool>::type;
+
+template <typename TestType>
+using isFloatType = typename std::enable_if<std::is_floating_point<TestType>::value, bool>::type;
+
+template <typename TestType>
+using isSigned = typename std::enable_if<std::is_signed<TestType>::value, bool>::type;
+
+template <typename TestType>
+using isUnsigned = typename std::enable_if<!std::is_signed<TestType>::value, bool>::type;
 
 #ifndef MusicToolsHPP
 #include "../MusicTools.hpp"
