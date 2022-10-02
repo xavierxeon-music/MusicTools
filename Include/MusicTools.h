@@ -20,6 +20,7 @@ using Data = std::vector<float>;
 template <typename DataType>
 void mergeVectos(std::vector<DataType>& data, const std::vector<DataType>& other);
 
+/// color
 struct Color
 {
    uint8_t red;
@@ -28,6 +29,10 @@ struct Color
 
    inline bool operator==(const Color& other) const;
 };
+
+/// only compile if TestType is integer
+template <typename TestType>
+using isIntegerType = typename std::enable_if<std::is_integral<TestType>::value, bool>::type;
 
 #ifndef MusicToolsHPP
 #include "../MusicTools.hpp"
