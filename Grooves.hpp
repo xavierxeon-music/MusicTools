@@ -7,14 +7,14 @@ Grooves::Grooves()
    : Abstract::SegmentCrawler()
    , beatMap()
    , beatProxyList()
-   , gateMap()
-   , gateProxyList()
+   , gatesMap()
+   , gatesProxyList()
 {
-   beatMap[0] = Beat(getDefaultDivision(), BoolField8(255));
+   beatMap[0] = Beat(getDefaultDivision(), BoolField8(0));
    updateBeatProxyList();
 
-   gateMap[0] = BoolField8(0);
-   updateGateProxyList();
+   gatesMap[0] = BoolField8(0);
+   updateGatesProxyList();
 }
 
 BoolField8 Grooves::getTriggers(const uint32_t segmentIndex, const uint8_t tick) const
@@ -51,30 +51,30 @@ void Grooves::resetBeat(const uint32_t& segmentIndex)
    updateBeatProxyList();
 }
 
-const Grooves::Gate& Grooves::getGate(const uint32_t& segmentIndex) const
+const Grooves::Gates& Grooves::getGates(const uint32_t& segmentIndex) const
 {
-   const uint32_t realSegmentIndex = gateProxyList.empty() ? 0 : gateProxyList.at(segmentIndex);
-   return gateMap.at(realSegmentIndex);
+   const uint32_t realSegmentIndex = gatesProxyList.empty() ? 0 : gatesProxyList.at(segmentIndex);
+   return gatesMap.at(realSegmentIndex);
 }
 
-bool Grooves::hasGate(const uint32_t& segmentIndex) const
+bool Grooves::hasGates(const uint32_t& segmentIndex) const
 {
-   if (gateMap.find(segmentIndex) == gateMap.end())
+   if (gatesMap.find(segmentIndex) == gatesMap.end())
       return false;
 
    return true;
 }
 
-void Grooves::setGate(const uint32_t& segmentIndex, const Gate& gate)
+void Grooves::setGates(const uint32_t& segmentIndex, const Gates& gates)
 {
-   gateMap[segmentIndex] = gate;
-   updateGateProxyList();
+   gatesMap[segmentIndex] = gates;
+   updateGatesProxyList();
 }
 
-void Grooves::resetGate(const uint32_t& segmentIndex)
+void Grooves::resetGates(const uint32_t& segmentIndex)
 {
-   gateMap.erase(segmentIndex);
-   updateGateProxyList();
+   gatesMap.erase(segmentIndex);
+   updateGatesProxyList();
 }
 
 void Grooves::updateBeatProxyList()
@@ -93,17 +93,17 @@ void Grooves::updateBeatProxyList()
    }
 }
 
-void Grooves::updateGateProxyList()
+void Grooves::updateGatesProxyList()
 {
-   gateProxyList = ProxyList(getSegmentCount(), 0);
+   gatesProxyList = ProxyList(getSegmentCount(), 0);
    for (uint32_t segmentIndex = 0; segmentIndex < getSegmentCount(); segmentIndex++)
    {
       for (uint32_t proxySegmentIndex = segmentIndex; proxySegmentIndex > 0; proxySegmentIndex--)
       {
-         if (!hasGate(proxySegmentIndex))
+         if (!hasGates(proxySegmentIndex))
             continue;
 
-         gateProxyList[segmentIndex] = proxySegmentIndex;
+         gatesProxyList[segmentIndex] = proxySegmentIndex;
          break;
       }
    }

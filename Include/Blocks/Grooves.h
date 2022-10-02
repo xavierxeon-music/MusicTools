@@ -10,7 +10,7 @@
 pyexport class Grooves : public Abstract::SegmentCrawler
 {
 public:
-   using Gate = BoolField8;              // one entry per segment
+   using Gates = BoolField8;             // one entry per segment
    using Beat = std::vector<BoolField8>; // one entry per tick
 
 public:
@@ -23,25 +23,25 @@ public:
    pyexport inline void setBeat(const uint32_t& segmentIndex, const Beat& beat);
    pyexport inline void resetBeat(const uint32_t& segmentIndex);
 
-   pyexport inline const Gate& getGate(const uint32_t& segmentIndex) const; // may point to proxy
-   pyexport inline bool hasGate(const uint32_t& segmentIndex) const;
-   pyexport inline void setGate(const uint32_t& segmentIndex, const Gate& gate);
-   pyexport inline void resetGate(const uint32_t& segmentIndex);
+   pyexport inline const Gates& getGates(const uint32_t& segmentIndex) const; // may point to proxy
+   pyexport inline bool hasGates(const uint32_t& segmentIndex) const;
+   pyexport inline void setGates(const uint32_t& segmentIndex, const Gates& gates);
+   pyexport inline void resetGates(const uint32_t& segmentIndex);
 
 private:
    inline void updateBeatProxyList();
-   inline void updateGateProxyList();
+   inline void updateGatesProxyList();
 
 private:
    using BeatMap = std::map<uint32_t, Beat>;        // segement index of beat
-   using GateMap = std::map<uint32_t, BoolField8>;  // segment index of furrow
+   using GatesMap = std::map<uint32_t, BoolField8>; // segment index of furrow
    using ProxyList = std::vector<uint32_t>;         // index of the last available Gate or Beat
 
 private:
    BeatMap beatMap;
    ProxyList beatProxyList;
-   GateMap gateMap;
-   ProxyList gateProxyList;
+   GatesMap gatesMap;
+   ProxyList gatesProxyList;
 };
 
 #ifndef GroovesHPP

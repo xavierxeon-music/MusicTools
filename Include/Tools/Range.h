@@ -21,10 +21,10 @@ struct Range
       DataType diff() const;
 
       // only for integer types
-      template <typename TestType = DataType, std::enable_if_t<std::is_integral<TestType>::value, bool> = true>
+      template <typename TestType = DataType, std::enable_if<std::is_integral<TestType>::value, bool> = true>
       size_t length() const;
 
-      template <typename TestType = DataType, std::enable_if_t<std::is_integral<TestType>::value, bool> = true>
+      template <typename TestType = DataType, std::enable_if<std::is_integral<TestType>::value, bool> = true>
       DataType value(const size_t index) const;
 
    private:

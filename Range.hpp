@@ -62,14 +62,14 @@ DataType Range::Finder<DataType>::diff() const
 }
 
 template <typename DataType>
-template <typename TestType, std::enable_if_t<std::is_integral<TestType>::value, bool>>
+template <typename TestType, std::enable_if<std::is_integral<TestType>::value, bool>>
 size_t Range::Finder<DataType>::length() const
 {
    return 1 + (maxValue - minValue);
 }
 
 template <typename DataType>
-template <typename TestType, std::enable_if_t<std::is_integral<TestType>::value, bool>>
+template <typename TestType, std::enable_if<std::is_integral<TestType>::value, bool>>
 DataType Range::Finder<DataType>::value(const size_t index) const
 {
    if (index >= length())
