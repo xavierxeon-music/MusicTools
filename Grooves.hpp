@@ -7,17 +7,17 @@ Grooves::Grooves()
    : Abstract::SegmentCrawler()
    , beatMap()
    , beatProxyList()
-   , stateMap()
-   , stateProxyList()
+   , gateMap()
+   , gateProxyList()
 {
    beatMap[0] = Beat(getDefaultDivision(), BoolField8(255));
    updateBeatProxyList();
 
-   stateMap[0] = BoolField8(0);
-   updateStateProxyList();
+   gateMap[0] = BoolField8(0);
+   updateGateProxyList();
 }
 
-BoolField8 Grooves::getSpikes(const uint32_t segmentIndex, const uint8_t tick) const
+BoolField8 Grooves::getTriggers(const uint32_t segmentIndex, const uint8_t tick) const
 {
    return getBeat(segmentIndex).at(tick);
 }
@@ -51,30 +51,30 @@ void Grooves::resetBeat(const uint32_t& segmentIndex)
    updateBeatProxyList();
 }
 
-const Grooves::State& Grooves::getState(const uint32_t& segmentIndex) const
+const Grooves::Gate& Grooves::getGate(const uint32_t& segmentIndex) const
 {
-   const uint32_t realSegmentIndex = stateProxyList.empty() ? 0 : stateProxyList.at(segmentIndex);
-   return stateMap.at(realSegmentIndex);
+   const uint32_t realSegmentIndex = gateProxyList.empty() ? 0 : gateProxyList.at(segmentIndex);
+   return gateMap.at(realSegmentIndex);
 }
 
-bool Grooves::hasState(const uint32_t& segmentIndex) const
+bool Grooves::hasGate(const uint32_t& segmentIndex) const
 {
-   if (stateMap.find(segmentIndex) == stateMap.end())
+   if (gateMap.find(segmentIndex) == gateMap.end())
       return false;
 
    return true;
 }
 
-void Grooves::setState(const uint32_t& segmentIndex, const State& state)
+void Grooves::setGate(const uint32_t& segmentIndex, const Gate& gate)
 {
-   stateMap[segmentIndex] = state;
-   updateStateProxyList();
+   gateMap[segmentIndex] = gate;
+   updateGateProxyList();
 }
 
-void Grooves::resetState(const uint32_t& segmentIndex)
+void Grooves::resetGate(const uint32_t& segmentIndex)
 {
-   stateMap.erase(segmentIndex);
-   updateStateProxyList();
+   gateMap.erase(segmentIndex);
+   updateGateProxyList();
 }
 
 void Grooves::updateBeatProxyList()
@@ -93,17 +93,17 @@ void Grooves::updateBeatProxyList()
    }
 }
 
-void Grooves::updateStateProxyList()
+void Grooves::updateGateProxyList()
 {
-   stateProxyList = ProxyList(getSegmentCount(), 0);
+   gateProxyList = ProxyList(getSegmentCount(), 0);
    for (uint32_t segmentIndex = 0; segmentIndex < getSegmentCount(); segmentIndex++)
    {
       for (uint32_t proxySegmentIndex = segmentIndex; proxySegmentIndex > 0; proxySegmentIndex--)
       {
-         if (!hasState(proxySegmentIndex))
+         if (!hasGate(proxySegmentIndex))
             continue;
 
-         stateProxyList[segmentIndex] = proxySegmentIndex;
+         gateProxyList[segmentIndex] = proxySegmentIndex;
          break;
       }
    }
