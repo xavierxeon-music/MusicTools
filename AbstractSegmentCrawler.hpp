@@ -92,6 +92,8 @@ void Abstract::SegmentCrawler::clockTick()
       else
          pastLoop = true;
    }
+
+   divisionCounter.setMaxValue(getSegmentLength(currentSegmentIndex));
 }
 
 void Abstract::SegmentCrawler::clockReset()
