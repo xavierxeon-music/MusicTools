@@ -9,6 +9,8 @@ Grooves::Grooves()
    , beatProxyList()
    , gatesMap()
    , gatesProxyList()
+   , zeroBeat()
+   , zeroGates(BoolField(0))
 {
    updateProxyLists();
 }
@@ -21,6 +23,8 @@ void Grooves::clear()
 void Grooves::update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount)
 {
    Abstract::SegmentCrawler::update(newDefaultDivision, newSegmentCount);
+
+   zeroBeat = Beat(newDefaultDivision, BoolField8(0));
 
    bool isDefault = false;
    for (BeatMap::iterator it = beatMap.end(); it != beatMap.end(); it++)
@@ -57,11 +61,15 @@ void Grooves::setSegmentLength(const uint32_t segmentIndex, const uint8_t& lengt
 
 BoolField8 Grooves::getTriggers(const uint32_t segmentIndex, const uint8_t tick) const
 {
-   return getBeat(segmentIndex).at(tick);
+   const Beat beat = getBeat(segmentIndex);
+   return beat.at(tick);
 }
 
 const Grooves::Beat& Grooves::getBeat(const uint32_t& segmentIndex) const
 {
+   if (beatMap.empty())
+      return zeroBeat;
+
    const uint32_t realSegmentIndex = beatProxyList.empty() ? 0 : beatProxyList.at(segmentIndex);
    return beatMap.at(realSegmentIndex);
 }
@@ -91,6 +99,9 @@ void Grooves::clearBeat(const uint32_t& segmentIndex)
 
 const Grooves::Gates& Grooves::getGates(const uint32_t& segmentIndex) const
 {
+   if (gatesMap.empty())
+      return zeroGates;
+
    const uint32_t realSegmentIndex = gatesProxyList.empty() ? 0 : gatesProxyList.at(segmentIndex);
    return gatesMap.at(realSegmentIndex);
 }

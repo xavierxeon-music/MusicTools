@@ -45,6 +45,9 @@ private:
    ProxyList beatProxyList;
    GatesMap gatesMap;
    ProxyList gatesProxyList;
+
+   Beat zeroBeat;
+   const BoolField8 zeroGates;
 };
 
 #ifndef GroovesHPP
