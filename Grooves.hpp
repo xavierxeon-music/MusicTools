@@ -17,6 +17,22 @@ Grooves::Grooves()
    updateGatesProxyList();
 }
 
+void Grooves::setSegmentLength(const uint32_t segmentIndex, const uint8_t& length)
+{
+   Abstract::SegmentCrawler::setSegmentLength(segmentIndex, length);
+
+   if (beatMap.find(segmentIndex) == beatMap.end())
+      return;
+
+   const uint8_t tickCount = (0 == length) ? getDefaultDivision() : length;
+
+   Beat& beat = beatMap[segmentIndex];
+   while (beat.size() > tickCount)
+      beat.pop_back();
+   while (beat.size() < tickCount)
+      beat.push_back(BoolField8(0));
+}
+
 BoolField8 Grooves::getTriggers(const uint32_t segmentIndex, const uint8_t tick) const
 {
    return getBeat(segmentIndex).at(tick);
@@ -42,7 +58,7 @@ void Grooves::setBeat(const uint32_t& segmentIndex, const Beat& beat)
    updateBeatProxyList();
 }
 
-void Grooves::resetBeat(const uint32_t& segmentIndex)
+void Grooves::clearBeat(const uint32_t& segmentIndex)
 {
    if (beatMap.find(segmentIndex) == beatMap.end())
       return;
@@ -71,7 +87,7 @@ void Grooves::setGates(const uint32_t& segmentIndex, const Gates& gates)
    updateGatesProxyList();
 }
 
-void Grooves::resetGates(const uint32_t& segmentIndex)
+void Grooves::clearGates(const uint32_t& segmentIndex)
 {
    gatesMap.erase(segmentIndex);
    updateGatesProxyList();

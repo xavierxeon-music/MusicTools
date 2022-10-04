@@ -31,7 +31,7 @@ pyexport namespace Abstract
       pyexport inline void setSegmentName(const uint32_t index, const std::string& name);
 
       pyexport inline uint8_t getSegmentLength(const uint32_t index, bool* isDefault = nullptr) const;
-      pyexport inline void setSegmentLength(const uint32_t index, const uint8_t& length);
+      pyexport inline virtual void setSegmentLength(const uint32_t index, const uint8_t& length);
 
       pyexport inline Color getSegmentForegroundColor(const uint32_t index, bool* isDefault = nullptr) const;
       pyexport inline void setSegmentForegroundColor(const uint32_t index, const Color& color = fgDefaultColor);

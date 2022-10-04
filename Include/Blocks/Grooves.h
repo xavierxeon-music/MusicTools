@@ -17,16 +17,18 @@ public:
    pyexport inline Grooves();
 
 public:
+   pyexport inline void setSegmentLength(const uint32_t segmentIndex, const uint8_t& length) override;
+
    pyexport inline BoolField8 getTriggers(const uint32_t segmentIndex, const uint8_t tick) const;
    pyexport inline const Beat& getBeat(const uint32_t& segmentIndex) const; // may point to proxy
    pyexport inline bool hasBeat(const uint32_t& segmentIndex) const;
    pyexport inline void setBeat(const uint32_t& segmentIndex, const Beat& beat);
-   pyexport inline void resetBeat(const uint32_t& segmentIndex);
+   pyexport inline void clearBeat(const uint32_t& segmentIndex);
 
    pyexport inline const Gates& getGates(const uint32_t& segmentIndex) const; // may point to proxy
    pyexport inline bool hasGates(const uint32_t& segmentIndex) const;
    pyexport inline void setGates(const uint32_t& segmentIndex, const Gates& gates);
-   pyexport inline void resetGates(const uint32_t& segmentIndex);
+   pyexport inline void clearGates(const uint32_t& segmentIndex);
 
 private:
    inline void updateBeatProxyList();
