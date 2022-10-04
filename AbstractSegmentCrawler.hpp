@@ -60,8 +60,9 @@ void Abstract::SegmentCrawler::update(const uint8_t& newDefaultDivision, const u
    deafaultDivision = newDefaultDivision;
    segmentCount = newSegmentCount;
 
-   headers.clear();
-   for (uint32_t index = 0; index < segmentCount; index++)
+   while (headers.size() > newSegmentCount)
+      headers.remove(headers.size() - 1);
+   while (headers.size() < newSegmentCount)
       headers.append(Header());
 
    divisionCounter.setMaxValue(deafaultDivision);
