@@ -71,6 +71,9 @@ const Grooves::Beat& Grooves::getBeat(const uint32_t& segmentIndex) const
       return zeroBeat;
 
    const uint32_t realSegmentIndex = beatProxyList.empty() ? 0 : beatProxyList.at(segmentIndex);
+   if (beatMap.find(realSegmentIndex) == beatMap.end())
+      return zeroBeat;
+
    return beatMap.at(realSegmentIndex);
 }
 
@@ -103,6 +106,9 @@ const Grooves::Gates& Grooves::getGates(const uint32_t& segmentIndex) const
       return zeroGates;
 
    const uint32_t realSegmentIndex = gatesProxyList.empty() ? 0 : gatesProxyList.at(segmentIndex);
+   if (gatesMap.find(realSegmentIndex) == gatesMap.end())
+      return zeroGates;
+
    return gatesMap.at(realSegmentIndex);
 }
 
@@ -133,6 +139,7 @@ void Grooves::updateProxyLists()
 
    for (uint32_t segmentIndex = 0; segmentIndex < getSegmentCount(); segmentIndex++)
    {
+      beatProxyList[segmentIndex] = 0;
       for (uint32_t proxySegmentIndex = segmentIndex; proxySegmentIndex > 0; proxySegmentIndex--)
       {
          if (!hasBeat(proxySegmentIndex))
@@ -142,6 +149,7 @@ void Grooves::updateProxyLists()
          break;
       }
 
+      gatesProxyList[segmentIndex] = 0;
       for (uint32_t proxySegmentIndex = segmentIndex; proxySegmentIndex > 0; proxySegmentIndex--)
       {
          if (!hasGates(proxySegmentIndex))
