@@ -193,6 +193,10 @@ void Abstract::SegmentCrawler::setLooping(bool on)
 
 const uint32_t& Abstract::SegmentCrawler::getCurrentSegmentIndex() const
 {
+   static const uint32_t zero = 0;
+   if (pastLoop)
+      return zero;
+
    return currentSegmentIndex;
 }
 
@@ -203,6 +207,10 @@ void Abstract::SegmentCrawler::setCurrentSegmentIndex(const uint32_t index)
 
 uint8_t Abstract::SegmentCrawler::getCurrentSegmentTick() const
 {
+   static const uint32_t zero = 0;
+   if (pastLoop)
+      return zero;
+
    return divisionCounter.getCurrentValue();
 }
 
