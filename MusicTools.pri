@@ -46,6 +46,7 @@ HEADERS += \
    $$PWD/Include/Tools/Counter.h \
    $$PWD/Include/Tools/DoubleBuffer.h \
    $$PWD/Include/Tools/FastRandom.h \
+   $$PWD/Include/Tools/Flank.h \
    $$PWD/Include/Tools/File.h \
    $$PWD/Include/Tools/Glide.h \
    $$PWD/Include/Tools/Range.h \
@@ -67,15 +68,7 @@ HEADERS += \
    $$PWD/CvSwitch.hpp \
    $$PWD/DoubleBuffer.hpp \
    $$PWD/FastRandom.hpp \
-   $$PWD/ffft/Array.hpp \
-   $$PWD/ffft/DynArray.hpp \
-   $$PWD/ffft/FFTReal.hpp \
-   $$PWD/ffft/FFTRealFixLen.hpp \
-   $$PWD/ffft/FFTRealPassDirect.hpp \
-   $$PWD/ffft/FFTRealPassInverse.hpp \
-   $$PWD/ffft/FFTRealSelect.hpp \
-   $$PWD/ffft/FFTRealUseTrigo.hpp \
-   $$PWD/ffft/OscSinCos.hpp \
+   $$PWD/Flank.hpp \
    $$PWD/File.hpp \
    $$PWD/FunctionTable.hpp \
    $$PWD/GateOscilator.hpp \
