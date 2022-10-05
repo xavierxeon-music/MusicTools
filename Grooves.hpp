@@ -9,8 +9,8 @@ Grooves::Grooves()
    , beatProxyList()
    , gatesMap()
    , gatesProxyList()
-   , zeroBeat()
-   , zeroGates(BoolField(0))
+   , zeroBeat(getDefaultDivision(), BoolField8(0))
+   , zeroGates(BoolField8(0))
 {
    updateProxyLists();
 }

@@ -72,6 +72,9 @@ void Abstract::SegmentCrawler::update(const uint8_t& newDefaultDivision, const u
 
 void Abstract::SegmentCrawler::clockTick()
 {
+   if (0 == getSegmentCount())
+      return;
+
    if (pastLoop)
       return;
 
