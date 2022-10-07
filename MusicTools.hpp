@@ -3,11 +3,13 @@
 
 #include <MusicTools.h>
 
+/*
 Bytes& operator<<(Bytes& data, const uint8_t& byte)
 {
    data.push_back(byte);
    return data;
 }
+*/
 
 #ifndef NON_DAISY_DEVICE
 
@@ -41,7 +43,7 @@ void print(const Bytes& data, bool withAscii)
 #endif
 
 template <typename DataType>
-void mergeVectos(std::vector<DataType>& data, const std::vector<DataType>& other)
+void mergeVectors(std::vector<DataType>& data, const std::vector<DataType>& other)
 {
    data.insert(data.end(), other.cbegin(), other.cend());
 }
