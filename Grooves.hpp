@@ -15,11 +15,6 @@ Grooves::Grooves()
    updateProxyLists();
 }
 
-void Grooves::clear()
-{
-   Abstract::SegmentCrawler::clear();
-}
-
 void Grooves::update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount)
 {
    Abstract::SegmentCrawler::update(newDefaultDivision, newSegmentCount);

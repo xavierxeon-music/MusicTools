@@ -80,7 +80,7 @@ private:
    mutable Proxy::List proxyList;
 };
 
-pyexport class Contour::Poly : public Abstract::SegmentCrawler
+pyexport class Contour::Poly : public virtual Abstract::SegmentCrawler
 {
 public:
    static constexpr uint8_t contourCount = 16;
@@ -89,7 +89,7 @@ public:
    pyexport inline Poly();
 
 public:
-   pyexport inline void clear() override;
+   pyexport inline virtual void clear() override;
    pyexport inline virtual void update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount) override;
 
    pyexport inline uint8_t getContourCount() const;
