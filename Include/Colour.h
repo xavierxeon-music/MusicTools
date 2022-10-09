@@ -10,16 +10,16 @@ class Color
 public:
    struct Predefined
    {
-      static const Color black;
-      static const Color white;
+      static const Color Black;
+      static const Color White;
 
-      static const Color red;
-      static const Color green;
-      static const Color blue;
+      static const Color Red;
+      static const Color Green;
+      static const Color Blue;
 
-      static const Color cyan;
-      static const Color magenta;
-      static const Color yellow;
+      static const Color Cyan;
+      static const Color Magenta;
+      static const Color Yellow;
    };
 
 public:
@@ -29,22 +29,23 @@ public:
 
 public:
    bool operator==(const Color& other) const;
+   bool operator<(const Color& other) const;
    const uint8_t& red() const;
    const uint8_t& green() const;
    const uint8_t& blue() const;
    const uint8_t& alpha() const;
-   float distance(const Color& other);
+   float distance(const Color& other) const;
    Color dim(const float& brightness) const;
 
 private:
    union Value
    {
-      struct
+      struct // order matters!
       {
-         uint8_t alpha;
-         uint8_t red;
-         uint8_t green;
          uint8_t blue;
+         uint8_t green;
+         uint8_t red;
+         uint8_t alpha;
       };
       uint32_t block;
    };

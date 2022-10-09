@@ -75,18 +75,18 @@ const Note::List Note::availableNotes = []()
 
 const Note::Index Note::maxNoteIndex = availableNotes.size() - 1;
 
-const Note::ColorMap Note::colorMap = {{Note::C, Color(255, 255, 255)},
+const Note::ColorMap Note::colorMap = {{Note::C, Color::Predefined::White},
                                        {Note::Cs, Color(90, 90, 90)},
-                                       {Note::D, Color(255, 0, 0)},
+                                       {Note::D, Color::Predefined::Red},
                                        {Note::Ds, Color(90, 0, 0)},
                                        {Note::E, Color(255, 30, 200)},
-                                       {Note::F, Color(0, 0, 255)},
+                                       {Note::F, Color::Predefined::Blue},
                                        {Note::Fs, Color(0, 0, 90)},
-                                       {Note::G, Color(0, 255, 0)},
+                                       {Note::G, Color::Predefined::Green},
                                        {Note::Gs, Color(0, 90, 0)},
-                                       {Note::A, Color(255, 255, 0)},
+                                       {Note::A, Color::Predefined::Yellow},
                                        {Note::As, Color(90, 90, 0)},
-                                       {Note::B, Color(0, 0, 0)}};
+                                       {Note::B, Color::Predefined::Black}};
 
 // note
 

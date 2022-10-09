@@ -2,16 +2,16 @@
 
 #include <sstream>
 
-const Color Color::Predefined::black(0, 0, 0);
-const Color Color::Predefined::white(255, 255, 255);
+const Color Color::Predefined::Black(0, 0, 0);
+const Color Color::Predefined::White(255, 255, 255);
 
-const Color Color::Predefined::red(255, 0, 0);
-const Color Color::Predefined::green(0, 255, 0);
-const Color Color::Predefined::blue(0, 0, 255);
+const Color Color::Predefined::Red(255, 0, 0);
+const Color Color::Predefined::Green(0, 255, 0);
+const Color Color::Predefined::Blue(0, 0, 255);
 
-const Color Color::Predefined::cyan(0, 255, 255);
-const Color Color::Predefined::magenta(255, 0, 255);
-const Color Color::Predefined::yellow(255, 255, 0);
+const Color Color::Predefined::Cyan(0, 255, 255);
+const Color Color::Predefined::Magenta(255, 0, 255);
+const Color Color::Predefined::Yellow(255, 255, 0);
 
 Color::Color(const uint32_t block)
    : value{}
@@ -39,6 +39,11 @@ bool Color::operator==(const Color& other) const
    return (value.block == other.value.block);
 }
 
+bool Color::operator<(const Color& other) const
+{
+   return (value.block < other.value.block);
+}
+
 const uint8_t& Color::red() const
 {
    return value.red;
@@ -59,7 +64,7 @@ const uint8_t& Color::alpha() const
    return value.alpha;
 }
 
-float Color::distance(const Color& other)
+float Color::distance(const Color& other) const
 {
    float dist = 0.0;
    dist += value.red * other.value.red;
