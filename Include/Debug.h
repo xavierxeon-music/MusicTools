@@ -31,7 +31,7 @@ inline debug operator<<(debug dbg, const bool& value);
 inline debug operator<<(debug dbg, const float& value);
 
 #ifndef debugHPP
-#include "../debug.hpp"
+#include "../Debug.hpp"
 #endif // NOT debugHPP
 
 #endif // NOT debugH

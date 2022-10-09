@@ -46,16 +46,4 @@ void mergeVectors(std::vector<DataType>& data, const std::vector<DataType>& othe
    data.insert(data.end(), other.cbegin(), other.cend());
 }
 
-bool Color::operator==(const Color& other) const
-{
-   if (red != other.red)
-      return false;
-   if (green != other.green)
-      return false;
-   if (blue != other.blue)
-      return false;
-
-   return true;
-}
-
 #endif // MusicToolsHPP

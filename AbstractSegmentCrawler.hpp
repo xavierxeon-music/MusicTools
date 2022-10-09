@@ -31,6 +31,9 @@ Abstract::SegmentCrawler::Header& Abstract::SegmentCrawler::Header::operator=(co
 
 // segment crawler
 
+const Color Abstract::SegmentCrawler::fgDefaultColor = Color(0, 0, 0);
+const Color Abstract::SegmentCrawler::bgDefaultColor = Color(255, 255, 255);
+
 Abstract::SegmentCrawler::SegmentCrawler()
    : Remember::Container()
    , headers(this)

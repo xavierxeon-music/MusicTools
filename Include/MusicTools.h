@@ -5,7 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "debug.h"
+#include "Colour.h"
+#include "Debug.h"
 
 // used to auto geenrate python bindings
 // must be at start of namespce, class, sub class, sub struct, function or enum
@@ -21,16 +22,6 @@ using Data = std::vector<float>;
 
 template <typename DataType>
 void mergeVectors(std::vector<DataType>& data, const std::vector<DataType>& other);
-
-/// color
-struct Color
-{
-   uint8_t red;
-   uint8_t green;
-   uint8_t blue;
-
-   inline bool operator==(const Color& other) const;
-};
 
 // optional compiler tests
 template <typename TestType>

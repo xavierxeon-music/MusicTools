@@ -11,8 +11,8 @@ pyexport namespace Abstract
    pyexport class SegmentCrawler : public Remember::Container
    {
    public:
-      static constexpr Color fgDefaultColor{0, 0, 0};
-      static constexpr Color bgDefaultColor{255, 255, 255};
+      static const Color fgDefaultColor;
+      static const Color bgDefaultColor;
 
    public:
       pyexport inline SegmentCrawler();

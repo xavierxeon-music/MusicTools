@@ -1,7 +1,7 @@
 #ifndef debugHPP
 #define debugHPP
 
-#include <debug.h>
+#include <Debug.h>
 
 debug::debug()
    : copied(false)
