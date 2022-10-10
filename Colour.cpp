@@ -66,11 +66,12 @@ const uint8_t& Color::alpha() const
 
 float Color::distance(const Color& other) const
 {
-   float dist = 0.0;
-   dist += value.red * other.value.red;
-   dist += value.green * other.value.green;
-   dist += value.blue * other.value.blue;
-   dist += value.alpha * other.value.alpha;
+   const float diffRed = static_cast<float>(value.red) - static_cast<float>(other.value.red);
+   const float diffGreen = static_cast<float>(value.green) - static_cast<float>(other.value.green);
+   const float diffBlue = static_cast<float>(value.blue) - static_cast<float>(other.value.blue);
+   const float diffAlpha = static_cast<float>(value.alpha) - static_cast<float>(other.value.alpha);
+
+   const float dist = (diffRed * diffRed) + (diffGreen * diffGreen) + (diffBlue * diffBlue) + (diffAlpha * diffAlpha);
    return dist;
 }
 

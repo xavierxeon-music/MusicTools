@@ -24,6 +24,8 @@ public:
 
 public:
    pyexport inline Tempo();
+   inline Tempo(const Tempo& other);
+   inline Tempo& operator=(const Tempo& other);
 
 public:
    pyexport inline static std::string compileName(const uint8_t& division);

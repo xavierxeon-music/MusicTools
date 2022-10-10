@@ -4,7 +4,8 @@
 #include <Debug.h>
 
 debug::debug()
-   : copied(false)
+   : refCount(1)
+   , maxRefCount(0)
 #ifdef NON_DAISY_DEVICE
    , stream()
 #endif // NON_DAISY_DEVICE
@@ -14,19 +15,29 @@ debug::debug()
 debug::debug(const debug& other)
    : debug()
 {
+   refCount = other.refCount + 1;
+
+   if (maxRefCount < refCount)
+      maxRefCount = refCount;
+
+   debug& ref = const_cast<debug&>(other);
+   ref.maxRefCount = 0;
+
 #ifdef NON_DAISY_DEVICE
    stream << other.stream.str();
 #endif // NON_DAISY_DEVICE
-
-   debug& origin = const_cast<debug&>(other);
-   origin.copied = true;
 }
 
 debug::~debug()
 {
+   refCount--;
+
 #ifdef NON_DAISY_DEVICE
-   if (!copied)
+   if ((maxRefCount > refCount) && (0 != maxRefCount))
+   {
       std::cout << stream.str() << std::endl;
+      maxRefCount = 0;
+   }
 #endif // NON_DAISY_DEVICE
 }
 

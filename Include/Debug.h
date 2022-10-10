@@ -20,7 +20,8 @@ public:
    inline debug& operator<<(const char* text);
 
 private:
-   bool copied;
+   uint8_t refCount;
+   uint8_t maxRefCount;
 #ifdef NON_DAISY_DEVICE
    std::ostringstream stream;
 #endif // NON_DAISY_DEVICE

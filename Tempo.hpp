@@ -12,6 +12,21 @@ Tempo::Tempo()
 {
 }
 
+Tempo::Tempo(const Tempo& other)
+   : Tempo()
+{
+   *this = other;
+}
+
+Tempo& Tempo::operator=(const Tempo& other)
+{
+   runState = other.runState;
+   bpm = other.bpm;
+   tickPercentage = other.tickPercentage;
+
+   return *this;
+}
+
 std::string Tempo::compileName(const uint8_t& division)
 {
    if (0 == division)
@@ -124,6 +139,7 @@ void TempoControl::clockReset()
    tickPercentage = 0.0;
 
    runState = RunState::Reset;
+   debug() << __FUNCTION__;
 }
 
 #endif // TempoHPP
