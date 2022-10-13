@@ -34,6 +34,17 @@ Color::Color(const std::string& hexString)
    value.block = std::stoul(hexString, nullptr, 16);
 }
 
+Color::Color(const Color& other)
+{
+   *this = other;
+}
+
+Color& Color::operator=(const Color& other)
+{
+   value.block = other.value.block;
+   return *this;
+}
+
 bool Color::operator==(const Color& other) const
 {
    return (value.block == other.value.block);
@@ -86,4 +97,13 @@ Color Color::dim(const float& brightness) const
    const uint8_t blue = static_cast<uint8_t>(fblue);
 
    return Color(red, green, blue);
+}
+
+debug operator<<(debug dbg, const Color& color)
+{
+   std::ostringstream stream;
+   stream << "(" << (uint16_t)color.red() << ", " << (uint16_t)color.green() << ", " << (uint16_t)color.blue() << ")";
+
+   dbg << stream.str();
+   return dbg;
 }

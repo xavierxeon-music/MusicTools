@@ -5,6 +5,8 @@
 #include <cinttypes>
 #include <string>
 
+#include "Debug.h"
+
 class Color
 {
 public:
@@ -26,6 +28,8 @@ public:
    Color(const uint32_t block = 0);
    Color(const uint8_t& red, const uint8_t& green, const uint8_t& blue, const uint8_t& alpha = 0);
    Color(const std::string& hexString);
+   Color(const Color& other);
+   Color& operator=(const Color& other);
 
 public:
    bool operator==(const Color& other) const;
@@ -53,5 +57,7 @@ private:
 private:
    Value value;
 };
+
+debug operator<<(debug dbg, const Color& color);
 
 #endif // NOT ColourH

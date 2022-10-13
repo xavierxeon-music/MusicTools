@@ -6,6 +6,7 @@ include(Memory/Memory.pri)
 include(RememberDummy/Remember.pri)
 
 HEADERS += \
+   $$PWD/Debug.hpp \
    $$PWD/DoubleBuffer.h \
    $$PWD/Include/Abstract/AbstractEffect.h \
    $$PWD/Include/Abstract/AbstractOscilator.h \
@@ -16,6 +17,8 @@ HEADERS += \
    $$PWD/Include/Blocks/CvSwitch.h \
    $$PWD/Include/Blocks/Grooves.h \
    $$PWD/Include/Blocks/Sequencer.h \
+   $$PWD/Include/Colour.h \
+   $$PWD/Include/Debug.h \
    $$PWD/Include/Effect/Compressor.h \
    $$PWD/Include/Effect/StateVariableFilter.h \
    $$PWD/Include/Maths.h \
@@ -59,7 +62,6 @@ HEADERS += \
    $$PWD/Include/Utility/SquareSignal.h
     
 HEADERS += \
-   $$PWD/AbstractSegmentCrawler.hpp \
    $$PWD/BioFeedbackDummy.hpp \
    $$PWD/BoolField.hpp \
    $$PWD/Compressor.hpp \
@@ -105,6 +107,7 @@ HEADERS += \
 
 
 SOURCES += \
+   $$PWD/AbstractSegmentCrawler.cpp \
    $$PWD/AbstractSoundSource.cpp \
    $$PWD/Colour.cpp \
    $$PWD/Spectrum.cpp \

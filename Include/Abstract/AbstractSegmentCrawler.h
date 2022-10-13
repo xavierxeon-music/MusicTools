@@ -15,45 +15,45 @@ pyexport namespace Abstract
       static const Color bgDefaultColor;
 
    public:
-      pyexport inline SegmentCrawler();
+      pyexport SegmentCrawler();
 
    public:
-      pyexport inline virtual void clear();
-      pyexport inline virtual void update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount);
+      pyexport virtual void clear();
+      pyexport virtual void update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount);
 
-      pyexport inline void clockTick();
-      pyexport inline void clockReset();
+      pyexport void clockTick();
+      pyexport void clockReset();
 
-      pyexport inline const uint8_t& getDefaultDivision() const;
-      pyexport inline const uint32_t& getSegmentCount() const;
+      pyexport const uint8_t& getDefaultDivision() const;
+      pyexport const uint32_t& getSegmentCount() const;
 
-      pyexport inline const std::string& getSegmentName(const uint32_t index) const;
-      pyexport inline void setSegmentName(const uint32_t index, const std::string& name);
+      pyexport const std::string& getSegmentName(const uint32_t index) const;
+      pyexport void setSegmentName(const uint32_t index, const std::string& name);
 
-      pyexport inline uint8_t getSegmentLength(const uint32_t index, bool* isDefault = nullptr) const;
-      pyexport inline virtual void setSegmentLength(const uint32_t index, const uint8_t& length);
+      pyexport uint8_t getSegmentLength(const uint32_t index, bool* isDefault = nullptr) const;
+      pyexport virtual void setSegmentLength(const uint32_t index, const uint8_t& length);
 
-      pyexport inline Color getSegmentForegroundColor(const uint32_t index, bool* isDefault = nullptr) const;
-      pyexport inline void setSegmentForegroundColor(const uint32_t index, const Color& color = fgDefaultColor);
+      pyexport Color getSegmentForegroundColor(const uint32_t index, bool* isDefault = nullptr) const;
+      pyexport void setSegmentForegroundColor(const uint32_t index, const Color& color = fgDefaultColor);
 
-      pyexport inline Color getSegmentBackgroundColor(const uint32_t index, bool* isDefault = nullptr) const;
-      pyexport inline void setSegmentBackgroundColor(const uint32_t index, const Color& color = bgDefaultColor);
+      pyexport Color getSegmentBackgroundColor(const uint32_t index, bool* isDefault = nullptr) const;
+      pyexport void setSegmentBackgroundColor(const uint32_t index, const Color& color = bgDefaultColor);
 
-      pyexport inline bool isLooping() const;
-      pyexport inline void setLooping(bool on);
+      pyexport bool isLooping() const;
+      pyexport void setLooping(bool on);
 
-      pyexport inline const uint32_t& getCurrentSegmentIndex() const;
-      pyexport inline uint8_t getCurrentSegmentTick() const;
-      pyexport inline void setCurrentSegmentIndex(const uint32_t index);
-      pyexport inline float getCurrentSegmentPrecentage(const float tickPercentage) const;
+      pyexport const uint32_t& getCurrentSegmentIndex() const;
+      pyexport uint8_t getCurrentSegmentTick() const;
+      pyexport void setCurrentSegmentIndex(const uint32_t index);
+      pyexport float getCurrentSegmentPrecentage(const float tickPercentage) const;
 
    private:
       class Header : public Remember::Container
       {
       public:
-         inline Header();
-         inline Header(const Header& other);
-         inline Header& operator=(const Header& other);
+         Header();
+         Header(const Header& other);
+         Header& operator=(const Header& other);
 
       public:
          std::string name;
@@ -79,9 +79,5 @@ pyexport namespace Abstract
       bool firstTickDone;
    };
 } // namespace Abstract
-
-#ifndef AbstractSegmentCrawlerHPP
-#include "../../AbstractSegmentCrawler.hpp"
-#endif // NOT AbstractSegmentCrawlerHPP
 
 #endif // NOT AbstractSegmentCrawlerH

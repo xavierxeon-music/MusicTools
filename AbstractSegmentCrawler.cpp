@@ -1,6 +1,3 @@
-#ifndef AbstractSegmentCrawlerHPP
-#define AbstractSegmentCrawlerHPP
-
 #include <Abstract/AbstractSegmentCrawler.h>
 
 // header
@@ -31,8 +28,8 @@ Abstract::SegmentCrawler::Header& Abstract::SegmentCrawler::Header::operator=(co
 
 // segment crawler
 
-const Color Abstract::SegmentCrawler::fgDefaultColor = Color::Predefined::Black;
-const Color Abstract::SegmentCrawler::bgDefaultColor = Color::Predefined::White;
+const Color Abstract::SegmentCrawler::fgDefaultColor(0, 0, 0); // unable to use predefinded colors here!
+const Color Abstract::SegmentCrawler::bgDefaultColor(255, 255, 255);
 
 Abstract::SegmentCrawler::SegmentCrawler()
    : Remember::Container()
@@ -92,7 +89,7 @@ void Abstract::SegmentCrawler::clockTick()
       return;
 
    currentSegmentIndex++;
-   if (currentSegmentIndex == segmentCount)
+   if (currentSegmentIndex >= segmentCount)
    {
       if (loop)
          currentSegmentIndex = 0;
@@ -150,6 +147,10 @@ uint8_t Abstract::SegmentCrawler::getSegmentLength(const uint32_t index, bool* i
 void Abstract::SegmentCrawler::setSegmentLength(const uint32_t index, const uint8_t& length)
 {
    headers[index].length = length;
+   if (index == currentSegmentIndex)
+   {
+      divisionCounter.setMaxValue(length);
+   }
    Remember::Root::setUnsynced();
 }
 
@@ -229,5 +230,3 @@ float Abstract::SegmentCrawler::getCurrentSegmentPrecentage(const float tickPerc
 
    return percentage;
 }
-
-#endif // NOT AbstractSegmentCrawlerHPP

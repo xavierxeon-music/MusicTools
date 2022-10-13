@@ -27,9 +27,10 @@ private:
 #endif // NON_DAISY_DEVICE
 };
 
-inline debug operator<<(debug dbg, const uint8_t& value);
+template <typename DataType>
+debug operator<<(debug dbg, const DataType& value);
+
 inline debug operator<<(debug dbg, const bool& value);
-inline debug operator<<(debug dbg, const float& value);
 
 #ifndef debugHPP
 #include "../Debug.hpp"

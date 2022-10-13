@@ -59,7 +59,8 @@ debug& debug::operator<<(const char* text)
    return operator<<(sText);
 }
 
-debug operator<<(debug dbg, const uint8_t& value)
+template <typename DataType>
+debug operator<<(debug dbg, const DataType& value)
 {
    dbg << std::to_string(value);
    return dbg;
@@ -72,12 +73,6 @@ debug operator<<(debug dbg, const bool& value)
    else
       dbg << std::string("false");
 
-   return dbg;
-}
-
-debug operator<<(debug dbg, const float& value)
-{
-   dbg << std::to_string(value);
    return dbg;
 }
 
