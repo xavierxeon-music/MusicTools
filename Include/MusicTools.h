@@ -14,7 +14,7 @@
 
 // byte sized data
 using Bytes = std::vector<uint8_t>;
-//inline Bytes& operator<<(Bytes& data, const uint8_t& byte);
+inline Bytes& operator<<(Bytes& data, const uint8_t& byte);
 inline void print(const Bytes& data, bool withAscii = false);
 
 // float sized data, for example audio buffer

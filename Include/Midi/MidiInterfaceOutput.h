@@ -9,6 +9,7 @@ namespace Midi
 {
    namespace Interface
    {
+
       class Output
       {
       public:
@@ -25,6 +26,7 @@ namespace Midi
 
          virtual void sendBuffer(const Bytes& message) = 0;
       };
+
    } // namespace Interface
 } // namespace Midi
 

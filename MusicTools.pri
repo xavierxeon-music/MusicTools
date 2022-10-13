@@ -106,6 +106,7 @@ HEADERS += \
 
 SOURCES += \
    $$PWD/AbstractSoundSource.cpp \
+   $$PWD/Colour.cpp \
    $$PWD/Spectrum.cpp \
    $$PWD/AbstractEffect.cpp \
    $$PWD/AbstractOscilator.cpp \
