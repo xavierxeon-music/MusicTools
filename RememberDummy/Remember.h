@@ -4,6 +4,8 @@
 #include "RememberArray.h"
 #include "RememberList.h"
 
+#include <string>
+
 // this is a dummy implementation
 namespace Remember
 {
