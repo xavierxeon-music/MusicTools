@@ -21,7 +21,7 @@ public:
 
 private:
    uint8_t refCount;
-   uint8_t maxRefCount;
+   bool hasBeenCopied;
 #ifdef NON_DAISY_DEVICE
    std::ostringstream stream;
 #endif // NON_DAISY_DEVICE
