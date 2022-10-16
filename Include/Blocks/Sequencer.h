@@ -21,19 +21,26 @@ public:
       pyexport uint8_t seconds = 0;
    };
 
+   pyexport struct NoteEvent
+   {
+      pyexport uint8_t channel = 0;
+      pyexport uint8_t midiNote = 0;
+      pyexport bool on = false;
+      pyexport uint8_t velocity = 0;
+
+      inline NoteEvent();
+      inline NoteEvent(const uint8_t channel, const uint8_t midiNote, const bool on, const uint8_t velocity = 0);
+      inline NoteEvent(const NoteEvent& other);
+      inline NoteEvent& operator=(const NoteEvent& other);
+      inline bool operator==(const NoteEvent& other) const;
+      inline bool operator!=(const NoteEvent& other) const;
+
+      using List = std::vector<NoteEvent>;
+      using TimeMap = std::map<Tick, List>;
+   };
+
    pyexport struct Track
    {
-      pyexport struct NoteEvent
-      {
-         pyexport uint8_t channel = 0;
-         pyexport uint8_t key = 0;
-         pyexport uint8_t velocity = 0;
-         pyexport bool on = false;
-
-         using List = std::vector<NoteEvent>;
-         using TimeMap = std::map<Tick, List>;
-      };
-
       pyexport Tick maxTick = 0;
       pyexport std::string name;
       pyexport bool isMonophonic = false;

@@ -3,6 +3,62 @@
 
 #include <Blocks/Sequencer.h>
 
+// note event
+
+Sequencer::NoteEvent::NoteEvent()
+   : channel(0)
+   , midiNote(0)
+   , on(false)
+   , velocity(0)
+{
+}
+
+Sequencer::NoteEvent::NoteEvent(const uint8_t channel, const uint8_t midiNote, const bool on, const uint8_t velocity)
+   : channel(channel)
+   , midiNote(midiNote)
+   , on(on)
+   , velocity(velocity)
+{
+}
+
+Sequencer::NoteEvent::NoteEvent(const NoteEvent& other)
+   : NoteEvent()
+{
+   *this = other;
+}
+
+Sequencer::NoteEvent& Sequencer::NoteEvent::operator=(const NoteEvent& other)
+{
+   channel = other.channel;
+   midiNote = other.midiNote;
+   on = other.on;
+   velocity = other.velocity;
+
+   return *this;
+}
+
+bool Sequencer::NoteEvent::operator==(const NoteEvent& other) const
+{
+   if (channel != other.channel)
+      return false;
+   if (midiNote != other.midiNote)
+      return false;
+   if (on != other.on)
+      return false;
+   if (velocity != other.velocity)
+      return false;
+
+   return true;
+}
+
+bool Sequencer::NoteEvent::operator!=(const NoteEvent& other) const
+{
+   bool equal = operator==(other);
+   return !equal;
+}
+
+// sequencer
+
 Sequencer::Sequencer()
    : ticksPer16(1)
    , uSecsPerQuarter(500000) // 120 bpm
@@ -80,7 +136,7 @@ void Sequencer::updateMonophonicFlag()
          {
             counterOff++;
 
-            const Sequencer::Track::NoteEvent::List& eventList = track.noteOffEventMap.at(tick);
+            const NoteEvent::List& eventList = track.noteOffEventMap.at(tick);
             currentPoly -= eventList.size();
          }
 
@@ -88,7 +144,7 @@ void Sequencer::updateMonophonicFlag()
          {
             counterOn++;
 
-            const Sequencer::Track::NoteEvent::List& eventList = track.noteOnEventMap.at(tick);
+            const NoteEvent::List& eventList = track.noteOnEventMap.at(tick);
             currentPoly += eventList.size();
             if (currentPoly > maxPoly)
                maxPoly = currentPoly;

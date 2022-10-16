@@ -138,9 +138,9 @@ void Midi::File::Reader::readTrack(const Chunk& trackChunk)
       }
       else if (isEvent(Event::NoteOn))
       {
-         Track::NoteEvent noteOnEvent;
+         NoteEvent noteOnEvent;
          noteOnEvent.channel = 0x0f & marker;
-         noteOnEvent.key = trackChunk.data.at(cursor + 0);
+         noteOnEvent.midiNote = trackChunk.data.at(cursor + 0);
          noteOnEvent.velocity = trackChunk.data.at(cursor + 1);
          noteOnEvent.on = true;
          cursor += 2;
@@ -153,9 +153,9 @@ void Midi::File::Reader::readTrack(const Chunk& trackChunk)
       }
       else if (isEvent(Event::NoteOff))
       {
-         Track::NoteEvent noteOffEvent;
+         NoteEvent noteOffEvent;
          noteOffEvent.channel = 0x0f & marker;
-         noteOffEvent.key = trackChunk.data.at(cursor + 0);
+         noteOffEvent.midiNote = trackChunk.data.at(cursor + 0);
          noteOffEvent.velocity = trackChunk.data.at(cursor + 1);
          cursor += 2;
 
