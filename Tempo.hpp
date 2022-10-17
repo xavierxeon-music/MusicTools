@@ -139,7 +139,6 @@ void TempoControl::clockReset()
    tickPercentage = 0.0;
 
    runState = RunState::Reset;
-   debug() << __FUNCTION__;
 }
 
 #endif // TempoHPP

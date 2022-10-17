@@ -57,6 +57,9 @@ void Grooves::setSegmentLength(const uint32_t segmentIndex, const uint8_t& lengt
 BoolField8 Grooves::getTriggers(const uint32_t segmentIndex, const uint8_t tick) const
 {
    const Beat beat = getBeat(segmentIndex);
+   if (beat.size() <= tick)
+      return BoolField8(0);
+
    return beat.at(tick);
 }
 
