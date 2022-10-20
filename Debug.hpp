@@ -4,8 +4,7 @@
 #include <Debug.h>
 
 debug::debug()
-   : refCount(0)
-   , hasBeenCopied(false)
+   : hasBeenCopied(false)
 #ifdef NON_DAISY_DEVICE
    , stream()
 #endif // NON_DAISY_DEVICE
@@ -15,8 +14,6 @@ debug::debug()
 debug::debug(const debug& other)
    : debug()
 {
-   refCount = other.refCount + 1;
-
    debug& ref = const_cast<debug&>(other);
    ref.hasBeenCopied = true;
 
@@ -27,8 +24,6 @@ debug::debug(const debug& other)
 
 debug::~debug()
 {
-   refCount--;
-
 #ifdef NON_DAISY_DEVICE
    if (!hasBeenCopied)
    {
