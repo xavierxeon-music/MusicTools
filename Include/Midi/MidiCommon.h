@@ -135,7 +135,6 @@ pyexport namespace Midi
    {
       enum Channel : uint8_t
       {
-         Splitter = 0,
          DopeferQuad1 = 1,
          DopeferQuad2 = 2,
          DopeferQuad3 = 3,
@@ -151,10 +150,12 @@ pyexport namespace Midi
          BitBox = 13,
          BitBoxMicro = 14,
          Metropolix = 15,
-         Unused = 16,
-         // sender only
+         NerdSEQ = 16,
+         // the splitter does not have a midi channel
+         Splitter = 99,
+         // do not send data to these devices
          VCMC = 100,
-         ACDC = 101
+         ACDC = 101,
       };
    };
 
