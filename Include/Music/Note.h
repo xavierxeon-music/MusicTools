@@ -14,7 +14,7 @@ public:
 
    pyexport enum Value : uint8_t //
    {
-      C,
+      C = 0,
       Cs,
       D,
       Ds,
