@@ -22,6 +22,11 @@ void Midi::Interface::Output::close()
    // do nothing
 }
 
+bool Midi::Interface::Output::isOpen() const
+{
+   return false;
+}
+
 void Midi::Interface::Output::sendNoteOn(const Channel& channel, const Note& note, const Velocity& velocity)
 {
    //qDebug() << "NOTE ON" << QString::fromStdString(note.name);

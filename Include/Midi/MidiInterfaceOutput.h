@@ -19,6 +19,7 @@ namespace Midi
       public:
          inline virtual void open();
          inline virtual void close();
+         inline virtual bool isOpen() const;
 
          inline void sendNoteOn(const Midi::Channel& channel, const Note& note, const Midi::Velocity& velocity);
          inline void sendNoteOff(const Midi::Channel& channel, const Note& note);

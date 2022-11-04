@@ -28,6 +28,11 @@ void Midi::Interface::Input::close()
    // do nothing
 }
 
+bool Midi::Interface::Input::isOpen() const
+{
+   return false;
+}
+
 template <typename ClassType>
 void Midi::Interface::Input::onNoteOn(ClassType* instance, void (ClassType::*functionPointer)(const Midi::Channel&, const Note&, const Velocity&))
 {

@@ -29,6 +29,7 @@ namespace Midi
       public:
          inline virtual void open();
          inline virtual void close();
+         inline virtual bool isOpen() const;
 
          template <typename ClassType>
          void onNoteOn(ClassType* instance, void (ClassType::*functionPointer)(const Channel&, const Note&, const Velocity&));
