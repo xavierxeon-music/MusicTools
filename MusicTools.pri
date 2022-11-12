@@ -1,7 +1,7 @@
 INCLUDEPATH += \
    $$PWD/Include \
 
-include(ffft/ffft.pri)
+include(_fourier/ffft.pri)
 include(Memory/Memory.pri)
 include(RememberDummy/Remember.pri)
 

@@ -1,6 +1,6 @@
 #include <Utility/Spectrum.h>
 
-#include "ffft/FFTRealFixLen.h"
+#include "_fourier/FFTRealFixLen.h"
 
 Spectrum::Spectrum(const Quality& quality)
    : quality(quality)
