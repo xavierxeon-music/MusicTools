@@ -26,14 +26,20 @@ float DelayLine<MaxSamples>::changeSound(const float& in)
       return apart + bpart;
    };
 
+   // delay out
    const uint32_t indexOut = (indexIn + (MaxSamples - delay)) % MaxSamples;
    float out = data[indexOut];
 
-   data[indexIn] = mix(in, feedbackEffect ? feedbackEffect->changeSound(out) : out, feedback);
+   // feedfront
+   const float value = mix(out, feedfrontEffect ? feedfrontEffect->changeSound(in) : in, feedfront);
+
+   // feddback
+   data[indexIn] = mix(in, feedbackEffect ? feedbackEffect->changeSound(value) : out, feedback);
+
+   // move on on buffer
    indexIn++;
    indexIn = (indexIn % MaxSamples);
 
-   const float value = mix(out, feedfrontEffect ? feedfrontEffect->changeSound(in) : in, feedfront);
    return value;
 }
 
