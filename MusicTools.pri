@@ -52,6 +52,7 @@ HEADERS += \
    $$PWD/Include/Tools/Flank.h \
    $$PWD/Include/Tools/File.h \
    $$PWD/Include/Tools/Glide.h \
+   $$PWD/Include/Tools/Prompt.h \
    $$PWD/Include/Tools/Range.h \
    $$PWD/Include/Tools/RingBuffer.h \
    $$PWD/Include/Tools/SevenBit.h \
@@ -59,7 +60,8 @@ HEADERS += \
    $$PWD/Include/Tools/Variable.h \
    $$PWD/Include/Utility/RandomWalk.h \
    $$PWD/Include/Utility/Spectrum.h \
-   $$PWD/Include/Utility/SquareSignal.h
+   $$PWD/Include/Utility/SquareSignal.h \
+   $$PWD/Prompt.hpp
     
 HEADERS += \
    $$PWD/BioFeedbackDummy.hpp \
