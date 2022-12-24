@@ -40,6 +40,7 @@ pyexport namespace Abstract
       pyexport void setSegmentBackgroundColor(const uint32_t index, const Color& color = bgDefaultColor);
 
       pyexport bool isLooping() const;
+      pyexport bool isPastLoop() const;
       pyexport void setLooping(bool on);
 
       pyexport const uint32_t& getCurrentSegmentIndex() const;

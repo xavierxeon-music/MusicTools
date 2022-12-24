@@ -189,6 +189,11 @@ bool Abstract::SegmentCrawler::isLooping() const
    return loop;
 }
 
+bool Abstract::SegmentCrawler::isPastLoop() const
+{
+   return loop ? false : pastLoop;
+}
+
 void Abstract::SegmentCrawler::setLooping(bool on)
 {
    loop = on;
