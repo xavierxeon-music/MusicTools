@@ -6,13 +6,14 @@ include(Memory/Memory.pri)
 include(RememberDummy/Remember.pri)
 
 HEADERS += \
-   $$PWD/Debug.hpp \
    $$PWD/DoubleBuffer.h \
+   $$PWD/Include/Abstract/AbstractChainCrawler.h \
    $$PWD/Include/Abstract/AbstractEffect.h \
    $$PWD/Include/Abstract/AbstractOscilator.h \
    $$PWD/Include/Abstract/AbstractSegmentCrawler.h \
    $$PWD/Include/Abstract/AbstractSoundSource.h \
    $$PWD/Include/Blocks/BioFeedbackDummy.h \
+   $$PWD/Include/Blocks/ChainLink.h \
    $$PWD/Include/Blocks/Contour.h \
    $$PWD/Include/Blocks/CvSwitch.h \
    $$PWD/Include/Blocks/Grooves.h \
@@ -64,6 +65,8 @@ HEADERS += \
    $$PWD/Prompt.hpp
     
 HEADERS += \
+   $$PWD/ChainLink.hpp \
+   $$PWD/Debug.hpp \
    $$PWD/BioFeedbackDummy.hpp \
    $$PWD/BoolField.hpp \
    $$PWD/Compressor.hpp \
@@ -109,6 +112,7 @@ HEADERS += \
 
 
 SOURCES += \
+    $$PWD/AbstractChainCrawler.cpp \
    $$PWD/AbstractSegmentCrawler.cpp \
    $$PWD/AbstractSoundSource.cpp \
    $$PWD/Colour.cpp \
