@@ -21,6 +21,9 @@ namespace Abstract
 
       protected:
          Tempo::Tick length;
+
+      private:
+         friend class Chain;
       };
 
       class Crawler final
@@ -41,7 +44,7 @@ namespace Abstract
 
    public:
       Chain();
-      ~Chain();
+      virtual ~Chain();
 
    public:
       void addLink(Link* link);
