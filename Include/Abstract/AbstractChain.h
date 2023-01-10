@@ -1,5 +1,5 @@
-#ifndef AbstractChainCrawlerH
-#define AbstractChainCrawlerH
+#ifndef AbstractChainH
+#define AbstractChainH
 
 #include <Remember.h>
 

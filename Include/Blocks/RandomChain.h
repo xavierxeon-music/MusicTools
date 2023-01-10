@@ -1,7 +1,7 @@
 #ifndef RandomChainH
 #define RandomChainH
 
-#include <Abstract/AbstractChainCrawler.h>
+#include <Abstract/AbstractChain.h>
 
 class RandomChain : public Abstract::Chain
 {

@@ -1,5 +1,5 @@
-#include <Abstract/AbstractChainCrawler.h>
+#include <Abstract/AbstractChain.h>
 
-AbstractChainCrawler::AbstractChainCrawler()
+Abstract::Chain::Chain()
 {
 }

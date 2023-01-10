@@ -4,7 +4,7 @@
 #include <Blocks/RandomChain.h>
 
 RandomChain::RandomChain()
-   : Abstract::Chain::Crawler()
+   : Abstract::Chain()
 {
 }
 
