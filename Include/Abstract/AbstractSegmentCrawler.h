@@ -8,6 +8,8 @@
 
 pyexport namespace Abstract
 {
+   // has  fixed length of segments and therefore a fixed length
+
    pyexport class SegmentCrawler : public Remember::Container
    {
    public:

@@ -7,16 +7,16 @@ include(RememberDummy/Remember.pri)
 
 HEADERS += \
    $$PWD/DoubleBuffer.h \
-   $$PWD/Include/Abstract/AbstractChainCrawler.h \
+   $$PWD/Include/Abstract/AbstractChain.h \
    $$PWD/Include/Abstract/AbstractEffect.h \
    $$PWD/Include/Abstract/AbstractOscilator.h \
    $$PWD/Include/Abstract/AbstractSegmentCrawler.h \
    $$PWD/Include/Abstract/AbstractSoundSource.h \
    $$PWD/Include/Blocks/BioFeedbackDummy.h \
-   $$PWD/Include/Blocks/ChainLink.h \
    $$PWD/Include/Blocks/Contour.h \
    $$PWD/Include/Blocks/CvSwitch.h \
    $$PWD/Include/Blocks/Grooves.h \
+   $$PWD/Include/Blocks/RandomChain.h \
    $$PWD/Include/Blocks/Sequencer.h \
    $$PWD/Include/Colour.h \
    $$PWD/Include/Debug.h \
@@ -65,7 +65,6 @@ HEADERS += \
    $$PWD/Prompt.hpp
     
 HEADERS += \
-   $$PWD/ChainLink.hpp \
    $$PWD/Debug.hpp \
    $$PWD/BioFeedbackDummy.hpp \
    $$PWD/BoolField.hpp \
@@ -90,6 +89,7 @@ HEADERS += \
    $$PWD/MidiToolTempo.hpp \
    $$PWD/MusicTools.hpp \
    $$PWD/Noise.hpp \
+   $$PWD/RandomChain.hpp \
    $$PWD/RandomWalk.hpp \
    $$PWD/Range.hpp \
    $$PWD/RingBuffer.hpp \
@@ -112,7 +112,7 @@ HEADERS += \
 
 
 SOURCES += \
-    $$PWD/AbstractChainCrawler.cpp \
+    $$PWD/AbstractChain.cpp \
    $$PWD/AbstractSegmentCrawler.cpp \
    $$PWD/AbstractSoundSource.cpp \
    $$PWD/Colour.cpp \

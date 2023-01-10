@@ -7,6 +7,8 @@
 pyexport class Tempo
 {
 public:
+   using Tick = uint8_t; // a sixteenth beat
+
    pyexport enum Division : uint8_t //
    {
       Sixteenth = 1,
@@ -32,7 +34,7 @@ public:
    pyexport inline RunState getRunState() const;
    pyexport inline bool isRunningOrFirstTick() const;
    pyexport inline virtual uint16_t getBeatsPerMinute() const;
-   pyexport inline virtual double getPercentage() const;
+   pyexport inline virtual double getPercentage() const; // from last tick
 
 protected:
    RunState runState;
