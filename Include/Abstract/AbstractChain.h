@@ -36,7 +36,7 @@ namespace Abstract
          void clockTick();
          void clockReset();
 
-         void addChain(Chain* chain);
+         void addChain(Chain* chain); // does not take ownership
 
       private:
          Chain::List chainList;
@@ -47,8 +47,8 @@ namespace Abstract
       virtual ~Chain();
 
    public:
-      void addLink(Link* link);
-      virtual void linkDone(Link* link);
+      void addLink(Link* link);          // does not take ownership
+      virtual void linkDone(Link* link); // does not delete link
 
    private:
       void clockTick();

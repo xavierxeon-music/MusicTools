@@ -44,9 +44,6 @@ Abstract::Chain::Crawler::Crawler()
 
 Abstract::Chain::Crawler::~Crawler()
 {
-   for (Chain* chain : chainList)
-      delete chain;
-
    chainList.clear();
 }
 
