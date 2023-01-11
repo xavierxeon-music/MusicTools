@@ -3,6 +3,8 @@
 
 #include <Remember.h>
 
+#include <list>
+
 #include <Music/Tempo.h>
 
 namespace Abstract
