@@ -20,7 +20,7 @@ public:
    inline RandomChain(const Type& type);
 
 public:
-   uint8_t getValue(const float& linkPercentage);
+   uint8_t getValue(const float& tickPercentage);
 
    const uint8_t& getMinValue() const;
    void setMinValue(const uint8_t& newValue);

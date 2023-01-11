@@ -33,16 +33,6 @@ Abstract::Chain::~Chain()
    linkList.clear();
 }
 
-void Abstract::Chain::addLink(Link* link)
-{
-   linkList.push_back(link);
-}
-
-void Abstract::Chain::linkDone(Link* link)
-{
-   delete link;
-}
-
 void Abstract::Chain::clockTick()
 {
    if (linkList.empty())
@@ -65,7 +55,7 @@ void Abstract::Chain::clockReset()
    current->tickCounter.reset();
 }
 
-float Abstract::Chain::getCurrentLinkPrecentage(const float tickPercentage) const
+float Abstract::Chain::getCurrentLinkPrecentage(const float& tickPercentage) const
 {
    if (linkList.empty())
       return 0.0;
@@ -81,6 +71,16 @@ float Abstract::Chain::getCurrentLinkPrecentage(const float tickPercentage) cons
    const float percentage = currentTick / maxTick;
 
    return percentage;
+}
+
+void Abstract::Chain::addLink(Link* link)
+{
+   linkList.push_back(link);
+}
+
+bool Abstract::Chain::hasLinks() const
+{
+   return !linkList.empty();
 }
 
 // Collection

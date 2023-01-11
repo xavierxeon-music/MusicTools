@@ -54,11 +54,14 @@ namespace Abstract
       virtual ~Chain();
 
    public:
-      void addLink(Link* link);          // add link to list, but does not take ownership
-      virtual void linkDone(Link* link); // link has been removed form list. in default implementation link is deleted
       void clockTick();
       void clockReset();
-      float getCurrentLinkPrecentage(const float tickPercentage) const;
+      float getCurrentLinkPrecentage(const float& tickPercentage) const;
+
+   protected:
+      void addLink(Link* link);              // add link to list, but does not take ownership
+      virtual void linkDone(Link* link) = 0; // link has been removed form list. chain will not delete link
+      bool hasLinks() const;
 
    private:
       Link::List linkList;

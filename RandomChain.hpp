@@ -20,10 +20,14 @@ RandomChain::RandomChain(const Type& type)
    addLink(&link);
 }
 
-uint8_t RandomChain::getValue(const float& linkPercentage)
+uint8_t RandomChain::getValue(const float& tickPercentage)
 {
+   if (!hasLinks())
+      return 0;
+
    if (Type::Ramp == type)
    {
+      const float linkPercentage = getCurrentLinkPrecentage(tickPercentage);
       const float diffValue = link.endValue - link.startValue;
       const uint8_t value = static_cast<uint8_t>(link.startValue + linkPercentage * diffValue);
 
