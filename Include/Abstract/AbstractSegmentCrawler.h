@@ -32,8 +32,8 @@ pyexport namespace Abstract
       pyexport const std::string& getSegmentName(const uint32_t index) const;
       pyexport void setSegmentName(const uint32_t index, const std::string& name);
 
-      pyexport uint8_t getSegmentLength(const uint32_t index, bool* isDefault = nullptr) const;
-      pyexport virtual void setSegmentLength(const uint32_t index, const uint8_t& length);
+      pyexport Tempo::Tick getSegmentLength(const uint32_t index, bool* isDefault = nullptr) const;
+      pyexport virtual void setSegmentLength(const uint32_t index, const Tempo::Tick& length);
 
       pyexport Color getSegmentForegroundColor(const uint32_t index, bool* isDefault = nullptr) const;
       pyexport void setSegmentForegroundColor(const uint32_t index, const Color& color = fgDefaultColor);
@@ -66,7 +66,7 @@ pyexport namespace Abstract
       };
 
       using Headers_ = Remember::RefList<Header>;
-      using Division_ = Remember::Value<uint8_t>;
+      using Division_ = Remember::Value<Tempo::Tick>;
       using SegementCount_ = Remember::Value<uint32_t>;
       using Loop_ = Remember::Value<bool>;
 

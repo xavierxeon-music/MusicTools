@@ -7,7 +7,6 @@
 
 namespace Abstract
 {
-   // a collection of chains. each link can have an arbitrary length.
 
    class Chain
    {
@@ -17,26 +16,34 @@ namespace Abstract
       class Link
       {
       public:
-         using List = std::vector<Link*>;
+         using List = std::list<Link*>;
 
-      protected:
-         Tempo::Tick length;
+      public:
+         Link();
+         virtual ~Link();
+
+      public:
+         void setLength(const Tempo::Tick& newLength);
 
       private:
          friend class Chain;
+
+      private:
+         Tempo::Tick length;
+         Counter tickCounter;
       };
 
-      class Crawler final
+      // a collection of chains. each link can have an arbitrary length.
+      class Collection final
       {
       public:
-         Crawler();
-         ~Crawler();
+         Collection();
+         ~Collection();
 
       public:
+         void addChain(Chain* chain); // does not take ownership
          void clockTick();
          void clockReset();
-
-         void addChain(Chain* chain); // does not take ownership
 
       private:
          Chain::List chainList;
@@ -47,15 +54,13 @@ namespace Abstract
       virtual ~Chain();
 
    public:
-      void addLink(Link* link);          // does not take ownership
-      virtual void linkDone(Link* link); // does not delete link
-
-   private:
+      void addLink(Link* link);          // add link to list, but does not take ownership
+      virtual void linkDone(Link* link); // link has been removed form list. in default implementation link is deleted
       void clockTick();
       void clockReset();
+      float getCurrentLinkPrecentage(const float tickPercentage) const;
 
    private:
-      TempoControl tempo;
       Link::List linkList;
    };
 } // namespace Abstract

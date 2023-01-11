@@ -128,7 +128,7 @@ void Abstract::SegmentCrawler::setSegmentName(const uint32_t index, const std::s
    Remember::Root::setUnsynced();
 }
 
-uint8_t Abstract::SegmentCrawler::getSegmentLength(const uint32_t index, bool* isDefault) const
+Tempo::Tick Abstract::SegmentCrawler::getSegmentLength(const uint32_t index, bool* isDefault) const
 {
    if (0 == headers[index].length)
    {
@@ -144,7 +144,7 @@ uint8_t Abstract::SegmentCrawler::getSegmentLength(const uint32_t index, bool* i
    }
 }
 
-void Abstract::SegmentCrawler::setSegmentLength(const uint32_t index, const uint8_t& length)
+void Abstract::SegmentCrawler::setSegmentLength(const uint32_t index, const Tempo::Tick &length)
 {
    headers[index].length = length;
    if (index == currentSegmentIndex)

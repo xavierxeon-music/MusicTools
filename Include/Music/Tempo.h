@@ -7,7 +7,7 @@
 pyexport class Tempo
 {
 public:
-   using Tick = uint8_t; // a sixteenth beat
+   using Tick = uint16_t; // a sixteenth beat
 
    pyexport enum Division : uint8_t //
    {

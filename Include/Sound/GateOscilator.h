@@ -3,7 +3,7 @@
 
 #include <Abstract/AbstractOscilator.h>
 
-#include <Tools/SquareSignal.h>
+#include <Utility/SquareSignal.h>
 
 // a sqaure oscilator at the highest possible pitch
 
