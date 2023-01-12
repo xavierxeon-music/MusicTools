@@ -66,6 +66,9 @@ const uint8_t& RandomChain::getMinValue() const
 
 void RandomChain::setMinValue(const uint8_t& newValue)
 {
+   if (newValue > maxValue)
+      return;
+
    minValue = newValue;
    valueMapper.setMinOutput(newValue);
    Remember::Root::setUnsynced();
@@ -78,6 +81,9 @@ const uint8_t& RandomChain::getMaxValue() const
 
 void RandomChain::setMaxValue(const uint8_t& newValue)
 {
+   if (newValue < minValue)
+      return;
+
    maxValue = newValue;
    valueMapper.setMaxOutput(newValue);
    Remember::Root::setUnsynced();
@@ -90,6 +96,9 @@ const Tempo::Tick& RandomChain::getMinBarDuration() const
 
 void RandomChain::setMinBarDuration(const Tempo::Tick& newDuration)
 {
+   if (newDuration > maxBarDuration)
+      return;
+
    minBarDuration = newDuration;
    durationMapper.setMinOutput(minBarDuration);
    Remember::Root::setUnsynced();
@@ -102,6 +111,9 @@ const Tempo::Tick& RandomChain::getMaxBarDuration() const
 
 void RandomChain::setMaxBarDuration(const Tempo::Tick& newDuration)
 {
+   if (newDuration < minBarDuration)
+      return;
+
    maxBarDuration = newDuration;
    durationMapper.setMaxOutput(maxBarDuration);
    Remember::Root::setUnsynced();
