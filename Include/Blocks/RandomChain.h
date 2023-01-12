@@ -2,11 +2,12 @@
 #define RandomChainH
 
 #include <Abstract/AbstractChain.h>
+#include <Remember.h>
 
 #include <Tools/FastRandom.h>
 #include <Tools/Range.h>
 
-class RandomChain : public Abstract::Chain
+class RandomChain : public Abstract::Chain, public Remember::Container
 {
 public:
    enum class Type
@@ -17,10 +18,13 @@ public:
    };
 
 public:
-   inline RandomChain(const Type& type);
+   inline RandomChain();
 
 public:
    uint8_t getValue(const float& tickPercentage);
+
+   const Type& getType() const;
+   void setType(const Type& newType);
 
    const uint8_t& getMinValue() const;
    void setMinValue(const uint8_t& newValue);
@@ -45,16 +49,20 @@ private:
       uint8_t endValue;
    };
 
+   using Type_ = Remember::Value<Type>;
+   using Value_ = Remember::Value<uint8_t>;
+   using Duration_ = Remember::Value<Tempo::Tick>;
+
 private:
    void linkDone(Abstract::Chain::Link* link) override;
    void rollDice();
 
 private:
-   const Type type;
-   uint8_t minValue;
-   uint8_t maxValue;
-   Tempo::Tick minDuration;
-   Tempo::Tick maxDuration;
+   Type_ type;
+   Value_ minValue;
+   Value_ maxValue;
+   Duration_ minDuration;
+   Duration_ maxDuration;
 
    Link link;
    Range::Mapper valueMapper;

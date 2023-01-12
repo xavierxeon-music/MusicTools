@@ -5,13 +5,14 @@
 
 FastRandom RandomChain::generator(0);
 
-RandomChain::RandomChain(const Type& type)
+RandomChain::RandomChain()
    : Abstract::Chain()
-   , type(type)
-   , minValue(0)
-   , maxValue(255)
-   , minDuration(1)
-   , maxDuration(16)
+   , Remember::Container()
+   , type(this, Type::Ramp)
+   , minValue(this, 0)
+   , maxValue(this, 255)
+   , minDuration(this, 1)
+   , maxDuration(this, 16)
    , link()
    , valueMapper(0, 1, minValue, maxValue)
    , durationMapper(0, 1, minDuration, maxDuration)
@@ -37,48 +38,63 @@ uint8_t RandomChain::getValue(const float& tickPercentage)
    return link.startValue;
 }
 
+const RandomChain::Type& RandomChain::getType() const
+{
+   return type.constRef();
+}
+
+void RandomChain::setType(const Type& newType)
+{
+   type = newType;
+   Remember::Root::setUnsynced();
+}
+
 const uint8_t& RandomChain::getMinValue() const
 {
-   return minValue;
+   return minValue.constRef();
 }
 
 void RandomChain::setMinValue(const uint8_t& newValue)
 {
    minValue = newValue;
    valueMapper.setMinOutput(newValue);
+   Remember::Root::setUnsynced();
 }
 
 const uint8_t& RandomChain::getMaxValue() const
 {
-   return maxValue;
+   return maxValue.constRef();
 }
 
 void RandomChain::setMaxValue(const uint8_t& newValue)
 {
    maxValue = newValue;
    valueMapper.setMaxOutput(newValue);
+   Remember::Root::setUnsynced();
 }
 
 const Tempo::Tick& RandomChain::getMinDuration() const
 {
-   return minDuration;
+   return minDuration.constRef();
 }
 
 void RandomChain::setMinDuration(const Tempo::Tick& newDuration)
 {
    minDuration = newDuration;
    durationMapper.setMinOutput(newDuration);
+   Remember::Root::setUnsynced();
 }
 
 const Tempo::Tick& RandomChain::getMaxDuration() const
 {
-   return maxDuration;
+   return maxDuration.constRef();
 }
 
 void RandomChain::setMaxDuration(const Tempo::Tick& newDuration)
 {
    maxDuration = newDuration;
    durationMapper.setMaxOutput(newDuration);
+   Remember::Root::setUnsynced();
 }
 
 void RandomChain::linkDone(Abstract::Chain::Link* _link)

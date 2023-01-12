@@ -28,8 +28,6 @@ Abstract::Chain::Chain()
 
 Abstract::Chain::~Chain()
 {
-   for (Link* link : linkList)
-      delete link;
    linkList.clear();
 }
 

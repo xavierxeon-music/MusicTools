@@ -1,8 +1,6 @@
 #ifndef AbstractChainH
 #define AbstractChainH
 
-#include <Remember.h>
-
 #include <list>
 
 #include <Music/Tempo.h>
