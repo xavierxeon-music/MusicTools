@@ -21,22 +21,25 @@ public:
    inline RandomChain();
 
 public:
-   uint8_t getValue(const float& tickPercentage);
+   inline uint8_t getValue(const float& tickPercentage) const;
+   inline bool isOn() const;
 
-   const Type& getType() const;
-   void setType(const Type& newType);
+   inline const Type& getType() const;
+   inline void setType(const Type& newType);
 
-   const uint8_t& getMinValue() const;
-   void setMinValue(const uint8_t& newValue);
+   inline const uint8_t& getMinValue() const;
+   inline void setMinValue(const uint8_t& newValue);
 
-   const uint8_t& getMaxValue() const;
-   void setMaxValue(const uint8_t& newValue);
+   inline const uint8_t& getMaxValue() const;
+   inline void setMaxValue(const uint8_t& newValue);
 
-   const Tempo::Tick& getMinDuration() const;
-   void setMinDuration(const Tempo::Tick& newDuration);
+   inline const Tempo::Tick& getMinBarDuration() const;
+   inline void setMinBarDuration(const Tempo::Tick& newDuration);
 
-   const Tempo::Tick& getMaxDuration() const;
-   void setMaxDuration(const Tempo::Tick& newDuration);
+   inline const Tempo::Tick& getMaxBarDuration() const;
+   inline void setMaxBarDuration(const Tempo::Tick& newDuration);
+
+   inline const Tempo::Tick& getCurrentBarDuration() const;
 
 private:
    class Link : public Abstract::Chain::Link
@@ -54,20 +57,21 @@ private:
    using Duration_ = Remember::Value<Tempo::Tick>;
 
 private:
-   void linkDone(Abstract::Chain::Link* link) override;
-   void rollDice();
+   inline void linkDone(Abstract::Chain::Link* link) override;
+   inline void rollDice();
 
 private:
    Type_ type;
    Value_ minValue;
    Value_ maxValue;
-   Duration_ minDuration;
-   Duration_ maxDuration;
+   Duration_ minBarDuration;
+   Duration_ maxBarDuration;
 
    Link link;
    Range::Mapper valueMapper;
    Range::Mapper durationMapper;
-   static FastRandom generator;
+   Tempo::Tick currentBarDuration;
+   FastRandom generator;
 };
 
 #ifndef RandomChainHPP

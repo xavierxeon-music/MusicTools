@@ -3,25 +3,27 @@
 
 #include <Blocks/RandomChain.h>
 
-FastRandom RandomChain::generator(0);
-
 RandomChain::RandomChain()
    : Abstract::Chain()
    , Remember::Container()
    , type(this, Type::Ramp)
    , minValue(this, 0)
    , maxValue(this, 255)
-   , minDuration(this, 1)
-   , maxDuration(this, 16)
+   , minBarDuration(this, 1)
+   , maxBarDuration(this, 16)
    , link()
    , valueMapper(0, 1, minValue, maxValue)
-   , durationMapper(0, 1, minDuration, maxDuration)
+   , durationMapper(0, 1, minBarDuration, maxBarDuration)
+   , currentBarDuration(0)
+   , generator(0)
 {
+   generator.reset(); // use random seed!
+
    rollDice();
    addLink(&link);
 }
 
-uint8_t RandomChain::getValue(const float& tickPercentage)
+uint8_t RandomChain::getValue(const float& tickPercentage) const
 {
    if (!hasLinks())
       return 0;
@@ -36,6 +38,14 @@ uint8_t RandomChain::getValue(const float& tickPercentage)
    }
 
    return link.startValue;
+}
+
+bool RandomChain::isOn() const
+{
+   if (!hasLinks())
+      return false;
+
+   return (link.startValue > 128);
 }
 
 const RandomChain::Type& RandomChain::getType() const
@@ -73,28 +83,33 @@ void RandomChain::setMaxValue(const uint8_t& newValue)
    Remember::Root::setUnsynced();
 }
 
-const Tempo::Tick& RandomChain::getMinDuration() const
+const Tempo::Tick& RandomChain::getMinBarDuration() const
 {
-   return minDuration.constRef();
+   return minBarDuration.constRef();
 }
 
-void RandomChain::setMinDuration(const Tempo::Tick& newDuration)
+void RandomChain::setMinBarDuration(const Tempo::Tick& newDuration)
 {
-   minDuration = newDuration;
-   durationMapper.setMinOutput(newDuration);
+   minBarDuration = newDuration;
+   durationMapper.setMinOutput(minBarDuration);
    Remember::Root::setUnsynced();
 }
 
-const Tempo::Tick& RandomChain::getMaxDuration() const
+const Tempo::Tick& RandomChain::getMaxBarDuration() const
 {
-   return maxDuration.constRef();
+   return maxBarDuration.constRef();
 }
 
-void RandomChain::setMaxDuration(const Tempo::Tick& newDuration)
+void RandomChain::setMaxBarDuration(const Tempo::Tick& newDuration)
 {
-   maxDuration = newDuration;
-   durationMapper.setMaxOutput(newDuration);
+   maxBarDuration = newDuration;
+   durationMapper.setMaxOutput(maxBarDuration);
    Remember::Root::setUnsynced();
+}
+
+const Tempo::Tick& RandomChain::getCurrentBarDuration() const
+{
+   return currentBarDuration;
 }
 
 void RandomChain::linkDone(Abstract::Chain::Link* _link)
@@ -108,7 +123,9 @@ void RandomChain::linkDone(Abstract::Chain::Link* _link)
 void RandomChain::rollDice()
 {
    const float value = generator.value();
-   link.setLength(durationMapper(generator.value()));
+   currentBarDuration = durationMapper(generator.value());
+   //link.setLength(16 * currentBarDuration);
+   link.setLength(currentBarDuration);
 
    if (Type::Ramp == type)
    {

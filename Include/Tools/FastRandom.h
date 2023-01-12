@@ -15,7 +15,7 @@ public:
    pyexport inline FastRandom(const uint64_t& seed = 0);
 
 public:
-   pyexport inline void reset(const uint64_t& seed = 0);
+   pyexport inline void reset(const uint64_t& seed = rand());
    pyexport inline void skip(const uint64_t& noOfValues);
    pyexport inline float value(); // [0 -  1]
 

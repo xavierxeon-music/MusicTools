@@ -8,6 +8,12 @@
 FastRandom::FastRandom(const uint64_t& seed)
    : current(seed)
 {
+   static bool doneOnce = false;
+   if (!doneOnce)
+   {
+      srand(time(0));
+      doneOnce = true;
+   }
 }
 
 void FastRandom::reset(const uint64_t& seed)
