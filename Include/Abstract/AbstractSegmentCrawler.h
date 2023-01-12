@@ -21,12 +21,12 @@ pyexport namespace Abstract
 
    public:
       pyexport virtual void clear();
-      pyexport virtual void update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount);
+      pyexport virtual void update(const Tempo::Tick& newDefaultDivision, const uint32_t newSegmentCount);
 
       pyexport void clockTick();
       pyexport void clockReset();
 
-      pyexport const uint8_t& getDefaultDivision() const;
+      pyexport const Tempo::Tick& getDefaultDivision() const;
       pyexport const uint32_t& getSegmentCount() const;
 
       pyexport const std::string& getSegmentName(const uint32_t index) const;
@@ -72,7 +72,7 @@ pyexport namespace Abstract
 
    private:
       Headers_ headers;
-      Division_ deafaultDivision;
+      Division_ defaultDivision;
       SegementCount_ segmentCount;
       Loop_ loop;
 

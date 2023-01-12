@@ -17,8 +17,8 @@ public:
    pyexport inline Grooves();
 
 public:
-   pyexport inline virtual void update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount) override;
-   pyexport inline virtual void setSegmentLength(const uint32_t segmentIndex, const uint8_t& length) override;
+   pyexport inline virtual void update(const Tempo::Tick& newDefaultDivision, const uint32_t newSegmentCount) override;
+   pyexport inline virtual void setSegmentLength(const uint32_t segmentIndex, const Tempo::Tick& length) override;
 
    pyexport inline BoolField8 getTriggers(const uint32_t segmentIndex, const uint8_t tick) const;
    pyexport inline const Beat& getBeat(const uint32_t& segmentIndex) const; // may point to proxy

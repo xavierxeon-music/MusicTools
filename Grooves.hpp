@@ -15,7 +15,7 @@ Grooves::Grooves()
    updateProxyLists();
 }
 
-void Grooves::update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount)
+void Grooves::update(const Tempo::Tick& newDefaultDivision, const uint32_t newSegmentCount)
 {
    Abstract::SegmentCrawler::update(newDefaultDivision, newSegmentCount);
 
@@ -38,7 +38,7 @@ void Grooves::update(const uint8_t& newDefaultDivision, const uint32_t newSegmen
    updateProxyLists();
 }
 
-void Grooves::setSegmentLength(const uint32_t segmentIndex, const uint8_t& length)
+void Grooves::setSegmentLength(const uint32_t segmentIndex, const Tempo::Tick& length)
 {
    Abstract::SegmentCrawler::setSegmentLength(segmentIndex, length);
 

@@ -34,7 +34,7 @@ const Color Abstract::SegmentCrawler::bgDefaultColor(255, 255, 255);
 Abstract::SegmentCrawler::SegmentCrawler()
    : Remember::Container()
    , headers(this)
-   , deafaultDivision(this, Tempo::Bar)
+   , defaultDivision(this, Tempo::Bar)
    , segmentCount(this, 0)
    , loop(this, false)
    , currentSegmentIndex(0)
@@ -46,18 +46,18 @@ Abstract::SegmentCrawler::SegmentCrawler()
 
 void Abstract::SegmentCrawler::clear()
 {
-   deafaultDivision = Tempo::Bar;
+   defaultDivision = Tempo::Bar;
    segmentCount = 0;
    headers.clear();
 
-   divisionCounter.setMaxValue(deafaultDivision);
+   divisionCounter.setMaxValue(defaultDivision);
 
    Remember::Root::setUnsynced();
 }
 
-void Abstract::SegmentCrawler::update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount)
+void Abstract::SegmentCrawler::update(const Tempo::Tick& newDefaultDivision, const uint32_t newSegmentCount)
 {
-   deafaultDivision = newDefaultDivision;
+   defaultDivision = newDefaultDivision;
    segmentCount = newSegmentCount;
 
    while (headers.size() > newSegmentCount)
@@ -65,7 +65,7 @@ void Abstract::SegmentCrawler::update(const uint8_t& newDefaultDivision, const u
    while (headers.size() < newSegmentCount)
       headers.append(Header());
 
-   divisionCounter.setMaxValue(deafaultDivision);
+   divisionCounter.setMaxValue(defaultDivision);
 
    Remember::Root::setUnsynced();
 }
@@ -107,9 +107,9 @@ void Abstract::SegmentCrawler::clockReset()
    pastLoop = false;
 }
 
-const uint8_t& Abstract::SegmentCrawler::getDefaultDivision() const
+const Tempo::Tick& Abstract::SegmentCrawler::getDefaultDivision() const
 {
-   return deafaultDivision.constRef();
+   return defaultDivision.constRef();
 }
 
 const uint32_t& Abstract::SegmentCrawler::getSegmentCount() const
@@ -134,7 +134,7 @@ Tempo::Tick Abstract::SegmentCrawler::getSegmentLength(const uint32_t index, boo
    {
       if (isDefault)
          *isDefault = true;
-      return deafaultDivision.constRef();
+      return defaultDivision.constRef();
    }
    else
    {

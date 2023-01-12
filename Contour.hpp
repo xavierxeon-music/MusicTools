@@ -322,7 +322,7 @@ void Contour::Poly::clear()
       contours[contourIndex].resize(0, true);
 }
 
-void Contour::Poly::update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount)
+void Contour::Poly::update(const Tempo::Tick& newDefaultDivision, const uint32_t newSegmentCount)
 {
    Abstract::SegmentCrawler::update(newDefaultDivision, newSegmentCount);
 

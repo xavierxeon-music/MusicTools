@@ -90,7 +90,7 @@ public:
 
 public:
    pyexport inline virtual void clear() override;
-   pyexport inline virtual void update(const uint8_t& newDefaultDivision, const uint32_t newSegmentCount) override;
+   pyexport inline virtual void update(const Tempo::Tick& newDefaultDivision, const uint32_t newSegmentCount) override;
 
    pyexport inline uint8_t getContourCount() const;
    pyexport inline Contour& getContour(const uint8_t contourIndex);
