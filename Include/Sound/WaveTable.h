@@ -2,7 +2,6 @@
 #define WaveTableH
 
 #include <Maths.h>
-#include <MemoryArray.h>
 #include <MusicTools.h>
 
 namespace WaveTable
@@ -49,8 +48,7 @@ namespace WaveTable
       inline virtual float valueByAngle(const float& angle) const override;
 
    protected:
-      typename Memory::Array<float, TableSize> data;
-      //float data[TableSize];
+      float data[TableSize];
    };
 
 } // namespace WaveTable
