@@ -23,21 +23,27 @@ public:
 public:
    inline uint8_t getValue(const float& tickPercentage) const;
    inline bool isOn() const;
+   inline uint8_t linkStartValue() const;
+   inline uint8_t linkEndValue() const;
 
    inline const Type& getType() const;
    inline void setType(const Type& newType);
 
    inline const uint8_t& getMinValue() const;
-   inline void setMinValue(const uint8_t& newValue);
+   inline bool setMinValue(const uint8_t& newValue);
+   inline void changeMinValue(bool up);
 
    inline const uint8_t& getMaxValue() const;
-   inline void setMaxValue(const uint8_t& newValue);
+   inline bool setMaxValue(const uint8_t& newValue);
+   inline void changeMaxValue(bool up);
 
    inline const Tempo::Tick& getMinBarDuration() const;
-   inline void setMinBarDuration(const Tempo::Tick& newDuration);
+   inline bool setMinBarDuration(const Tempo::Tick& newDuration);
+   inline void changeMinBarDuration(bool up);
 
    inline const Tempo::Tick& getMaxBarDuration() const;
-   inline void setMaxBarDuration(const Tempo::Tick& newDuration);
+   inline bool setMaxBarDuration(const Tempo::Tick& newDuration);
+   inline void changeMaxBarDuration(bool up);
 
    inline const Tempo::Tick& getCurrentBarDuration() const;
 

@@ -48,6 +48,22 @@ bool RandomChain::isOn() const
    return (link.startValue > 128);
 }
 
+uint8_t RandomChain::linkStartValue() const
+{
+   if (!hasLinks())
+      return 0;
+
+   return link.startValue;
+}
+
+uint8_t RandomChain::linkEndValue() const
+{
+   if (!hasLinks())
+      return 0;
+
+   return link.endValue;
+}
+
 const RandomChain::Type& RandomChain::getType() const
 {
    return type.constRef();
@@ -56,7 +72,6 @@ const RandomChain::Type& RandomChain::getType() const
 void RandomChain::setType(const Type& newType)
 {
    type = newType;
-   Remember::Root::setUnsynced();
 }
 
 const uint8_t& RandomChain::getMinValue() const
@@ -64,14 +79,28 @@ const uint8_t& RandomChain::getMinValue() const
    return minValue.constRef();
 }
 
-void RandomChain::setMinValue(const uint8_t& newValue)
+bool RandomChain::setMinValue(const uint8_t& newValue)
 {
    if (newValue > maxValue)
-      return;
+      return false;
 
    minValue = newValue;
    valueMapper.setMinOutput(newValue);
-   Remember::Root::setUnsynced();
+
+   return true;
+}
+
+void RandomChain::changeMinValue(bool up)
+{
+   bool changed = false;
+
+   if (up && minValue < 255)
+      changed = setMinValue(minValue + 1);
+   else if (!up and minValue > 0)
+      changed = setMinValue(minValue - 1);
+
+   if (changed)
+      Remember::Root::setUnsynced();
 }
 
 const uint8_t& RandomChain::getMaxValue() const
@@ -79,14 +108,28 @@ const uint8_t& RandomChain::getMaxValue() const
    return maxValue.constRef();
 }
 
-void RandomChain::setMaxValue(const uint8_t& newValue)
+bool RandomChain::setMaxValue(const uint8_t& newValue)
 {
    if (newValue < minValue)
-      return;
+      return false;
 
    maxValue = newValue;
    valueMapper.setMaxOutput(newValue);
-   Remember::Root::setUnsynced();
+
+   return true;
+}
+
+void RandomChain::changeMaxValue(bool up)
+{
+   bool changed = false;
+
+   if (up && maxValue < 255)
+      changed = setMaxValue(maxValue + 1);
+   else if (!up and maxValue > 0)
+      changed = setMaxValue(maxValue - 1);
+
+   if (changed)
+      Remember::Root::setUnsynced();
 }
 
 const Tempo::Tick& RandomChain::getMinBarDuration() const
@@ -94,14 +137,28 @@ const Tempo::Tick& RandomChain::getMinBarDuration() const
    return minBarDuration.constRef();
 }
 
-void RandomChain::setMinBarDuration(const Tempo::Tick& newDuration)
+bool RandomChain::setMinBarDuration(const Tempo::Tick& newDuration)
 {
    if (newDuration > maxBarDuration)
-      return;
+      return false;
 
    minBarDuration = newDuration;
    durationMapper.setMinOutput(minBarDuration);
-   Remember::Root::setUnsynced();
+
+   return true;
+}
+
+void RandomChain::changeMinBarDuration(bool up)
+{
+   bool changed = false;
+
+   if (up && minBarDuration < 255 * 255)
+      changed = setMinBarDuration(minBarDuration + 1);
+   else if (!up and minBarDuration > 0)
+      changed = setMinBarDuration(minBarDuration - 1);
+
+   if (changed)
+      Remember::Root::setUnsynced();
 }
 
 const Tempo::Tick& RandomChain::getMaxBarDuration() const
@@ -109,14 +166,28 @@ const Tempo::Tick& RandomChain::getMaxBarDuration() const
    return maxBarDuration.constRef();
 }
 
-void RandomChain::setMaxBarDuration(const Tempo::Tick& newDuration)
+bool RandomChain::setMaxBarDuration(const Tempo::Tick& newDuration)
 {
    if (newDuration < minBarDuration)
-      return;
+      return false;
 
    maxBarDuration = newDuration;
    durationMapper.setMaxOutput(maxBarDuration);
-   Remember::Root::setUnsynced();
+
+   return true;
+}
+
+void RandomChain::changeMaxBarDuration(bool up)
+{
+   bool changed = false;
+
+   if (up && maxBarDuration < 255 * 255)
+      changed = setMaxBarDuration(maxBarDuration + 1);
+   else if (!up and maxBarDuration > 0)
+      changed = setMaxBarDuration(maxBarDuration - 1);
+
+   if (changed)
+      Remember::Root::setUnsynced();
 }
 
 const Tempo::Tick& RandomChain::getCurrentBarDuration() const
@@ -136,13 +207,13 @@ void RandomChain::rollDice()
 {
    const float value = generator.value();
    currentBarDuration = durationMapper(generator.value());
-   //link.setLength(16 * currentBarDuration);
-   link.setLength(currentBarDuration);
+   link.setLength(16 * currentBarDuration);
+   //link.setLength(currentBarDuration);
 
    if (Type::Ramp == type)
    {
-      link.startValue = valueMapper(value);
-      link.endValue = valueMapper(generator.value());
+      link.startValue = link.endValue;
+      link.endValue = valueMapper(value);
    }
    else if (Type::Steady == type)
    {

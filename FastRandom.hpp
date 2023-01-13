@@ -3,17 +3,23 @@
 
 #include <Tools/FastRandom.h>
 
+#ifdef NON_DAISY_DEVICE
+#include <ctime>
+#endif
+
 #include <MusicTools.h>
 
 FastRandom::FastRandom(const uint64_t& seed)
    : current(seed)
 {
+#ifdef NON_DAISY_DEVICE
    static bool doneOnce = false;
    if (!doneOnce)
    {
       srand(time(0));
       doneOnce = true;
    }
+#endif
 }
 
 void FastRandom::reset(const uint64_t& seed)
