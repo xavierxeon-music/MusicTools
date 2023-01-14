@@ -64,6 +64,7 @@ private:
    using Duration_ = Remember::Value<Tempo::Tick>;
 
 private:
+   inline void postRead() override;
    inline void linkDone(Abstract::Chain::Link* link) override;
    inline void rollDice();
 

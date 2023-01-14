@@ -27,6 +27,17 @@ RandomChain::RandomChain()
    addLink(&link);
 }
 
+void RandomChain::postRead()
+{
+   valueMapper.setMinOutput(minValue);
+   valueMapper.setMaxOutput(maxValue);
+
+   durationMapper.setMinOutput(minBarDuration);
+   durationMapper.setMaxOutput(maxBarDuration);
+
+   rollDice();
+}
+
 uint8_t RandomChain::getValue(const float& tickPercentage) const
 {
    if (!hasLinks())
@@ -151,6 +162,7 @@ bool RandomChain::setMinBarDuration(const Tempo::Tick& newDuration)
 
    minBarDuration = newDuration;
    durationMapper.setMinOutput(minBarDuration);
+   debug() << __FUNCTION__ << newDuration;
 
    rollDice();
    return true;
