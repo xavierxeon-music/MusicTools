@@ -12,9 +12,10 @@ class RandomChain : public Abstract::Chain, public Remember::Container
 public:
    enum class Type
    {
-      Ramp,   // glide from start value to end value
-      Steady, // start value == end value
-      Gate    // ignore min and max values, either 0 or 255
+      Ramp,    // glide from start value to end value
+      Steady,  // start value == end value
+      RndGate, // radndom gate (force value to be either 0 or 255)
+      AltGate  // allternating gates (on, off, on ,off ...), sart value is random
    };
 
 public:

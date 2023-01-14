@@ -7,6 +7,8 @@ GateOscilator::GateOscilator()
    : Abstract::Oscilator()
    , isOn(false)
    , square(8, true)
+   , minValue(-1.0)
+   , maxValue(1.0)
 {
 }
 
@@ -17,14 +19,24 @@ float GateOscilator::createSound()
    if (!isOn)
       return 0.0;
    else if (high)
-      return 1.0;
+      return maxValue;
    else
-      return -1.0;
+      return minValue;
 }
 
 void GateOscilator::setOn(bool on)
 {
    isOn = on;
+}
+
+void GateOscilator::setMinValue(const float& value)
+{
+   minValue = value;
+}
+
+void GateOscilator::setMaxValue(const float& value)
+{
+   maxValue = value;
 }
 
 #endif // GateOscilatorHPP

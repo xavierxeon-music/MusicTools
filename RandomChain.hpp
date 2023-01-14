@@ -19,6 +19,10 @@ RandomChain::RandomChain()
 {
    generator.reset(); // use random seed!
 
+   // init alt gate
+   const float value = generator.value();
+   link.endValue = (value > 0.5) ? 255 : 0;
+
    rollDice();
    addLink(&link);
 }
@@ -45,7 +49,7 @@ bool RandomChain::isOn() const
    if (!hasLinks())
       return false;
 
-   return (link.startValue > 128);
+   return (link.startValue >= 128);
 }
 
 uint8_t RandomChain::linkStartValue() const
@@ -72,6 +76,7 @@ const RandomChain::Type& RandomChain::getType() const
 void RandomChain::setType(const Type& newType)
 {
    type = newType;
+   rollDice();
 }
 
 const uint8_t& RandomChain::getMinValue() const
@@ -87,6 +92,7 @@ bool RandomChain::setMinValue(const uint8_t& newValue)
    minValue = newValue;
    valueMapper.setMinOutput(newValue);
 
+   rollDice();
    return true;
 }
 
@@ -116,6 +122,7 @@ bool RandomChain::setMaxValue(const uint8_t& newValue)
    maxValue = newValue;
    valueMapper.setMaxOutput(newValue);
 
+   rollDice();
    return true;
 }
 
@@ -145,6 +152,7 @@ bool RandomChain::setMinBarDuration(const Tempo::Tick& newDuration)
    minBarDuration = newDuration;
    durationMapper.setMinOutput(minBarDuration);
 
+   rollDice();
    return true;
 }
 
@@ -174,6 +182,7 @@ bool RandomChain::setMaxBarDuration(const Tempo::Tick& newDuration)
    maxBarDuration = newDuration;
    durationMapper.setMaxOutput(maxBarDuration);
 
+   rollDice();
    return true;
 }
 
@@ -220,9 +229,14 @@ void RandomChain::rollDice()
       link.startValue = valueMapper(value);
       link.endValue = link.startValue;
    }
-   else if (Type::Gate == type)
+   else if (Type::RndGate == type)
    {
       link.startValue = (value > 0.5) ? 255 : 0;
+      link.endValue = link.startValue;
+   }
+   else if (Type::AltGate == type)
+   {
+      link.startValue = (0 == link.endValue) ? 255 : 0;
       link.endValue = link.startValue;
    }
 }
