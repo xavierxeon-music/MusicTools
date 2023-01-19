@@ -1,6 +1,8 @@
 #ifndef TempoH
 #define TempoH
 
+#include <limits>
+
 #include <Tools/Counter.h>
 #include <Tools/RingBuffer.h>
 
@@ -8,6 +10,7 @@ pyexport class Tempo
 {
 public:
    using Tick = uint16_t; // a sixteenth beat
+   static constexpr Tick maxTick = std::numeric_limits<Tick>::max() - 1;
 
    pyexport enum Division : uint8_t //
    {

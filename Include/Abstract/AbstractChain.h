@@ -13,7 +13,7 @@ namespace Abstract
    public:
       using List = std::list<Chain*>;
 
-      class Link
+      struct Link
       {
       public:
          using List = std::list<Link*>;

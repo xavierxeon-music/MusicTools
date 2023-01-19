@@ -13,10 +13,11 @@ HEADERS += \
    $$PWD/Include/Abstract/AbstractSegmentCrawler.h \
    $$PWD/Include/Abstract/AbstractSoundSource.h \
    $$PWD/Include/Blocks/BioFeedbackDummy.h \
+   $$PWD/Include/Blocks/ChainOnOff.h \
+   $$PWD/Include/Blocks/ChainRandom.h \
    $$PWD/Include/Blocks/Contour.h \
    $$PWD/Include/Blocks/CvSwitch.h \
    $$PWD/Include/Blocks/Grooves.h \
-   $$PWD/Include/Blocks/RandomChain.h \
    $$PWD/Include/Blocks/Sequencer.h \
    $$PWD/Include/Colour.h \
    $$PWD/Include/Debug.h \
@@ -68,6 +69,8 @@ HEADERS += \
    $$PWD/Debug.hpp \
    $$PWD/BioFeedbackDummy.hpp \
    $$PWD/BoolField.hpp \
+   $$PWD/ChainOnOff.hpp \
+   $$PWD/ChainRandom.hpp \
    $$PWD/Compressor.hpp \
    $$PWD/Contour.hpp \
    $$PWD/Counter.hpp \
@@ -89,7 +92,6 @@ HEADERS += \
    $$PWD/MidiToolTempo.hpp \
    $$PWD/MusicTools.hpp \
    $$PWD/Noise.hpp \
-   $$PWD/RandomChain.hpp \
    $$PWD/RandomWalk.hpp \
    $$PWD/Range.hpp \
    $$PWD/RingBuffer.hpp \
