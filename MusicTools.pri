@@ -2,7 +2,6 @@ INCLUDEPATH += \
    $$PWD/Include \
 
 include(_fourier/ffft.pri)
-include(Memory/Memory.pri)
 include(RememberDummy/Remember.pri)
 
 HEADERS += \

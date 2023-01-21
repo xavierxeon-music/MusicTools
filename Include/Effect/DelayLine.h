@@ -3,7 +3,6 @@
 
 #include <Abstract/AbstractEffect.h>
 
-#include <MemoryArray.h>
 #include <MusicTools.h>
 
 template <uint32_t MaxSamples>
@@ -22,7 +21,7 @@ public:
    void setFeedfrontEffect(Abstract::Effect* effect);
 
 protected:
-   typename Memory::Array<float, MaxSamples> data;
+   float data[MaxSamples];
    uint32_t delay;
    uint32_t indexIn;
    float feedback;
