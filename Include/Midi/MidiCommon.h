@@ -12,6 +12,13 @@ pyexport namespace Midi
    // see https://ccrma.stanford.edu/~gary/controllers/midi.html
    const static float msPerByte = 1000.0f / 3125.0f; // -> 3125 bytes per second
 
+   namespace RawMessage
+   {
+      using Data = std::vector<uint8_t>;
+      using List = std::list<Data>;
+
+   } // namespace RawMessage
+
    enum Event : uint8_t
    {
       Unknown = 0x00,
