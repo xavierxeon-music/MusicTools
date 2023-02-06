@@ -6,7 +6,7 @@
 
 namespace Midi
 {
-   class File::Reader : public Sequencer, public File
+   class FileOld::Reader : public Sequencer, public FileOld
    {
    public:
       inline Reader(const Bytes& content);

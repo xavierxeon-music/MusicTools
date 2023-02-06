@@ -6,13 +6,13 @@
 #include <Midi/MidiFileReader.h>
 #include <Midi/MidiFileWriter.h>
 
-Sequencer Midi::File::load(const Bytes& content)
+Sequencer Midi::FileOld::load(const Bytes& content)
 {
-   Midi::File::Reader reader(content);
+   Midi::FileOld::Reader reader(content);
    return reader;
 }
 
-Bytes Midi::File::save(const Sequencer& seqeuencer)
+Bytes Midi::FileOld::save(const Sequencer& seqeuencer)
 {
    return Bytes();
 }

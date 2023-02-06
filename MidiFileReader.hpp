@@ -5,7 +5,7 @@
 
 #include <algorithm>
 
-Midi::File::Reader::Reader(const Bytes& content)
+Midi::FileOld::Reader::Reader(const Bytes& content)
    : Sequencer()
 {
    Chunk::List chunkList;
@@ -53,7 +53,7 @@ Midi::File::Reader::Reader(const Bytes& content)
    updateMonophonicFlag();
 }
 
-void Midi::File::Reader::readHeader(const Chunk& headerChunk)
+void Midi::FileOld::Reader::readHeader(const Chunk& headerChunk)
 {
    if ("MThd" != headerChunk.id || 6 != headerChunk.data.size())
       return;
@@ -74,7 +74,7 @@ void Midi::File::Reader::readHeader(const Chunk& headerChunk)
    }
 }
 
-void Midi::File::Reader::readTrack(const Chunk& trackChunk)
+void Midi::FileOld::Reader::readTrack(const Chunk& trackChunk)
 {
    // clang-format off
    static const std::map<uint8_t, uint64_t> messageStaticLengthMap =
@@ -184,7 +184,7 @@ void Midi::File::Reader::readTrack(const Chunk& trackChunk)
    }
 }
 
-Midi::MetaEvent Midi::File::Reader::readMetaEvent(const Bytes& trackChunkData, uint64_t& cursor, Track* track)
+Midi::MetaEvent Midi::FileOld::Reader::readMetaEvent(const Bytes& trackChunkData, uint64_t& cursor, Track* track)
 {
    // clang-format off
    static const std::map<uint8_t, uint64_t> messageStaticLengthMap =
@@ -281,7 +281,7 @@ Midi::MetaEvent Midi::File::Reader::readMetaEvent(const Bytes& trackChunkData, u
    return MetaEvent::MetaUnkown;
 }
 
-bool Midi::File::Reader::hasCheck(const uint8_t value) const
+bool Midi::FileOld::Reader::hasCheck(const uint8_t value) const
 {
    static const uint8_t checkMask = 0x80; // bit 7 only
 
@@ -289,14 +289,14 @@ bool Midi::File::Reader::hasCheck(const uint8_t value) const
    return test;
 }
 
-uint8_t Midi::File::Reader::removeCheck(const uint8_t value) const
+uint8_t Midi::FileOld::Reader::removeCheck(const uint8_t value) const
 {
    static const uint8_t valueMask = 0x7f; // all but bit 7
 
    return (value & valueMask);
 }
 
-uint64_t Midi::File::Reader::variableLength(const Bytes& data, uint64_t& cursor) const
+uint64_t Midi::FileOld::Reader::variableLength(const Bytes& data, uint64_t& cursor) const
 {
    std::vector<uint8_t> valList;
    for (size_t index = 0; true; index++)

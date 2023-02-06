@@ -5,7 +5,7 @@
 
 namespace Midi
 {
-   class File::Writer
+   class FileOld::Writer
    {
    public:
       inline Writer();

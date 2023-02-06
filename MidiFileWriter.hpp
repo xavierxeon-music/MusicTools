@@ -3,7 +3,7 @@
 
 #include <Midi/MidiFileWriter.h>
 
-Midi::File::Writer::Writer()
+Midi::FileOld::Writer::Writer()
 {
 }
 

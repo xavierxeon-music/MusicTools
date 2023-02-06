@@ -9,7 +9,7 @@
 
 pyexport namespace Midi
 {
-   pyexport class File
+   pyexport class FileOld
    {
    public:
       class Reader;
