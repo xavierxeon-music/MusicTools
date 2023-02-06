@@ -5,11 +5,14 @@
 
 namespace Midi
 {
-   class FileOld::Writer
+   namespace File
    {
-   public:
-      inline Writer();
-   };
+      class File::Writer
+      {
+      public:
+         inline Writer();
+      };
+   } // namespace File
 } // namespace Midi
 
 #ifndef MidiFileWriterHPP
