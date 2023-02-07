@@ -17,7 +17,6 @@ HEADERS += \
    $$PWD/Include/Blocks/Contour.h \
    $$PWD/Include/Blocks/CvSwitch.h \
    $$PWD/Include/Blocks/Grooves.h \
-   $$PWD/Include/Blocks/Sequencer.h \
    $$PWD/Include/Colour.h \
    $$PWD/Include/Debug.h \
    $$PWD/Include/Effect/Compressor.h \
@@ -29,6 +28,7 @@ HEADERS += \
    $$PWD/Include/Midi/MidiFileWriter.h \
    $$PWD/Include/Midi/MidiInterfaceInput.h \
    $$PWD/Include/Midi/MidiInterfaceOutput.h \
+   $$PWD/Include/Midi/MidiParser.h \
    $$PWD/Include/Midi/MidiToolGate.h \
    $$PWD/Include/Midi/MidiToolTempo.h \
    $$PWD/Include/Music/Note.h \
@@ -87,6 +87,7 @@ HEADERS += \
    $$PWD/MidiFileWriter.hpp \
    $$PWD/MidiInterfaceInput.hpp \
    $$PWD/MidiInterfaceOutput.hpp \
+   $$PWD/MidiParser.hpp \
    $$PWD/MidiToolGate.hpp \
    $$PWD/MidiToolTempo.hpp \
    $$PWD/MusicTools.hpp \
@@ -97,7 +98,6 @@ HEADERS += \
    $$PWD/Sample.hpp \
    $$PWD/SampleOscilator.hpp \
    $$PWD/SampleRecorder.hpp \
-   $$PWD/Sequencer.hpp \
    $$PWD/SevenBit.hpp \
    $$PWD/SoundMesh.hpp \
    $$PWD/SquareSignal.hpp \

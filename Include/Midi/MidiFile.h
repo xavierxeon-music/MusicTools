@@ -6,14 +6,14 @@
 #include <Midi/MidiCommon.h>
 #include <Music/TimeCode.h>
 
-// see http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html
-
-pyexport namespace Midi
+namespace Midi
 {
    class Sequence
    {
    public:
       using Tick = uint64_t;
+      using MessageList = std::vector<Bytes>;
+      using TimeMessageMap = std::map<Tick, MessageList>;
 
       pyexport struct Info
       {
@@ -29,9 +29,6 @@ pyexport namespace Midi
          pyexport Tick maxTick = 0;
          pyexport std::string name;
          pyexport bool isMonophonic = false;
-
-         using MessageList = std::vector<Bytes>;
-         using TimeMessageMap = std::map<Tick, MessageList>;
 
          pyexport TimeMessageMap messageMap;
 
@@ -50,28 +47,43 @@ pyexport namespace Midi
       pyexport inline Tick toTick(const TimeCode::Duration& duration, const double& precentageToNextBeat = 0);
 
    protected:
-      struct Chunk
-      {
-         std::string id;
-         Bytes data;
-
-         using List = std::vector<Chunk>;
-      };
-
-   protected:
       uint16_t ticksPer16;
       uint64_t uSecsPerQuarter; // only relevant to get file bpm
       Track::List trackList;
    };
 
-   pyexport namespace File
+   namespace File
    {
-      class Reader;
-      class Writer;
+      // see http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html
 
-      const static bool verbose = true;
-   };
+      class Reader : public Sequence
+      {
+      public:
+         static const bool verbose = false;
 
+      public:
+         inline Reader(const Bytes& content);
+
+      private:
+         struct Chunk
+         {
+            std::string id;
+            Bytes data;
+
+            using List = std::vector<Chunk>;
+         };
+
+      private:
+         // workflow
+         inline void readHeader(const Chunk& headerChunk);
+         inline void readTrack(const Chunk& trackChunk);
+         inline MetaEvent readMetaEventAndAdvanceCursor(const Bytes& trackChunkData, uint64_t& cursor, Track* track);
+         inline uint8_t compileMidiEventLength(const uint8_t marker) const;
+
+         inline uint64_t variableLength(const Bytes& data, uint64_t& cursor) const;
+         inline void updateMonophonicFlag();
+      };
+   } // namespace File
 } // namespace Midi
 
 #ifndef MidiFileHPP

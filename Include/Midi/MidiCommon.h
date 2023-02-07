@@ -2,15 +2,13 @@
 #define MidiCommonH
 
 #include <MusicTools.h>
+#include <map>
 
 pyexport namespace Midi
 {
    using Channel = uint8_t; // channels from 1 to 16
    using Velocity = uint8_t;
    using SongPosition = uint16_t;
-
-   // see https://ccrma.stanford.edu/~gary/controllers/midi.html
-   const static float msPerByte = 1000.0f / 3125.0f; // -> 3125 bytes per second
 
    enum Event : uint8_t
    {
@@ -25,7 +23,7 @@ pyexport namespace Midi
       PitchBend = 0xE0,
       // system common
       System = 0xF0,
-      TimeCode = 0xF1,
+      QuarterFrame = 0xF1,
       SongPositionPointer = 0xF2,
       SongSelect = 0xF3,
       TuneRequest = 0xF6,
@@ -40,6 +38,7 @@ pyexport namespace Midi
       ActiveSensinig = 0xFE,
       Reset = 0xFF,
       Meta = 0xFF // for midi files
+
    };
 
    struct Manufacturer
@@ -158,6 +157,17 @@ pyexport namespace Midi
          ACDC = 101,
       };
    };
+
+   struct Variables
+   {
+      // see https://ccrma.stanford.edu/~gary/controllers/midi.html
+      static const float msPerByte; // -> 3125 bytes per second
+   };
+
+   // utilities
+   bool isEvent(const uint8_t value, const Midi::Event mask);
+   bool hasFirstBit(const uint8_t value);
+   uint8_t removeFirstBit(const uint8_t value);
 
 } // namespace Midi
 
