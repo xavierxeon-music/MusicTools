@@ -3,6 +3,9 @@
 
 #include <Midi/MidiFile.h>
 
+#include <algorithm>
+#include <cassert>
+
 // sequence
 
 Midi::Sequence::Sequence()
@@ -218,23 +221,23 @@ Midi::MetaEvent Midi::File::Reader::readMetaEventAndAdvanceCursor(const Bytes& t
 {
    // clang-format off
    static const std::map<uint8_t, uint8_t> messageStaticLengthMap =
-      {
-         {(uint8_t)MetaEvent::ChannelPrefix, 2},
-         {(uint8_t)MetaEvent::SMPTEOffset, 6},
-         {(uint8_t)MetaEvent::TimeSignature, 5},
-         {(uint8_t)MetaEvent::KeySignature, 3}
-      };
+   {
+      {(uint8_t)MetaEvent::ChannelPrefix, 2},
+      {(uint8_t)MetaEvent::SMPTEOffset, 6},
+      {(uint8_t)MetaEvent::TimeSignature, 5},
+      {(uint8_t)MetaEvent::KeySignature, 3}
+   };
    static const std::vector<uint8_t> messageVariableMarkerList =
-      {
-         (uint8_t)MetaEvent::Text,
-         (uint8_t)MetaEvent::Copyright,
-         (uint8_t)MetaEvent::TrackName,
-         (uint8_t)MetaEvent::InstrumentName,
-         (uint8_t)MetaEvent::Lyric,
-         (uint8_t)MetaEvent::Marker,
-         (uint8_t)MetaEvent::CuePoint,
-         (uint8_t)MetaEvent::MidiPort
-      };
+   {
+      (uint8_t)MetaEvent::Text,
+      (uint8_t)MetaEvent::Copyright,
+      (uint8_t)MetaEvent::TrackName,
+      (uint8_t)MetaEvent::InstrumentName,
+      (uint8_t)MetaEvent::Lyric,
+      (uint8_t)MetaEvent::Marker,
+      (uint8_t)MetaEvent::CuePoint,
+      (uint8_t)MetaEvent::MidiPort
+   };
    // clang-format on
 
    const uint8_t subMarker = trackChunkData.at(cursor);
@@ -315,27 +318,27 @@ uint8_t Midi::File::Reader::compileMidiEventLength(const uint8_t marker) const
 {
    // clang-format off
    static const std::map<uint8_t, uint8_t> messageStaticLengthMap =
-      {
-         {(uint8_t)Event::NoteOff, 3},
-         {(uint8_t)Event::NoteOn, 3},
-         {(uint8_t)Event::PolyKeyPressure, 3},
-         {(uint8_t)Event::ControlChange, 3},
-         {(uint8_t)Event::ProgrammChange, 2},
-         {(uint8_t)Event::ChannelPressure, 2},
-         {(uint8_t)Event::PitchBend, 3},
-         // system common
-         {(uint8_t)Event::QuarterFrame, 2},
-         {(uint8_t)Event::SongPositionPointer, 3},
-         {(uint8_t)Event::SongSelect, 2},
-         {(uint8_t)Event::TuneRequest, 1},
-         // system real time
-         {(uint8_t)Event::Clock, 1},
-         {(uint8_t)Event::Start, 1},
-         {(uint8_t)Event::Continue, 1},
-         {(uint8_t)Event::Stop, 1},
-         {(uint8_t)Event::ActiveSensinig, 1},
-         {(uint8_t)Event::Reset, 1}
-      };
+   {
+      {(uint8_t)Event::NoteOff, 3},
+      {(uint8_t)Event::NoteOn, 3},
+      {(uint8_t)Event::PolyKeyPressure, 3},
+      {(uint8_t)Event::ControlChange, 3},
+      {(uint8_t)Event::ProgrammChange, 2},
+      {(uint8_t)Event::ChannelPressure, 2},
+      {(uint8_t)Event::PitchBend, 3},
+      // system common
+      {(uint8_t)Event::QuarterFrame, 2},
+      {(uint8_t)Event::SongPositionPointer, 3},
+      {(uint8_t)Event::SongSelect, 2},
+      {(uint8_t)Event::TuneRequest, 1},
+      // system real time
+      {(uint8_t)Event::Clock, 1},
+      {(uint8_t)Event::Start, 1},
+      {(uint8_t)Event::Continue, 1},
+      {(uint8_t)Event::Stop, 1},
+      {(uint8_t)Event::ActiveSensinig, 1},
+      {(uint8_t)Event::Reset, 1}
+   };
    // clang-format on
 
    const std::map<uint8_t, uint8_t>::const_iterator it = messageStaticLengthMap.find(marker & 0xf0);
@@ -349,45 +352,19 @@ uint8_t Midi::File::Reader::compileMidiEventLength(const uint8_t marker) const
 uint64_t Midi::File::Reader::variableLength(const Bytes& data, uint64_t& cursor) const
 {
    uint64_t length = 0;
-
-   uint8_t val = data.at(cursor);
-   cursor += 1;
-
-   length += removeFirstBit(val);
-
-   while (hasFirstBit(val))
+   while (true)
    {
       length *= 128;
 
-      val = data.at(cursor);
+      const uint8_t val = data.at(cursor);
       cursor += 1;
 
       length += removeFirstBit(val);
-   }
 
-   /*   
-   std::vector<uint8_t> valList;
-   for (size_t index = 0; true; index++)
-   {
-      uint8_t val = data.at(cursor + index);
-      valList.push_back(removeFirstBit(val));
-      if (!hasFirstBit(val)) // no following byte
+      if (!hasFirstBit(val))
          break;
    }
 
-   uint64_t length = 0;
-   uint32_t multiplier = 1;
-   for (size_t index = valList.size() - 1; index >= 0; index--)
-   {
-      length += valList[index] * multiplier;
-      multiplier *= 128;
-
-      if (0 == index)
-         break;
-   }
-
-   cursor += valList.size();
-   */
    return length;
 }
 

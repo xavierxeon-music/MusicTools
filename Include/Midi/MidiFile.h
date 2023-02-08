@@ -12,7 +12,6 @@ namespace Midi
    {
    public:
       using Tick = uint64_t;
-      using MessageList = std::vector<Bytes>;
       using TimeMessageMap = std::map<Tick, MessageList>;
 
       pyexport struct Info
@@ -81,7 +80,6 @@ namespace Midi
          inline uint8_t compileMidiEventLength(const uint8_t marker) const;
 
          inline uint64_t variableLength(const Bytes& data, uint64_t& cursor) const;
-         inline void updateMonophonicFlag();
       };
    } // namespace File
 } // namespace Midi

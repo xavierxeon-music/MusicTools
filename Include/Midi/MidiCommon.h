@@ -9,6 +9,7 @@ pyexport namespace Midi
    using Channel = uint8_t; // channels from 1 to 16
    using Velocity = uint8_t;
    using SongPosition = uint16_t;
+   using MessageList = std::vector<Bytes>;
 
    enum Event : uint8_t
    {
