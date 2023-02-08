@@ -47,7 +47,7 @@ void Midi::Parser::prcocessMessage(const Bytes& message)
          uint16_t front = static_cast<uint16_t>(message.at(1));
          uint16_t back = static_cast<uint16_t>(message.at(2));
 
-         const uint16_t position = 1 + front + (128 * back);
+         const uint16_t position = front + (128 * back);
          songPosition(position);
       }
       else if (Event::Clock == event)
