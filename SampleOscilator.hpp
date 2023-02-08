@@ -122,7 +122,9 @@ void Sample::Oscilator::init(const std::string& fileName, const float& newSample
       int16_t rawBuffer;
       for (size_t counter = 0; counter < metaData.numberOfSamples; counter++)
       {
-         fread(&rawBuffer, 1, sizeof(int16_t), wavFile);
+         const size_t br = fread(&rawBuffer, 1, sizeof(int16_t), wavFile);
+         (void)br;
+
          const float value = static_cast<float>(rawBuffer) / maxValue;
          sampleBuffer[counter] = value;
       }
@@ -204,7 +206,8 @@ Data Sample::Oscilator::read(const size_t& position, const size_t& numberOfSampl
       fseek(wavFile, 2 * position, SEEK_SET);
       for (size_t counter = 0; counter < numberOfSamples; counter++)
       {
-         fread(&rawBuffer, 1, sizeof(int16_t), wavFile);
+         const size_t br = fread(&rawBuffer, 1, sizeof(int16_t), wavFile);
+         (void)br;
 
          if (feof(wavFile))
             fseek(wavFile, sizeof(WavHeader), SEEK_SET);

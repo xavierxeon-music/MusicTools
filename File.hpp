@@ -24,7 +24,8 @@ Bytes File::load(const std::string& fileName)
    fseek(file, 0, SEEK_SET);
 
    Bytes bytes(fileSize);
-   fread(bytes.data(), 1, fileSize, file);
+   const size_t br = fread(bytes.data(), 1, fileSize, file);
+   (void)br;
 
    fclose(file);
    return bytes;
