@@ -150,12 +150,13 @@ pyexport namespace Midi
          BitBox = 13,
          BitBoxMicro = 14,
          Metropolix = 15,
-         NerdSEQ = 16,
+         ToNerdSEQ = 16,
          // the splitter does not have a midi channel
          Splitter = 99,
          // do not send data to these devices
          VCMC = 100,
          ACDC = 101,
+         FromNerdSEQ = 102,
       };
    };
 
