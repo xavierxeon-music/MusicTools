@@ -24,8 +24,6 @@ HEADERS += \
    $$PWD/Include/Maths.h \
    $$PWD/Include/Midi/MidiCommon.h \
    $$PWD/Include/Midi/MidiFile.h \
-   $$PWD/Include/Midi/MidiFileReader.h \
-   $$PWD/Include/Midi/MidiFileWriter.h \
    $$PWD/Include/Midi/MidiInterfaceInput.h \
    $$PWD/Include/Midi/MidiInterfaceOutput.h \
    $$PWD/Include/Midi/MidiParser.h \
@@ -83,8 +81,6 @@ HEADERS += \
    $$PWD/Glide.hpp \
    $$PWD/Grooves.hpp \
    $$PWD/MidiFile.hpp \
-   $$PWD/MidiFileReader.hpp \
-   $$PWD/MidiFileWriter.hpp \
    $$PWD/MidiInterfaceInput.hpp \
    $$PWD/MidiInterfaceOutput.hpp \
    $$PWD/MidiParser.hpp \
