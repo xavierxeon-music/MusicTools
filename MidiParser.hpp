@@ -12,7 +12,7 @@ Midi::Parser::Parser()
 {
 }
 
-void Midi::Parser::prcocessMessage(const Bytes& message)
+void Midi::Parser::processMessage(const Bytes& message)
 {
    const bool isSystemEvent = (0xF0 == (message[0] & 0xF0));
    if (!isSystemEvent)

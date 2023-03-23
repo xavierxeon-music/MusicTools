@@ -22,7 +22,7 @@ namespace Midi
       inline Parser();
 
    public:
-      inline virtual void prcocessMessage(const Bytes& message);
+      inline virtual void processMessage(const Bytes& message);
 
       // register callback functions
       template <typename ClassType>
