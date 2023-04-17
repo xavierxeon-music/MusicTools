@@ -17,6 +17,7 @@ HEADERS += \
    $$PWD/Include/Blocks/Contour.h \
    $$PWD/Include/Blocks/CvSwitch.h \
    $$PWD/Include/Blocks/Grooves.h \
+   $$PWD/Include/Blocks/Melodies.h \
    $$PWD/Include/Colour.h \
    $$PWD/Include/Debug.h \
    $$PWD/Include/Effect/Compressor.h \
@@ -60,6 +61,7 @@ HEADERS += \
    $$PWD/Include/Utility/RandomWalk.h \
    $$PWD/Include/Utility/Spectrum.h \
    $$PWD/Include/Utility/SquareSignal.h \
+   $$PWD/Melodies.hpp \
    $$PWD/Prompt.hpp
     
 HEADERS += \
