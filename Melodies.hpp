@@ -5,7 +5,6 @@
 
 Melodies::Melodies()
    : Abstract::SegmentCrawler()
-
 {
 }
 
