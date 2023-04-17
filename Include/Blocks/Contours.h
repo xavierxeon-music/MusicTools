@@ -1,29 +1,36 @@
-#ifndef MelodiesH
-#define MelodiesH
+#ifndef ContoursH
+#define ContoursH
 
 #include <Abstract/AbstractSegmentCrawler.h>
 
-class Melodies : public virtual Abstract::SegmentCrawler
+#include <Tools/BoolField.h>
+
+class Contours : public virtual Abstract::SegmentCrawler
 {
 public:
-   static constexpr uint8_t laneCount = 8;
+   static constexpr uint8_t laneCount = 16;
 
-   union Unit
+   enum Flags
+   {
+      HasStartValue = 0,
+      HasEndValue = 0,
+      IsSteady = 0
+   };
+
+   union Segment
    {
       struct
       {
-         uint8_t pitch = 36;        // midi pitch 0 - 127;
-         uint8_t length = 0;        // 0 - 255 ( = full tick)
-         uint8_t velocity = 0;      // miodi velocity 0 - 127
-         uint8_t propability = 255; // 0 - 255
+         uint8_t startValue = 0;
+         uint8_t endVlue = 0;
+         BoolField8 flags = 0;
+         uint8_t pad;
       };
       uint32_t value;
    };
 
-   using Segment = std::vector<Unit>; // one Unit per tick
-
 public:
-   inline Melodies();
+   inline Contours();
 
 public:
    inline virtual void update(const Tempo::Tick& newDefaultDivision, const uint32_t newSegmentCount) override;
@@ -31,7 +38,7 @@ public:
 
    inline const std::string& getName(const uint8_t laneIndex) const;
    inline void setName(const uint8_t laneIndex, const std::string& text);
-   inline const Unit& getUnit(const uint8_t laneIndex, const uint32_t segmentIndex, const uint8_t tick) const;
+   inline uint8_t getSegmentValue(const uint8_t laneIndex, const uint32_t segmentIndex, const float& segmentPercentage) const;
 
    inline const Segment& getSegment(const uint8_t laneIndex, const uint32_t segmentIndex) const; // may point to proxy
    inline bool hasSegment(const uint8_t laneIndex, const uint32_t segmentIndex) const;
@@ -40,13 +47,20 @@ public:
 
 private:
    using SegmentMap = std::map<uint32_t, Segment>;
-   using ProxyList = std::vector<uint32_t>; // index of the last available Segment
+
+   struct Proxy
+   {
+      uint8_t startValue = 0;
+      uint8_t endVlue = 0;
+
+      using List = std::vector<Proxy>;
+   };
 
    struct Lane
    {
       std::string name;
       SegmentMap segmentMap;
-      ProxyList proxyList;
+      Proxy::List proxyList;
    };
 
 private:
@@ -57,8 +71,8 @@ private:
    SegmentMap zeroSegment;
 };
 
-#ifndef MelodiesHPP
-#include "../../Melodies.hpp"
-#endif // NOT MelodiesHPP
+#ifndef ContoursHPP
+#include "../../Contours.hpp"
+#endif // NOT ContoursHPP
 
-#endif // NOT MelodiesH
+#endif // NOT ContoursH

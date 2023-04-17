@@ -21,6 +21,7 @@ public:
    pyexport inline virtual void setSegmentLength(const uint32_t segmentIndex, const Tempo::Tick& length) override;
 
    pyexport inline BoolField8 getTriggers(const uint32_t segmentIndex, const uint8_t tick) const;
+
    pyexport inline const Beat& getBeat(const uint32_t& segmentIndex) const; // may point to proxy
    pyexport inline bool hasBeat(const uint32_t& segmentIndex) const;
    pyexport inline void setBeat(const uint32_t& segmentIndex, const Beat& beat);

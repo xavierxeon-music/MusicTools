@@ -5,7 +5,6 @@ include(_fourier/ffft.pri)
 include(RememberDummy/Remember.pri)
 
 HEADERS += \
-   $$PWD/DoubleBuffer.h \
    $$PWD/Include/Abstract/AbstractChain.h \
    $$PWD/Include/Abstract/AbstractEffect.h \
    $$PWD/Include/Abstract/AbstractOscilator.h \
@@ -14,7 +13,8 @@ HEADERS += \
    $$PWD/Include/Blocks/BioFeedbackDummy.h \
    $$PWD/Include/Blocks/ChainOnOff.h \
    $$PWD/Include/Blocks/ChainRandom.h \
-   $$PWD/Include/Blocks/Contour.h \
+   #$$PWD/Include/Blocks/Contour.h \
+   $$PWD/Include/Blocks/Contours.h \
    $$PWD/Include/Blocks/CvSwitch.h \
    $$PWD/Include/Blocks/Grooves.h \
    $$PWD/Include/Blocks/Melodies.h \
@@ -60,18 +60,18 @@ HEADERS += \
    $$PWD/Include/Tools/Variable.h \
    $$PWD/Include/Utility/RandomWalk.h \
    $$PWD/Include/Utility/Spectrum.h \
-   $$PWD/Include/Utility/SquareSignal.h \
-   $$PWD/Melodies.hpp \
-   $$PWD/Prompt.hpp
+   $$PWD/Include/Utility/SquareSignal.h
     
 HEADERS += \
+   $$PWD/Contours.hpp \
+   $$PWD/DoubleBuffer.h \
    $$PWD/Debug.hpp \
    $$PWD/BioFeedbackDummy.hpp \
    $$PWD/BoolField.hpp \
    $$PWD/ChainOnOff.hpp \
    $$PWD/ChainRandom.hpp \
    $$PWD/Compressor.hpp \
-   $$PWD/Contour.hpp \
+   #$$PWD/Contour.hpp \
    $$PWD/Counter.hpp \
    $$PWD/CvSwitch.hpp \
    $$PWD/DoubleBuffer.hpp \
@@ -107,7 +107,9 @@ HEADERS += \
    $$PWD/Variable.hpp \
    $$PWD/WaveTable.hpp \
    $$PWD/WaveTableMorpher.hpp \
-   $$PWD/WaveTableOscilator.hpp
+   $$PWD/WaveTableOscilator.hpp \
+   $$PWD/Melodies.hpp \
+   $$PWD/Prompt.hpp
 
 
 SOURCES += \

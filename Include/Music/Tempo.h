@@ -37,7 +37,7 @@ public:
    pyexport inline RunState getRunState() const;
    pyexport inline bool isRunningOrFirstTick() const;
    pyexport inline virtual uint16_t getBeatsPerMinute() const;
-   pyexport inline virtual double getPercentage() const; // from last tick
+   pyexport inline virtual float getPercentage() const; // from last tick
 
 protected:
    RunState runState;

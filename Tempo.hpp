@@ -81,7 +81,7 @@ bool Tempo::isRunningOrFirstTick() const
    return false;
 }
 
-double Tempo::getPercentage() const
+float Tempo::getPercentage() const
 {
    return tickPercentage;
 }
