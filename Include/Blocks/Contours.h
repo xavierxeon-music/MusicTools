@@ -23,7 +23,7 @@ public:
       {
          uint8_t startValue = 0;
          uint8_t endVlue = 0;
-         BoolField8 flags = 0;
+         uint8_t flags = 0;
          uint8_t pad;
       };
       uint32_t value;

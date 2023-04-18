@@ -32,13 +32,16 @@ void Contours::setName(const uint8_t laneIndex, const std::string& text)
 
 uint8_t Contours::getSegmentValue(const uint8_t laneIndex, const uint32_t segmentIndex, const float& segmentPercentage) const
 {
+   const Proxy& proxy = lanes[laneIndex].proxyList.at(segmentIndex);
+
+   Q_UNUSED(segmentPercentage)
+   Q_UNUSED(proxy)
+   return 0;
 }
 
 const Contours::Segment& Contours::getSegment(const uint8_t laneIndex, const uint32_t segmentIndex) const
 {
-   const uint32_t proxyIndex = lanes[laneIndex].proxyList.at(segmentIndex);
-   const Segment& segment = lanes[laneIndex].segmentMap.at(proxyIndex);
-
+   const Segment& segment = lanes[laneIndex].segmentMap.at(segmentIndex);
    return segment;
 }
 
