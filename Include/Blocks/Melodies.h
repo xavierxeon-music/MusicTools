@@ -18,6 +18,10 @@ public:
          uint8_t propability = 255; // 0 - 255
       };
       uint32_t value;
+
+      inline Unit();
+      inline Unit(const Unit& other);
+      inline Unit& operator=(const Unit& other);
    };
 
    using Segment = std::vector<Unit>; // one Unit per tick

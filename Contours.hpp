@@ -3,6 +3,27 @@
 
 #include <Blocks/Contours.h>
 
+// segment
+
+Contours::Segment::Segment()
+   : value(0)
+{
+}
+
+Contours::Segment::Segment(const Segment& other)
+   : value(other.value)
+{
+}
+
+Contours::Segment& Contours::Segment::operator=(const Segment& other)
+{
+   value = other.value;
+
+   return *this;
+}
+
+// contours
+
 Contours::Contours()
    : Abstract::SegmentCrawler()
    , lanes{}

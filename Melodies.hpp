@@ -3,6 +3,27 @@
 
 #include <Blocks/Melodies.h>
 
+// unit
+
+Melodies::Unit::Unit()
+   : value(0)
+{
+}
+
+Melodies::Unit::Unit(const Unit& other)
+   : value(other.value)
+{
+}
+
+Melodies::Unit& Melodies::Unit::operator=(const Unit& other)
+{
+   value = other.value;
+
+   return *this;
+}
+
+// melodies
+
 Melodies::Melodies()
    : Abstract::SegmentCrawler()
    , lanes{}

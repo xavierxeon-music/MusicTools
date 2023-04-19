@@ -24,9 +24,13 @@ public:
          uint8_t startValue = 0;
          uint8_t endVlue = 0;
          uint8_t flags = 0;
-         uint8_t pad;
+         uint8_t pad = 0;
       };
       uint32_t value;
+
+      inline Segment();
+      inline Segment(const Segment& other);
+      inline Segment& operator=(const Segment& other);
    };
 
 public:
