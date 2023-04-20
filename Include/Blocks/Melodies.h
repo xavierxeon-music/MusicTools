@@ -42,6 +42,8 @@ public:
    inline void setSegment(const uint8_t laneIndex, const uint32_t segmentIndex, const Segment& segment);
    inline void clearSegment(const uint8_t laneIndex, const uint32_t segmentIndex);
 
+   inline void updateProxies() override;
+
 private:
    using SegmentMap = std::map<uint32_t, Segment>;
    using ProxyList = std::vector<uint32_t>; // index of the last available Segment
@@ -52,9 +54,6 @@ private:
       SegmentMap segmentMap;
       ProxyList proxyList;
    };
-
-private:
-   inline void updateProxyList();
 
 private:
    Lane lanes[laneCount];

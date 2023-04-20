@@ -5,29 +5,29 @@
 #include <Sound/Sample.h>
 
 // wav file only!
-pyexport class Sample::Oscilator : public Abstract::Oscilator
+class Sample::Oscilator : public Abstract::Oscilator
 {
 public:
-   pyexport inline Oscilator(const bool buffered = true);
+   inline Oscilator(const bool buffered = true);
    inline ~Oscilator();
 
 public:
-   pyexport inline const Meta& getMeta() const;
-   pyexport inline size_t getSamplePlayhead() const;
-   pyexport inline float getPlaybackSpeed() const;
+   inline const Meta& getMeta() const;
+   inline size_t getSamplePlayhead() const;
+   inline float getPlaybackSpeed() const;
 
-   pyexport inline void start();
-   pyexport inline void pause();
-   pyexport inline void reset();
+   inline void start();
+   inline void pause();
+   inline void reset();
 
-   pyexport inline bool isLooping() const; // default true
-   pyexport inline void setLooping(bool on);
+   inline bool isLooping() const; // default true
+   inline void setLooping(bool on);
 
-   pyexport inline bool setFrequency(const float& newFrequency) override;
+   inline bool setFrequency(const float& newFrequency) override;
 
-   pyexport inline void init(const std::string& fileName, const float& newSampleRate, const float newSampleFrequency = defaultFrequency); // system sample rate, NOT sampe rate of file!
-   pyexport inline float createSound() override;                                                                                          // left channel
-   pyexport inline float getSound(uint8_t channel = 1);                                                                                   // channel 0 is left, same as createSound()
+   inline void init(const std::string& fileName, const float& newSampleRate, const float newSampleFrequency = defaultFrequency); // system sample rate, NOT sampe rate of file!
+   inline float createSound() override;                                                                                          // left channel
+   inline float getSound(uint8_t channel = 1);                                                                                   // channel 0 is left, same as createSound()
 
 private:
    enum class State

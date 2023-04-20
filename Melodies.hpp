@@ -75,16 +75,16 @@ bool Melodies::hasSegment(const uint8_t laneIndex, const uint32_t segmentIndex) 
 void Melodies::setSegment(const uint8_t laneIndex, const uint32_t segmentIndex, const Segment& segment)
 {
    lanes[laneIndex].segmentMap[segmentIndex] = segment;
-   updateProxyList();
+   updateProxies();
 }
 
 void Melodies::clearSegment(const uint8_t laneIndex, const uint32_t segmentIndex)
 {
    lanes[laneIndex].segmentMap.erase(segmentIndex);
-   updateProxyList();
+   updateProxies();
 }
 
-void Melodies::updateProxyList()
+void Melodies::updateProxies()
 {
 }
 

@@ -6,20 +6,20 @@
 #include <Tools/Counter.h>
 #include <Tools/RingBuffer.h>
 
-pyexport class Tempo
+class Tempo
 {
 public:
    using Tick = uint16_t; // a sixteenth beat
    static constexpr Tick maxTick = std::numeric_limits<Tick>::max() - 1;
 
-   pyexport enum Division : uint8_t //
+   enum Division : uint8_t //
    {
       Sixteenth = 1,
       Quarter = 4,
       Bar = 16
    };
 
-   pyexport enum RunState //
+   enum RunState //
    {
       Reset,
       Off,
@@ -28,16 +28,16 @@ public:
    };
 
 public:
-   pyexport inline Tempo();
+   inline Tempo();
    inline Tempo(const Tempo& other);
    inline Tempo& operator=(const Tempo& other);
 
 public:
-   pyexport inline static std::string compileName(const uint8_t& division);
-   pyexport inline RunState getRunState() const;
-   pyexport inline bool isRunningOrFirstTick() const;
-   pyexport inline virtual uint16_t getBeatsPerMinute() const;
-   pyexport inline virtual float getPercentage() const; // from last tick
+   inline static std::string compileName(const uint8_t& division);
+   inline RunState getRunState() const;
+   inline bool isRunningOrFirstTick() const;
+   inline virtual uint16_t getBeatsPerMinute() const;
+   inline virtual float getPercentage() const; // from last tick
 
 protected:
    RunState runState;
@@ -48,16 +48,16 @@ private:
    friend class TempoControl;
 };
 
-pyexport class TempoControl : public Tempo
+class TempoControl : public Tempo
 {
 public:
-   pyexport inline TempoControl();
+   inline TempoControl();
 
 public:
    // to control tempo
-   pyexport inline virtual void advance(const float callackRate, const float allowedTickPercentage = 3.0); // to be called from loop
-   pyexport inline void clockTick();
-   pyexport inline void clockReset();
+   inline virtual void advance(const float callackRate, const float allowedTickPercentage = 3.0); // to be called from loop
+   inline void clockTick();
+   inline void clockReset();
 
 private:
    float msSinceLastTick;

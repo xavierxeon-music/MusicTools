@@ -9,15 +9,15 @@
 // so that we can have several generators with independent seeds
 
 // A linear congruential generator
-pyexport class FastRandom
+class FastRandom
 {
 public:
-   pyexport inline FastRandom(const uint64_t& seed = 0);
+   inline FastRandom(const uint64_t& seed = 0);
 
 public:
-   pyexport inline void reset(const uint64_t& seed = rand());
-   pyexport inline void skip(const uint64_t& noOfValues);
-   pyexport inline float value(); // [0 -  1]
+   inline void reset(const uint64_t& seed = rand());
+   inline void skip(const uint64_t& noOfValues);
+   inline float value(); // [0 -  1]
 
 private:
    uint64_t current;

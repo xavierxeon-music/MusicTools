@@ -10,11 +10,11 @@ namespace ffft
    class FFTBase;
 }
 
-pyexport class Spectrum
+class Spectrum
 {
 public:
    using Map = std::map<float, float>;   // frequency vc amplitude
-   pyexport enum class Quality : uint8_t //
+   enum class Quality : uint8_t //
    {
       Low = 10,
       Medium = 11,
@@ -23,13 +23,13 @@ public:
    };
 
 public:
-   pyexport Spectrum(const Quality& quality = Quality::High);
+   Spectrum(const Quality& quality = Quality::High);
    ~Spectrum();
 
 public:
-   pyexport const Quality& getQuality() const;
-   pyexport Map analyse(const Data& data, const float& sampleRate);
-   pyexport static uint16_t compileBufferSize(const Quality& quality = Quality::High);
+   const Quality& getQuality() const;
+   Map analyse(const Data& data, const float& sampleRate);
+   static uint16_t compileBufferSize(const Quality& quality = Quality::High);
 
 private:
    void init();

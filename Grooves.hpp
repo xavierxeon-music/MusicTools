@@ -12,7 +12,7 @@ Grooves::Grooves()
    , zeroBeat(getDefaultLength(), BoolField8(0))
    , zeroGates(BoolField8(0))
 {
-   updateProxyLists();
+   updateProxies();
 }
 
 void Grooves::update(const Tempo::Tick& newDefaultDivision, const uint32_t newSegmentCount)
@@ -35,7 +35,7 @@ void Grooves::update(const Tempo::Tick& newDefaultDivision, const uint32_t newSe
          beat.push_back(BoolField8(0));
    }
 
-   updateProxyLists();
+   updateProxies();
 }
 
 void Grooves::setSegmentLength(const uint32_t segmentIndex, const Tempo::Tick& length)
@@ -86,7 +86,7 @@ bool Grooves::hasBeat(const uint32_t& segmentIndex) const
 void Grooves::setBeat(const uint32_t& segmentIndex, const Beat& beat)
 {
    beatMap[segmentIndex] = beat;
-   updateProxyLists();
+   updateProxies();
 }
 
 void Grooves::clearBeat(const uint32_t& segmentIndex)
@@ -95,7 +95,7 @@ void Grooves::clearBeat(const uint32_t& segmentIndex)
       return;
 
    beatMap.erase(segmentIndex);
-   updateProxyLists();
+   updateProxies();
 }
 
 const Grooves::Gates& Grooves::getGates(const uint32_t& segmentIndex) const
@@ -121,16 +121,16 @@ bool Grooves::hasGates(const uint32_t& segmentIndex) const
 void Grooves::setGates(const uint32_t& segmentIndex, const Gates& gates)
 {
    gatesMap[segmentIndex] = gates;
-   updateProxyLists();
+   updateProxies();
 }
 
 void Grooves::clearGates(const uint32_t& segmentIndex)
 {
    gatesMap.erase(segmentIndex);
-   updateProxyLists();
+   updateProxies();
 }
 
-void Grooves::updateProxyLists()
+void Grooves::updateProxies()
 {
    beatProxyList = ProxyList(getSegmentCount(), 0);
    gatesProxyList = ProxyList(getSegmentCount(), 0);

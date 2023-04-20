@@ -12,9 +12,8 @@ public:
 
    enum Flags
    {
-      HasStartValue = 0,
-      HasEndValue = 0,
-      IsSteady = 0
+      HasStartValue = 1,
+      HasEndValue = 2,
    };
 
    union Segment
@@ -22,15 +21,24 @@ public:
       struct
       {
          uint8_t startValue = 0;
-         uint8_t endVlue = 0;
+         uint8_t endValue = 0;
          uint8_t flags = 0;
-         uint8_t pad = 0;
+         uint8_t steady = 0;
       };
-      uint32_t value;
+      int32_t value;
 
       inline Segment();
       inline Segment(const Segment& other);
       inline Segment& operator=(const Segment& other);
+
+      inline void setStartValue(const uint8_t value);
+      inline bool hasStartValue() const;
+
+      inline void setEndValue(const uint8_t value);
+      inline bool hasEndValue() const;
+
+      inline void setSteady(bool steady);
+      inline bool isSteady() const;
    };
 
 public:
@@ -49,6 +57,8 @@ public:
    inline void setSegment(const uint8_t laneIndex, const uint32_t segmentIndex, const Segment& segment);
    inline void clearSegment(const uint8_t laneIndex, const uint32_t segmentIndex);
 
+   inline void updateProxies() override;
+
 private:
    using SegmentMap = std::map<uint32_t, Segment>;
 
@@ -66,9 +76,6 @@ private:
       SegmentMap segmentMap;
       Proxy::List proxyList;
    };
-
-private:
-   inline void updateProxyList();
 
 private:
    Lane lanes[laneCount];

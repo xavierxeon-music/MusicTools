@@ -6,49 +6,41 @@
 #include <Music/Tempo.h>
 #include <Tools/Counter.h>
 
-pyexport namespace Abstract
+namespace Abstract
 {
    // has  fixed length of segments and therefore a fixed length
 
-   pyexport class SegmentCrawler
+   class SegmentCrawler
    {
    public:
-      static const Color fgDefaultColor;
-      static const Color bgDefaultColor;
+      SegmentCrawler();
 
    public:
-      pyexport SegmentCrawler();
+      virtual void clear();
+      virtual void update(const Tempo::Tick& newDefaultLength, const uint32_t newSegmentCount);
 
-   public:
-      pyexport virtual void clear();
-      pyexport virtual void update(const Tempo::Tick& newDefaultLength, const uint32_t newSegmentCount);
+      void clockTick();
+      void clockReset();
 
-      pyexport void clockTick();
-      pyexport void clockReset();
+      const Tempo::Tick& getDefaultLength() const;
+      const uint32_t& getSegmentCount() const;
 
-      pyexport const Tempo::Tick& getDefaultLength() const;
-      pyexport const uint32_t& getSegmentCount() const;
+      const std::string& getSegmentName(const uint32_t index) const;
+      void setSegmentName(const uint32_t index, const std::string& name);
 
-      pyexport const std::string& getSegmentName(const uint32_t index) const;
-      pyexport void setSegmentName(const uint32_t index, const std::string& name);
+      Tempo::Tick getSegmentLength(const uint32_t index, bool* isDefault = nullptr) const;
+      virtual void setSegmentLength(const uint32_t index, const Tempo::Tick& length);
 
-      pyexport Tempo::Tick getSegmentLength(const uint32_t index, bool* isDefault = nullptr) const;
-      pyexport virtual void setSegmentLength(const uint32_t index, const Tempo::Tick& length);
+      bool isLooping() const;
+      bool isPastLoop() const;
+      void setLooping(bool on);
 
-      pyexport Color getSegmentForegroundColor(const uint32_t index, bool* isDefault = nullptr) const;
-      pyexport void setSegmentForegroundColor(const uint32_t index, const Color& color = fgDefaultColor);
+      const uint32_t& getCurrentSegmentIndex() const;
+      uint8_t getCurrentSegmentTick() const;
+      void setCurrentSegmentIndex(const uint32_t index);
+      float getCurrentSegmentPrecentage(const float tickPercentage) const;
 
-      pyexport Color getSegmentBackgroundColor(const uint32_t index, bool* isDefault = nullptr) const;
-      pyexport void setSegmentBackgroundColor(const uint32_t index, const Color& color = bgDefaultColor);
-
-      pyexport bool isLooping() const;
-      pyexport bool isPastLoop() const;
-      pyexport void setLooping(bool on);
-
-      pyexport const uint32_t& getCurrentSegmentIndex() const;
-      pyexport uint8_t getCurrentSegmentTick() const;
-      pyexport void setCurrentSegmentIndex(const uint32_t index);
-      pyexport float getCurrentSegmentPrecentage(const float tickPercentage) const;
+      virtual void updateProxies();
 
    private:
       class Header
@@ -61,8 +53,6 @@ pyexport namespace Abstract
       public:
          std::string name;
          uint8_t length;
-         Color foregroundColor;
-         Color backgroundColor;
       };
 
    private:

@@ -3,10 +3,10 @@
 
 #include <MusicTools.h>
 
-pyexport class Flank
+class Flank
 {
 public:
-   pyexport enum class State {
+   enum class State {
       Low,
       Rising,
       High,
@@ -14,11 +14,11 @@ public:
    };
 
 public:
-   pyexport inline Flank(const bool high = false);
+   inline Flank(const bool high = false);
 
 public:
-   pyexport inline State observe(const bool value);
-   pyexport inline void reset(const bool high = false);
+   inline State observe(const bool value);
+   inline void reset(const bool high = false);
 
 private:
    bool lastValue;

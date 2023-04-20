@@ -5,8 +5,6 @@
 Abstract::SegmentCrawler::Header::Header()
    : name()
    , length(0)
-   , foregroundColor(fgDefaultColor)
-   , backgroundColor(bgDefaultColor)
 {
 }
 
@@ -20,16 +18,11 @@ Abstract::SegmentCrawler::Header& Abstract::SegmentCrawler::Header::operator=(co
 {
    name = other.name;
    length = other.length;
-   foregroundColor = other.foregroundColor;
-   backgroundColor = other.backgroundColor;
 
    return *this;
 }
 
 // segment crawler
-
-const Color Abstract::SegmentCrawler::fgDefaultColor(0, 0, 0); // unable to use predefinded colors here!
-const Color Abstract::SegmentCrawler::bgDefaultColor(255, 255, 255);
 
 Abstract::SegmentCrawler::SegmentCrawler()
    : headers()
@@ -50,8 +43,6 @@ void Abstract::SegmentCrawler::clear()
    headers.clear();
 
    divisionCounter.setMaxValue(defaultLength);
-
-   Remember::Root::setUnsynced();
 }
 
 void Abstract::SegmentCrawler::update(const Tempo::Tick& newDefaultLength, const uint32_t newSegmentCount)
@@ -65,8 +56,6 @@ void Abstract::SegmentCrawler::update(const Tempo::Tick& newDefaultLength, const
       headers.append(Header());
 
    divisionCounter.setMaxValue(defaultLength);
-
-   Remember::Root::setUnsynced();
 }
 
 void Abstract::SegmentCrawler::clockTick()
@@ -124,7 +113,6 @@ const std::string& Abstract::SegmentCrawler::getSegmentName(const uint32_t index
 void Abstract::SegmentCrawler::setSegmentName(const uint32_t index, const std::string& name)
 {
    headers[index].name = name;
-   Remember::Root::setUnsynced();
 }
 
 Tempo::Tick Abstract::SegmentCrawler::getSegmentLength(const uint32_t index, bool* isDefault) const
@@ -150,37 +138,6 @@ void Abstract::SegmentCrawler::setSegmentLength(const uint32_t index, const Temp
    {
       divisionCounter.setMaxValue(length);
    }
-   Remember::Root::setUnsynced();
-}
-
-Color Abstract::SegmentCrawler::getSegmentForegroundColor(const uint32_t index, bool* isDefault) const
-{
-   const Color color = headers[index].foregroundColor;
-   if (isDefault)
-      *isDefault = (fgDefaultColor == color);
-
-   return color;
-}
-
-void Abstract::SegmentCrawler::setSegmentForegroundColor(const uint32_t index, const Color& color)
-{
-   headers[index].foregroundColor = color;
-   Remember::Root::setUnsynced();
-}
-
-Color Abstract::SegmentCrawler::getSegmentBackgroundColor(const uint32_t index, bool* isDefault) const
-{
-   const Color color = headers[index].backgroundColor;
-   if (isDefault)
-      *isDefault = (bgDefaultColor == color);
-
-   return color;
-}
-
-void Abstract::SegmentCrawler::setSegmentBackgroundColor(const uint32_t index, const Color& color)
-{
-   headers[index].backgroundColor = color;
-   Remember::Root::setUnsynced();
 }
 
 bool Abstract::SegmentCrawler::isLooping() const
@@ -196,7 +153,6 @@ bool Abstract::SegmentCrawler::isPastLoop() const
 void Abstract::SegmentCrawler::setLooping(bool on)
 {
    loop = on;
-   Remember::Root::setUnsynced();
 }
 
 const uint32_t& Abstract::SegmentCrawler::getCurrentSegmentIndex() const
@@ -233,4 +189,9 @@ float Abstract::SegmentCrawler::getCurrentSegmentPrecentage(const float tickPerc
    const float percentage = currentTick / maxTick;
 
    return percentage;
+}
+
+void Abstract::SegmentCrawler::updateProxies()
+{
+   // do nothing
 }

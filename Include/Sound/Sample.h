@@ -3,21 +3,21 @@
 
 #include <MusicTools.h>
 
-pyexport class Sample
+class Sample
 {
 public:
-   pyexport struct Meta
+   struct Meta
    {
-      pyexport uint8_t noOfChannels = 1;
-      pyexport uint16_t sampleRate = 1;
-      pyexport size_t numberOfSamples = 0;
+      uint8_t noOfChannels = 1;
+      uint16_t sampleRate = 1;
+      size_t numberOfSamples = 0;
    };
 
-   pyexport inline static Data load(const std::string& fileName, Meta* meta = nullptr);
-   pyexport inline static bool save(const std::string& fileName, const Meta& meta, const Data& data);
+   inline static Data load(const std::string& fileName, Meta* meta = nullptr);
+   inline static bool save(const std::string& fileName, const Meta& meta, const Data& data);
 
-   pyexport inline static Data interlace(const std::vector<Data> input);
-   pyexport inline static std::vector<Data> deinterlace(const Data& input, const uint8_t numberOfChannels = 2);
+   inline static Data interlace(const std::vector<Data> input);
+   inline static std::vector<Data> deinterlace(const Data& input, const uint8_t numberOfChannels = 2);
 
    class Oscilator;
    class Recorder;

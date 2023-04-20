@@ -22,6 +22,40 @@ Contours::Segment& Contours::Segment::operator=(const Segment& other)
    return *this;
 }
 
+bool Contours::Segment::hasStartValue() const
+{
+   const bool test = (0 != (flags & HasStartValue));
+   return test;
+}
+
+bool Contours::Segment::hasEndValue() const
+{
+   const bool test = (0 != (flags & HasEndValue));
+   return test;
+}
+
+bool Contours::Segment::isSteady() const
+{
+   return (1 == steady);
+}
+
+void Contours::Segment::setStartValue(const uint8_t value)
+{
+   startValue = value;
+   flags |= HasStartValue;
+}
+
+void Contours::Segment::setEndValue(const uint8_t value)
+{
+   endValue = value;
+   flags |= HasEndValue;
+}
+
+void Contours::Segment::setSteady(bool steady)
+{
+   this->steady = steady ? 1 : 0;
+}
+
 // contours
 
 Contours::Contours()
@@ -60,6 +94,7 @@ uint8_t Contours::getSegmentValue(const uint8_t laneIndex, const uint32_t segmen
    return 0;
 }
 
+
 const Contours::Segment& Contours::getSegment(const uint8_t laneIndex, const uint32_t segmentIndex) const
 {
    const Segment& segment = lanes[laneIndex].segmentMap.at(segmentIndex);
@@ -77,16 +112,16 @@ bool Contours::hasSegment(const uint8_t laneIndex, const uint32_t segmentIndex) 
 void Contours::setSegment(const uint8_t laneIndex, const uint32_t segmentIndex, const Segment& segment)
 {
    lanes[laneIndex].segmentMap[segmentIndex] = segment;
-   updateProxyList();
+   updateProxies();
 }
 
 void Contours::clearSegment(const uint8_t laneIndex, const uint32_t segmentIndex)
 {
    lanes[laneIndex].segmentMap.erase(segmentIndex);
-   updateProxyList();
+   updateProxies();
 }
 
-void Contours::updateProxyList()
+void Contours::updateProxies()
 {
 }
 

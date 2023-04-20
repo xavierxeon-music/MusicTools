@@ -4,7 +4,7 @@
 #include <MusicTools.h>
 #include <map>
 
-pyexport namespace Midi
+namespace Midi
 {
    using Channel = uint8_t; // channels from 1 to 16
    using Velocity = uint8_t;
@@ -67,7 +67,7 @@ pyexport namespace Midi
       KeySignature = 0x59
    };
 
-   pyexport enum ControllerMessage : uint8_t //
+   enum ControllerMessage : uint8_t //
    {
       BankSelect = 0x00,
       ModWheel = 0x01,
