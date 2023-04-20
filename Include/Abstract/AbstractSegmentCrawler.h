@@ -10,7 +10,7 @@ pyexport namespace Abstract
 {
    // has  fixed length of segments and therefore a fixed length
 
-   pyexport class SegmentCrawler : public Remember::Container
+   pyexport class SegmentCrawler
    {
    public:
       static const Color fgDefaultColor;
@@ -21,12 +21,12 @@ pyexport namespace Abstract
 
    public:
       pyexport virtual void clear();
-      pyexport virtual void update(const Tempo::Tick& newDefaultDivision, const uint32_t newSegmentCount);
+      pyexport virtual void update(const Tempo::Tick& newDefaultLength, const uint32_t newSegmentCount);
 
       pyexport void clockTick();
       pyexport void clockReset();
 
-      pyexport const Tempo::Tick& getDefaultDivision() const;
+      pyexport const Tempo::Tick& getDefaultLength() const;
       pyexport const uint32_t& getSegmentCount() const;
 
       pyexport const std::string& getSegmentName(const uint32_t index) const;
@@ -51,7 +51,7 @@ pyexport namespace Abstract
       pyexport float getCurrentSegmentPrecentage(const float tickPercentage) const;
 
    private:
-      class Header : public Remember::Container
+      class Header
       {
       public:
          Header();
@@ -65,16 +65,11 @@ pyexport namespace Abstract
          Color backgroundColor;
       };
 
-      using Headers_ = Remember::RefList<Header>;
-      using Division_ = Remember::Value<Tempo::Tick>;
-      using SegementCount_ = Remember::Value<uint32_t>;
-      using Loop_ = Remember::Value<bool>;
-
    private:
-      Headers_ headers;
-      Division_ defaultDivision;
-      SegementCount_ segmentCount;
-      Loop_ loop;
+      QList<Header> headers;
+      Tempo::Tick defaultLength;
+      uint32_t segmentCount;
+      bool loop;
 
       uint32_t currentSegmentIndex;
       Counter divisionCounter;

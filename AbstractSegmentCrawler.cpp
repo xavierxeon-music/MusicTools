@@ -32,11 +32,10 @@ const Color Abstract::SegmentCrawler::fgDefaultColor(0, 0, 0); // unable to use 
 const Color Abstract::SegmentCrawler::bgDefaultColor(255, 255, 255);
 
 Abstract::SegmentCrawler::SegmentCrawler()
-   : Remember::Container()
-   , headers(this)
-   , defaultDivision(this, Tempo::Bar)
-   , segmentCount(this, 0)
-   , loop(this, false)
+   : headers()
+   , defaultLength(Tempo::Bar)
+   , segmentCount(0)
+   , loop(false)
    , currentSegmentIndex(0)
    , divisionCounter(1)
    , pastLoop(false)
@@ -46,18 +45,18 @@ Abstract::SegmentCrawler::SegmentCrawler()
 
 void Abstract::SegmentCrawler::clear()
 {
-   defaultDivision = Tempo::Bar;
+   defaultLength = Tempo::Bar;
    segmentCount = 0;
    headers.clear();
 
-   divisionCounter.setMaxValue(defaultDivision);
+   divisionCounter.setMaxValue(defaultLength);
 
    Remember::Root::setUnsynced();
 }
 
-void Abstract::SegmentCrawler::update(const Tempo::Tick& newDefaultDivision, const uint32_t newSegmentCount)
+void Abstract::SegmentCrawler::update(const Tempo::Tick& newDefaultLength, const uint32_t newSegmentCount)
 {
-   defaultDivision = newDefaultDivision;
+   defaultLength = newDefaultLength;
    segmentCount = newSegmentCount;
 
    while (headers.size() > newSegmentCount)
@@ -65,7 +64,7 @@ void Abstract::SegmentCrawler::update(const Tempo::Tick& newDefaultDivision, con
    while (headers.size() < newSegmentCount)
       headers.append(Header());
 
-   divisionCounter.setMaxValue(defaultDivision);
+   divisionCounter.setMaxValue(defaultLength);
 
    Remember::Root::setUnsynced();
 }
@@ -107,14 +106,14 @@ void Abstract::SegmentCrawler::clockReset()
    pastLoop = false;
 }
 
-const Tempo::Tick& Abstract::SegmentCrawler::getDefaultDivision() const
+const Tempo::Tick& Abstract::SegmentCrawler::getDefaultLength() const
 {
-   return defaultDivision.constRef();
+   return defaultLength;
 }
 
 const uint32_t& Abstract::SegmentCrawler::getSegmentCount() const
 {
-   return segmentCount.constRef();
+   return segmentCount;
 }
 
 const std::string& Abstract::SegmentCrawler::getSegmentName(const uint32_t index) const
@@ -134,7 +133,7 @@ Tempo::Tick Abstract::SegmentCrawler::getSegmentLength(const uint32_t index, boo
    {
       if (isDefault)
          *isDefault = true;
-      return defaultDivision.constRef();
+      return defaultLength;
    }
    else
    {

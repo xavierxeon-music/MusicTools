@@ -9,7 +9,7 @@ Grooves::Grooves()
    , beatProxyList()
    , gatesMap()
    , gatesProxyList()
-   , zeroBeat(getDefaultDivision(), BoolField8(0))
+   , zeroBeat(getDefaultLength(), BoolField8(0))
    , zeroGates(BoolField8(0))
 {
    updateProxyLists();
@@ -45,7 +45,7 @@ void Grooves::setSegmentLength(const uint32_t segmentIndex, const Tempo::Tick& l
    if (beatMap.find(segmentIndex) == beatMap.end())
       return;
 
-   const uint8_t tickCount = (0 == length) ? getDefaultDivision() : length;
+   const uint8_t tickCount = (0 == length) ? getDefaultLength() : length;
 
    Beat& beat = beatMap[segmentIndex];
    while (beat.size() > tickCount)
