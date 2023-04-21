@@ -65,7 +65,13 @@ private:
    struct Proxy
    {
       uint8_t startValue = 0;
-      uint8_t endVlue = 0;
+      uint8_t endValue = 0;
+
+      bool hasStartValue = false;
+      bool hasEndValue = false;
+      bool isSteady = false;
+
+      uint32_t rampStartIndex = 0;
 
       using List = std::vector<Proxy>;
    };

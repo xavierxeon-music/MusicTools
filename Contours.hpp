@@ -88,10 +88,12 @@ void Contours::setName(const uint8_t laneIndex, const std::string& text)
 uint8_t Contours::getSegmentValue(const uint8_t laneIndex, const uint32_t segmentIndex, const float& segmentPercentage) const
 {
    const Proxy& proxy = lanes[laneIndex].proxyList.at(segmentIndex);
+   const uint8_t startValue = proxy.startValue;
+   const double diff = (proxy.endValue - startValue);
 
-   Q_UNUSED(segmentPercentage)
-   Q_UNUSED(proxy)
-   return 0;
+   const uint8_t value = startValue + (segmentPercentage * diff);
+
+   return value;
 }
 
 
@@ -123,6 +125,117 @@ void Contours::clearSegment(const uint8_t laneIndex, const uint32_t segmentIndex
 
 void Contours::updateProxies()
 {
+   for (uint8_t laneIndex = 0; laneIndex < laneCount; laneIndex++)
+   {
+      const SegmentMap& segmentMap = lanes[laneIndex].segmentMap;
+      Proxy::List& proxyList = lanes[laneIndex].proxyList;
+
+      proxyList.clear();
+      proxyList.resize(getSegmentCount());
+
+      // first proxy
+      proxyList[0].hasStartValue = true;
+      proxyList[0].isSteady = true;
+
+      // fill proxy
+      uint32_t rampStartIndex = 0;
+      for (uint32_t segmentIndex = 0; segmentIndex < getSegmentCount(); segmentIndex++)
+      {
+         if (!hasSegment(laneIndex, segmentIndex))
+         {
+            proxyList[segmentIndex].rampStartIndex = rampStartIndex;
+            continue;
+         }
+
+         rampStartIndex = segmentIndex;
+         proxyList[segmentIndex].rampStartIndex = rampStartIndex;
+
+         const Segment& segment = segmentMap.at(segmentIndex);
+
+         proxyList[segmentIndex].startValue = segment.startValue;
+         proxyList[segmentIndex].hasStartValue = segment.hasStartValue();
+
+         proxyList[segmentIndex].endValue = segment.endValue;
+         proxyList[segmentIndex].hasEndValue = segment.hasEndValue();
+
+         proxyList[segmentIndex].isSteady = segment.isSteady();
+      }
+
+      // propagate
+      for (uint32_t segmentIndex = 1; segmentIndex < getSegmentCount(); segmentIndex++)
+      {
+         if (proxyList[segmentIndex - 1].isSteady && !proxyList[segmentIndex].hasStartValue && !proxyList[segmentIndex].hasEndValue)
+         {
+            proxyList[segmentIndex].startValue = proxyList[segmentIndex - 1].startValue;
+            proxyList[segmentIndex].hasStartValue = true;
+
+            proxyList[segmentIndex].endValue = proxyList[segmentIndex].startValue;
+            proxyList[segmentIndex].hasEndValue = true;
+
+            proxyList[segmentIndex].isSteady = true;
+         }
+
+         if (proxyList[segmentIndex].hasStartValue && !proxyList[segmentIndex - 1].hasEndValue && !proxyList[segmentIndex - 1].isSteady)
+         {
+            proxyList[segmentIndex - 1].endValue = proxyList[segmentIndex].startValue;
+            proxyList[segmentIndex - 1].hasEndValue = true;
+         }
+
+         if (getSegmentCount() == segmentIndex + 1 && !proxyList[segmentIndex].hasEndValue)
+         {
+            if (proxyList[segmentIndex].isSteady)
+            {
+               proxyList[segmentIndex].endValue = proxyList[segmentIndex].startValue;
+            }
+            proxyList[segmentIndex].hasEndValue = true;
+         }
+      }
+
+      // interpolate
+      for (uint32_t segmentIndex = 0; segmentIndex < getSegmentCount(); segmentIndex++)
+      {
+         if (!proxyList[segmentIndex].hasEndValue)
+         {
+            const uint8_t startValue = proxyList[segmentIndex].startValue;
+            uint8_t endValue = 0;
+
+            uint32_t segmentIndex2 = segmentIndex;
+            for (; segmentIndex2 < getSegmentCount(); segmentIndex2++)
+            {
+               if (!proxyList[segmentIndex2].hasEndValue)
+                  continue;
+               endValue = proxyList[segmentIndex2].endValue;
+               break;
+            }
+
+            const double length = 1 + (segmentIndex2 - segmentIndex);
+            const double slope = (endValue - startValue) / length;
+            for (uint32_t segmentIndex3 = segmentIndex; segmentIndex3 <= segmentIndex2; segmentIndex3++)
+            {
+               if (!proxyList[segmentIndex3].hasStartValue)
+               {
+                  proxyList[segmentIndex3].startValue = startValue + (slope * (segmentIndex3 - segmentIndex));
+                  proxyList[segmentIndex3].hasStartValue = true;
+               }
+               if (!proxyList[segmentIndex3].hasEndValue)
+               {
+                  proxyList[segmentIndex3].endValue = startValue + (slope * (1 + segmentIndex3 - segmentIndex));
+                  proxyList[segmentIndex3].hasEndValue = true;
+               }
+            }
+         }
+
+         /*
+         if (0 == laneIndex)
+         {
+            QDebug dbg = qDebug();
+            dbg << laneIndex << segmentIndex << " :";
+            dbg << proxyList[segmentIndex].startValue << proxyList[segmentIndex].hasStartValue << proxyList[segmentIndex].endValue << proxyList[segmentIndex].hasEndValue << " -> ";
+            dbg << proxyList[segmentIndex].isSteady << proxyList[segmentIndex].rampStartIndex;
+         }
+            */
+      }
+   }
 }
 
 #endif // NOT ContoursHPP
