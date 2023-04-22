@@ -22,38 +22,17 @@ Contours::Segment& Contours::Segment::operator=(const Segment& other)
    return *this;
 }
 
-bool Contours::Segment::hasStartValue() const
-{
-   const bool test = (0 != (flags & HasStartValue));
-   return test;
-}
-
-bool Contours::Segment::hasEndValue() const
-{
-   const bool test = (0 != (flags & HasEndValue));
-   return test;
-}
-
-bool Contours::Segment::isSteady() const
-{
-   return (1 == steady);
-}
 
 void Contours::Segment::setStartValue(const uint8_t value)
 {
    startValue = value;
-   flags |= HasStartValue;
+   hasStartValue = 1;
 }
 
 void Contours::Segment::setEndValue(const uint8_t value)
 {
    endValue = value;
-   flags |= HasEndValue;
-}
-
-void Contours::Segment::setSteady(bool steady)
-{
-   this->steady = steady ? 1 : 0;
+   hasEndValue = 1;
 }
 
 // contours
@@ -135,7 +114,7 @@ void Contours::updateProxies()
 
       // first proxy
       proxyList[0].hasStartValue = true;
-      proxyList[0].isSteady = true;
+      proxyList[getSegmentCount() - 1].hasEndValue = true;
 
       // fill proxy
       uint32_t rampStartIndex = 0;
@@ -153,41 +132,19 @@ void Contours::updateProxies()
          const Segment& segment = segmentMap.at(segmentIndex);
 
          proxyList[segmentIndex].startValue = segment.startValue;
-         proxyList[segmentIndex].hasStartValue = segment.hasStartValue();
+         proxyList[segmentIndex].hasStartValue = (1 == segment.hasStartValue);
 
          proxyList[segmentIndex].endValue = segment.endValue;
-         proxyList[segmentIndex].hasEndValue = segment.hasEndValue();
-
-         proxyList[segmentIndex].isSteady = segment.isSteady();
+         proxyList[segmentIndex].hasEndValue = (1 == segment.hasEndValue);
       }
 
-      // propagate
+      // propagate end values
       for (uint32_t segmentIndex = 1; segmentIndex < getSegmentCount(); segmentIndex++)
       {
-         if (proxyList[segmentIndex - 1].isSteady && !proxyList[segmentIndex].hasStartValue && !proxyList[segmentIndex].hasEndValue)
-         {
-            proxyList[segmentIndex].startValue = proxyList[segmentIndex - 1].startValue;
-            proxyList[segmentIndex].hasStartValue = true;
-
-            proxyList[segmentIndex].endValue = proxyList[segmentIndex].startValue;
-            proxyList[segmentIndex].hasEndValue = true;
-
-            proxyList[segmentIndex].isSteady = true;
-         }
-
-         if (proxyList[segmentIndex].hasStartValue && !proxyList[segmentIndex - 1].hasEndValue && !proxyList[segmentIndex - 1].isSteady)
+         if (proxyList[segmentIndex].hasStartValue && !proxyList[segmentIndex - 1].hasEndValue)
          {
             proxyList[segmentIndex - 1].endValue = proxyList[segmentIndex].startValue;
             proxyList[segmentIndex - 1].hasEndValue = true;
-         }
-
-         if (getSegmentCount() == segmentIndex + 1 && !proxyList[segmentIndex].hasEndValue)
-         {
-            if (proxyList[segmentIndex].isSteady)
-            {
-               proxyList[segmentIndex].endValue = proxyList[segmentIndex].startValue;
-            }
-            proxyList[segmentIndex].hasEndValue = true;
          }
       }
 

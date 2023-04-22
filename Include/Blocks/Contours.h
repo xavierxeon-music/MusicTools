@@ -10,20 +10,15 @@ class Contours : public virtual Abstract::SegmentCrawler
 public:
    static constexpr uint8_t laneCount = 16;
 
-   enum Flags
-   {
-      HasStartValue = 1,
-      HasEndValue = 2,
-   };
 
    union Segment
    {
       struct
       {
          uint8_t startValue = 0;
+         uint8_t hasStartValue = 0;
          uint8_t endValue = 0;
-         uint8_t flags = 0;
-         uint8_t steady = 0;
+         uint8_t hasEndValue = 0;
       };
       int32_t value;
 
@@ -32,13 +27,7 @@ public:
       inline Segment& operator=(const Segment& other);
 
       inline void setStartValue(const uint8_t value);
-      inline bool hasStartValue() const;
-
-      inline void setEndValue(const uint8_t value);
-      inline bool hasEndValue() const;
-
-      inline void setSteady(bool steady);
-      inline bool isSteady() const;
+      inline void setEndValue(const uint8_t value);     
    };
 
 public:
@@ -69,7 +58,6 @@ private:
 
       bool hasStartValue = false;
       bool hasEndValue = false;
-      bool isSteady = false;
 
       uint32_t rampStartIndex = 0;
 
