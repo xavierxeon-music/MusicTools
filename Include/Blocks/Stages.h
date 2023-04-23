@@ -12,12 +12,12 @@ public:
    {
       struct
       {
-         uint8_t pitch = 36;        // midi pitch 0 - 127;
-         uint8_t length = 0;        // 0 - 255 ( = full tick)
-         uint8_t velocity = 0;      // miodi velocity 0 - 127
          uint8_t propability = 255; // 0 - 255
+         uint8_t value1 = 36;       // eg. midi pitch 0 - 127;
+         uint8_t length = 0;        // 0 - 255 ( = full tick)
+         uint8_t value2 = 0;        // eg. midi velocity 0 - 127
       };
-      uint32_t value;
+      int32_t value;
 
       inline Unit();
       inline Unit(const Unit& other);
@@ -57,7 +57,6 @@ private:
 
 private:
    Lane lanes[laneCount];
-   SegmentMap zeroSegment;
 };
 
 #ifndef StagesHPP
