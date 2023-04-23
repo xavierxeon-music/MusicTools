@@ -112,7 +112,7 @@ void Contours::updateProxies()
       proxyList.clear();
       proxyList.resize(getSegmentCount());
 
-      // first proxy
+      // first and last proxy
       proxyList[0].hasStartValue = true;
       proxyList[getSegmentCount() - 1].hasEndValue = true;
 

@@ -5,6 +5,40 @@
 
 #include <Tools/Variable.h>
 
+// Optional
+
+template <typename Type>
+Variable::Optional<Type>::Optional()
+   : value(Type(0))
+   , set(false)
+{
+}
+
+template <typename Type>
+Type& Variable::Optional<Type>::oparator()
+{
+   return value;
+}
+
+template <typename Type>
+const Type& Variable::Optional<Type>::oparator() const
+{
+   return value;
+}
+
+template <typename Type>
+Variable::Optional<Type>& Variable::Optional<Type>::operator=(const Type& otherValue)
+{
+   value = otherValue;
+   set = true;
+}
+
+template <typename Type>
+bool Variable::Optional<Type>::hasValue() const
+{
+   return set;
+}
+
 // Integer
 
 template <typename IntegerType, IntegerType diffValue>

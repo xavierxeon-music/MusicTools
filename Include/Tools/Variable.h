@@ -5,6 +5,25 @@
 
 namespace Variable
 {
+   template <typename Type>
+   class Optional
+   {
+   public:
+      Optional();
+
+   public:
+      Type& oparator();
+      const Type& oparator() const;
+      Optional& operator=(const Type& otherValue);
+
+   public:
+      bool hasValue() const;
+
+   private:
+      Type value;
+      bool set;
+   };
+
    template <typename IntegerType, IntegerType diffValue = 1>
    class Integer
    {

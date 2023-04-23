@@ -17,7 +17,7 @@ HEADERS += \
    $$PWD/Include/Blocks/Contours.h \
    $$PWD/Include/Blocks/CvSwitch.h \
    $$PWD/Include/Blocks/Grooves.h \
-   $$PWD/Include/Blocks/Melodies.h \
+   $$PWD/Include/Blocks/Stages.h \
    $$PWD/Include/Colour.h \
    $$PWD/Include/Debug.h \
    $$PWD/Include/Effect/Compressor.h \
@@ -108,7 +108,7 @@ HEADERS += \
    $$PWD/WaveTable.hpp \
    $$PWD/WaveTableMorpher.hpp \
    $$PWD/WaveTableOscilator.hpp \
-   $$PWD/Melodies.hpp \
+   $$PWD/Stages.hpp \
    $$PWD/Prompt.hpp
 
 

@@ -1,9 +1,9 @@
-#ifndef MelodiesH
-#define MelodiesH
+#ifndef StagesH
+#define StagesH
 
 #include <Abstract/AbstractSegmentCrawler.h>
 
-class Melodies : public virtual Abstract::SegmentCrawler
+class Stages : public virtual Abstract::SegmentCrawler
 {
 public:
    static constexpr uint8_t laneCount = 8;
@@ -27,7 +27,7 @@ public:
    using Segment = std::vector<Unit>; // one Unit per tick
 
 public:
-   inline Melodies();
+   inline Stages();
 
 public:
    inline virtual void update(const Tempo::Tick& newDefaultDivision, const uint32_t newSegmentCount) override;
@@ -60,8 +60,8 @@ private:
    SegmentMap zeroSegment;
 };
 
-#ifndef MelodiesHPP
-#include "../../Melodies.hpp"
-#endif // NOT MelodiesHPP
+#ifndef StagesHPP
+#include "../../Stages.hpp"
+#endif // NOT StagesHPP
 
-#endif // NOT MelodiesH
+#endif // NOT StagesH

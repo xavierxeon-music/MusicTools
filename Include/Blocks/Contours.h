@@ -4,6 +4,7 @@
 #include <Abstract/AbstractSegmentCrawler.h>
 
 #include <Tools/BoolField.h>
+#include <Tools/Variable.h>
 
 class Contours : public virtual Abstract::SegmentCrawler
 {
