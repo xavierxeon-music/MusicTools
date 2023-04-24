@@ -51,9 +51,9 @@ void Abstract::SegmentCrawler::update(const Tempo::Tick& newDefaultLength, const
    segmentCount = newSegmentCount;
 
    while (headers.size() > newSegmentCount)
-      headers.remove(headers.size() - 1);
+      headers.pop_back();
    while (headers.size() < newSegmentCount)
-      headers.append(Header());
+      headers.push_back(Header());
 
    divisionCounter.setMaxValue(defaultLength);
 }

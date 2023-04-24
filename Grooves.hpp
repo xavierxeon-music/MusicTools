@@ -63,7 +63,7 @@ const Grooves::Beat& Grooves::getBeat(const uint32_t& segmentIndex) const
 {
    static BeatMap zeroBeats;
    const uint8_t length = getSegmentLength(segmentIndex);
-   if (!zeroBeats.contains(length))
+   if (zeroBeats.find(length) == zeroBeats.end())
       zeroBeats[length] = Beat(length, 0);
 
    if (beatMap.empty())
@@ -103,7 +103,7 @@ const Grooves::Gates& Grooves::getGates(const uint32_t& segmentIndex) const
 {
    static GatesMap zeroGates;
    const uint8_t length = getSegmentLength(segmentIndex);
-   if (!zeroGates.contains(length))
+   if (zeroGates.find(length) == zeroGates.end())
       zeroGates[length] = BoolField8(0);
 
    if (gatesMap.empty())

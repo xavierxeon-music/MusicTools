@@ -1,7 +1,7 @@
 #ifndef AbstractSegmentCrawlerH
 #define AbstractSegmentCrawlerH
 
-#include <Remember.h>
+#include <vector>
 
 #include <Music/Tempo.h>
 #include <Tools/Counter.h>
@@ -46,6 +46,9 @@ namespace Abstract
       class Header
       {
       public:
+         using List = std::vector<Header>;
+
+      public:
          Header();
          Header(const Header& other);
          Header& operator=(const Header& other);
@@ -56,7 +59,7 @@ namespace Abstract
       };
 
    private:
-      QList<Header> headers;
+      Header::List headers;
       Tempo::Tick defaultLength;
       uint32_t segmentCount;
       bool loop;

@@ -1,6 +1,8 @@
 #ifndef ContoursH
 #define ContoursH
 
+#include <map>
+
 #include <Abstract/AbstractSegmentCrawler.h>
 
 #include <Tools/BoolField.h>

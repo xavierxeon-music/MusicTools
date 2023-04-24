@@ -100,7 +100,7 @@ const Stages::Segment& Stages::getSegment(const uint8_t laneIndex, const uint32_
 {
    static SegmentMap zeroSegments;
    const uint8_t length = getSegmentLength(segmentIndex);
-   if (!zeroSegments.contains(length))
+   if (zeroSegments.find(length) == zeroSegments.end())
       zeroSegments[length] = Segment(length, Unit());
 
    const Lane& lane = lanes[laneIndex];
