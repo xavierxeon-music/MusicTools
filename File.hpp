@@ -1,6 +1,8 @@
 #ifndef FileHPP
 #define FileHPP
 
+#include <sys/stat.h>
+
 #include <Tools/File.h>
 
 bool File::exists(const std::string& fileName)
@@ -43,6 +45,16 @@ void File::save(const Bytes& bytes, const std::string& fileName)
    fwrite(bytes.data(), 1, bytes.size(), file);
 
    fclose(file);
+}
+
+long File::getLasModifiedTimeStamp(const std::string& fileName)
+{
+   struct stat fileInfo;
+   if (stat(fileName.c_str(), &fileInfo))
+      return -1; // can not stat
+
+   timespec modTime = fileInfo.st_mtimespec;
+   return modTime.tv_sec;
 }
 
 #endif // NOT FileHPP
