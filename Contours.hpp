@@ -6,18 +6,18 @@
 // segment
 
 Contours::Segment::Segment()
-   : value(0)
+   : store(0)
 {
 }
 
 Contours::Segment::Segment(const Segment& other)
-   : value(other.value)
+   : store(other.store)
 {
 }
 
 Contours::Segment& Contours::Segment::operator=(const Segment& other)
 {
-   value = other.value;
+   store = other.store;
 
    return *this;
 }

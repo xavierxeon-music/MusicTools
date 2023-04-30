@@ -17,7 +17,7 @@ public:
          uint8_t length = 0;        // 0 - 255 ( = full tick)
          uint8_t value2 = 0;        // eg. midi velocity 0 - 127
       };
-      int32_t value;
+      int32_t store;
 
       inline Unit();
       inline Unit(const Unit& other);

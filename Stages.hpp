@@ -6,7 +6,7 @@
 // unit
 
 Stages::Unit::Unit()
-   : value(0)
+   : store(0)
 {
    value1 = 36;
    value2 = 127;
@@ -15,13 +15,13 @@ Stages::Unit::Unit()
 }
 
 Stages::Unit::Unit(const Unit& other)
-   : value(other.value)
+   : store(other.store)
 {
 }
 
 Stages::Unit& Stages::Unit::operator=(const Unit& other)
 {
-   value = other.value;
+   store = other.store;
    return *this;
 }
 

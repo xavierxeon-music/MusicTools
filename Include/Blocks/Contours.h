@@ -23,7 +23,7 @@ public:
          uint8_t endValue = 0;
          uint8_t hasEndValue = 0;
       };
-      int32_t value;
+      int32_t store;
 
       inline Segment();
       inline Segment(const Segment& other);
