@@ -1,6 +1,8 @@
 #ifndef StagesH
 #define StagesH
 
+#include <map>
+
 #include <Abstract/AbstractSegmentCrawler.h>
 
 class Stages : public virtual Abstract::SegmentCrawler
