@@ -7,7 +7,7 @@
 #include <Music/Tempo.h>
 namespace Base
 {
-   using Tempo = ::Tempo;
+   using Tempo = ::TempoControl;
 }
 
 #include <Midi/MidiInterfaceInput.h>

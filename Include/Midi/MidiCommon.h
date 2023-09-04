@@ -44,7 +44,7 @@ namespace Midi
 
    struct Manufacturer
    {
-      const static uint8_t EducationalUse = 0x7D;
+      static constexpr uint8_t EducationalUse = 0x7D;
    };
 
    enum MetaEvent : uint8_t // for midi files
@@ -163,7 +163,7 @@ namespace Midi
    struct Variables
    {
       // see https://ccrma.stanford.edu/~gary/controllers/midi.html
-      static const float msPerByte; // -> 3125 bytes per second
+      static constexpr float msPerByte = 0.32; // -> 3125 bytes per second
    };
 
    // utilities
