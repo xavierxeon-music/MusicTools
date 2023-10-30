@@ -1,7 +1,5 @@
 #include <Midi/MidiCommon.h>
 
-const float Midi::Variables::msPerByte = 1000.0f / 3125.0f; // -> 3125 bytes per second
-
 bool Midi::isEvent(const uint8_t value, const Midi::Event mask)
 {
    const bool isSystemEvent = (0xf0 == (value & 0xf0));

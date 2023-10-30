@@ -163,7 +163,7 @@ namespace Midi
    struct Variables
    {
       // see https://ccrma.stanford.edu/~gary/controllers/midi.html
-      static constexpr float msPerByte = 0.32; // -> 3125 bytes per second
+      static constexpr float msPerByte = 1000.0f / 3125.0f; // -> 3125 bytes per second
    };
 
    // utilities
