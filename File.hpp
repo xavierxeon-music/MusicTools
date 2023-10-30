@@ -49,15 +49,16 @@ void File::save(const Bytes& bytes, const std::string& fileName)
 
 long File::getLasModifiedTimeStamp(const std::string& fileName)
 {
-   return 0;
-   /*
    struct stat fileInfo;
    if (stat(fileName.c_str(), &fileInfo))
       return -1; // can not stat
 
+#ifdef __APPLE__
    timespec modTime = fileInfo.st_mtimespec;
+#else
+   timespec modTime = fileInfo.st_mtime;
+#endif
    return modTime.tv_sec;
-   */
 }
 
 #endif // NOT FileHPP
