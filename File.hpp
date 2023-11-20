@@ -53,8 +53,12 @@ long File::getLasModifiedTimeStamp(const std::string& fileName)
    if (stat(fileName.c_str(), &fileInfo))
       return -1; // can not stat
 
+#ifdef __APPLE__
    timespec modTime = fileInfo.st_mtimespec;
    return modTime.tv_sec;
+#else
+   return fileInfo.st_mtime;
+#endif
 }
 
 #endif // NOT FileHPP
