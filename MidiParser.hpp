@@ -70,21 +70,21 @@ void Midi::Parser::processMessage(const Bytes& message)
 }
 
 template <typename ClassType>
-void Midi::Parser::onNoteOn(ClassType* instance, void (ClassType::*functionPointer)(const Midi::Channel&, const Note&, const Velocity&))
+void Midi::Parser::onNoteOn(ClassType* instance, void (ClassType::*functionPointer)(const Channel&, const uint8_t&, const Velocity&))
 {
    NoteOnFunction noteOnFunction = std::bind(functionPointer, instance, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
    noteOnFunctionList.push_back(noteOnFunction);
 }
 
 template <typename ClassType>
-void Midi::Parser::onNoteOff(ClassType* instance, void (ClassType::*functionPointer)(const Midi::Channel&, const Note&))
+void Midi::Parser::onNoteOff(ClassType* instance, void (ClassType::*functionPointer)(const Channel&, const uint8_t&))
 {
    NoteOffFunction noteOffFunction = std::bind(functionPointer, instance, std::placeholders::_1, std::placeholders::_2);
    noteOffFunctionList.push_back(noteOffFunction);
 }
 
 template <typename ClassType>
-void Midi::Parser::onControllerChange(ClassType* instance, void (ClassType::*functionPointer)(const Midi::Channel&, const ControllerMessage&, const uint8_t&))
+void Midi::Parser::onControllerChange(ClassType* instance, void (ClassType::*functionPointer)(const Channel&, const ControllerMessage&, const uint8_t&))
 {
    ControllerChangeFunction controllerChangeFunction = std::bind(functionPointer, instance, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
    controllerChangeFunctionList.push_back(controllerChangeFunction);

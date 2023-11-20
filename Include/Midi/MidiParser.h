@@ -26,10 +26,10 @@ namespace Midi
 
       // register callback functions
       template <typename ClassType>
-      void onNoteOn(ClassType* instance, void (ClassType::*functionPointer)(const Channel&, const Note&, const Velocity&));
+      void onNoteOn(ClassType* instance, void (ClassType::*functionPointer)(const Channel&, const uint8_t&, const Velocity&));
 
       template <typename ClassType>
-      void onNoteOff(ClassType* instance, void (ClassType::*functionPointer)(const Channel&, const Note&));
+      void onNoteOff(ClassType* instance, void (ClassType::*functionPointer)(const Channel&, const uint8_t&));
 
       template <typename ClassType>
       void onControllerChange(ClassType* instance, void (ClassType::*functionPointer)(const Channel&, const ControllerMessage&, const uint8_t&));
