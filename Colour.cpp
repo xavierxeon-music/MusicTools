@@ -99,7 +99,7 @@ Color Color::dim(const float& brightness) const
    return Color(red, green, blue);
 }
 
-debug operator<<(debug dbg, const Color& color)
+mtDebug operator<<(mtDebug dbg, const Color& color)
 {
    std::ostringstream stream;
    stream << "(" << (uint16_t)color.red() << ", " << (uint16_t)color.green() << ", " << (uint16_t)color.blue() << ")";

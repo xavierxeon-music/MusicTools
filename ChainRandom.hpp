@@ -121,7 +121,7 @@ bool ChainRandom::setMinBarDuration(const Tempo::Tick& newDuration)
 
    minBarDuration = newDuration;
    durationMapper.setMinOutput(minBarDuration);
-   debug() << __FUNCTION__ << newDuration;
+   mtDebug() << __FUNCTION__ << newDuration;
 
    rollDice();
    return true;

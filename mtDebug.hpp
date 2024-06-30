@@ -1,9 +1,9 @@
-#ifndef debugHPP
-#define debugHPP
+#ifndef mtDebugHPP
+#define mtDebugHPP
 
-#include <Debug.h>
+#include <mtDebug.h>
 
-debug::debug()
+mtDebug::mtDebug()
    : hasBeenCopied(false)
 #ifdef NON_DAISY_DEVICE
    , stream()
@@ -11,10 +11,10 @@ debug::debug()
 {
 }
 
-debug::debug(const debug& other)
-   : debug()
+mtDebug::mtDebug(const mtDebug& other)
+   : mtDebug()
 {
-   debug& ref = const_cast<debug&>(other);
+   mtDebug& ref = const_cast<mtDebug&>(other);
    ref.hasBeenCopied = true;
 
 #ifdef NON_DAISY_DEVICE
@@ -22,7 +22,7 @@ debug::debug(const debug& other)
 #endif // NON_DAISY_DEVICE
 }
 
-debug::~debug()
+mtDebug::~mtDebug()
 {
 #ifdef NON_DAISY_DEVICE
    if (!hasBeenCopied)
@@ -32,7 +32,7 @@ debug::~debug()
 #endif // NON_DAISY_DEVICE
 }
 
-debug& debug::operator<<(const std::string& text)
+mtDebug& mtDebug::operator<<(const std::string& text)
 {
    if (text.empty())
       return *this;
@@ -44,20 +44,20 @@ debug& debug::operator<<(const std::string& text)
    return *this;
 }
 
-debug& debug::operator<<(const char* text)
+mtDebug& mtDebug::operator<<(const char* text)
 {
    const std::string sText(text);
    return operator<<(sText);
 }
 
 template <typename DataType>
-debug operator<<(debug dbg, const DataType& value)
+mtDebug operator<<(mtDebug dbg, const DataType& value)
 {
    dbg << std::to_string(value);
    return dbg;
 }
 
-debug operator<<(debug dbg, const bool& value)
+mtDebug operator<<(mtDebug dbg, const bool& value)
 {
    if (value)
       dbg << std::string("true");
@@ -67,4 +67,4 @@ debug operator<<(debug dbg, const bool& value)
    return dbg;
 }
 
-#endif // NOT debugHPP
+#endif // NOT mtDebugHPP

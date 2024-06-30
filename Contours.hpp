@@ -22,7 +22,6 @@ Contours::Segment& Contours::Segment::operator=(const Segment& other)
    return *this;
 }
 
-
 void Contours::Segment::setStartValue(const uint8_t value)
 {
    startValue = value;
@@ -74,7 +73,6 @@ uint8_t Contours::getSegmentValue(const uint8_t laneIndex, const uint32_t segmen
 
    return value;
 }
-
 
 const Contours::Segment& Contours::getSegment(const uint8_t laneIndex, const uint32_t segmentIndex) const
 {
@@ -181,16 +179,6 @@ void Contours::updateProxies()
                }
             }
          }
-
-         /*
-         if (0 == laneIndex)
-         {
-            QDebug dbg = qDebug();
-            dbg << laneIndex << segmentIndex << " :";
-            dbg << proxyList[segmentIndex].startValue << proxyList[segmentIndex].hasStartValue << proxyList[segmentIndex].endValue << proxyList[segmentIndex].hasEndValue << " -> ";
-            dbg << proxyList[segmentIndex].isSteady << proxyList[segmentIndex].rampStartIndex;
-         }
-            */
       }
    }
 }

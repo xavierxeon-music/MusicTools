@@ -5,7 +5,7 @@
 #include <cinttypes>
 #include <string>
 
-#include "Debug.h"
+#include "mtDebug.h"
 
 class Color
 {
@@ -58,6 +58,6 @@ private:
    Value value;
 };
 
-debug operator<<(debug dbg, const Color& color);
+mtDebug operator<<(mtDebug dbg, const Color& color);
 
 #endif // NOT ColourH
