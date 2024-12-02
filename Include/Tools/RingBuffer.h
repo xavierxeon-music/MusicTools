@@ -24,7 +24,7 @@ private:
    bool filled;
 };
 
-#ifndef ReingBufferHPP
+#ifndef RingBufferHPP
 #include "../../RingBuffer.hpp"
 #endif // NOT RingBufferHPP
 
